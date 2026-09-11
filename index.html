@@ -677,6 +677,7 @@
             { el: document.getElementById('roi-3'), baseBrightness: null, displayVal: 0, lastTime: 0, blocked: false, sens: 20 }
         ];
         
+        let trafficLightSession = 0;
         let blindTimeMs = 3000;
         let expectedRoiIndex = 0; 
         let hasCrossedStart = false; 
@@ -836,7 +837,8 @@
                             data.el.style.backgroundColor = 'rgba(255,255,255,0.6)';
                             setTimeout(()=>data.el.style.backgroundColor='', 100);
                         } else if (!data.blocked) {
-                            data.baseBrightness = (data.baseBrightness * 0.95) + (currentBri * 0.05);
+                            // Adaptación más suave para que NO se acostumbre rápido al color de los coches
+                            data.baseBrightness = (data.baseBrightness * 0.98) + (currentBri * 0.02);
                         }
                     }
                 }
@@ -852,16 +854,14 @@
                 } else {
                     if (crossed) { 
                         data.el.classList.add('roi-locked'); 
-                        // IMPORTANTE: NO adaptar el brillo base mientras el coche sigue encima, 
-                        // o provocará falsos positivos al irse.
                     } else { 
                         data.el.classList.remove('roi-locked'); data.blocked = false; updateExpectedRoiVisuals(); 
                     }
                 }
             } else {
                 if (!crossed) {
-                    // Solo adaptamos a la luz ambiental si la pista está libre (sin coches).
-                    data.baseBrightness = (data.baseBrightness * 0.95) + (currentBri * 0.05);
+                    // Adaptación más suave en carrera
+                    data.baseBrightness = (data.baseBrightness * 0.98) + (currentBri * 0.02);
                 }
                 // SECUENCIA ESTRICTA: Solo dispara si es el sector que la IA está esperando
                 if (crossed && index === expectedRoiIndex) triggerSector(index, now);
@@ -887,14 +887,20 @@
                 const sTime = now - lastSectorTimestamp; 
                 const splitTime = now - lapStartTimestamp; // Tiempo transcurrido desde la Meta hasta este sector
                 lastSectorTimestamp = now; currentLapSectors[index - 1] = sTime;
-                updateSectorUI(index, sTime, splitTime); expectedRoiIndex = (index + 1) % activeRoisCount;
-                if(Tone.context.state !== 'running') Tone.context.resume();
-                try { polySynth.triggerAttackRelease(800 + (index * 200), 0.1, Tone.now()); } catch(e){}
-            }
-            updateExpectedRoiVisuals();
+            updateSectorUI(index, sTime, splitTime); expectedRoiIndex = (index + 1) % activeRoisCount;
+            if(Tone.context.state !== 'running') Tone.context.resume();
+            try { polySynth.triggerAttackRelease(800 + (index * 200), 0.1, Tone.now()); } catch(e){}
+        }
+        
+        // NUEVO: Autocalibrado instantáneo del siguiente sector que toma el relevo
+        if (activeRoisCount > 1) {
+            roiData[expectedRoiIndex].baseBrightness = getROIBrightness(roiData[expectedRoiIndex].el);
         }
 
-        function updateSectorUI(idx, ms, splitTimeMs = 0) { 
+        updateExpectedRoiVisuals();
+    }
+
+    function updateSectorUI(idx, ms, splitTimeMs = 0) { 
             const boxEl = document.getElementById(`sector-box-${idx}`);
             const timeEl = document.getElementById(`tel-s${idx}`);
             const deltaEl = document.getElementById(`delta-s${idx}`);
@@ -1121,31 +1127,36 @@
                 else { roiData[i].el.classList.remove('active-roi'); if (sC) sC.classList.add('hidden'); }
             }
             if (activeRoisCount > 1) {
-                sectorsDisplayPanel.classList.remove('hidden');
-                document.getElementById('sector-box-1').classList.remove('hidden');
-                document.getElementById('sector-box-2').classList.toggle('hidden', activeRoisCount < 2);
-                document.getElementById('sector-box-3').classList.toggle('hidden', activeRoisCount < 3);
-                document.getElementById('sector-box-4').classList.toggle('hidden', activeRoisCount < 4);
-                
-                // Lógica de renombramiento de etiquetas (S1, S2, ..., META)
-                for(let i=1; i<=4; i++) {
-                    const lbl = document.getElementById(`label-box-${i}`);
-                    if(lbl) {
-                        lbl.classList.remove('text-cyan-500', 'text-emerald-400');
-                        if (i === activeRoisCount) {
-                            lbl.textContent = "META";
-                            lbl.classList.add('text-emerald-400');
-                        } else {
-                            lbl.textContent = `S${i}`;
-                            lbl.classList.add('text-cyan-500');
-                        }
+            sectorsDisplayPanel.classList.remove('hidden');
+            document.getElementById('sector-box-1').classList.remove('hidden');
+            document.getElementById('sector-box-2').classList.toggle('hidden', activeRoisCount < 2);
+            document.getElementById('sector-box-3').classList.toggle('hidden', activeRoisCount < 3);
+            document.getElementById('sector-box-4').classList.toggle('hidden', activeRoisCount < 4);
+            
+            // Lógica de renombramiento de etiquetas (S1, S2, ..., META)
+            for(let i=1; i<=4; i++) {
+                const lbl = document.getElementById(`label-box-${i}`);
+                if(lbl) {
+                    lbl.classList.remove('text-cyan-500', 'text-emerald-400');
+                    if (i === activeRoisCount) {
+                        lbl.textContent = "META";
+                        lbl.classList.add('text-emerald-400');
+                    } else {
+                        lbl.textContent = `S${i}`;
+                        lbl.classList.add('text-cyan-500');
                     }
                 }
-            } else sectorsDisplayPanel.classList.add('hidden');
-            
-            updateMasks();
+            }
+        } else sectorsDisplayPanel.classList.add('hidden');
+        
+        updateMasks();
+
+        // NUEVO: Lanzar calibración profunda automática si la cámara está activa y cambiamos el nº de sectores
+        if (cameraStream && !isRaceActive && !isCalibrating) {
+            setTimeout(() => runAutoCalibration(null), 300);
         }
-        roiCountSelect.addEventListener('change', updateActiveRois);
+    }
+    roiCountSelect.addEventListener('change', updateActiveRois);
 
         calibrateBtn.addEventListener('click', () => runAutoCalibration(null));
         for (let i = 0; i < 4; i++) {
@@ -1154,10 +1165,17 @@
         }
 
         function handleFalseStart() {
-            raceAborted = true; isCountdown = false; 
+            raceAborted = true; isCountdown = false; trafficLightSession++;
+            
+            const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); 
+            lights.forEach(l => { l.classList.remove('red', 'green'); });
+
             try { polySynth.triggerAttackRelease(["C2", "F#2"], "1", Tone.now()); } catch(e){}
             document.getElementById('false-start-alert').classList.add('show'); speak(translations[currentLang].voiceFalseStart);
-            resetRaceBtn.disabled = false; setTimeout(() => document.getElementById('false-start-alert').classList.remove('show'), 2000);
+            
+            resetRaceBtn.disabled = true; startRaceBtn.disabled = false; 
+            setTimeout(() => document.getElementById('false-start-alert').classList.remove('show'), 2000);
+            updateExpectedRoiVisuals();
         }
         
         function recordLap(now) {
@@ -1215,39 +1233,73 @@
 
         async function startTrafficLight() {
             if (Tone.context.state !== 'running') await Tone.start();
+            
+            trafficLightSession++;
+            const currentSession = trafficLightSession;
+
             raceMode = document.getElementById('race-mode-select').value;
             if (raceMode === 'laps') { const val = document.getElementById('lap-limit-select').value; totalLaps = val === 'Infinity' ? Infinity : parseInt(val); raceTimeLimit = 0; }
             else { totalLaps = Infinity; raceTimeLimit = parseInt(document.getElementById('time-limit-select').value) * 60 * 1000; }
             updateLapDisplay(); startRaceBtn.disabled = true; resetRaceBtn.disabled = true;
+            
             const safetyEl = document.getElementById('safety-time-select');
             blindTimeMs = safetyEl ? parseInt(safetyEl.value) : 3000; 
             
             for(let i=1; i<=4; i++) updateSectorUI(i, 0);
 
-            const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
-            isCountdown = true; raceAborted = false; hasCrossedStart = false; expectedRoiIndex = 0; roiData.forEach(d => { d.blocked = false; });
+            const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); 
+            lights.forEach(l => { l.classList.remove('red', 'green'); });
             
+            isCountdown = true; raceAborted = false; hasCrossedStart = false; expectedRoiIndex = 0; 
+            roiData.forEach(d => { d.blocked = false; d.lastTime = 0; });
+            
+            updateExpectedRoiVisuals();
+            
+            // Retraso de seguridad inicial (ignora falsos positivos al pulsar Iniciar y estabiliza brillos)
+            for(let step = 0; step < 10; step++) {
+                if (currentSession !== trafficLightSession || raceAborted) return;
+                for (let i = 0; i < activeRoisCount; i++) {
+                    roiData[i].baseBrightness = getROIBrightness(roiData[i].el);
+                }
+                await new Promise(r => setTimeout(r, 100));
+            }
+
             for (let i = 0; i < 5; i++) {
-                if(raceAborted) return; lights[i].classList.add('red'); 
+                if (currentSession !== trafficLightSession || raceAborted) return;
+                lights[i].classList.add('red'); 
                 try { polySynth.triggerAttackRelease("C4", "8n", Tone.now()); } catch(e){}
                 await new Promise(r => setTimeout(r, 1000));
             }
-            if(raceAborted) return; await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
-            if(raceAborted) return; isCountdown = false;
+            if (currentSession !== trafficLightSession || raceAborted) return;
+            await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
+            if (currentSession !== trafficLightSession || raceAborted) return;
+            isCountdown = false;
             
             lights.forEach(l => { l.classList.remove('red'); l.classList.add('green'); });
             try { polySynth.triggerAttackRelease(["C5", "E5", "G5"], "0.5", Tone.now()); } catch(e){}
+            
             isRaceActive = true; isPaused = false; document.getElementById('pause-btn').disabled = false; updatePauseUI(); updateExpectedRoiVisuals();
             
-            if (raceIntervalId) clearInterval(raceIntervalId); raceStartTime = Date.now(); lapStartTimestamp = raceStartTime; lastSectorTimestamp = raceStartTime;
-            raceIntervalId = setInterval(() => { finalRaceTimeMs = Date.now() - raceStartTime; document.getElementById('race-time').textContent = formatTime(finalRaceTimeMs, true); if (raceMode === 'time' && finalRaceTimeMs >= raceTimeLimit) stopRace(true); }, 50);
-            if (lapIntervalId) clearInterval(lapIntervalId); lapIntervalId = setInterval(() => { document.getElementById('lap-time').textContent = formatTime(Date.now() - lapStartTimestamp, false); }, 30);
+            if (raceIntervalId) clearInterval(raceIntervalId); 
+            raceStartTime = Date.now(); lapStartTimestamp = raceStartTime; lastSectorTimestamp = raceStartTime;
             
-            resetRaceBtn.disabled = false; roiData.forEach(d => d.lastTime = Date.now() - blindTimeMs);
+            raceIntervalId = setInterval(() => { 
+                finalRaceTimeMs = Date.now() - raceStartTime; 
+                document.getElementById('race-time').textContent = formatTime(finalRaceTimeMs, true); 
+                if (raceMode === 'time' && finalRaceTimeMs >= raceTimeLimit) stopRace(true); 
+            }, 50);
+            
+            if (lapIntervalId) clearInterval(lapIntervalId); 
+            lapIntervalId = setInterval(() => { 
+                document.getElementById('lap-time').textContent = formatTime(Date.now() - lapStartTimestamp, false); 
+            }, 30);
+            
+            resetRaceBtn.disabled = false; 
+            roiData.forEach(d => d.lastTime = Date.now() - blindTimeMs);
         }
 
         function stopRace(finished = false) {
-            isRaceActive = false; isCountdown = false; hasCrossedStart = false; isPaused = false;
+            isRaceActive = false; isCountdown = false; hasCrossedStart = false; isPaused = false; trafficLightSession++;
             document.getElementById('pause-btn').disabled = true; document.getElementById('yellow-flag-overlay').classList.remove('active'); updatePauseUI(); updateExpectedRoiVisuals();
             if (raceIntervalId) clearInterval(raceIntervalId); if (lapIntervalId) clearInterval(lapIntervalId);
             
