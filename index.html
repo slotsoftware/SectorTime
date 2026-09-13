@@ -410,13 +410,13 @@
                 <input type="text" id="g-inp-name" class="w-full bg-black/80 border-2 border-cyan-500 text-white px-3 py-1.5 rounded text-base font-bold outline-none" placeholder="Nombre completo del coche...">
             </div>
 
-            <div class="flex-1 flex flex-col lg:flex-row gap-5 min-h-0 relative z-10 overflow-y-auto pr-2 custom-tv-scroll pb-2">
+            <div class="flex-1 flex flex-col lg:flex-row gap-5 min-h-0 relative z-10 overflow-hidden pb-2">
                 
                 <!-- COLUMNA IZQUIERDA (Perfil del Coche) -->
-                <div class="w-full lg:w-[35%] flex flex-col gap-4 min-h-0 shrink-0">
+                <div class="w-full lg:w-[35%] flex flex-col gap-4 min-h-0 shrink-0 h-full">
                     
                     <!-- Imagen del Vehículo -->
-                    <div class="h-56 shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)]">
+                    <div class="flex-1 min-h-[200px] border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)]">
                         <img id="garage-img" src="" class="absolute inset-0 w-full h-full object-cover z-0">
                         <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
                             <button id="btn-galeria" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black transition-colors">Galería</button>
@@ -426,9 +426,9 @@
                     </div>
                     
                     <!-- Placa de Identidad -->
-                    <div class="flex flex-col bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-inner">
+                    <div class="flex flex-col bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-inner shrink-0">
                         <div class="text-cyan-500 text-[10px] font-black uppercase tracking-widest border-b border-cyan-900/50 pb-1 mb-2">Identidad del Vehículo</div>
-                        <div class="flex flex-col gap-1.5">
+                        <div class="flex flex-col gap-1.5 overflow-y-auto max-h-[200px] custom-tv-scroll">
                             <div class="flex justify-between items-center bg-cyan-950/20 p-1.5 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold">Marca</span><span id="g-val-marca" class="font-bold text-[12px] text-white"></span><input id="g-inp-marca" class="g-inp text-right w-1/2"></div>
                             <div class="flex justify-between items-center bg-cyan-950/20 p-1.5 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold">Referencia</span><span id="g-val-ref" class="font-bold text-[12px] text-white"></span><input id="g-inp-ref" class="g-inp text-right w-1/2"></div>
                             <div class="flex justify-between items-center bg-cyan-950/20 p-1.5 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold">Año</span><span id="g-val-year" class="font-bold text-[12px] text-white"></span><input id="g-inp-year" class="g-inp text-right w-1/2"></div>
@@ -438,13 +438,13 @@
                     </div>
                     
                     <!-- Botón de Asignación Rápida -->
-                    <div id="assign-buttons-container" class="shrink-0 z-20 mt-auto">
+                    <div id="assign-buttons-container" class="shrink-0 mt-auto">
                         <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 border border-cyan-500 hover:from-cyan-800 hover:to-blue-800 text-white py-3 text-xs font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">🏁 Pilotar Este Vehículo</button>
                     </div>
                 </div>
 
                 <!-- COLUMNA DERECHA (Rendimiento y Telemetría) -->
-                <div class="w-full lg:w-[65%] flex flex-col gap-4 h-auto">
+                <div class="w-full lg:w-[65%] flex flex-col gap-4 h-full min-h-0">
                     
                     <!-- Barra Top de Rendimiento -->
                     <div class="flex flex-row justify-between items-center bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-[0_8px_20px_rgba(0,0,0,0.4)] shrink-0">
@@ -467,30 +467,30 @@
                     </div>
 
                     <!-- Cuadrícula de Gráficas -->
-                    <div class="flex flex-col bg-[#0a1120] border border-indigo-900/40 rounded-xl p-3 shadow-inner shrink-0 h-[340px]">
-                        <div class="text-indigo-400 text-[10px] font-black uppercase tracking-widest border-b border-indigo-900/50 pb-1 mb-2 flex items-center">
+                    <div class="flex flex-col bg-[#0a1120] border border-indigo-900/40 rounded-xl p-3 shadow-inner flex-1 min-h-0">
+                        <div class="text-indigo-400 text-[10px] font-black uppercase tracking-widest border-b border-indigo-900/50 pb-1 mb-2 flex items-center shrink-0">
                             ANÁLISIS DE TELEMETRÍA AVANZADA
                         </div>
                         <div class="grid grid-cols-2 gap-3 flex-1 min-h-0">
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-1 tracking-widest">Tiempos por Vuelta (s)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartLaps"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-1 tracking-widest">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSpeed"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-1 tracking-widest">Récords por Sector</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSectors"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest">Balance de Tiempos</span><div class="relative flex-1 min-h-0"><canvas id="garageChartRadar"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-1 tracking-widest shrink-0">Tiempos por Vuelta (s)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartLaps"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-1 tracking-widest shrink-0">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSpeed"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-1 tracking-widest shrink-0">Récords por Sector</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSectors"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest shrink-0">Balance de Tiempos</span><div class="relative flex-1 min-h-0"><canvas id="garageChartRadar"></canvas></div></div>
                         </div>
                     </div>
 
                     <!-- Ficha Técnica -->
                     <div class="flex flex-col bg-[#0a1120] border border-slate-800 rounded-xl p-3 shadow-inner shrink-0">
                         <div class="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-800 pb-1 mb-2">Especificaciones Técnicas</div>
-                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1">
-                            <div class="g-row"><span class="g-lbl">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl">Piñón/Corona</span><span id="g-val-relacion" class="g-val"></span><input id="g-inp-relacion" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl">Neum. Del.</span><span id="g-val-neumaticoDelantero" class="g-val"></span><input id="g-inp-neumaticoDelantero" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl">Neum. Tras.</span><span id="g-val-neumaticoTrasero" class="g-val"></span><input id="g-inp-neumaticoTrasero" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl">Peso</span><span id="g-val-peso" class="g-val"></span><input id="g-inp-peso" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp"></div>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-1">
+                            <div class="g-row"><span class="g-lbl w-1/2">Motor</span><span id="g-val-motor" class="g-val w-1/2"></span><input id="g-inp-motor" class="g-inp w-1/2"></div>
+                            <div class="g-row"><span class="g-lbl w-1/2">Posición</span><span id="g-val-posicion" class="g-val w-1/2"></span><input id="g-inp-posicion" class="g-inp w-1/2"></div>
+                            <div class="g-row"><span class="g-lbl w-1/2">Piñón/Cor.</span><span id="g-val-relacion" class="g-val w-1/2"></span><input id="g-inp-relacion" class="g-inp w-1/2"></div>
+                            <div class="g-row"><span class="g-lbl w-1/2">Chasis</span><span id="g-val-chasis" class="g-val w-1/2"></span><input id="g-inp-chasis" class="g-inp w-1/2"></div>
+                            <div class="g-row"><span class="g-lbl w-1/2">Neum. Del.</span><span id="g-val-neumaticoDelantero" class="g-val w-1/2"></span><input id="g-inp-neumaticoDelantero" class="g-inp w-1/2"></div>
+                            <div class="g-row"><span class="g-lbl w-1/2">Neum. Tras.</span><span id="g-val-neumaticoTrasero" class="g-val w-1/2"></span><input id="g-inp-neumaticoTrasero" class="g-inp w-1/2"></div>
+                            <div class="g-row"><span class="g-lbl w-1/2">Peso</span><span id="g-val-peso" class="g-val w-1/2"></span><input id="g-inp-peso" class="g-inp w-1/2"></div>
+                            <div class="g-row"><span class="g-lbl w-1/2">Luces</span><span id="g-val-luces" class="g-val w-1/2"></span><input id="g-inp-luces" class="g-inp w-1/2"></div>
                         </div>
                     </div>
                 </div>
@@ -619,13 +619,20 @@
                     for(let j=0; j<imgData.length; j++) data.baseRGB[j] = imgData[j];
                 } else {
                     let diffSum = 0;
+                    let maxDiff = 0;
                     for (let j = 0; j < imgData.length; j += 4) {
-                        let r = imgData[j], g = imgData[j+1], b = imgData[j+2];
-                        let br = data.baseRGB[j], bg = data.baseRGB[j+1], bb = data.baseRGB[j+2];
-                        diffSum += (Math.abs(r-br) + Math.abs(g-bg) + Math.abs(b-bb)) / 3;
+                        // Distancia Euclidiana: detecta mucho mejor variaciones de TONO (rojo, azul, etc) y no solo de brillo.
+                        let dr = imgData[j] - data.baseRGB[j];
+                        let dg = imgData[j+1] - data.baseRGB[j+1];
+                        let db = imgData[j+2] - data.baseRGB[j+2];
+                        let dist = Math.sqrt(dr*dr + dg*dg + db*db);
+                        diffSum += dist;
+                        if (dist > maxDiff) maxDiff = dist;
                     }
+                    
+                    // Mezcla entre Promedio y Pico Máximo. Amplifica manchas pequeñas de colores oscuros. (Distancia Max ~ 441)
                     const avgDiff = diffSum / (imgData.length / 4);
-                    const pct = (avgDiff / 255) * 100 * 2.5; 
+                    const pct = ((avgDiff * 0.6 + maxDiff * 0.4) / 441) * 100 * 3.5; 
                     
                     document.getElementById(`det-val-${i}`).textContent = `RGB: ${pct.toFixed(0)}`;
                     const crossed = pct > data.sens;
@@ -636,10 +643,11 @@
                         if (isRaceActive) handleRoiLogic(i, crossed, now, imgData);
                         else if (isCountdown && crossed && i === 0 && !raceAborted) handleFalseStart();
                         else if (!isRaceActive && !isCountdown && !crossed && !data.blocked) {
+                            // Autocalibración continua y SILENCIOSA. Muy lenta (0.005) para que no se coma coches parados.
                             for(let j=0; j<imgData.length; j+=4) {
-                                data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
-                                data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
-                                data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
+                                data.baseRGB[j] = data.baseRGB[j]*0.995 + imgData[j]*0.005;
+                                data.baseRGB[j+1] = data.baseRGB[j+1]*0.995 + imgData[j+1]*0.005;
+                                data.baseRGB[j+2] = data.baseRGB[j+2]*0.995 + imgData[j+2]*0.005;
                             }
                         }
                     }
@@ -656,9 +664,9 @@
             } else {
                 if (!crossed) {
                     for(let j=0; j<imgData.length; j+=4) {
-                        data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
-                        data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
-                        data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
+                        data.baseRGB[j] = data.baseRGB[j]*0.995 + imgData[j]*0.005;
+                        data.baseRGB[j+1] = data.baseRGB[j+1]*0.995 + imgData[j+1]*0.005;
+                        data.baseRGB[j+2] = data.baseRGB[j+2]*0.995 + imgData[j+2]*0.005;
                     }
                 }
                 if (crossed && index === expectedRoiIndex) triggerSector(index, now);
@@ -786,7 +794,7 @@
             
             const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => { l.classList.remove('red', 'green'); });
             isCountdown = true; raceAborted = false; hasCrossedStart = false; expectedRoiIndex = 0; 
-            roiData.forEach(d => { d.blocked = false; d.lastTime = 0; d.baseRGB = null; }); updateExpectedRoiVisuals();
+            roiData.forEach(d => { d.blocked = false; d.lastTime = 0; }); updateExpectedRoiVisuals();
             
             await new Promise(r => setTimeout(r, 1000)); // 1 segundo de escaneo ciego inicial para que no pite salida nula
             for (let i = 0; i < 5; i++) {
@@ -800,6 +808,9 @@
             
             lights.forEach(l => { l.classList.remove('red'); l.classList.add('green'); });
             try { polySynth.triggerAttackRelease(["C5", "E5", "G5"], "0.5", Tone.now()); } catch(e){}
+            
+            // ¡AUTOCALIBRACIÓN SILENCIOSA EXACTAMENTE AL ARRANCAR! (El piloto ya ha quitado las manos)
+            roiData.forEach(d => { d.baseRGB = null; });
             
             isRaceActive = true; isPaused = false; document.getElementById('pause-btn').disabled = false; updatePauseUI(); updateExpectedRoiVisuals();
             raceStartTime = Date.now(); lapStartTimestamp = raceStartTime; lastSectorTimestamp = raceStartTime;
@@ -903,6 +914,53 @@
         cameraOffBtn.addEventListener('click', () => { if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop()); cameraStream=null; isProcessing=false; videoElement.srcObject=null; cameraOnBtn.disabled=false; cameraOffBtn.disabled=true; calibrateBtn.disabled=true; document.getElementById('video-status').textContent = translations[currentLang].camLoading; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-600'); document.getElementById('video-status').classList.replace('text-red-500', 'text-cyan-600'); });
         camDeviceSelect.addEventListener('change', e => initCamera(e.target.value));
         roiCountSelect.addEventListener('change', updateActiveRois);
+
+        // --- NUEVA LÓGICA DE CALIBRACIÓN SILENCIOSA ---
+        function startGlobalCalibration() {
+            if (!cameraStream || isRaceActive || isCountdown) return;
+            
+            // Destello visual rápido para confirmar
+            for (let i = 0; i < activeRoisCount; i++) {
+                roiData[i].baseRGB = null; 
+                roiData[i].el.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+                setTimeout(() => { roiData[i].el.style.backgroundColor = ""; }, 300);
+            }
+            
+            // Mensaje de estado
+            const statusEl = document.getElementById('video-status');
+            const oldText = statusEl.textContent;
+            statusEl.textContent = "¡CÁMARAS CALIBRADAS!";
+            statusEl.classList.replace('text-emerald-400', 'text-white');
+            
+            setTimeout(() => {
+                statusEl.textContent = oldText;
+                statusEl.classList.replace('text-white', 'text-emerald-400');
+            }, 2000);
+        }
+
+        // Asignamos la función al botón principal de arriba
+        calibrateBtn.addEventListener('click', startGlobalCalibration);
+
+        // Lógica para los pequeños botones "Auto IA" de la configuración de sensibilidad
+        for (let i = 0; i < 4; i++) {
+            const btnIA = document.getElementById(`auto-calib-btn-${i}`);
+            if (btnIA) {
+                btnIA.addEventListener('click', () => {
+                    if (isRaceActive || isCountdown) return;
+                    
+                    roiData[i].baseRGB = null; 
+                    roiData[i].sens = 20;
+                    
+                    document.getElementById(`threshold-slider-${i}`).value = 20;
+                    document.getElementById(`current-threshold-${i}`).textContent = "20";
+                    
+                    roiData[i].el.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+                    setTimeout(() => { roiData[i].el.style.backgroundColor = ""; }, 300);
+                });
+            }
+        }
+        // -----------------------------------
+
         startRaceBtn.addEventListener('click', startTrafficLight); resetRaceBtn.addEventListener('click', () => stopRace(false)); document.getElementById('pause-btn').addEventListener('click', togglePause);
         document.getElementById('modal-restart-btn').addEventListener('click', () => { document.getElementById('resultsModal').classList.remove('open'); setTimeout(()=>document.getElementById('resultsModal').classList.add('hidden'),300); stopRace(false); });
         
@@ -1055,8 +1113,14 @@
             if (garageCars.length === 0) initGarage(); else populateDropdown();
             const activeName = document.getElementById('car-model-input').value; let idx = garageCars.findIndex(c => c.name === activeName);
             currentGarageIndex = idx !== -1 ? idx : 0; if(document.getElementById('garage-car-select')) document.getElementById('garage-car-select').value = currentGarageIndex;
-            renderGarageCar(currentGarageIndex); toggleGarageEdit(false);
-            document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10);
+            toggleGarageEdit(false);
+            
+            // Mostrar primero el modal para que Chart.js tenga dimensiones y pueda dibujarse
+            document.getElementById('garageModal').classList.remove('hidden'); 
+            setTimeout(() => {
+                document.getElementById('garageModal').classList.add('open');
+                renderGarageCar(currentGarageIndex); 
+            }, 50);
         });
         
         document.getElementById('close-garage-btn').addEventListener('click', () => { if (isGarageEditing && !confirm("Tienes cambios sin guardar. ¿Cerrar de todos modos?")) return; toggleGarageEdit(false); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
