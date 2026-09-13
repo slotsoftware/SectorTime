@@ -410,69 +410,87 @@
                 <input type="text" id="g-inp-name" class="w-full bg-black/80 border-2 border-cyan-500 text-white px-3 py-1.5 rounded text-base font-bold outline-none" placeholder="Nombre completo del coche...">
             </div>
 
-            <div class="flex-1 grid grid-cols-12 gap-4 min-h-0 relative z-10 overflow-y-auto pr-2 custom-tv-scroll">
-                <!-- COLUMNA IZQUIERDA -->
-                <div class="col-span-5 flex flex-col gap-3 min-h-0">
-                    <div id="assign-buttons-container" class="shrink-0 z-20">
-                        <button id="garage-assign-btn" class="w-full bg-cyan-900/60 border-2 border-cyan-500 hover:bg-cyan-600 text-cyan-100 py-2 text-sm font-black uppercase transition-all rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.3)]">🏁 Usar este Coche</button>
-                    </div>
-                    <div class="h-64 shrink-0 border-2 border-cyan-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(34,211,238,0.2)]">
+            <div class="flex-1 flex flex-col lg:flex-row gap-5 min-h-0 relative z-10 overflow-y-auto pr-2 custom-tv-scroll pb-2">
+                
+                <!-- COLUMNA IZQUIERDA (Perfil del Coche) -->
+                <div class="w-full lg:w-[35%] flex flex-col gap-4 min-h-0 shrink-0">
+                    
+                    <!-- Imagen del Vehículo -->
+                    <div class="h-56 shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)]">
                         <img id="garage-img" src="" class="absolute inset-0 w-full h-full object-cover z-0">
                         <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
-                            <button id="btn-galeria" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black">Galería</button>
-                            <button id="btn-camara" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black">Cámara</button>
+                            <button id="btn-galeria" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black transition-colors">Galería</button>
+                            <button id="btn-camara" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black transition-colors">Cámara</button>
                             <input type="file" id="garage-img-input-galeria" accept="image/*" class="hidden"><input type="file" id="garage-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
                     </div>
-                    <div class="shrink-0 grid grid-cols-2 gap-x-2 gap-y-3 text-center py-2 px-3 bg-cyan-950/40 rounded-lg border border-cyan-500/40">
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase">Marca</span><span id="g-val-marca" class="font-bold text-[12px] text-white"></span><input id="g-inp-marca" class="g-inp mx-auto text-center w-full"></div>
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase">Referencia</span><span id="g-val-ref" class="font-bold text-[12px] text-white"></span><input id="g-inp-ref" class="g-inp mx-auto text-center w-full"></div>
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase">Año</span><span id="g-val-year" class="font-bold text-[12px] text-white"></span><input id="g-inp-year" class="g-inp mx-auto text-center w-full"></div>
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase">Categoría</span><span id="g-val-cat" class="font-bold text-[12px] text-white"></span><input id="g-inp-cat" class="g-inp mx-auto text-center w-full"></div>
-                        <div class="col-span-2 flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase">Sistema</span><span id="g-val-sys" class="font-bold text-[13px] text-cyan-400"></span><input id="g-inp-sys" class="g-inp mx-auto text-center w-3/4"></div>
+                    
+                    <!-- Placa de Identidad -->
+                    <div class="flex flex-col bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-inner">
+                        <div class="text-cyan-500 text-[10px] font-black uppercase tracking-widest border-b border-cyan-900/50 pb-1 mb-2">Identidad del Vehículo</div>
+                        <div class="flex flex-col gap-1.5">
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1.5 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold">Marca</span><span id="g-val-marca" class="font-bold text-[12px] text-white"></span><input id="g-inp-marca" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1.5 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold">Referencia</span><span id="g-val-ref" class="font-bold text-[12px] text-white"></span><input id="g-inp-ref" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1.5 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold">Año</span><span id="g-val-year" class="font-bold text-[12px] text-white"></span><input id="g-inp-year" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1.5 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold">Categoría</span><span id="g-val-cat" class="font-bold text-[12px] text-white"></span><input id="g-inp-cat" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/40 border border-cyan-800/50 p-1.5 rounded mt-1"><span class="text-cyan-400 text-[10px] uppercase font-black tracking-widest">Sistema</span><span id="g-val-sys" class="font-black text-[12px] text-cyan-300"></span><input id="g-inp-sys" class="g-inp text-right w-1/2"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón de Asignación Rápida -->
+                    <div id="assign-buttons-container" class="shrink-0 z-20 mt-auto">
+                        <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 border border-cyan-500 hover:from-cyan-800 hover:to-blue-800 text-white py-3 text-xs font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">🏁 Pilotar Este Vehículo</button>
                     </div>
                 </div>
 
-                <!-- COLUMNA DERECHA -->
-                <div class="col-span-7 flex flex-col gap-3 h-auto">
-                    <!-- Rendimiento -->
-                    <div class="g-box shrink-0 border-2 border-cyan-400 bg-[#0a0a0a] shadow-[0_0_20px_rgba(34,211,238,0.2)] rounded-xl relative overflow-hidden mt-1">
-                        <div class="g-header text-cyan-300">RENDIMIENTO HISTÓRICO EN PISTA</div>
-                        <div class="grid grid-cols-4 gap-2 sm:gap-3 text-center items-stretch px-2 pb-2 relative z-10 mt-2">
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-emerald-500/50"><span class="text-emerald-400 text-[9px] uppercase font-black">Mejor Vuelta</span><span id="g-val-bestLap" class="font-black text-emerald-300 text-base truncate"></span></div>
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-orange-500/50"><span class="text-orange-400 text-[9px] uppercase font-black">T. Acumulado</span><span id="g-val-totalTime" class="font-black text-orange-300 text-sm truncate"></span></div>
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-purple-500/50"><span class="text-purple-400 text-[9px] uppercase font-black">Recorrido</span><span id="g-val-totalDist" class="font-black text-purple-300 text-sm truncate"></span></div>
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-cyan-500/50"><span class="text-cyan-400 text-[9px] uppercase font-black">Vel. Media</span><span id="g-val-avgSpd" class="font-black text-cyan-300 text-sm truncate"></span></div>
+                <!-- COLUMNA DERECHA (Rendimiento y Telemetría) -->
+                <div class="w-full lg:w-[65%] flex flex-col gap-4 h-auto">
+                    
+                    <!-- Barra Top de Rendimiento -->
+                    <div class="flex flex-row justify-between items-center bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-[0_8px_20px_rgba(0,0,0,0.4)] shrink-0">
+                        <div class="flex flex-col flex-1 px-3 border-r border-cyan-900/50">
+                            <span class="text-emerald-500 text-[10px] uppercase font-black tracking-widest mb-0.5 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Récord Absoluto</span>
+                            <span id="g-val-bestLap" class="font-mono font-black text-emerald-300 text-xl md:text-2xl truncate mt-1"></span>
+                        </div>
+                        <div class="flex flex-col flex-1 px-3 border-r border-cyan-900/50">
+                            <span class="text-orange-500 text-[9px] uppercase font-black tracking-widest mb-0.5">T. Pista Acumulado</span>
+                            <span id="g-val-totalTime" class="font-mono font-bold text-orange-200 text-sm md:text-base truncate mt-1"></span>
+                        </div>
+                        <div class="flex flex-col flex-1 px-3 border-r border-cyan-900/50">
+                            <span class="text-purple-500 text-[9px] uppercase font-black tracking-widest mb-0.5">Distancia Total</span>
+                            <span id="g-val-totalDist" class="font-mono font-bold text-purple-200 text-sm md:text-base truncate mt-1"></span>
+                        </div>
+                        <div class="flex flex-col flex-1 px-3">
+                            <span class="text-cyan-500 text-[9px] uppercase font-black tracking-widest mb-0.5">Vel. Media Histórica</span>
+                            <span id="g-val-avgSpd" class="font-mono font-bold text-cyan-200 text-sm md:text-base truncate mt-1"></span>
                         </div>
                     </div>
 
-                    <!-- Gráficas de Telemetría -->
-                    <div class="g-box shrink-0 flex flex-col border-indigo-800 bg-indigo-950/20 rounded-lg p-2 shadow-inner h-[320px]">
-                        <div class="g-header text-indigo-400 border-b border-indigo-500/30 pb-1 mb-2">ANÁLISIS DE TELEMETRÍA AVANZADA</div>
+                    <!-- Cuadrícula de Gráficas -->
+                    <div class="flex flex-col bg-[#0a1120] border border-indigo-900/40 rounded-xl p-3 shadow-inner shrink-0 h-[340px]">
+                        <div class="text-indigo-400 text-[10px] font-black uppercase tracking-widest border-b border-indigo-900/50 pb-1 mb-2 flex items-center">
+                            ANÁLISIS DE TELEMETRÍA AVANZADA
+                        </div>
                         <div class="grid grid-cols-2 gap-3 flex-1 min-h-0">
-                            <div class="relative w-full h-full bg-black/50 rounded border border-purple-900/50 p-1 flex flex-col"><span class="text-[9px] text-center text-purple-300 font-bold uppercase mb-1">Evolución Vueltas (s)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartLaps"></canvas></div></div>
-                            <div class="relative w-full h-full bg-black/50 rounded border border-cyan-900/50 p-1 flex flex-col"><span class="text-[9px] text-center text-cyan-300 font-bold uppercase mb-1">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSpeed"></canvas></div></div>
-                            <div class="relative w-full h-full bg-black/50 rounded border border-emerald-900/50 p-1 flex flex-col"><span class="text-[9px] text-center text-emerald-300 font-bold uppercase mb-1">Récords por Sector</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSectors"></canvas></div></div>
-                            <div class="relative w-full h-full bg-black/50 rounded border border-pink-900/50 p-1 flex flex-col"><span class="text-[9px] text-center text-pink-300 font-bold uppercase mb-1">Balance (Radar)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartRadar"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-1 tracking-widest">Tiempos por Vuelta (s)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartLaps"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-1 tracking-widest">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSpeed"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-1 tracking-widest">Récords por Sector</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSectors"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest">Balance de Tiempos</span><div class="relative flex-1 min-h-0"><canvas id="garageChartRadar"></canvas></div></div>
                         </div>
                     </div>
 
                     <!-- Ficha Técnica -->
-                    <div class="g-box shrink-0 flex flex-col border-cyan-800 bg-cyan-950/20 rounded-lg pb-4">
-                        <div class="g-header mb-2 border-b border-cyan-500/50 pb-1">Ficha Técnica</div>
-                        <div class="grid grid-cols-2 gap-x-6">
-                            <div class="flex flex-col">
-                                <div class="g-row"><span class="g-lbl">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl">Piñón/Corona</span><span id="g-val-relacion" class="g-val"></span><input id="g-inp-relacion" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp"></div>
-                            </div>
-                            <div class="flex flex-col">
-                                <div class="g-row"><span class="g-lbl">Neum. Del.</span><span id="g-val-neumaticoDelantero" class="g-val"></span><input id="g-inp-neumaticoDelantero" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl">Neum. Tras.</span><span id="g-val-neumaticoTrasero" class="g-val"></span><input id="g-inp-neumaticoTrasero" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl">Peso</span><span id="g-val-peso" class="g-val"></span><input id="g-inp-peso" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp"></div>
-                            </div>
+                    <div class="flex flex-col bg-[#0a1120] border border-slate-800 rounded-xl p-3 shadow-inner shrink-0">
+                        <div class="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-800 pb-1 mb-2">Especificaciones Técnicas</div>
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1">
+                            <div class="g-row"><span class="g-lbl">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl">Piñón/Corona</span><span id="g-val-relacion" class="g-val"></span><input id="g-inp-relacion" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl">Neum. Del.</span><span id="g-val-neumaticoDelantero" class="g-val"></span><input id="g-inp-neumaticoDelantero" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl">Neum. Tras.</span><span id="g-val-neumaticoTrasero" class="g-val"></span><input id="g-inp-neumaticoTrasero" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl">Peso</span><span id="g-val-peso" class="g-val"></span><input id="g-inp-peso" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp"></div>
                         </div>
                     </div>
                 </div>
@@ -1060,6 +1078,34 @@
         document.getElementById('btn-camara').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-camara').click(); });
         function procImg(file) { if (!file) return; const reader = new FileReader(); reader.onload = (e) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; if (w > h) { if (w > 400) { h *= 400 / w; w = 400; } } else { if (h > 400) { w *= 400 / h; h = 400; } } canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h); const b64 = canvas.toDataURL('image/jpeg', 0.7); const imgId = "img_" + Date.now(); garageCars[currentGarageIndex].imageId = imgId; ImageDB.save(imgId, b64); document.getElementById('garage-img').src = b64; saveGarageToLocal(); }; img.src = e.target.result; }; reader.readAsDataURL(file); }
         document.getElementById('garage-img-input-galeria').addEventListener('change', (e) => procImg(e.target.files[0])); document.getElementById('garage-img-input-camara').addEventListener('change', (e) => procImg(e.target.files[0]));
+
+        // LÓGICA DE PANTALLA COMPLETA
+        function toggleFullScreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
+        
+        function updateFsIcons() {
+            const isFs = document.fullscreenElement || document.webkitFullscreenElement;
+            const enterIcon = document.getElementById('fs-icon-enter');
+            const exitIcon = document.getElementById('fs-icon-exit');
+            if (enterIcon) enterIcon.classList.toggle('hidden', !!isFs);
+            if (exitIcon) exitIcon.classList.toggle('hidden', !isFs);
+        }
+        document.addEventListener('fullscreenchange', updateFsIcons);
+        document.addEventListener('webkitfullscreenchange', updateFsIcons);
 
         window.onload = () => { updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); };
     </script>
