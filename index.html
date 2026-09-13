@@ -15,6 +15,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -202,6 +203,24 @@
         .telemetry-data { font-size: 0.9rem; font-weight: 800; color: #f8fafc; text-shadow: 0 0 5px rgba(255,255,255,0.2); }
         .telemetry-data.green { color: #4ade80; text-shadow: 0 0 8px rgba(74,222,128,0.5); } .telemetry-data.yellow { color: #fcd34d; text-shadow: 0 0 8px rgba(252,211,77,0.5); } .telemetry-data.cyan { color: #22d3ee; }
 
+        /* --- ESTILOS MATRIX LOG --- */
+        .matrix-log-container {
+            font-family: 'Courier New', Courier, monospace;
+            background: transparent;
+            border: none;
+        }
+        .matrix-line {
+            display: grid; grid-template-columns: 45% 30% 25%; width: 100%;
+            color: #00ff41; text-shadow: 1px 1px 2px #000, 0 0 5px rgba(0, 255, 65, 0.9);
+            font-weight: bold; transition: all 0.3s ease;
+        }
+        .matrix-line.worse { color: #008f11; text-shadow: 1px 1px 2px #000, 0 0 3px rgba(0, 143, 17, 0.8); }
+        .matrix-line.fade-1 { opacity: 0.9; }
+        .matrix-line.fade-2 { opacity: 0.7; }
+        .matrix-line.fade-3 { opacity: 0.5; }
+        .matrix-line.fade-4 { opacity: 0.3; }
+        .matrix-line.fade-5 { opacity: 0.15; text-shadow: none; }
+
         .race-control-btn {
             display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 0; border-radius: 12px;
             background: linear-gradient(180deg, rgba(30, 58, 138, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%); border: 1px solid #3b82f6; transition: all 0.2s ease;
@@ -318,6 +337,13 @@
                     </div>
                     
                     <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
+
+                    <!-- MATRIX LOG OVERLAY -->
+                    <div id="matrix-log-container" class="matrix-log-container absolute bottom-2 left-2 z-40 hidden h-auto min-h-[120px] w-64 overflow-hidden pointer-events-none">
+                        <div id="matrix-log-content" class="flex flex-col gap-1 z-0 text-[10px] uppercase w-full relative drop-shadow-md tracking-wider">
+                            <!-- Filas generadas dinámicamente -->
+                        </div>
+                    </div>
 
                     <!-- MÁSCARA DE OSCURECIMIENTO (EFECTO ESCÁNER) -->
                     <svg id="roi-mask-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;">
@@ -595,26 +621,53 @@
 
     <!-- MODAL RESULTADOS FINALES -->
     <div id="resultsModal" class="modal-overlay hidden">
-        <div class="modal-content p-6 w-full max-w-lg">
-            <div class="text-center mb-6">
-                <h3 class="text-2xl font-extrabold text-cyan-400 uppercase tracking-wider drop-shadow-md" data-i18n="raceFinished">¡Carrera Finalizada!</h3>
+        <div class="modal-content p-4 md:p-6 w-full max-w-5xl flex flex-col max-h-[95vh]">
+            <div class="text-center mb-4">
+                <h3 class="text-xl md:text-2xl font-extrabold text-cyan-400 uppercase tracking-wider drop-shadow-md" data-i18n="raceFinished">¡Carrera Finalizada!</h3>
             </div>
-            <div class="grid grid-cols-2 gap-3 mb-6">
-                <div class="col-span-2 bg-slate-900/80 p-3 rounded-lg border border-cyan-800 shadow-inner">
-                    <div class="text-xs text-cyan-600 uppercase font-bold mb-1" data-i18n="pilotCar">Piloto / Coche</div>
-                    <div id="modal-pilot-car" class="text-cyan-100 font-bold text-lg truncate"></div>
+            
+            <div class="flex flex-col lg:flex-row gap-4 flex-1 min-h-0 mb-4">
+                <!-- Izquierda: Estadísticas y Tabla -->
+                <div class="flex flex-col w-full lg:w-5/12 flex-shrink-0 min-h-0 gap-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="col-span-2 bg-slate-900/80 p-2 rounded border border-cyan-800 shadow-inner">
+                            <div class="text-[10px] text-cyan-600 uppercase font-bold mb-0.5" data-i18n="pilotCar">Piloto / Coche</div>
+                            <div id="modal-pilot-car" class="text-cyan-100 font-bold text-sm truncate"></div>
+                        </div>
+                        <div class="bg-slate-900/80 p-2 rounded border border-cyan-800 shadow-inner">
+                            <div class="text-[10px] text-cyan-600 uppercase font-bold mb-0.5" data-i18n="totalTime">Tiempo Total</div>
+                            <div id="modal-total-time" class="text-white font-arial font-bold text-sm"></div>
+                        </div>
+                        <div class="bg-slate-900/80 p-2 rounded border border-emerald-800 shadow-inner">
+                            <div class="text-[10px] text-emerald-600 uppercase font-bold mb-0.5" data-i18n="bestLap">Mejor Vuelta</div>
+                            <div id="modal-best-lap" class="text-emerald-400 font-arial font-bold text-sm drop-shadow-md"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 overflow-y-auto rounded-lg border border-cyan-900/50 bg-slate-900/40 min-h-[150px]">
+                        <table class="w-full text-[10px] m-0">
+                            <thead class="bg-slate-950 sticky top-0 z-10 shadow-md">
+                                <tr id="results-laps-header">
+                                    <!-- Cabeceras generadas dinámicamente -->
+                                </tr>
+                            </thead>
+                            <tbody id="results-laps-body" class="divide-y divide-cyan-900/30 font-arial text-center">
+                                <!-- Filas generadas dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="bg-slate-900/80 p-3 rounded-lg border border-cyan-800 shadow-inner">
-                    <div class="text-xs text-cyan-600 uppercase font-bold mb-1" data-i18n="totalTime">Tiempo Total</div>
-                    <div id="modal-total-time" class="text-white font-arial font-bold text-lg"></div>
-                </div>
-                <div class="bg-slate-900/80 p-3 rounded-lg border border-emerald-800 shadow-inner">
-                    <div class="text-xs text-emerald-600 uppercase font-bold mb-1" data-i18n="bestLap">Mejor Vuelta</div>
-                    <div id="modal-best-lap" class="text-emerald-400 font-arial font-bold text-lg drop-shadow-md"></div>
+                
+                <!-- Derecha: Gráfico -->
+                <div class="flex flex-col w-full lg:w-7/12 bg-slate-950/80 rounded-lg border border-cyan-900/60 p-2 min-h-[250px] lg:min-h-[300px] relative">
+                    <canvas id="raceChart"></canvas>
                 </div>
             </div>
-            <button id="modal-restart-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 hover:from-cyan-800 hover:to-blue-800 border border-cyan-500 text-white font-bold py-3.5 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.4)] transition" data-i18n="restartFull">VOLVER A EMPEZAR</button>
-            <button id="export-excel-btn" class="mt-3 w-full bg-slate-800 border border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white font-medium py-2 px-4 rounded-lg shadow-sm transition" data-i18n="exportExcel">Exportar a Excel (.csv)</button>
+
+            <div class="flex gap-2 mt-auto">
+                <button id="modal-restart-btn" class="flex-1 bg-gradient-to-r from-cyan-900 to-blue-900 hover:from-cyan-800 hover:to-blue-800 border border-cyan-500 text-white font-bold py-2.5 rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] transition text-xs" data-i18n="restartFull">VOLVER A EMPEZAR</button>
+                <button id="export-excel-btn" class="flex-1 bg-slate-800 border border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white font-medium py-2.5 rounded-lg shadow-sm transition text-xs" data-i18n="exportExcel">Exportar a Excel (.csv)</button>
+            </div>
         </div>
     </div>
 
@@ -689,6 +742,7 @@
         let currentLap = 0, totalLaps = 10, raceMode = 'laps', raceTimeLimit = 0, finalRaceTimeMs = 0; 
         let lapHistory = [], bestLapTime = Infinity, totalLapTime = 0, currentAverageTime = 0, maxSpeed = 0.0, avgSpeed = 0.0;
         let bestSectorTimes = [Infinity, Infinity, Infinity, Infinity];
+        let raceChart = null;
 
         const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
 
@@ -816,6 +870,7 @@
                 
                 if (data.baseBrightness === null) data.baseBrightness = currentBri;
                 
+                // Actualizar valor de luminosidad en la interfaz
                 const diff = Math.abs(currentBri - data.baseBrightness);
                 data.displayVal = diff;
                 document.getElementById(`det-val-${i}`).textContent = `Luz: ${diff.toFixed(0)}`;
@@ -824,6 +879,13 @@
 
                 if (crossed) data.el.classList.add('roi-detected');
                 else data.el.classList.remove('roi-detected');
+
+                // Autocalibración continua (Moving Average)
+                // Ajusta el factor 0.05 para cambiar la velocidad de adaptación (más alto = más rápido)
+                // Se aplica siempre que no haya un cruce detectado y no esté bloqueado
+                if (!crossed && !data.blocked && !isCalibrating) {
+                    data.baseBrightness = (data.baseBrightness * 0.95) + (currentBri * 0.05);
+                }
 
                 if (!isCalibrating) {
                     if (isRaceActive) {
@@ -836,9 +898,6 @@
                         if (crossed) {
                             data.el.style.backgroundColor = 'rgba(255,255,255,0.6)';
                             setTimeout(()=>data.el.style.backgroundColor='', 100);
-                        } else if (!data.blocked) {
-                            // Adaptación más suave para que NO se acostumbre rápido al color de los coches
-                            data.baseBrightness = (data.baseBrightness * 0.98) + (currentBri * 0.02);
                         }
                     }
                 }
@@ -859,10 +918,6 @@
                     }
                 }
             } else {
-                if (!crossed) {
-                    // Adaptación más suave en carrera
-                    data.baseBrightness = (data.baseBrightness * 0.98) + (currentBri * 0.02);
-                }
                 // SECUENCIA ESTRICTA: Solo dispara si es el sector que la IA está esperando
                 if (crossed && index === expectedRoiIndex) triggerSector(index, now);
             }
@@ -878,8 +933,11 @@
                 } else {
                     if (activeRoisCount > 1) {
                         const finalSplitTime = now - lastSectorTimestamp;
+                        currentLapSectors[activeRoisCount - 1] = finalSplitTime; // Guardar el último sector para el historial
                         const totalLapTimeTemp = now - lapStartTimestamp;
                         updateSectorUI(activeRoisCount, finalSplitTime, totalLapTimeTemp); 
+                    } else {
+                        currentLapSectors[0] = now - lapStartTimestamp;
                     }
                     recordLap(now); expectedRoiIndex = activeRoisCount > 1 ? 1 : 0;
                 }
@@ -961,7 +1019,7 @@
                     deltaEl.className = "text-[10px] font-bold text-red-400 h-3 mt-0.5";
                     boxEl.className = `flex-1 bg-red-900/40 p-1 rounded border border-red-600 text-center transition-colors duration-300 ${idx > activeRoisCount ? 'hidden' : ''}`;
                     timeEl.className = "text-red-200 font-arial font-bold text-sm";
-                    speechMessage = splitText ? `${splitText}. Más ${tenths}` : `Más ${tenths}`;
+                    speechMessage = ""; // <-- ELIMINAMOS EL MENSAJE DE VOZ AQUÍ PARA QUE QUEDE EN SILENCIO
                     popupText = `+${diffFormatted}`;
                     popupClass = "popup-red";
                 }
@@ -976,6 +1034,37 @@
             // Evitamos hablar al cruzar la meta aquí, porque la función recordLap() ya canta la vuelta entera
             if (document.getElementById('voice-toggle').checked && speechMessage && idx !== activeRoisCount) {
                 speak(speechMessage);
+            }
+            
+            // --- NUEVO: AÑADIR AL MATRIX LOG ---
+            if (ms > 0) {
+                const matrixContainer = document.getElementById('matrix-log-container');
+                matrixContainer.classList.remove('hidden');
+                
+                const matrixContent = document.getElementById('matrix-log-content');
+                const newLine = document.createElement('div');
+                const secLabel = idx === activeRoisCount ? 'META' : `S${idx}`;
+                const lapNum = currentLap + 1;
+                
+                let lineClass = 'matrix-line';
+                // Si el sector es peor que nuestro récord de sector, lo oscurecemos
+                if (prevBest !== Infinity && (ms - prevBest) > 0) lineClass += ' worse';
+                
+                newLine.className = lineClass;
+                // Usamos clases de tailwind text-left y text-right para alinear las columnas
+                newLine.innerHTML = `<span class="text-left whitespace-nowrap">[V${lapNum}] ${secLabel}</span> <span class="text-right">${formattedTime}</span> <span class="text-right">${deltaEl.textContent}</span>`;
+                
+                matrixContent.prepend(newLine);
+                
+                // Actualizar las clases de opacidad para el efecto cascada (fade)
+                const lines = matrixContent.children;
+                for (let i = 0; i < lines.length; i++) {
+                    lines[i].classList.remove('fade-1', 'fade-2', 'fade-3', 'fade-4', 'fade-5');
+                    if (i > 0) lines[i].classList.add(`fade-${Math.min(i, 5)}`);
+                }
+                
+                // Limitar el número de líneas mostradas
+                if (lines.length > 8) matrixContent.removeChild(matrixContent.lastChild);
             }
         }
 
@@ -1147,7 +1236,9 @@
                     }
                 }
             }
-        } else sectorsDisplayPanel.classList.add('hidden');
+        } else {
+            sectorsDisplayPanel.classList.add('hidden');
+        }
         
         updateMasks();
 
@@ -1308,16 +1399,123 @@
                 document.getElementById('modal-pilot-car').textContent = `${document.getElementById('pilot-name-input').value} / ${document.getElementById('car-model-input').value}`;
                 document.getElementById('modal-total-time').textContent = formatTime(finalRaceTimeMs, true);
                 document.getElementById('modal-best-lap').textContent = formatTime(bestLapTime, false);
-                document.getElementById('resultsModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('resultsModal').classList.add('open'),10);
+                
+                // --- CONSTRUIR TABLA DE TIEMPOS Y GAPS ---
+                let headerHtml = `<th class="text-center p-1">V.</th>`;
+                for(let i=1; i<activeRoisCount; i++) headerHtml += `<th class="text-center p-1">S${i}</th>`;
+                headerHtml += `<th class="text-center p-1">META</th><th class="text-center p-1">TOTAL</th><th class="text-center p-1">GAP</th>`;
+                document.getElementById('results-laps-header').innerHTML = headerHtml;
+
+                let bodyHtml = '';
+                lapHistory.forEach((lap) => {
+                    let gap = lap.time - bestLapTime;
+                    let gapStr = gap === 0 ? '<span class="text-fuchsia-400 font-black drop-shadow-[0_0_3px_#d946ef]">RÉCORD</span>' : `+${formatTime(gap, false)}`;
+                    
+                    let rowHtml = `<td class="font-black text-cyan-500 p-1 bg-cyan-950/40">${lap.lap}</td>`;
+                    
+                    // Iterar por cada sector para imprimirlo
+                    for(let i=0; i<activeRoisCount; i++) {
+                        let sTime = lap.sectors[i];
+                        let isBest = (sTime === bestSectorTimes[i] && sTime > 0);
+                        let sClass = isBest ? 'text-fuchsia-300 font-bold' : 'text-slate-300';
+                        rowHtml += `<td class="${sClass} p-1">${formatTime(sTime, false)}</td>`;
+                    }
+                    
+                    rowHtml += `<td class="text-white font-bold p-1">${formatTime(lap.time, false)}</td>`;
+                    rowHtml += `<td class="text-slate-400 p-1 text-[9px]">${gapStr}</td>`;
+                    
+                    bodyHtml += `<tr class="hover:bg-cyan-900/30 transition-colors">${rowHtml}</tr>`;
+                });
+                document.getElementById('results-laps-body').innerHTML = bodyHtml;
+
+                // 1. Quitamos la clase 'hidden' ANTES de dibujar para que el Canvas tenga un tamaño real en pantalla
+                document.getElementById('resultsModal').classList.remove('hidden'); 
+                
+                // 2. DIBUJAR GRÁFICA (esperamos unos milisegundos para asegurar que el navegador ha procesado la visualización del Modal)
+                setTimeout(() => {
+                    renderChart();
+                    document.getElementById('resultsModal').classList.add('open');
+                }, 50);
+
             } else {
                 currentLap = 0; lapHistory = []; bestLapTime = Infinity; totalLapTime = 0; currentAverageTime = 0; maxSpeed = 0; avgSpeed = 0;
                 bestSectorTimes = [Infinity, Infinity, Infinity, Infinity];
                 document.getElementById('race-time').textContent = "00:00.000"; document.getElementById('lap-time').textContent = "00.000";
+                document.getElementById('matrix-log-content').innerHTML = '';
+                document.getElementById('matrix-log-container').classList.add('hidden');
                 updateLapDisplay(); updateTelemetryDisplay();
                 for(let i=1; i<=4; i++) updateSectorUI(i, 0);
                 const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
             }
             startRaceBtn.disabled = false; resetRaceBtn.disabled = true;
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('raceChart').getContext('2d');
+            if (raceChart) raceChart.destroy();
+
+            const labels = lapHistory.map(l => `V${l.lap}`);
+            const totalTimes = lapHistory.map(l => l.time / 1000); 
+            
+            const datasets = [];
+            
+            // 1. Línea Principal (Tiempo Total de Vuelta)
+            datasets.push({
+                label: 'Vuelta Completa (s)',
+                data: totalTimes,
+                borderColor: '#22d3ee', // Cyan
+                backgroundColor: 'rgba(34, 211, 238, 0.15)',
+                borderWidth: 3,
+                tension: 0.3,
+                fill: true,
+                pointBackgroundColor: '#020617',
+                pointBorderColor: '#22d3ee',
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+            });
+
+            // 2. Líneas Secundarias (Tiempos por Sector)
+            const sectorColors = ['#3b82f6', '#eab308', '#a855f7', '#10b981']; 
+            if (activeRoisCount > 1) {
+                for (let s = 0; s < activeRoisCount; s++) {
+                    const sectorData = lapHistory.map(l => l.sectors[s] / 1000);
+                    datasets.push({
+                        label: s === activeRoisCount - 1 ? 'META' : `S${s+1}`,
+                        data: sectorData,
+                        borderColor: sectorColors[s],
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0.3,
+                        pointBackgroundColor: sectorColors[s],
+                        pointRadius: 2,
+                        hidden: false
+                    });
+                }
+            }
+
+            // Configuraciones Globales Chart.js
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.font.family = 'Inter, Arial, sans-serif';
+
+            raceChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { color: '#cbd5e1', usePointStyle: true, boxWidth: 8, font: {size: 10, weight: 'bold'} } },
+                        tooltip: { backgroundColor: 'rgba(2, 6, 23, 0.9)', titleColor: '#38bdf8', bodyColor: '#f8fafc', borderColor: '#0ea5e9', borderWidth: 1, padding: 10, cornerRadius: 8 }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(30, 41, 59, 0.5)', drawBorder: false }, ticks: { font: {size: 9} } },
+                        y: { grid: { color: 'rgba(30, 41, 59, 0.5)', drawBorder: false }, title: { display: true, text: 'Segundos', color: '#64748b', font: {size: 9, weight: 'bold'} }, ticks: { font: {size: 10} } }
+                    }
+                }
+            });
         }
 
         function togglePause() {
