@@ -915,40 +915,46 @@
                     tbody.appendChild(tr);
                 });
 
-                if (window.raceChartInstance) window.raceChartInstance.destroy();
-                const ctx = document.getElementById('raceChart').getContext('2d');
-                const labels = lapHistory.map(l => `V${l.lap}`);
-                const datasets = [];
+                // Hacemos visible el modal ANTES de dibujar el gráfico
+                document.getElementById('resultsModal').classList.remove('hidden'); 
                 
-                datasets.push({
-                    label: 'Tiempo Total', data: lapHistory.map(l => l.time / 1000),
-                    borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.1)',
-                    borderWidth: 3, fill: true, tension: 0.3, hidden: false
-                });
-
-                const colors = ['#10b981', '#3b82f6', '#eab308', '#a855f7'];
-                for(let i=0; i<activeRoisCount; i++) {
+                // Esperamos un instante para que el navegador calcule el tamaño real y pintamos el gráfico
+                setTimeout(() => {
+                    document.getElementById('resultsModal').classList.add('open');
+                    
+                    if (window.raceChartInstance) window.raceChartInstance.destroy();
+                    const ctx = document.getElementById('raceChart').getContext('2d');
+                    const labels = lapHistory.map(l => `V${l.lap}`);
+                    const datasets = [];
+                    
                     datasets.push({
-                        label: i === activeRoisCount - 1 ? 'META' : `Sector ${i+1}`,
-                        data: lapHistory.map(l => l.sectors[i] / 1000),
-                        borderColor: colors[i], borderWidth: 2, borderDash: [5, 5],
-                        tension: 0.3, hidden: false
+                        label: 'Tiempo Total', data: lapHistory.map(l => l.time / 1000),
+                        borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.1)',
+                        borderWidth: 3, fill: true, tension: 0.3, hidden: false
                     });
-                }
 
-                window.raceChartInstance = new Chart(ctx, {
-                    type: 'line', data: { labels: labels, datasets: datasets },
-                    options: {
-                        responsive: true, maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#e2e8f0' } } },
-                        scales: {
-                            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
-                            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
-                        }
+                    const colors = ['#10b981', '#3b82f6', '#eab308', '#a855f7'];
+                    for(let i=0; i<activeRoisCount; i++) {
+                        datasets.push({
+                            label: i === activeRoisCount - 1 ? 'META' : `Sector ${i+1}`,
+                            data: lapHistory.map(l => l.sectors[i] / 1000),
+                            borderColor: colors[i], borderWidth: 2, borderDash: [5, 5],
+                            tension: 0.3, hidden: false
+                        });
                     }
-                });
 
-                document.getElementById('resultsModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('resultsModal').classList.add('open'),10);
+                    window.raceChartInstance = new Chart(ctx, {
+                        type: 'line', data: { labels: labels, datasets: datasets },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            plugins: { legend: { labels: { color: '#e2e8f0' } } },
+                            scales: {
+                                x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+                            }
+                        }
+                    });
+                }, 20); // 20ms de retraso es suficiente
             } else {
                 currentLap = 0; lapHistory = []; bestLapTime = Infinity; totalLapTime = 0; currentAverageTime = 0; maxSpeed = 0; avgSpeed = 0; bestSectorTimes = [Infinity, Infinity, Infinity, Infinity];
                 document.getElementById('race-time').textContent = "00:00.000"; document.getElementById('lap-time').textContent = "00.000";
