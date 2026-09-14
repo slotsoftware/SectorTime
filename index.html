@@ -66,31 +66,10 @@
         .light.green { background-color: #10b981; border-color: #34d399; box-shadow: 0 0 20px #10b981, inset 0 0 10px rgba(255,255,255,0.5); }
 
         #video-container {
-            position: relative; width: 100%; height: 100%; border: 2px solid #0891b2; background-color: #030712; 
+            position: relative; width: 100%; height: 100%; border: 2px solid #0891b2; background-color: #000; 
             border-radius: 0.5rem; overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 0 15px rgba(6, 182, 212, 0.3);
         }
         #webcam-feed { width: 100%; height: 100%; object-fit: fill; display: block; filter: contrast(1.2) brightness(1.1); }
-        
-        .optical-idle-screen {
-            position: absolute; inset: 0; background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 8; overflow: hidden;
-        }
-        .optical-lens {
-            width: 140px; height: 140px; border-radius: 50%; border: 3px solid rgba(6, 182, 212, 0.4);
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), inset 0 0 20px rgba(34, 211, 238, 0.3);
-            display: flex; align-items: center; justify-content: center; position: relative; animation: pulseLens 3s infinite ease-in-out;
-        }
-        .optical-core {
-            width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle, #22d3ee 0%, #0284c7 70%, #0f172a 100%);
-            box-shadow: 0 0 25px #22d3ee; animation: pulseCore 1.5s infinite alternate ease-in-out;
-        }
-        .laser-beam {
-            position: absolute; height: 2px; background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), transparent);
-            animation: laserScan 2s infinite linear;
-        }
-        @keyframes pulseLens { 0% { transform: scale(1); box-shadow: 0 0 20px rgba(6,182,212,0.2); } 50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(34,211,238,0.5); } 100% { transform: scale(1); box-shadow: 0 0 20px rgba(6,182,212,0.2); } }
-        @keyframes pulseCore { from { transform: scale(0.9); opacity: 0.7; } to { transform: scale(1.1); opacity: 1; } }
-        @keyframes laserScan { 0% { opacity: 0.2; width: 20%; } 50% { opacity: 1; width: 90%; } 100% { opacity: 0.2; width: 20%; } }
 
         .roi-box {
             position: absolute; cursor: move; border: 3px solid rgba(255, 255, 255, 0.8); background-color: rgba(34, 211, 238, 0.15);
@@ -183,16 +162,17 @@
         #yellow-flag-overlay.active { display: flex; }
         .yellow-flag-icon { width: 80px; height: 80px; color: #facc15; animation: wave 1s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(250,204,21,0.8)); }
 
-        .g-box { border: 1px solid #0891b2; border-radius: 8px; background-color: rgba(10, 15, 30, 0.6); padding: 8px 12px; box-shadow: inset 0 0 10px rgba(6, 182, 212, 0.05); }
-        .g-row { display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1px 0; min-height: 24px; }
+        .g-box { border: 1px solid #0891b2; border-radius: 8px; background-color: rgba(10, 15, 30, 0.6); padding: 4px 6px; box-shadow: inset 0 0 10px rgba(6, 182, 212, 0.05); }
+        .g-row { display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0; min-height: 18px; }
         .g-row:last-child { border-bottom: none; }
-        .g-lbl { color: #94a3b8; font-size: 11px; text-transform: uppercase; width: 40%; text-align: right; padding-right: 8px; white-space: nowrap; }
-        .g-val { color: #ffffff; font-size: 12px; font-weight: 700; width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Arial', sans-serif; }
-        .g-inp { background: rgba(0,0,0,0.8); border: 1px solid #4b5563; color: #fff; font-size: 12px; width: 60%; padding: 1px 4px; display: none; font-family: 'Arial', sans-serif; outline: none; height: 22px; border-radius: 4px; transition: all 0.2s ease;}
+        .g-lbl { color: #94a3b8; font-size: 9px; text-transform: uppercase; width: 40%; text-align: right; padding-right: 6px; white-space: nowrap; }
+        .g-val { color: #ffffff; font-size: 10px; font-weight: 700; width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Arial', sans-serif; }
+        .g-inp { background: rgba(0,0,0,0.8); border: 1px solid #4b5563; color: #fff; font-size: 9px; width: 60%; padding: 0 4px; display: none; font-family: 'Arial', sans-serif; outline: none; height: 16px; border-radius: 2px; transition: all 0.2s ease;}
         .g-inp:focus { border-color: #22d3ee; box-shadow: 0 0 10px rgba(34,211,238,0.6), inset 0 0 5px rgba(34,211,238,0.2); background: rgba(15,25,35,0.9); }
         .g-editing .g-val { display: none; } .g-editing .g-inp { display: block; }
-        .g-header { color: #a5f3fc; font-size: 13px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        .g-header { color: #a5f3fc; font-size: 10px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; border-bottom: 1px solid rgba(6, 182, 212, 0.3); padding-bottom: 2px;}
 
+        /* --- FONDO ASFALTO CON LÍNEAS DE CARRETERA (EXTRAÍDO DE KRONOPER-TV.HTML) --- */
         .worn-asphalt-bg {
             background-color: #1e293b; 
             background-image: 
@@ -226,27 +206,53 @@
             background: rgba(11, 17, 32, 0.85);
             border: 1px solid rgba(6, 182, 212, 0.25);
             border-radius: 8px;
+            backdrop-filter: blur(8px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.6);
             transition: transform 0.2s ease, border-color 0.2s ease;
-            overflow: hidden;
         }
         .f1-grid-slot:hover {
             border-color: rgba(34, 211, 238, 0.8);
             transform: translateY(-2px);
         }
+        
         .f1-box-marking {
             position: absolute;
-            top: 0; /* Arriba del coche simulando la parrilla */
+            top: 0;
             left: 10px;
             right: 10px;
-            height: 20px;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.85);
+            height: 14px;
+            border-top: 3px solid rgba(255, 255, 255, 0.85);
             border-left: 3px solid rgba(255, 255, 255, 0.85);
             border-right: 3px solid rgba(255, 255, 255, 0.85);
+            border-bottom: none;
             pointer-events: none;
             opacity: 0.7;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
             z-index: 20;
         }
+
+        .optical-idle-screen {
+            position: absolute; inset: 0; background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 8; overflow: hidden;
+        }
+        .optical-lens {
+            width: 100px; height: 100px; border-radius: 50%; border: 3px solid rgba(6, 182, 212, 0.4);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), inset 0 0 20px rgba(34, 211, 238, 0.3);
+            display: flex; align-items: center; justify-content: center; position: relative; animation: pulseLens 3s infinite ease-in-out;
+            margin-top: -10px;
+        }
+        .optical-core {
+            width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, #22d3ee 0%, #0284c7 70%, #0f172a 100%);
+            box-shadow: 0 0 25px #22d3ee; animation: pulseCore 1.5s infinite alternate ease-in-out;
+        }
+        .laser-beam {
+            position: absolute; height: 2px; background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), transparent);
+            animation: laserScan 2s infinite linear;
+        }
+        @keyframes pulseLens { 0% { transform: scale(1); box-shadow: 0 0 20px rgba(6,182,212,0.2); } 50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(34,211,238,0.5); } 100% { transform: scale(1); box-shadow: 0 0 20px rgba(6,182,212,0.2); } }
+        @keyframes pulseCore { from { transform: scale(0.9); opacity: 0.7; } to { transform: scale(1.1); opacity: 1; } }
+        @keyframes laserScan { 0% { opacity: 0.2; width: 20%; left: 10%; } 50% { opacity: 1; width: 80%; left: 10%; } 100% { opacity: 0.2; width: 20%; left: 10%; } }
     </style>
 </head>
 <body>
@@ -260,6 +266,7 @@
 
     <div class="dashboard-layout flex flex-row w-full h-screen p-2 sm:p-4 gap-3 md:gap-4 box-border overflow-hidden bg-transparent">
         
+        <!-- PANEL IZQUIERDO: CAMARA & HUD -->
         <div class="flex-1 flex flex-col h-full min-w-[55%] lg:min-w-[65%] max-h-full">
             <div class="neon-panel flex flex-col sm:flex-row justify-between items-center py-2 px-4 mb-3 flex-shrink-0 z-20">
                 <div class="flex items-center">
@@ -267,26 +274,30 @@
                         <h1 class="text-sm md:text-lg neon-blue-title tracking-wider leading-tight">SECTOR TIME V.1.0</h1>
                         <span class="text-[9px] font-normal text-cyan-700">By Albert Closa</span>
                     </div>
-                </div>
-
-                <!-- Nuevos botones agrupados -->
-                <div class="flex items-center space-x-3 mt-2 sm:mt-0">
-                    <select id="cam-device-select" class="hidden w-28 bg-slate-900 border border-cyan-800 rounded p-1 text-[10px] font-bold text-cyan-400"></select>
-                    
-                    <div class="flex bg-slate-900/90 p-1 rounded-xl border border-cyan-800/80 shadow-inner items-center space-x-1">
-                        <button id="camera-on-btn" class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-green-600 to-green-800 text-white hover:from-green-500 hover:to-green-700 border border-green-400 disabled:opacity-40 transition shadow-[0_0_10px_rgba(16,185,129,0.4)] text-[10px] font-black uppercase tracking-wider flex items-center">CAM ON</button>
-                        <button id="camera-off-btn" class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-red-600 to-red-900 text-white hover:from-red-500 hover:to-red-700 border border-red-500 disabled:opacity-40 transition shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[10px] font-black uppercase tracking-wider flex items-center" disabled>OFF</button>
-                        <button id="calibrate-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 text-cyan-300 border border-cyan-600 hover:bg-cyan-900 hover:text-white text-[10px] font-black uppercase tracking-wider transition shadow-[0_0_8px_rgba(6,182,212,0.3)] disabled:opacity-40 disabled:cursor-not-allowed" data-i18n="autoCalib">Auto IA</button>
-                    </div>
-
-                    <div class="flex items-center space-x-1.5 ml-1">
-                        <button id="open-garage-btn" class="flex items-center text-cyan-300 hover:text-white px-3 py-1.5 rounded-xl bg-gradient-to-b from-slate-800 to-cyan-950 border border-cyan-600 shadow-[0_0_10px_rgba(6,182,212,0.3)] hover:shadow-[0_0_15px_rgba(6,182,212,0.6)] transition group" title="Garaje">
+                    <div class="flex items-center space-x-1.5 ml-1 bg-slate-900/60 p-1 rounded-xl border border-cyan-900/50 shadow-inner">
+                        <button id="open-garage-btn" class="flex items-center text-cyan-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-cyan-950 border border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.2)] hover:shadow-[0_0_15px_rgba(6,182,212,0.6)] transition group" title="Garaje">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-cyan-400 group-hover:scale-110 transition-transform"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
                             <span class="text-[11px] font-black uppercase tracking-widest">Garaje</span>
                         </button>
-                        <button id="ranking-btn" class="flex items-center text-amber-300 hover:text-white px-3 py-1.5 rounded-xl bg-gradient-to-b from-slate-800 to-amber-950 border border-amber-600 shadow-[0_0_10px_rgba(217,119,6,0.3)] hover:shadow-[0_0_15px_rgba(217,119,6,0.6)] transition group" title="Ranking del Garaje">
+                        <button id="ranking-btn" class="flex items-center text-amber-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-amber-950 border border-amber-700 shadow-[0_0_10px_rgba(217,119,6,0.2)] hover:shadow-[0_0_15px_rgba(217,119,6,0.6)] transition group" title="Ranking del Garaje">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-amber-400 group-hover:-translate-y-0.5 transition-transform"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14" fill="currentColor" fill-opacity="0.2"/><path d="M15 17H9"/></svg>
                             <span class="text-[11px] font-black uppercase tracking-widest">Ranking</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2 mt-2 sm:mt-0">
+                    <button id="calibrate-btn" class="p-1.5 px-3 rounded-lg bg-slate-800 text-cyan-300 border border-cyan-700 hover:bg-cyan-900 hover:text-white text-[10px] font-bold uppercase transition shadow-[0_0_8px_rgba(6,182,212,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center group" data-i18n="autoCalib">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 group-hover:rotate-180 transition-transform duration-500"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        Auto Calibrar
+                    </button>
+                    <select id="cam-device-select" class="hidden w-32 bg-slate-900 border border-cyan-800 rounded p-1 text-[10px] font-bold text-cyan-400"></select>
+                    <div class="flex bg-slate-900/90 p-1 rounded-xl border border-cyan-800/80 shadow-inner items-center space-x-1">
+                        <button id="camera-on-btn" class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-green-600 to-green-800 text-white hover:from-green-500 hover:to-green-700 border border-green-400 disabled:opacity-40 transition shadow-[0_0_10px_rgba(16,185,129,0.4)] text-[10px] font-black uppercase tracking-wider flex items-center">
+                            CAM ON
+                        </button>
+                        <button id="camera-off-btn" class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-red-600 to-red-900 text-white hover:from-red-500 hover:to-red-700 border border-red-500 disabled:opacity-40 transition shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[10px] font-black uppercase tracking-wider flex items-center" disabled>
+                            OFF
                         </button>
                     </div>
                 </div>
@@ -299,39 +310,50 @@
                     <div id="optical-idle-screen" class="optical-idle-screen">
                         <div class="optical-lens">
                             <div class="optical-core"></div>
-                            <div class="laser-beam top-[20%] w-[80%]"></div>
-                            <div class="laser-beam bottom-[20%] w-[60%]"></div>
+                            <div class="laser-beam" style="top: 20%;"></div>
+                            <div class="laser-beam" style="bottom: 20%; animation-direction: reverse;"></div>
                         </div>
-                        <div class="mt-6 px-6 py-2 rounded-xl bg-slate-900/80 border border-cyan-500/40 shadow-[0_0_20px_rgba(6,182,212,0.3)] backdrop-blur-md flex items-center space-x-3 z-10">
+                        <div class="mt-4 mb-2 px-6 py-2 rounded-xl bg-slate-900/80 border border-cyan-500/40 shadow-[0_0_20px_rgba(6,182,212,0.3)] backdrop-blur-md flex items-center space-x-3">
                             <div class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></div>
                             <h2 class="text-cyan-300 font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">SECTOR TIME V.1.0</h2>
                         </div>
                         
-                        <!-- Panel de Requisitos Mínimos (HUD) -->
-                        <div class="mt-6 flex flex-col items-center max-w-lg w-[95%] sm:w-[85%] bg-[#050b14]/90 border border-cyan-700/50 rounded-xl p-3 sm:p-4 backdrop-blur-md shadow-[0_0_20px_rgba(6,182,212,0.15)] relative z-10">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
-                            <h3 class="text-[9px] sm:text-[10px] text-cyan-400 font-black uppercase tracking-widest mb-3 flex items-center border-b border-cyan-800/50 pb-2 w-full justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
-                                ESPECIFICACIONES TÉCNICAS REQUERIDAS
+                        <!-- Panel de Requisitos Completos y Recuperados (Hardware Recomendado) -->
+                        <div class="w-full max-w-[95%] md:max-w-[85%] bg-slate-900/90 border border-cyan-800 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] p-3 flex flex-col gap-2 relative overflow-hidden backdrop-blur-md mt-2">
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
+                            <h3 class="text-cyan-400 text-[11px] font-black uppercase tracking-widest text-center border-b border-cyan-900 pb-2 flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2 text-cyan-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                Especificaciones Técnicas Óptimas (Hardware Recomendado)
                             </h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 w-full text-[9px] sm:text-[10px] text-cyan-100/80 font-mono leading-tight">
-                                <div class="flex flex-col bg-black/50 p-2 rounded border border-slate-700/50">
-                                    <span class="text-cyan-500 font-bold mb-1 uppercase">Plataformas SO</span>
-                                    <span>Windows 10/11, macOS 12+, Android 13+. Navegador con aceleración WebGL.</span>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-1">
+                                <div class="flex flex-col bg-black/60 p-2 rounded border border-cyan-900/50 shadow-inner">
+                                    <span class="text-cyan-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Procesamiento (CPU)</span>
+                                    <span class="text-white text-[10px] font-bold">Snapdragon 8 Gen 2+ / Apple M1+</span>
                                 </div>
-                                <div class="flex flex-col bg-black/50 p-2 rounded border border-slate-700/50">
-                                    <span class="text-emerald-500 font-bold mb-1 uppercase">Hardware (CPU/RAM)</span>
-                                    <span>Snapdragon 8 Gen 2 / Apple M-Series / Intel Core i5. Mínimo 8GB RAM.</span>
+                                <div class="flex flex-col bg-black/60 p-2 rounded border border-emerald-900/50 shadow-inner">
+                                    <span class="text-emerald-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Sensor Óptico</span>
+                                    <span class="text-white text-[10px] font-bold">60 FPS Constantes / 1080p</span>
                                 </div>
-                                <div class="flex flex-col bg-black/50 p-2 rounded border border-slate-700/50">
-                                    <span class="text-purple-500 font-bold mb-1 uppercase">Sensor Óptico (Cámara)</span>
-                                    <span>Resolución FHD (1080p). Autoenfoque rápido, procesado sin lag de frame rate.</span>
+                                <div class="flex flex-col bg-black/60 p-2 rounded border border-yellow-900/50 shadow-inner">
+                                    <span class="text-yellow-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Iluminación Ambiental</span>
+                                    <span class="text-white text-[10px] font-bold">Luz LED Blanca Fija (Sin parpadeo)</span>
                                 </div>
-                                <div class="flex flex-col bg-black/50 p-2 rounded border border-slate-700/50">
-                                    <span class="text-yellow-500 font-bold mb-1 uppercase">Estabilidad y Entorno</span>
-                                    <span>Fijación obligatoria mediante trípode. Iluminación cenital constante sin reflejos.</span>
+                                <div class="flex flex-col bg-black/60 p-2 rounded border border-purple-900/50 shadow-inner">
+                                    <span class="text-purple-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Memoria RAM</span>
+                                    <span class="text-white text-[10px] font-bold">8GB Mínimo (12GB+ Recomendado)</span>
+                                </div>
+                                <div class="flex flex-col bg-black/60 p-2 rounded border border-orange-900/50 shadow-inner">
+                                    <span class="text-orange-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Estabilidad</span>
+                                    <span class="text-white text-[10px] font-bold">Montaje Rígido (Cero vibraciones)</span>
+                                </div>
+                                <div class="flex flex-col bg-black/60 p-2 rounded border border-blue-900/50 shadow-inner">
+                                    <span class="text-blue-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Navegador Web</span>
+                                    <span class="text-white text-[10px] font-bold">Chrome/Safari (Aceleración HW)</span>
                                 </div>
                             </div>
+                            <p class="text-[8px] text-slate-400 text-center leading-tight mt-1 bg-cyan-950/20 p-1.5 rounded border border-cyan-900/30">
+                                * <strong>NOTA CRÍTICA:</strong> El motor lee hasta 60 matrices RGB completas por segundo. Dispositivos por debajo del hardware recomendado (Ej: Tab S9 o iPad Pro) sufrirán latencia grave, falsos positivos o saltos de milisegundos.
+                            </p>
                         </div>
                     </div>
 
@@ -360,7 +382,7 @@
                     </div>
                 </div>
                 <canvas id="video-canvas"></canvas>
-                <div id="video-status" class="text-center text-[10px] mt-2 text-cyan-600 font-bold uppercase tracking-wide" data-i18n="camLoading">Cámara Inactiva</div>
+                <div id="video-status" class="text-center text-[10px] mt-2 text-cyan-600 font-bold uppercase tracking-wide" data-i18n="camLoading">Sensor Inactivo</div>
             </div>
         </div>
 
@@ -441,8 +463,10 @@
         </div>
     </div>
 
+    <!-- MODAL RANKING GARAJE (F1 GRID + ASFALTO RECUPERADO) -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
         <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
+            
             <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
                 <div class="flex items-center space-x-3 ml-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
@@ -451,16 +475,18 @@
                 <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors">SALIR</button>
             </div>
 
-            <div class="w-full h-full worn-asphalt-bg overflow-y-auto px-6 sm:px-16 py-12 pb-32 custom-tv-scroll relative scroll-smooth">
-                <div class="minimal-start-line mt-2"></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start relative z-10 mt-8 pb-16" id="ranking-list-container">
+            <!-- Contenedor Parrilla Estilo F1 CON EL ASFALTO DE CARRETERA COMPLETO -->
+            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-8 worn-asphalt-bg custom-tv-scroll" id="ranking-scroll-area">
+                <div class="minimal-start-line mt-2 mb-8"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start pb-32 relative z-10" id="ranking-list-container">
                 </div>
             </div>
             
-            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-20 pointer-events-none"></div>
         </div>
     </div>
 
+    <!-- MODAL RESULTS -->
     <div id="resultsModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-5xl flex flex-col h-[70vh]">
             <div class="text-center mb-4 shrink-0">
@@ -498,6 +524,7 @@
         </div>
     </div>
 
+    <!-- MODAL GARAJE -->
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 300;">
         <div class="bg-[#050505] text-white w-[96vw] h-[94vh] flex flex-col rounded-xl border-2 border-cyan-600 shadow-[0_0_50px_rgba(34,211,238,0.5),inset_0_0_30px_rgba(34,211,238,0.2)] p-4 relative overflow-hidden" id="garage-container">
             <div class="flex justify-between items-center border-b border-cyan-500/50 pb-2 mb-3 shrink-0 relative z-10">
@@ -588,11 +615,12 @@
                         <div class="text-indigo-400 text-[10px] font-black uppercase tracking-widest border-b border-indigo-900/50 pb-1 mb-2 flex items-center shrink-0">
                             ANÁLISIS DE TELEMETRÍA AVANZADA
                         </div>
-                        <div class="grid grid-cols-2 gap-3 flex-1 min-h-0">
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-1 tracking-widest shrink-0">Tiempos por Vuelta (s)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartLaps"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-1 tracking-widest shrink-0">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSpeed"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-1 tracking-widest shrink-0">Récords por Sector</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSectors"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest shrink-0">Balance de Tiempos</span><div class="relative flex-1 min-h-0"><canvas id="garageChartRadar"></canvas></div></div>
+                        <!-- Modificado para que los min-h-[] eviten el colapso de Chart.js -->
+                        <div class="grid grid-cols-2 gap-3 flex-1 min-h-[150px]">
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-1 tracking-widest shrink-0">Tiempos por Vuelta (s)</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartLaps"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-1 tracking-widest shrink-0">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartSpeed"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-1 tracking-widest shrink-0">Récords por Sector</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartSectors"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest shrink-0">Balance de Tiempos</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartRadar"></canvas></div></div>
                         </div>
                     </div>
                 </div>
@@ -602,15 +630,15 @@
 
     <script>
         const translations = {
-            es: { langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Sectores Activos", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto Calibrar", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Cámara Inactiva", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MEDIA", maxSpeed: "V. MÁXIMA", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrated: "Sectores calibrados.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo" }
+            es: { langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Sectores Activos", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto Calibrar", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MEDIA", maxSpeed: "V. MÁXIMA", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrated: "Sensor óptico calibrado.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo" }
         };
         let currentLang = 'es';
 
         const videoElement = document.getElementById('webcam-feed');
         const videoContainer = document.getElementById('video-container');
-        const opticalIdleScreen = document.getElementById('optical-idle-screen');
         const canvas = document.getElementById('video-canvas');
         const calibOverlay = document.getElementById('calib-overlay');
+        const opticalIdleScreen = document.getElementById('optical-idle-screen');
         const roiContainer = document.getElementById('roi-container');
         const cameraOnBtn = document.getElementById('camera-on-btn');
         const cameraOffBtn = document.getElementById('camera-off-btn');
@@ -729,10 +757,10 @@
                     document.getElementById(`det-val-${i}`).textContent = `RGB: ${pct.toFixed(0)}`;
                     const crossed = pct > data.sens;
 
-                    // Lógica Anti-Stuck
+                    // Desatasco IA Global
                     if (crossed) {
                         data.stuckCount++;
-                        if (data.stuckCount > 45 && !isRaceActive) { // Aprox 1.5s
+                        if (data.stuckCount > 45 && !isRaceActive) {
                             data.baseRGB = null;
                             data.stuckCount = 0;
                         }
@@ -1007,15 +1035,12 @@
                 document.getElementById('video-status').textContent = "Ajustando lente...";
                 document.getElementById('video-status').classList.replace('text-cyan-600', 'text-yellow-400');
                 
-                // Esperar 1.5s a que la cámara regule la luz y el autoenfoque
                 setTimeout(() => {
                     isProcessing = true; 
                     processVideo(); 
                     
-                    // Resetear bases para asegurar una calibración limpia
-                    roiData.forEach(d => { d.baseRGB = null; d.stuckCount = 0; });
+                    roiData.forEach(d => { d.baseRGB = null; });
                     
-                    // Darle 0.5s extras a procesar el fondo antes de mostrarlos
                     setTimeout(() => {
                         roiContainer.classList.remove('hidden');
                         updateActiveRois();
@@ -1031,7 +1056,16 @@
         }
 
         cameraOnBtn.addEventListener('click', () => initCamera());
-        cameraOffBtn.addEventListener('click', () => { if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop()); cameraStream=null; isProcessing=false; videoElement.srcObject=null; roiContainer.classList.add('hidden'); cameraOnBtn.disabled=false; cameraOffBtn.disabled=true; calibrateBtn.disabled=true; document.getElementById('video-status').textContent = translations[currentLang].camLoading; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-600'); document.getElementById('video-status').classList.replace('text-red-500', 'text-cyan-600'); opticalIdleScreen.classList.remove('hidden'); });
+        cameraOffBtn.addEventListener('click', () => { 
+            if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop()); 
+            cameraStream=null; isProcessing=false; videoElement.srcObject=null; 
+            roiContainer.classList.add('hidden'); 
+            opticalIdleScreen.classList.remove('hidden');
+            cameraOnBtn.disabled=false; cameraOffBtn.disabled=true; calibrateBtn.disabled=true; 
+            document.getElementById('video-status').textContent = translations[currentLang].camLoading; 
+            document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-600'); 
+            document.getElementById('video-status').classList.replace('text-red-500', 'text-cyan-600'); 
+        });
         camDeviceSelect.addEventListener('change', e => initCamera(e.target.value));
         roiCountSelect.addEventListener('change', updateActiveRois);
         startRaceBtn.addEventListener('click', startTrafficLight); resetRaceBtn.addEventListener('click', () => stopRace(false)); document.getElementById('pause-btn').addEventListener('click', togglePause);
@@ -1041,7 +1075,6 @@
         document.getElementById('lap-limit-select').addEventListener('change', () => { if (raceMode === 'laps') { totalLaps = document.getElementById('lap-limit-select').value === 'Infinity' ? Infinity : parseInt(document.getElementById('lap-limit-select').value); updateLapDisplay(); } });
         for (let i = 0; i < 4; i++) { document.getElementById(`threshold-slider-${i}`)?.addEventListener('input', e => { roiData[i].sens = parseInt(e.target.value); document.getElementById(`current-threshold-${i}`).textContent = e.target.value; }); }
 
-        // Botón AUTO-IA GLOBAL
         calibrateBtn.addEventListener('click', () => {
             if(!isProcessing || isRaceActive || isCountdown) return;
             isCalibrating = true; 
@@ -1053,7 +1086,7 @@
                 for(let i=0; i<activeRoisCount; i++){
                     let currentValTxt = document.getElementById(`det-val-${i}`).textContent;
                     let currentNoise = parseInt(currentValTxt.replace('RGB: ', '')) || 0;
-                    let newSens = Math.max(5, Math.min(100, currentNoise + 15)); // Margen de seguridad +15
+                    let newSens = Math.max(5, Math.min(100, currentNoise + 15));
                     roiData[i].sens = newSens;
                     document.getElementById(`threshold-slider-${i}`).value = newSens;
                     document.getElementById(`current-threshold-${i}`).textContent = newSens;
@@ -1065,7 +1098,6 @@
             }, 2000);
         });
 
-        // Botones AUTO-IA Individuales
         for(let i=0; i<4; i++) {
             const btn = document.getElementById(`auto-calib-btn-${i}`);
             if(btn) { 
@@ -1198,23 +1230,13 @@
             if (window.garageLapsChart) window.garageLapsChart.destroy(); if (window.garageSectorsChart) window.garageSectorsChart.destroy(); if (window.garageSpeedChart) window.garageSpeedChart.destroy(); if (window.garageRadarChart) window.garageRadarChart.destroy();
 
             const ctxLaps = document.getElementById('garageChartLaps').getContext('2d'); const ctxSpeed = document.getElementById('garageChartSpeed').getContext('2d'); const ctxSectors = document.getElementById('garageChartSectors').getContext('2d'); const ctxRadar = document.getElementById('garageChartRadar').getContext('2d');
-            
-            // Lógica de datos Fantasma para gráficas
-            const rData = car.recentLaps && car.recentLaps.length > 0 ? car.recentLaps : [12.4, 12.1, 11.9, 12.0, 11.7]; 
-            const rSpeeds = car.recentSpeeds && car.recentSpeeds.length > 0 ? car.recentSpeeds : rData.map(t => (15/t)*3.6); 
-            const lbls = rData.map((_, i) => 'V' + (i+1));
-            const bSecs = car.bestSectors && car.bestSectors.some(s=>s!==Infinity) ? car.bestSectors : [3.1, 2.9, 2.8, 3.0]; 
-            const sData = bSecs.map(s => s === Infinity ? 0 : (s > 100 ? s/1000 : s)); // Evitar MS vs S
+            const rData = car.recentLaps && car.recentLaps.length > 0 ? car.recentLaps : [0,0,0,0,0]; const rSpeeds = car.recentSpeeds && car.recentSpeeds.length > 0 ? car.recentSpeeds : rData.map(t => t>0 ? (15/t)*3.6 : 0); const lbls = rData.map((_, i) => 'V' + (i+1));
 
-            let gradLaps = ctxLaps.createLinearGradient(0, 0, 0, 150); gradLaps.addColorStop(0, 'rgba(192, 38, 211, 0.7)'); gradLaps.addColorStop(1, 'rgba(192, 38, 211, 0.05)');
-            let gradSpeed = ctxSpeed.createLinearGradient(0, 0, 0, 150); gradSpeed.addColorStop(0, 'rgba(34, 211, 238, 0.7)'); gradSpeed.addColorStop(1, 'rgba(34, 211, 238, 0.05)');
-
-            const commonOpts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', titleColor: '#fff', padding: 8, cornerRadius: 8, borderColor: '#38bdf8', borderWidth: 1 } }, scales: { x: { display: true, ticks: { color: '#64748b', font: {size: 9} }, grid: { display: false } }, y: { display: true, beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 10, weight:'bold'} }, grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] } } } };
-
-            window.garageLapsChart = new Chart(ctxLaps, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Tiempo (s)', data: rData, borderColor: '#e879f9', backgroundColor: gradLaps, borderWidth: 3, pointBackgroundColor: '#0f172a', pointBorderColor: '#e879f9', pointBorderWidth: 2, pointRadius: 3, pointHoverRadius: 6, fill: true, tension: 0.4 }] }, options: commonOpts });
-            window.garageSpeedChart = new Chart(ctxSpeed, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Velocidad (Km/h)', data: rSpeeds, borderColor: '#22d3ee', backgroundColor: gradSpeed, borderWidth: 3, pointBackgroundColor: '#0f172a', pointBorderColor: '#22d3ee', pointBorderWidth: 2, pointRadius: 3, pointHoverRadius: 6, fill: true, tension: 0.4 }] }, options: commonOpts });
-            window.garageSectorsChart = new Chart(ctxSectors, { type: 'bar', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ label: 'Récord Sector (s)', data: sData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderColor: 'rgba(255,255,255,0.2)', borderWidth: 1, borderRadius: 6 }] }, options: { ...commonOpts, scales: { x: { ticks: { color: '#cbd5e1', font: {size: 10, weight: 'bold'} }, grid: { display: false } }, y: { beginAtZero: true, ticks: { color: '#94a3b8', font: {size: 10} }, grid: { color: 'rgba(255,255,255,0.05)', borderDash: [3, 3] } } } } });
-            window.garageRadarChart = new Chart(ctxRadar, { type: 'radar', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ label: 'Huella de Tiempo (s)', data: sData, backgroundColor: 'rgba(236, 72, 153, 0.4)', borderColor: '#f472b6', borderWidth: 2, pointBackgroundColor: '#f472b6' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { beginAtZero: true, ticks: { display: false }, grid: { color: 'rgba(255,255,255,0.15)' }, pointLabels: { color: '#f8fafc', font: {size: 11, weight: 'bold'} }, angleLines: { color: 'rgba(255,255,255,0.1)' } } } } });
+            window.garageLapsChart = new Chart(ctxLaps, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Tiempo (s)', data: rData, borderColor: '#c026d3', backgroundColor: 'rgba(192, 38, 211, 0.2)', borderWidth: 2, pointRadius: 2, fill: true, tension: 0.3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
+            window.garageSpeedChart = new Chart(ctxSpeed, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Velocidad (Km/h)', data: rSpeeds, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.2)', borderWidth: 2, pointRadius: 2, fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
+            const bSecs = car.bestSectors || [Infinity, Infinity, Infinity, Infinity]; const sData = bSecs.map(s => s === Infinity ? 0 : s/1000);
+            window.garageSectorsChart = new Chart(ctxSectors, { type: 'bar', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ label: 'Récord Sector (s)', data: sData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderColor: 'rgba(255,255,255,0.2)', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#cbd5e1', font: {size: 9, weight: 'bold'} }, grid: { display: false } }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
+            window.garageRadarChart = new Chart(ctxRadar, { type: 'radar', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ label: 'Huella de Tiempo (s)', data: sData, backgroundColor: 'rgba(236, 72, 153, 0.3)', borderColor: '#ec4899', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { ticks: { display: false }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#f8fafc', font: {size: 10, weight: 'bold'} } } } } });
         }
 
         function toggleGarageEdit(editing) {
@@ -1248,7 +1270,7 @@
             if (!car.recentLaps) car.recentLaps = []; if (!car.recentSpeeds) car.recentSpeeds = []; if (!car.bestSectors) car.bestSectors = [Infinity, Infinity, Infinity, Infinity];
             lapHistory.forEach(l => { car.recentLaps.push(l.time / 1000); car.recentSpeeds.push(l.speed); });
             if (car.recentLaps.length > 20) { car.recentLaps = car.recentLaps.slice(-20); car.recentSpeeds = car.recentSpeeds.slice(-20); }
-            for(let i=0; i<4; i++) { if(bestSectorTimes[i] < car.bestSectors[i]) car.bestSectors[i] = bestSectorTimes[i]/1000; }
+            for(let i=0; i<4; i++) { if(bestSectorTimes[i] < car.bestSectors[i]) car.bestSectors[i] = bestSectorTimes[i]; }
             saveGarageToLocal();
         };
 
@@ -1297,7 +1319,7 @@
             }
 
             const carsWithImages = await Promise.all(top25.map(async (car) => {
-                let imgSrc = 'https://placehold.co/400x400/0f172a/38bdf8?text=F1';
+                let imgSrc = 'https://placehold.co/150x150/0f172a/38bdf8?text=F1';
                 if (car.imageId) { const b = await ImageDB.get(car.imageId); if (b) imgSrc = b; } 
                 else if (car.image) { imgSrc = car.image; }
                 return { ...car, displayImage: imgSrc };
@@ -1308,37 +1330,31 @@
                 const pos = index + 1;
                 const isEven = pos % 2 === 0;
                 const staggerClass = isEven ? 'md:translate-y-12' : '';
-                const badgeColor = pos === 1 ? 'text-amber-400 bg-amber-950/80 border-amber-500' : pos === 2 ? 'text-slate-200 bg-slate-800/80 border-slate-400' : pos === 3 ? 'text-amber-600 bg-amber-900/80 border-amber-700' : 'text-cyan-300 bg-slate-900/80 border-cyan-700';
+                const badgeColor = pos === 1 ? 'text-amber-400' : pos === 2 ? 'text-slate-300' : pos === 3 ? 'text-amber-600' : 'text-cyan-400';
 
                 html += `
-                    <div class="relative w-full ${staggerClass} pb-6">
+                    <div class="relative w-full ${staggerClass} pb-6 group">
                         <div class="f1-box-marking"></div>
-                        <div class="f1-grid-slot h-44 sm:h-48 p-4 flex flex-col justify-between group relative mt-4">
-                            <!-- Imagen Difuminada Full Bleed -->
-                            <div class="absolute inset-0 z-0 overflow-hidden">
-                                <img src="${car.displayImage}" class="w-full h-full object-cover filter blur-[3px] brightness-[0.6] group-hover:scale-105 group-hover:blur-none group-hover:brightness-90 transition-all duration-500">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent"></div>
+                        <div class="f1-grid-slot mt-2 overflow-hidden p-3 sm:p-4 flex flex-row items-center justify-between gap-4 relative min-h-[90px]">
+                            
+                            <!-- Fondo de la tarjeta: Imagen del coche difuminada -->
+                            <div class="absolute inset-0 z-0">
+                                <img src="${car.displayImage}" class="w-full h-full object-cover blur-[6px] opacity-35 group-hover:blur-0 group-hover:opacity-70 transition-all duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent"></div>
                             </div>
                             
-                            <!-- Header de la tarjeta -->
-                            <div class="relative z-10 flex justify-between items-start">
-                                <span class="font-black text-2xl sm:text-3xl italic font-arial px-3 py-1 rounded-lg border shadow-lg ${badgeColor}">P${pos}</span>
-                                <div class="flex flex-col items-end bg-black/70 px-3 py-1 rounded-lg border border-white/10 backdrop-blur-md">
-                                    <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Vel. Media</span>
-                                    <span class="text-cyan-300 font-mono font-bold text-xs sm:text-sm">${car.avgSpd || '0.0 km/h'}</span>
-                                </div>
+                            <!-- Contenido (Textos por encima del fondo) -->
+                            <div class="flex items-center space-x-3 shrink-0 relative z-10">
+                                <span class="font-black text-4xl sm:text-5xl italic font-arial ${badgeColor} w-12 text-right drop-shadow-[0_0_10px_currentColor]">P${pos}</span>
                             </div>
-
-                            <!-- Footer con el Nombre -->
-                            <div class="relative z-10 flex justify-between items-end border-t border-white/20 pt-3">
-                                <div class="min-w-0 pr-3">
-                                    <h4 class="text-white font-black text-lg sm:text-xl uppercase truncate tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">${car.name}</h4>
-                                    <div class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest truncate mt-0.5">${car.marca || 'S/M'} • ${car.cat || 'GT3'}</div>
-                                </div>
-                                <div class="flex flex-col items-end shrink-0 bg-black/80 px-3 py-1.5 rounded-xl border border-emerald-500/50 shadow-lg backdrop-blur-md">
-                                    <span class="text-[8px] uppercase tracking-wider text-emerald-400 font-bold">Mejor Vuelta</span>
-                                    <span class="text-emerald-300 font-mono font-black text-base sm:text-lg">${car.bestLap}</span>
-                                </div>
+                            <div class="flex-1 min-w-0 px-2 relative z-10 ml-2">
+                                <h4 class="text-white font-black text-lg sm:text-xl uppercase truncate tracking-wide drop-shadow-lg">${car.name}</h4>
+                                <div class="text-[11px] text-slate-300 uppercase tracking-widest truncate drop-shadow-md">${car.marca || 'S/M'} • ${car.cat || 'GT3'}</div>
+                            </div>
+                            <div class="flex flex-col items-end shrink-0 pl-3 border-l-2 border-slate-500/50 relative z-10 bg-black/40 p-2 rounded-r-lg backdrop-blur-sm">
+                                <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold drop-shadow-md">Mejor Vuelta</span>
+                                <span class="text-emerald-400 font-mono font-black text-base sm:text-lg drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">${car.bestLap}</span>
+                                <span class="text-[10px] text-cyan-300 font-mono mt-0.5 drop-shadow-md">${car.avgSpd || '0.0 km/h'}</span>
                             </div>
                         </div>
                     </div>
