@@ -237,20 +237,20 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 8; overflow: hidden;
         }
         .optical-lens {
-            width: 100px; height: 100px; border-radius: 50%; border: 3px solid rgba(6, 182, 212, 0.4);
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), inset 0 0 20px rgba(34, 211, 238, 0.3);
+            width: 200px; height: 200px; border-radius: 50%; border: 6px solid rgba(6, 182, 212, 0.4);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.2), inset 0 0 40px rgba(34, 211, 238, 0.3);
             display: flex; align-items: center; justify-content: center; position: relative; animation: pulseLens 3s infinite ease-in-out;
-            margin-top: -10px;
+            margin-top: -20px;
         }
         .optical-core {
-            width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, #22d3ee 0%, #0284c7 70%, #0f172a 100%);
-            box-shadow: 0 0 25px #22d3ee; animation: pulseCore 1.5s infinite alternate ease-in-out;
+            width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle, #22d3ee 0%, #0284c7 70%, #0f172a 100%);
+            box-shadow: 0 0 50px #22d3ee; animation: pulseCore 1.5s infinite alternate ease-in-out;
         }
         .laser-beam {
-            position: absolute; height: 2px; background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), transparent);
+            position: absolute; height: 4px; background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), transparent);
             animation: laserScan 2s infinite linear;
         }
-        @keyframes pulseLens { 0% { transform: scale(1); box-shadow: 0 0 20px rgba(6,182,212,0.2); } 50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(34,211,238,0.5); } 100% { transform: scale(1); box-shadow: 0 0 20px rgba(6,182,212,0.2); } }
+        @keyframes pulseLens { 0% { transform: scale(1); box-shadow: 0 0 30px rgba(6,182,212,0.2); } 50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(34,211,238,0.5); } 100% { transform: scale(1); box-shadow: 0 0 30px rgba(6,182,212,0.2); } }
         @keyframes pulseCore { from { transform: scale(0.9); opacity: 0.7; } to { transform: scale(1.1); opacity: 1; } }
         @keyframes laserScan { 0% { opacity: 0.2; width: 20%; left: 10%; } 50% { opacity: 1; width: 80%; left: 10%; } 100% { opacity: 0.2; width: 20%; left: 10%; } }
     </style>
@@ -313,9 +313,9 @@
                             <div class="laser-beam" style="top: 20%;"></div>
                             <div class="laser-beam" style="bottom: 20%; animation-direction: reverse;"></div>
                         </div>
-                        <div class="mt-4 mb-2 px-6 py-2 rounded-xl bg-slate-900/80 border border-cyan-500/40 shadow-[0_0_20px_rgba(6,182,212,0.3)] backdrop-blur-md flex items-center space-x-3">
-                            <div class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></div>
-                            <h2 class="text-cyan-300 font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">SECTOR TIME V.1.0</h2>
+                        <div class="mt-6 mb-4 px-8 py-3 md:px-12 md:py-4 rounded-2xl bg-slate-900/80 border-2 border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.4)] backdrop-blur-md flex items-center space-x-4">
+                            <div class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-cyan-400 animate-ping"></div>
+                            <h2 class="text-cyan-300 font-black text-xl md:text-3xl uppercase tracking-[0.3em] drop-shadow-[0_0_20px_rgba(34,211,238,0.8)]">SECTOR TIME V.1.0</h2>
                         </div>
                         
                         <!-- Panel de Requisitos Completos y Recuperados (Hardware Recomendado) -->
@@ -620,7 +620,7 @@
                             <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-1 tracking-widest shrink-0">Tiempos por Vuelta (s)</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartLaps"></canvas></div></div>
                             <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-1 tracking-widest shrink-0">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartSpeed"></canvas></div></div>
                             <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-1 tracking-widest shrink-0">Récords por Sector</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartSectors"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest shrink-0">Balance de Tiempos</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartRadar"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest shrink-0">Distribución Sectores</span><div class="relative flex-1 min-h-[80px] w-full"><canvas id="garageChartPie"></canvas></div></div>
                         </div>
                     </div>
                 </div>
@@ -757,10 +757,10 @@
                     document.getElementById(`det-val-${i}`).textContent = `RGB: ${pct.toFixed(0)}`;
                     const crossed = pct > data.sens;
 
-                    // Desatasco IA Global
+                    // Desatasco IA Global (Ahorasiempre activo para evitar que se queden KO)
                     if (crossed) {
                         data.stuckCount++;
-                        if (data.stuckCount > 45 && !isRaceActive) {
+                        if (data.stuckCount > 45) { // Si lleva 1.5s seguidos bloqueado, fuerza reset
                             data.baseRGB = null;
                             data.stuckCount = 0;
                         }
@@ -789,8 +789,19 @@
         function handleRoiLogic(index, crossed, now, imgData) {
             const data = roiData[index];
             if (data.blocked) {
-                if (now - data.lastTime < blindTimeMs) { data.el.classList.add('roi-locked'); data.el.classList.remove('roi-detected'); } 
-                else { if (crossed) { data.el.classList.add('roi-locked'); } else { data.el.classList.remove('roi-locked'); data.blocked = false; updateExpectedRoiVisuals(); } }
+                if (now - data.lastTime < blindTimeMs) { 
+                    data.el.classList.add('roi-locked'); 
+                    data.el.classList.remove('roi-detected'); 
+                } else { 
+                    if (crossed) { 
+                        // Tras el tiempo de seguridad sigue cruzado (sombra/atasco). Forzamos reset para que no muera el ROI.
+                        data.baseRGB = null;
+                        data.stuckCount = 0;
+                    } 
+                    data.el.classList.remove('roi-locked'); 
+                    data.blocked = false; 
+                    updateExpectedRoiVisuals(); 
+                }
             } else {
                 if (!crossed) {
                     for(let j=0; j<imgData.length; j+=4) {
@@ -819,7 +830,7 @@
                 updateSectorUI(index, sTime, splitTime); expectedRoiIndex = (index + 1) % activeRoisCount;
                 if(Tone.context.state !== 'running') Tone.context.resume(); try { polySynth.triggerAttackRelease(800 + (index * 200), 0.1, Tone.now()); } catch(e){}
             }
-            if (activeRoisCount > 1) roiData[expectedRoiIndex].baseRGB = null;
+            // Se elimina la línea que corrompía los fondos del siguiente sector: roiData[expectedRoiIndex].baseRGB = null;
             updateExpectedRoiVisuals();
         }
 
@@ -1227,16 +1238,18 @@
             
             document.getElementById('g-val-bestLap').textContent = car.bestLap || "-"; document.getElementById('g-val-totalTime').textContent = car.totalTime || "-"; document.getElementById('g-val-totalDist').textContent = car.totalDist || "-"; document.getElementById('g-val-avgSpd').textContent = car.avgSpd || "-";
             
-            if (window.garageLapsChart) window.garageLapsChart.destroy(); if (window.garageSectorsChart) window.garageSectorsChart.destroy(); if (window.garageSpeedChart) window.garageSpeedChart.destroy(); if (window.garageRadarChart) window.garageRadarChart.destroy();
+            if (window.garageLapsChart) window.garageLapsChart.destroy(); if (window.garageSectorsChart) window.garageSectorsChart.destroy(); if (window.garageSpeedChart) window.garageSpeedChart.destroy(); if (window.garagePieChart) window.garagePieChart.destroy();
 
-            const ctxLaps = document.getElementById('garageChartLaps').getContext('2d'); const ctxSpeed = document.getElementById('garageChartSpeed').getContext('2d'); const ctxSectors = document.getElementById('garageChartSectors').getContext('2d'); const ctxRadar = document.getElementById('garageChartRadar').getContext('2d');
+            const ctxLaps = document.getElementById('garageChartLaps').getContext('2d'); const ctxSpeed = document.getElementById('garageChartSpeed').getContext('2d'); const ctxSectors = document.getElementById('garageChartSectors').getContext('2d'); const ctxPie = document.getElementById('garageChartPie').getContext('2d');
             const rData = car.recentLaps && car.recentLaps.length > 0 ? car.recentLaps : [0,0,0,0,0]; const rSpeeds = car.recentSpeeds && car.recentSpeeds.length > 0 ? car.recentSpeeds : rData.map(t => t>0 ? (15/t)*3.6 : 0); const lbls = rData.map((_, i) => 'V' + (i+1));
 
             window.garageLapsChart = new Chart(ctxLaps, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Tiempo (s)', data: rData, borderColor: '#c026d3', backgroundColor: 'rgba(192, 38, 211, 0.2)', borderWidth: 2, pointRadius: 2, fill: true, tension: 0.3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
             window.garageSpeedChart = new Chart(ctxSpeed, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Velocidad (Km/h)', data: rSpeeds, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.2)', borderWidth: 2, pointRadius: 2, fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
             const bSecs = car.bestSectors || [Infinity, Infinity, Infinity, Infinity]; const sData = bSecs.map(s => s === Infinity ? 0 : s/1000);
             window.garageSectorsChart = new Chart(ctxSectors, { type: 'bar', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ label: 'Récord Sector (s)', data: sData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderColor: 'rgba(255,255,255,0.2)', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#cbd5e1', font: {size: 9, weight: 'bold'} }, grid: { display: false } }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
-            window.garageRadarChart = new Chart(ctxRadar, { type: 'radar', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ label: 'Huella de Tiempo (s)', data: sData, backgroundColor: 'rgba(236, 72, 153, 0.3)', borderColor: '#ec4899', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { ticks: { display: false }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#f8fafc', font: {size: 10, weight: 'bold'} } } } } });
+            
+            let pieData = [...sData]; if (pieData.every(v => v === 0)) pieData = [1, 1, 1, 1]; 
+            window.garagePieChart = new Chart(ctxPie, { type: 'doughnut', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ data: pieData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderColor: '#050b14', borderWidth: 2, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 8, family: 'Arial' }, boxWidth: 8, padding: 4 } }, tooltip: { callbacks: { label: function(context) { let label = context.label || ''; if (label) { label += ': '; } if (context.raw !== null && sData.some(v => v > 0)) { label += context.raw.toFixed(3) + 's'; } else { label += '0.000s'; } return label; } } } } } });
         }
 
         function toggleGarageEdit(editing) {
