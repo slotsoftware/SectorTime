@@ -172,13 +172,33 @@
         .g-editing .g-val { display: none; } .g-editing .g-inp { display: block; }
         .g-header { color: #a5f3fc; font-size: 13px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Asfalto Realista con Pequeñas Grietas Orgánicas */
-        .track-bg-real {
-            background-color: #0c0f17;
+        .worn-asphalt-bg {
+            background-color: #1e293b; 
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(20, 25, 35, 0.3) 0%, rgba(5, 8, 12, 0.85) 100%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.18'/%3E%3Cpath d='M30,120 Q45,115 60,130 T90,110 M250,300 Q280,310 310,290 M150,50 Q160,70 140,90 M320,80 Q340,75 350,100' stroke='%23000' stroke-width='0.6' fill='none' opacity='0.6'/%3E%3C/svg%3E");
-            background-size: 250px 250px;
+                linear-gradient(90deg, rgba(0,0,0,0) 15%, rgba(0,0,0,0.15) 22%, rgba(0,0,0,0.15) 28%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.15) 72%, rgba(0,0,0,0.15) 78%, rgba(0,0,0,0) 85%),
+                url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.12"/></svg>');
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
+            position: relative;
+        }
+        .worn-asphalt-bg::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.15) 0, rgba(255,255,255,0.15) 40px, transparent 40px, transparent 80px);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .minimal-start-line {
+            width: 70%;
+            margin: 0 auto;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.6), transparent);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            position: relative;
+            z-index: 1;
+            border-radius: 50%;
         }
 
         /* F1 Grid Slots Minimalistas */
@@ -358,22 +378,26 @@
 
     <!-- MODAL RANKING F1 (Minimalista y Escalonado) -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
-        <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
-            <div class="absolute inset-0 track-bg-real opacity-90 z-0"></div>
+        <div class="modal-content p-0 w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-slate-900">
             
-            <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
-                <div class="flex items-center space-x-3 ml-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
-                    <h2 class="italic font-black text-2xl tracking-widest text-white uppercase">PARRILLA DE SALIDA <span class="text-cyan-400">TOP 25</span></h2>
+            <div class="relative z-20 flex justify-between items-center bg-slate-950 border-b border-slate-800 p-4 sm:p-5 shrink-0 shadow-lg">
+                <div class="flex items-center space-x-3 ml-2 sm:ml-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-blue-400 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                    <h2 class="font-black text-xl sm:text-2xl tracking-[0.2em] text-slate-100 uppercase opacity-90">RANKING GLOBAL</h2>
+                    <span class="ml-3 text-[10px] font-bold text-blue-300 border border-blue-800/50 bg-blue-900/20 px-2 py-0.5 rounded-full uppercase tracking-widest hidden sm:block">Top 25</span>
                 </div>
-                <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors">SALIR</button>
+                <button id="close-ranking-btn" class="text-slate-500 hover:text-white font-black text-2xl transition-colors px-2 sm:px-4 mr-2">X</button>
             </div>
 
-            <!-- Contenedor Parrilla Estilo F1 (2 Columnas Escalonadas) -->
-            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-12 pb-32 custom-tv-scroll grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
+            <!-- Contenedor Parrilla Estilo F1 (2 Columnas Escalonadas) con fondo de asfalto -->
+            <div class="w-full flex-1 worn-asphalt-bg overflow-y-auto custom-tv-scroll p-4 sm:p-8 relative scroll-smooth">
+                <div class="minimal-start-line mt-2"></div>
+                
+                <div class="relative z-10 mt-8 pb-16 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
+                </div>
             </div>
             
-            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-slate-900 to-transparent z-10 pointer-events-none"></div>
         </div>
     </div>
 
@@ -644,11 +668,31 @@
                     const pct = (avgDiff / 255) * 100 * 2.5; 
                     
                     document.getElementById(`det-val-${i}`).textContent = `RGB: ${pct.toFixed(0)}`;
+                    
+                    if (isCalibrating || data.isLocalCalib) {
+                        if (pct > (data.maxNoise || 0)) data.maxNoise = pct;
+                        data.el.classList.remove('roi-detected');
+                        continue; // Saltamos la detección si se está calibrando
+                    }
+
                     const crossed = pct > data.sens;
 
-                    if (crossed) data.el.classList.add('roi-detected'); else data.el.classList.remove('roi-detected');
+                    if (crossed) {
+                        data.el.classList.add('roi-detected');
+                        if (!isRaceActive && !isCountdown) {
+                            data.stuckFrames = (data.stuckFrames || 0) + 1;
+                            // Si lleva ~1.5 segundos atascado, resetear
+                            if (data.stuckFrames > 45) {
+                                data.baseRGB = null;
+                                data.stuckFrames = 0;
+                            }
+                        }
+                    } else {
+                        data.el.classList.remove('roi-detected');
+                        data.stuckFrames = 0;
+                    }
 
-                    if (!isCalibrating) {
+                    if (!isCalibrating && !data.isLocalCalib) {
                         if (isRaceActive) handleRoiLogic(i, crossed, now, imgData);
                         else if (isCountdown && crossed && i === 0 && !raceAborted) handleFalseStart();
                         else if (!isRaceActive && !isCountdown && !crossed && !data.blocked) {
@@ -922,13 +966,63 @@
 
         calibrateBtn.addEventListener('click', () => {
             if(!isProcessing || isRaceActive || isCountdown) return;
-            isCalibrating = true; roiData.forEach(d => d.baseRGB = null); calibOverlay.classList.add('active'); calibrateBtn.disabled = true;
-            setTimeout(() => { isCalibrating = false; calibOverlay.classList.remove('active'); calibrateBtn.disabled = false; speak(translations[currentLang].voiceCalibrated); }, 2000);
+            isCalibrating = true; 
+            calibOverlay.classList.add('active'); 
+            calibrateBtn.disabled = true;
+            
+            for(let i=0; i<activeRoisCount; i++) {
+                roiData[i].baseRGB = null;
+                roiData[i].maxNoise = 0;
+            }
+
+            setTimeout(() => { 
+                for(let i=0; i<activeRoisCount; i++) {
+                    let newSens = Math.ceil((roiData[i].maxNoise || 0) + 6); // Damos margen de 6% sobre el ruido
+                    if (newSens < 5) newSens = 5;
+                    if (newSens > 100) newSens = 100;
+                    roiData[i].sens = newSens;
+                    
+                    const slider = document.getElementById(`threshold-slider-${i}`);
+                    const valDisplay = document.getElementById(`current-threshold-${i}`);
+                    if (slider) slider.value = newSens;
+                    if (valDisplay) valDisplay.textContent = newSens;
+                }
+                isCalibrating = false; 
+                calibOverlay.classList.remove('active'); 
+                calibrateBtn.disabled = false; 
+                speak(translations[currentLang].voiceCalibrated); 
+            }, 2000);
         });
 
         for(let i=0; i<4; i++) {
             const btn = document.getElementById(`auto-calib-btn-${i}`);
-            if(btn) { btn.addEventListener('click', () => { if(!isProcessing || isRaceActive || isCountdown) return; roiData[i].baseRGB = null; btn.style.backgroundColor = '#ffffff'; btn.style.color = '#000000'; setTimeout(() => { btn.style.backgroundColor = ''; btn.style.color = ''; }, 300); }); }
+            if(btn) { 
+                btn.addEventListener('click', () => { 
+                    if(!isProcessing || isRaceActive || isCountdown) return; 
+                    btn.style.backgroundColor = '#ffffff'; 
+                    btn.style.color = '#000000';
+                    
+                    roiData[i].baseRGB = null;
+                    roiData[i].isLocalCalib = true;
+                    roiData[i].maxNoise = 0;
+
+                    setTimeout(() => { 
+                        btn.style.backgroundColor = ''; 
+                        btn.style.color = ''; 
+                        roiData[i].isLocalCalib = false;
+                        
+                        let newSens = Math.ceil((roiData[i].maxNoise || 0) + 6);
+                        if (newSens < 5) newSens = 5;
+                        if (newSens > 100) newSens = 100;
+                        roiData[i].sens = newSens;
+                        
+                        const slider = document.getElementById(`threshold-slider-${i}`);
+                        const valDisplay = document.getElementById(`current-threshold-${i}`);
+                        if (slider) slider.value = newSens;
+                        if (valDisplay) valDisplay.textContent = newSens;
+                    }, 1000); 
+                }); 
+            }
         }
 
         function speak(text) { const toggle = document.getElementById('voice-toggle'); if(toggle && toggle.checked) { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = currentLang==='en' ? 'en-US' : currentLang==='fr' ? 'fr-FR' : 'es-ES'; window.speechSynthesis.speak(u); } }
@@ -1113,7 +1207,7 @@
         function procImg(file) { if (!file) return; const reader = new FileReader(); reader.onload = (e) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; if (w > h) { if (w > 400) { h *= 400 / w; w = 400; } } else { if (h > 400) { w *= 400 / h; h = 400; } } canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h); const b64 = canvas.toDataURL('image/jpeg', 0.7); const imgId = "img_" + Date.now(); garageCars[currentGarageIndex].imageId = imgId; ImageDB.save(imgId, b64); document.getElementById('garage-img').src = b64; saveGarageToLocal(); }; img.src = e.target.result; }; reader.readAsDataURL(file); }
         document.getElementById('garage-img-input-galeria').addEventListener('change', (e) => procImg(e.target.files[0])); document.getElementById('garage-img-input-camara').addEventListener('change', (e) => procImg(e.target.files[0]));
 
-        // LÓGICA DE RANKING F1 (Minimalista, Escalado y Sin Solapamientos)
+        // LÓGICA DE RANKING F1
         async function openRanking() {
             const container = document.getElementById('ranking-list-container');
             container.innerHTML = '<div class="col-span-1 md:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-xl uppercase tracking-widest animate-pulse">CARGANDO PARRILLA F1...</div></div>';
