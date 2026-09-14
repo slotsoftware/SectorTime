@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SECTOR TIME V.1.0</title>
     
-    <!-- METADATOS PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="application-name" content="SECTOR TIME">
     
-    <!-- LIBRERÍAS (Tailwind, Tone.js para Sonido, Chart.js para Gráficas) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -164,36 +162,55 @@
         #yellow-flag-overlay.active { display: flex; }
         .yellow-flag-icon { width: 80px; height: 80px; color: #facc15; animation: wave 1s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(250,204,21,0.8)); }
 
-        .g-row { display: flex; align-items: center; justify-content: space-between; background: rgba(15,23,42,0.6); padding: 6px; border-radius: 4px; border: 1px solid rgba(51,65,85,0.6); }
-        .g-lbl { color: #94a3b8; font-size: 9px; font-weight: 700; text-transform: uppercase; width: 35%; }
-        .g-val { color: #e2e8f0; font-size: 11px; font-weight: 700; width: 65%; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .g-inp { background: rgba(0,0,0,0.8); border: 1px solid #4b5563; color: #fff; font-size: 11px; width: 65%; padding: 1px 4px; display: none; text-align: right; border-radius: 3px; outline: none;}
-        .g-inp:focus { border-color: #22d3ee; box-shadow: 0 0 8px rgba(34,211,238,0.5); }
-        .g-editing .g-val { display: none !important; } .g-editing .g-inp { display: block !important; }
-        
-        .track-bg { 
-            background-color: #111318; 
-            /* Filtro de ruido fractal asimétrico y caminos difusos (sin mosaico) */
+        .g-box { border: 1px solid #0891b2; border-radius: 8px; background-color: rgba(10, 15, 30, 0.6); padding: 8px 12px; box-shadow: inset 0 0 10px rgba(6, 182, 212, 0.05); }
+        .g-row { display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1px 0; min-height: 24px; }
+        .g-row:last-child { border-bottom: none; }
+        .g-lbl { color: #94a3b8; font-size: 11px; text-transform: uppercase; width: 40%; text-align: right; padding-right: 8px; white-space: nowrap; }
+        .g-val { color: #ffffff; font-size: 12px; font-weight: 700; width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Arial', sans-serif; }
+        .g-inp { background: rgba(0,0,0,0.8); border: 1px solid #4b5563; color: #fff; font-size: 12px; width: 60%; padding: 1px 4px; display: none; font-family: 'Arial', sans-serif; outline: none; height: 22px; border-radius: 4px; transition: all 0.2s ease;}
+        .g-inp:focus { border-color: #22d3ee; box-shadow: 0 0 10px rgba(34,211,238,0.6), inset 0 0 5px rgba(34,211,238,0.2); background: rgba(15,25,35,0.9); }
+        .g-editing .g-val { display: none; } .g-editing .g-inp { display: block; }
+        .g-header { color: #a5f3fc; font-size: 13px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Asfalto Realista con Pequeñas Grietas Orgánicas */
+        .track-bg-real {
+            background-color: #0c0f17;
             background-image: 
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3Cg opacity='0.3' fill='none' stroke='%23000' stroke-width='1.5'%3E%3Cpath d='M120,50 Q140,80 110,150 M700,50 Q680,100 720,180 M350,700 Q370,740 340,780 M600,600 Q630,620 580,680 M100,450 Q130,440 180,480 M800,750 Q850,730 890,780'/%3E%3C/g%3E%3C/svg%3E"), 
-                radial-gradient(circle at 20% 50%, rgba(0,0,0,0.4) 0%, transparent 60%), 
-                radial-gradient(circle at 80% 50%, rgba(0,0,0,0.4) 0%, transparent 60%); 
-            background-size: cover; /* Evita que la textura de asfalto y grietas se repita como mosaico */
-            background-position: center;
+                radial-gradient(circle at 50% 50%, rgba(20, 25, 35, 0.3) 0%, rgba(5, 8, 12, 0.85) 100%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.18'/%3E%3Cpath d='M30,120 Q45,115 60,130 T90,110 M250,300 Q280,310 310,290 M150,50 Q160,70 140,90 M320,80 Q340,75 350,100' stroke='%23000' stroke-width='0.6' fill='none' opacity='0.6'/%3E%3C/svg%3E");
+            background-size: 250px 250px;
         }
-        
-        .grid-slot { position: relative; background: linear-gradient(90deg, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.75) 100%); margin-bottom: 0; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .grid-marking-box { position: absolute; top: 0; bottom: -8px; left: 0; right: 0; border: 4px solid rgba(255, 255, 255, 0.75); border-top: none; pointer-events: none; z-index: 0; border-radius: 0 0 6px 6px; box-shadow: 0 0 5px rgba(255,255,255,0.2), inset 0 0 5px rgba(255,255,255,0.2); }
-        .grid-pos-text { position: absolute; bottom: -6px; left: 16px; color: rgba(255,255,255,0.85); font-family: 'Arial', sans-serif; font-weight: 900; font-size: 24px; transform: skewX(-15deg); text-shadow: 0 0 5px rgba(0,0,0,0.8); z-index: 0; pointer-events: none; }
-        
-        .pos-badge { font-style: italic; font-weight: 900; background: -webkit-linear-gradient(45deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
-        .pos-1 { background: -webkit-linear-gradient(45deg, #fbbf24, #f59e0b); -webkit-background-clip: text; filter: drop-shadow(0 0 15px rgba(251,191,36,0.7)); }
-        .pos-2 { background: -webkit-linear-gradient(45deg, #cbd5e1, #94a3b8); -webkit-background-clip: text; filter: drop-shadow(0 0 15px rgba(203,213,225,0.7)); }
-        .pos-3 { background: -webkit-linear-gradient(45deg, #b45309, #d97706); -webkit-background-clip: text; filter: drop-shadow(0 0 15px rgba(180,83,9,0.7)); }
+
+        /* F1 Grid Slots Minimalistas */
+        .f1-grid-slot {
+            position: relative;
+            background: rgba(11, 17, 32, 0.85);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .f1-grid-slot:hover {
+            border-color: rgba(34, 211, 238, 0.8);
+            transform: translateY(-2px);
+        }
+        /* Cajón Blanco F1 pintado en el asfalto debajo de cada tarjeta */
+        .f1-box-marking {
+            position: absolute;
+            bottom: -16px;
+            left: 10px;
+            right: 10px;
+            height: 14px;
+            border-top: 3px solid rgba(255, 255, 255, 0.85);
+            border-left: 3px solid rgba(255, 255, 255, 0.85);
+            border-right: 3px solid rgba(255, 255, 255, 0.85);
+            pointer-events: none;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
-    <!-- LAYER: Orientation Lock -->
     <div id="orientation-lock">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>
@@ -206,7 +223,6 @@
         
         <!-- LEFT PANEL: CAMERA -->
         <div class="flex-1 flex flex-col h-full min-w-[55%] lg:min-w-[65%] max-h-full">
-            <!-- Header -->
             <div class="neon-panel flex flex-col sm:flex-row justify-between items-center py-2 px-4 mb-3 flex-shrink-0 z-20">
                 <div class="flex items-center">
                     <div class="flex flex-col mr-4">
@@ -214,7 +230,6 @@
                         <span class="text-[9px] font-normal text-cyan-700">By Albert Closa</span>
                     </div>
                     <div class="flex space-x-2">
-                        <!-- Ranking Button (Replaces History) -->
                         <button id="ranking-btn" class="flex items-center text-amber-400 hover:text-white px-3 py-1 rounded bg-slate-900 border border-amber-600 shadow-[0_0_10px_rgba(217,119,6,0.3)] hover:shadow-[0_0_15px_rgba(217,119,6,0.6)] transition" title="Ver Ranking">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
                             <span class="text-[11px] font-black uppercase tracking-widest">Ranking</span>
@@ -222,18 +237,15 @@
                     </div>
                 </div>
 
-                <!-- Camera Controls -->
                 <div class="flex items-center space-x-2 mt-2 sm:mt-0">
                     <button id="open-garage-btn" class="p-1 px-3 rounded bg-slate-800 text-cyan-300 border border-cyan-700 hover:bg-cyan-900 hover:text-white text-[10px] font-bold uppercase transition shadow-[0_0_8px_rgba(6,182,212,0.3)]">Garaje</button>
                     <button id="calibrate-btn" class="p-1 px-3 rounded bg-slate-800 text-cyan-300 border border-cyan-700 hover:bg-cyan-900 hover:text-white text-[10px] font-bold uppercase transition shadow-[0_0_8px_rgba(6,182,212,0.3)] disabled:opacity-50 disabled:cursor-not-allowed" data-i18n="autoCalib">Auto Calibrar</button>
                     <select id="cam-device-select" class="hidden w-32 bg-slate-900 border border-cyan-800 rounded p-1 text-[10px] font-bold text-cyan-400"></select>
-                    <button id="cam-settings-btn" class="hidden p-1 px-2 rounded bg-slate-800 text-cyan-400 border border-cyan-800 hover:bg-cyan-900 hover:text-white shadow-[0_0_8px_rgba(6,182,212,0.3)]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="21" y2="14"/><line x1="4" x2="20" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="8" x2="8" y1="14" y2="10"/><line x1="16" x2="16" y1="14" y2="10"/></svg></button>
                     <button id="camera-on-btn" class="p-1 px-3 rounded bg-gradient-to-br from-green-600 to-green-800 text-white hover:from-green-500 hover:to-green-700 border border-green-400 disabled:opacity-50 transition shadow-[0_0_10px_rgba(16,185,129,0.5)] text-[10px] font-bold flex items-center">CAM ON</button>
                     <button id="camera-off-btn" class="p-1 px-3 rounded bg-gradient-to-br from-red-600 to-red-900 text-white hover:from-red-500 hover:to-red-700 border border-red-500 disabled:opacity-50 transition shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[10px] font-bold flex items-center" disabled>OFF</button>
                 </div>
             </div>
 
-            <!-- Video Container -->
             <div class="neon-panel flex-1 relative flex flex-col p-2 min-h-0 z-10 border border-cyan-800">
                 <div id="video-container">
                     <video id="webcam-feed" autoplay playsinline></video>
@@ -253,10 +265,8 @@
                         <rect width="100%" height="100%" fill="rgba(2, 6, 23, 0.5)" mask="url(#hole-mask)" />
                     </svg>
 
-                    <!-- Matrix Log Overlay -->
                     <div id="sector-log-container"></div>
 
-                    <!-- ROIs -->
                     <div id="roi-container">
                         <div id="roi-0" class="roi-box active-roi" style="left:20%; top:20%; width:30%; height:30%;" data-index="0"><div class="roi-label">META</div><div class="detection-val-indicator" id="det-val-0">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
                         <div id="roi-1" class="roi-box" style="left:55%; top:20%; width:20%; height:20%;" data-index="1"><div class="roi-label">S1</div><div class="detection-val-indicator" id="det-val-1">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
@@ -266,18 +276,10 @@
                 </div>
                 <canvas id="video-canvas"></canvas>
                 <div id="video-status" class="text-center text-[10px] mt-2 text-cyan-600 font-bold uppercase tracking-wide" data-i18n="camLoading">Cargando cámara...</div>
-
-                <!-- Sub-panel Settings -->
-                <div id="advanced-cam-panel" class="hidden absolute top-4 left-4 bg-slate-900/90 backdrop-blur rounded-lg p-3 text-cyan-200 border border-cyan-800 z-30 min-w-[200px] shadow-[0_0_20px_rgba(6,182,212,0.5)]">
-                    <h3 class="font-bold text-[10px] uppercase tracking-wider border-b border-cyan-800 pb-1 mb-2 text-cyan-400">Ajustes de Lente</h3>
-                    <div id="zoom-control-container" class="flex flex-col gap-1 hidden"><div class="flex justify-between items-center"><label class="text-[9px] text-cyan-500 font-bold uppercase">Zoom / Angular</label><span id="zoom-val-display" class="text-[9px] font-bold text-cyan-300">1.0x</span></div><input type="range" id="cam-zoom-slider" class="w-full accent-cyan-400 cursor-pointer h-1 bg-slate-700" min="1" max="5" step="0.1" value="1"></div>
-                    <div id="torch-control-container" class="flex items-center justify-between mt-3 hidden"><label class="text-[9px] text-cyan-500 font-bold uppercase">Linterna</label><input type="checkbox" id="cam-torch-toggle" class="w-3 h-3 rounded cursor-pointer accent-cyan-400" /></div>
-                </div>
             </div>
         </div>
 
         <div class="w-[320px] md:w-[360px] lg:w-[400px] flex-shrink-0 flex flex-col gap-3 h-full">
-            <!-- Traffic Light and Time -->
             <div class="neon-panel p-3 text-center flex-shrink-0 flex flex-col items-center relative">
                 <div class="flex justify-center items-center w-full relative mb-3">
                     <div id="traffic-light-module" class="traffic-light-container five-lights bg-slate-900 p-2 rounded-xl shadow-inner border border-slate-700"><div id="light-1" class="light"></div><div id="light-2" class="light"></div><div id="light-3" class="light"></div><div id="light-4" class="light"></div><div id="light-5" class="light"></div></div>
@@ -291,14 +293,12 @@
                 <p id="lap-time" class="text-xl text-cyan-100 font-arial font-bold text-shadow-sm">00.000</p>
             </div>
 
-            <!-- Race Buttons -->
             <div class="flex space-x-2 flex-shrink-0">
                 <button id="start-race-btn" class="flex-1 race-control-btn py-2 disabled:opacity-50 disabled:cursor-not-allowed"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="control-icon text-emerald-400"><polygon points="5 3 19 12 5 21 5 3"/></svg><span data-i18n="start">INICIAR</span></button>
                 <button id="pause-btn" class="flex-1 race-control-btn py-2 disabled:opacity-50 disabled:cursor-not-allowed"><svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="control-icon text-cyan-400"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg><svg id="icon-play" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="control-icon text-yellow-400 hidden"><polygon points="5 3 19 12 5 21 5 3"/></svg><span id="pause-text" class="text-cyan-400" data-i18n="pause">PAUSA</span></button>
                 <button id="reset-race-btn" class="flex-1 race-control-btn py-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="control-icon text-red-400"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><span data-i18n="reset">REINICIAR</span></button>
             </div>
 
-            <!-- Telemetry Stats -->
             <div class="neon-panel p-3 flex-shrink-0">
                 <h2 class="text-[11px] neon-blue-title border-b border-cyan-800 pb-1 mb-2 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
                 <div class="telemetry-grid gap-2">
@@ -317,7 +317,6 @@
                 </div>
             </div>
 
-            <!-- Config Panel -->
             <div id="config-panel" class="neon-panel w-full p-3 flex-1 flex flex-col min-h-0 overflow-y-auto pr-2">
                 <div class="mb-3 border-b border-cyan-900 pb-2">
                      <div class="flex items-center justify-between"><label class="text-[10px] font-bold text-cyan-600 uppercase flex items-center" data-i18n="langLabel">Idioma / Language</label><select id="lang-select" class="neon-input p-1 rounded-md text-[10px] font-bold w-1/2"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option></select></div>
@@ -357,12 +356,33 @@
         </div>
     </div>
 
+    <!-- MODAL RANKING F1 (Minimalista y Escalonado) -->
+    <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
+        <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
+            <div class="absolute inset-0 track-bg-real opacity-90 z-0"></div>
+            
+            <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
+                <div class="flex items-center space-x-3 ml-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
+                    <h2 class="italic font-black text-2xl tracking-widest text-white uppercase">PARRILLA DE SALIDA <span class="text-cyan-400">TOP 25</span></h2>
+                </div>
+                <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors">SALIR</button>
+            </div>
+
+            <!-- Contenedor Parrilla Estilo F1 (2 Columnas Escalonadas) -->
+            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-12 pb-32 custom-tv-scroll grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
+        </div>
+    </div>
+
+    <!-- MODAL RESULTS -->
     <div id="resultsModal" class="modal-overlay hidden">
-        <div class="modal-content p-6 w-full max-w-7xl flex flex-col h-[85vh] md:h-[70vh]">
+        <div class="modal-content p-6 w-full max-w-5xl flex flex-col h-[70vh]">
             <div class="text-center mb-4 shrink-0">
                 <h3 class="text-3xl font-extrabold text-cyan-400 uppercase tracking-wider drop-shadow-md" data-i18n="raceFinished">¡Carrera Finalizada!</h3>
             </div>
-            
             <div class="flex gap-4 min-h-0 flex-1">
                 <div class="flex-1 bg-slate-900/80 rounded-xl border border-cyan-800 shadow-inner overflow-hidden flex flex-col">
                     <div class="bg-cyan-900/50 py-2 px-4 border-b border-cyan-700 flex justify-between items-center">
@@ -381,7 +401,6 @@
                         </table>
                     </div>
                 </div>
-                
                 <div class="flex-1 bg-slate-900/80 rounded-xl border border-cyan-800 shadow-inner p-3 flex flex-col">
                     <h4 class="text-xs font-bold text-cyan-500 uppercase tracking-widest text-center mb-2">Curva de Rendimiento</h4>
                     <div class="flex-1 relative w-full h-full min-h-0">
@@ -389,7 +408,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="flex justify-end gap-3 mt-4 shrink-0">
                 <button id="export-excel-btn" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition" data-i18n="exportExcel">Exportar CSV</button>
                 <button id="modal-restart-btn" class="bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition" data-i18n="restartFull">VOLVER A EMPEZAR</button>
@@ -397,6 +415,7 @@
         </div>
     </div>
 
+    <!-- MODAL GARAJE -->
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 300;">
         <div class="bg-[#050505] text-white w-[96vw] h-[94vh] flex flex-col rounded-xl border-2 border-cyan-600 shadow-[0_0_50px_rgba(34,211,238,0.5),inset_0_0_30px_rgba(34,211,238,0.2)] p-4 relative overflow-hidden" id="garage-container">
             <div class="flex justify-between items-center border-b border-cyan-500/50 pb-2 mb-3 shrink-0 relative z-10">
@@ -424,7 +443,7 @@
 
             <div class="flex-1 flex flex-col lg:flex-row gap-5 min-h-0 relative z-10 overflow-y-auto pr-2 custom-tv-scroll pb-2">
                 <div class="w-full lg:w-[35%] flex flex-col gap-4 min-h-0 shrink-0">
-                    <div class="h-[260px] shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)]">
+                    <div class="h-[340px] shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)]">
                         <img id="garage-img" src="" class="absolute inset-0 w-full h-full object-cover z-0">
                         <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
                             <button id="btn-galeria" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black transition-colors">Galería</button>
@@ -432,6 +451,7 @@
                             <input type="file" id="garage-img-input-galeria" accept="image/*" class="hidden"><input type="file" id="garage-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
                     </div>
+                    
                     <div class="flex flex-col bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-inner">
                         <div class="text-cyan-500 text-[10px] font-black uppercase tracking-widest border-b border-cyan-900/50 pb-1 mb-2">Identidad del Vehículo</div>
                         <div class="flex flex-col gap-1.5">
@@ -442,6 +462,7 @@
                             <div class="flex justify-between items-center bg-cyan-950/40 border border-cyan-800/50 p-1.5 rounded mt-1"><span class="text-cyan-400 text-[10px] uppercase font-black tracking-widest">Sistema</span><span id="g-val-sys" class="font-black text-[12px] text-cyan-300"></span><input id="g-inp-sys" class="g-inp text-right w-1/2"></div>
                         </div>
                     </div>
+
                     <div class="flex flex-col bg-[#0a1120] border border-slate-800 rounded-xl p-3 shadow-inner">
                         <div class="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-800 pb-1 mb-2">Especificaciones Técnicas</div>
                         <div class="grid grid-cols-2 gap-2">
@@ -455,6 +476,7 @@
                             <div class="g-row"><span class="g-lbl">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp"></div>
                         </div>
                     </div>
+
                     <div id="assign-buttons-container" class="shrink-0 z-20 mt-auto">
                         <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 border border-cyan-500 hover:from-cyan-800 hover:to-blue-800 text-white py-3 text-xs font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">🏁 Pilotar Este Vehículo</button>
                     </div>
@@ -496,32 +518,9 @@
         </div>
     </div>
 
-    <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
-        <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[94vh] md:h-[80vh] flex flex-col relative overflow-hidden rounded-xl border-4 border-slate-800 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/90">
-            <!-- Asfalto Hiperrealista (Sin patrón de mosaico) -->
-            <div class="absolute inset-0 track-bg opacity-80 z-0"></div>
-            
-            <!-- Cabecera del Ranking -->
-            <div class="relative z-20 flex justify-between items-center bg-black/80 border-b-2 border-slate-700/50 p-4 backdrop-blur-sm shrink-0 shadow-xl">
-                <div class="flex items-center space-x-4 ml-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
-                    <h2 class="italic font-black text-4xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-200 drop-shadow-[0_0_15px_rgba(245,158,11,0.6)] leading-none uppercase">TOP 25 <span class="text-white">RANKING</span></h2>
-                </div>
-                <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-5 py-2 rounded text-sm font-black uppercase shadow-[0_0_15px_rgba(239,68,68,0.5)] flex items-center mr-8 transition-colors">SALIR PISTA <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
-            </div>
-
-            <!-- Contenedor Cuadrícula de Parrilla -->
-            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-12 py-10 custom-tv-scroll grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-12 content-start" id="ranking-list-container">
-                <!-- Se inyectan los coches desde JS -->
-            </div>
-            
-            <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none"></div>
-        </div>
-    </div>
-
     <script>
         const translations = {
-            es: { langLabel: "Idioma", history: "Historial", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Sectores Activos", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto Calibrar", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Cámara Inactiva", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MEDIA", maxSpeed: "V. MÁXIMA", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", clearHistoryQ: "¿Borrar Historial?", yellowFlag: "BANDERA AMARILLA", voiceCalibrated: "Sectores calibrados.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo" }
+            es: { langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Sectores Activos", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto Calibrar", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Cámara Inactiva", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MEDIA", maxSpeed: "V. MÁXIMA", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrated: "Sectores calibrados.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo" }
         };
         let currentLang = 'es';
 
@@ -992,15 +991,30 @@
         
         function initGarage() {
             if (garageCars.length === 0) {
-                garageCars.push({
-                    id: "ID001", name: "Porsche 911", image: "",
-                    marca: "Scalextric", ref: "U10403S300", cat: "Rally", sys: "Analógico",
-                    motor: "RK", posicion: "In Line", relacion: "9:27", chasis: "Original", 
-                    neumaticoDelantero: "15x8", neumaticoTrasero: "15x8", peso: "85", luces: "Leds",
-                    bestLap: "-", totalTime: "0h 0m 0s", totalDist: "0.000 km", avgSpd: "0.0 km/h", consistency: "0",
-                    recentLaps: [], recentSpeeds: [], bestSectors: [Infinity, Infinity, Infinity, Infinity],
-                    _rawTotalTime: 0, _rawTotalDist: 0, consistencySum: 0, consistencyCount: 0
-                });
+                const brands = ["Porsche", "Audi", "Ferrari", "BMW", "Aston Martin", "Ford", "McLaren", "Lancia", "Subaru", "Nissan"];
+                for(let i=1; i<=25; i++) {
+                    const brand = brands[Math.floor(Math.random() * brands.length)];
+                    const baseTime = 3.1 + (Math.random() * 3.5);
+                    const avgSpd = (15 / baseTime) * 3.6;
+                    const hexColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                    
+                    garageCars.push({
+                        id: "ID" + String(i).padStart(3, '0'),
+                        name: `${brand} GT-${i}`,
+                        image: `https://placehold.co/400x400/0f172a/${hexColor}?text=CAR+${i}`,
+                        marca: brand, ref: "REF-00" + i, cat: "GT3 Pro", sys: "Advance",
+                        motor: "RK V8", posicion: "Anglewinder", relacion: "11:27", chasis: "Carbono", 
+                        neumaticoDelantero: "15x8", neumaticoTrasero: "17x10", peso: (70 + Math.random()*15).toFixed(1), luces: "LED",
+                        bestLap: baseTime.toFixed(3) + "s", 
+                        totalTime: Math.floor(Math.random()*5) + "h " + Math.floor(Math.random()*60) + "m", 
+                        totalDist: (Math.random()*50 + 10).toFixed(3) + " km", 
+                        avgSpd: avgSpd.toFixed(1) + " km/h",
+                        recentLaps: [baseTime+0.1, baseTime+0.2, baseTime, baseTime+0.3], 
+                        recentSpeeds: [avgSpd-0.5, avgSpd-1, avgSpd, avgSpd-1.5], 
+                        bestSectors: [Infinity, Infinity, Infinity, Infinity],
+                        _rawTotalTime: 0, _rawTotalDist: 0
+                    });
+                }
                 saveGarageToLocal();
             }
             populateDropdown();
@@ -1024,7 +1038,6 @@
             
             document.getElementById('g-val-bestLap').textContent = car.bestLap || "-"; document.getElementById('g-val-totalTime').textContent = car.totalTime || "-"; document.getElementById('g-val-totalDist').textContent = car.totalDist || "-"; document.getElementById('g-val-avgSpd').textContent = car.avgSpd || "-";
             
-            // Draw Garage Charts
             if (window.garageLapsChart) window.garageLapsChart.destroy(); if (window.garageSectorsChart) window.garageSectorsChart.destroy(); if (window.garageSpeedChart) window.garageSpeedChart.destroy(); if (window.garageRadarChart) window.garageRadarChart.destroy();
 
             const ctxLaps = document.getElementById('garageChartLaps').getContext('2d'); const ctxSpeed = document.getElementById('garageChartSpeed').getContext('2d'); const ctxSectors = document.getElementById('garageChartSectors').getContext('2d'); const ctxRadar = document.getElementById('garageChartRadar').getContext('2d');
@@ -1069,7 +1082,6 @@
             lapHistory.forEach(l => { car.recentLaps.push(l.time / 1000); car.recentSpeeds.push(l.speed); });
             if (car.recentLaps.length > 20) { car.recentLaps = car.recentLaps.slice(-20); car.recentSpeeds = car.recentSpeeds.slice(-20); }
             for(let i=0; i<4; i++) { if(bestSectorTimes[i] < car.bestSectors[i]) car.bestSectors[i] = bestSectorTimes[i]; }
-            
             saveGarageToLocal();
         };
 
@@ -1081,7 +1093,7 @@
             document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10);
         });
         
-        document.getElementById('close-garage-btn').addEventListener('click', () => { if (isGarageEditing && !confirm("Tienes cambios sin guardar. ¿Cerrar de todos modos?")) return; toggleGarageEdit(false); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
+        document.getElementById('close-garage-btn').addEventListener('click', () => { if (isGarageEditing && !confirm("¿Cerrar sin guardar?")) return; toggleGarageEdit(false); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
         document.getElementById('garage-car-select').addEventListener('change', (e) => renderGarageCar(parseInt(e.target.value)));
         document.getElementById('garage-edit-btn').addEventListener('click', () => toggleGarageEdit(true));
         document.getElementById('garage-save-btn').addEventListener('click', saveGarageEdits);
@@ -1091,15 +1103,20 @@
             const newCar = { id: `ID${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`, name: "Nuevo Coche", image: "" }; garageFields.forEach(f => newCar[f] = ""); garageCars.push(newCar);
             currentGarageIndex = garageCars.length - 1; saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(true);
         });
-        
         document.getElementById('garage-delete-btn').addEventListener('click', () => {
             if (garageCars.length === 0) return;
-            if (confirm("¿Eliminar este coche?")) { garageCars.splice(currentGarageIndex, 1); currentGarageIndex = Math.max(0, currentGarageIndex - 1); saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false); }
+            if (confirm("¿Eliminar coche?")) { garageCars.splice(currentGarageIndex, 1); currentGarageIndex = Math.max(0, currentGarageIndex - 1); saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false); }
         });
 
+        document.getElementById('btn-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-galeria').click(); });
+        document.getElementById('btn-camara').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-camara').click(); });
+        function procImg(file) { if (!file) return; const reader = new FileReader(); reader.onload = (e) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; if (w > h) { if (w > 400) { h *= 400 / w; w = 400; } } else { if (h > 400) { w *= 400 / h; h = 400; } } canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h); const b64 = canvas.toDataURL('image/jpeg', 0.7); const imgId = "img_" + Date.now(); garageCars[currentGarageIndex].imageId = imgId; ImageDB.save(imgId, b64); document.getElementById('garage-img').src = b64; saveGarageToLocal(); }; img.src = e.target.result; }; reader.readAsDataURL(file); }
+        document.getElementById('garage-img-input-galeria').addEventListener('change', (e) => procImg(e.target.files[0])); document.getElementById('garage-img-input-camara').addEventListener('change', (e) => procImg(e.target.files[0]));
+
+        // LÓGICA DE RANKING F1 (Minimalista, Escalado y Sin Solapamientos)
         async function openRanking() {
             const container = document.getElementById('ranking-list-container');
-            container.innerHTML = '<div class="col-span-1 lg:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-2xl animate-pulse uppercase tracking-widest drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]">CALENTANDO NEUMÁTICOS...</div></div>';
+            container.innerHTML = '<div class="col-span-1 md:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-xl uppercase tracking-widest animate-pulse">CARGANDO PARRILLA F1...</div></div>';
             
             document.getElementById('rankingModal').classList.remove('hidden');
             setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10);
@@ -1109,68 +1126,51 @@
             const top25 = validCars.slice(0, 25);
 
             if (top25.length === 0) {
-                container.innerHTML = '<div class="col-span-1 lg:col-span-2 text-center text-slate-400 font-bold mt-20 text-2xl uppercase tracking-widest">Parrilla vacía. ¡Sal a rodar y marca un tiempo!</div>';
+                container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center text-slate-400 font-bold mt-20 text-lg uppercase">Parrilla vacía. ¡Realiza una carrera!</div>';
                 return;
             }
 
             const carsWithImages = await Promise.all(top25.map(async (car) => {
-                let imgSrc = 'https://placehold.co/200x200/0f172a/38bdf8?text=NO+IMAGE';
-                if (car.imageId) {
-                    const b = await ImageDB.get(car.imageId);
-                    if (b) imgSrc = b;
-                } else if (car.image) {
-                    imgSrc = car.image;
-                }
+                let imgSrc = 'https://placehold.co/150x150/0f172a/38bdf8?text=F1';
+                if (car.imageId) { const b = await ImageDB.get(car.imageId); if (b) imgSrc = b; } 
+                else if (car.image) { imgSrc = car.image; }
                 return { ...car, displayImage: imgSrc };
             }));
 
             let html = '';
             carsWithImages.forEach((car, index) => {
                 const pos = index + 1;
-                const badgeClass = pos === 1 ? 'pos-1' : pos === 2 ? 'pos-2' : pos === 3 ? 'pos-3' : '';
-                const borderClass = pos === 1 ? 'border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.5)]' : pos === 2 ? 'border-slate-300 shadow-[0_0_20px_rgba(203,213,225,0.4)]' : pos === 3 ? 'border-amber-700 shadow-[0_0_20px_rgba(180,83,9,0.4)]' : 'border-slate-700 shadow-[0_10px_20px_rgba(0,0,0,0.6)]';
-                
+                const isEven = pos % 2 === 0;
+                // Efecto F1 de parrilla escalonada: pares desplazados hacia abajo en desktop
+                const staggerClass = isEven ? 'md:translate-y-12' : '';
+                const badgeColor = pos === 1 ? 'text-amber-400' : pos === 2 ? 'text-slate-300' : pos === 3 ? 'text-amber-600' : 'text-cyan-400';
+
                 html += `
-                    <div class="relative w-full z-20 p-2 sm:p-3 pb-4">
-                        <!-- Marcas de la pista pintadas en el suelo (Parrilla en U) -->
-                        <div class="grid-marking-box"></div>
-                        <div class="grid-pos-text">P${pos}</div>
-                        
-                        <!-- Tarjeta del coche -->
-                        <div class="grid-slot flex flex-row items-center p-3 sm:p-4 border-l-4 ${borderClass} backdrop-blur-md relative z-10 transform transition hover:scale-[1.01] hover:z-30 m-0">
-                            <div class="w-20 sm:w-28 shrink-0 flex flex-col items-center justify-center border-r border-slate-700/50 pr-2">
-                                <span class="pos-badge ${badgeClass} text-5xl sm:text-6xl">${pos}</span>
-                                <span class="text-slate-500 font-black uppercase text-[9px] mt-1 tracking-widest">POSICIÓN</span>
-                            </div>
-                            <div class="w-24 sm:w-36 h-20 sm:h-28 shrink-0 ml-4 sm:ml-6 rounded-lg overflow-hidden border-2 border-slate-800 shadow-inner bg-black flex items-center justify-center relative">
-                                <img src="${car.displayImage}" class="absolute inset-0 w-full h-full object-cover">
-                            </div>
-                            <div class="flex-1 flex flex-col justify-center pl-4 sm:pl-8 min-w-0">
-                                <div class="flex items-end mb-1">
-                                    <h4 class="text-white font-black text-xl sm:text-3xl uppercase tracking-widest drop-shadow-md truncate leading-none">${car.name}</h4>
-                                    <span class="text-slate-500 font-mono text-xs ml-3 pb-0.5 shrink-0 hidden sm:block">${car.id || ''}</span>
+                    <div class="relative w-full ${staggerClass} pb-6">
+                        <div class="f1-grid-slot p-3 sm:p-4 flex flex-row items-center justify-between gap-4">
+                            <!-- Izquierda: Posición y Foto -->
+                            <div class="flex items-center space-x-3 shrink-0">
+                                <span class="font-black text-3xl sm:text-4xl italic font-arial ${badgeColor} w-10 text-right">P${pos}</span>
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border border-slate-700 bg-black shrink-0 relative">
+                                    <img src="${car.displayImage}" class="absolute inset-0 w-full h-full object-cover">
                                 </div>
-                                <div class="text-cyan-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3 truncate">${car.marca || 'S/M'} • ${car.cat || 'S/C'}</div>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-1">
-                                    <div class="flex flex-col bg-emerald-950/30 p-2 rounded border border-emerald-900/50">
-                                        <span class="text-emerald-500/80 text-[8px] sm:text-[9px] font-black uppercase mb-0.5 tracking-wider">Mejor Vuelta</span>
-                                        <span class="text-emerald-400 font-mono font-black text-base sm:text-xl drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]">${car.bestLap}</span>
-                                    </div>
-                                    <div class="flex flex-col bg-slate-900/50 p-2 rounded border border-slate-800 hidden sm:flex">
-                                        <span class="text-slate-500 text-[8px] sm:text-[9px] font-black uppercase mb-0.5 tracking-wider">Vel. Media</span>
-                                        <span class="text-cyan-100 font-mono font-bold text-sm sm:text-base">${car.avgSpd || '-'}</span>
-                                    </div>
-                                    <div class="flex flex-col bg-slate-900/50 p-2 rounded border border-slate-800 hidden md:flex">
-                                        <span class="text-slate-500 text-[8px] sm:text-[9px] font-black uppercase mb-0.5 tracking-wider">Distancia</span>
-                                        <span class="text-purple-300 font-mono font-bold text-sm sm:text-base">${car.totalDist || '-'}</span>
-                                    </div>
-                                    <div class="flex flex-col bg-slate-900/50 p-2 rounded border border-slate-800">
-                                        <span class="text-slate-500 text-[8px] sm:text-[9px] font-black uppercase mb-0.5 tracking-wider">Tiempo Pista</span>
-                                        <span class="text-orange-300 font-mono font-bold text-sm sm:text-base truncate">${car.totalTime || '-'}</span>
-                                    </div>
-                                </div>
+                            </div>
+                            
+                            <!-- Centro: Nombre y Categoría -->
+                            <div class="flex-1 min-w-0 px-2">
+                                <h4 class="text-white font-black text-base sm:text-lg uppercase truncate tracking-wide">${car.name}</h4>
+                                <div class="text-[10px] text-slate-400 uppercase tracking-widest truncate">${car.marca || 'S/M'} • ${car.cat || 'GT3'}</div>
+                            </div>
+
+                            <!-- Derecha: Telemetría Minimalista Limpia -->
+                            <div class="flex flex-col items-end shrink-0 pl-2 border-l border-slate-800">
+                                <span class="text-[9px] uppercase tracking-wider text-slate-500 font-bold">Mejor Vuelta</span>
+                                <span class="text-emerald-400 font-mono font-black text-sm sm:text-base">${car.bestLap}</span>
+                                <span class="text-[9px] text-cyan-300 font-mono mt-0.5">${car.avgSpd || '0.0 km/h'}</span>
                             </div>
                         </div>
+                        <!-- Cajón de salida pintado en el suelo -->
+                        <div class="f1-box-marking"></div>
                     </div>
                 `;
             });
@@ -1182,12 +1182,6 @@
             document.getElementById('rankingModal').classList.remove('open');
             setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300);
         });
-
-        document.getElementById('btn-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-galeria').click(); });
-        document.getElementById('btn-camara').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-camara').click(); });
-        
-        function procImg(file) { if (!file) return; const reader = new FileReader(); reader.onload = (e) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; if (w > h) { if (w > 400) { h *= 400 / w; w = 400; } } else { if (h > 400) { w *= 400 / h; h = 400; } } canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h); const b64 = canvas.toDataURL('image/jpeg', 0.7); const imgId = "img_" + Date.now(); garageCars[currentGarageIndex].imageId = imgId; ImageDB.save(imgId, b64); document.getElementById('garage-img').src = b64; saveGarageToLocal(); }; img.src = e.target.result; }; reader.readAsDataURL(file); }
-        document.getElementById('garage-img-input-galeria').addEventListener('change', (e) => procImg(e.target.files[0])); document.getElementById('garage-img-input-camara').addEventListener('change', (e) => procImg(e.target.files[0]));
 
         function toggleFullScreen() {
             if (!document.fullscreenElement && !document.webkitFullscreenElement) {
