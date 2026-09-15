@@ -319,40 +319,40 @@
                         </div>
                         
                         <!-- Panel de Requisitos Completos y Recuperados (Hardware Recomendado) -->
-                        <div class="w-full max-w-[95%] md:max-w-[85%] bg-slate-900/90 border border-cyan-800 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] p-3 flex flex-col gap-2 relative overflow-hidden backdrop-blur-md mt-2">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
-                            <h3 class="text-cyan-400 text-[11px] font-black uppercase tracking-widest text-center border-b border-cyan-900 pb-2 flex justify-center items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2 text-cyan-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                Especificaciones Técnicas Óptimas (Hardware Recomendado)
+                        <div class="w-full max-w-[95%] lg:max-w-4xl bg-slate-900/90 border-2 border-cyan-800 rounded-xl shadow-[0_0_30px_rgba(6,182,212,0.3)] p-4 sm:p-6 flex flex-col gap-4 relative overflow-hidden backdrop-blur-md mt-2">
+                            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-70"></div>
+                            <h3 class="text-cyan-400 text-sm md:text-base font-black uppercase tracking-widest text-center border-b border-cyan-900 pb-3 flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2 text-cyan-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                Especificaciones Técnicas y de Entorno (Hardware Óptimo)
                             </h3>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-1">
-                                <div class="flex flex-col bg-black/60 p-2 rounded border border-cyan-900/50 shadow-inner">
-                                    <span class="text-cyan-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Procesamiento (CPU)</span>
-                                    <span class="text-white text-[10px] font-bold">Snapdragon 8 Gen 2+ / Apple M1+</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-1">
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-cyan-900/70 shadow-inner">
+                                    <span class="text-cyan-500 text-[10px] sm:text-xs uppercase font-black tracking-wider mb-1">Procesamiento (CPU)</span>
+                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug">Snapdragon 8 Gen 2+ / Apple M1+ / Intel i7. Alta capacidad multinúcleo requerida.</span>
                                 </div>
-                                <div class="flex flex-col bg-black/60 p-2 rounded border border-emerald-900/50 shadow-inner">
-                                    <span class="text-emerald-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Sensor Óptico</span>
-                                    <span class="text-white text-[10px] font-bold">60 FPS Constantes / 1080p</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-emerald-900/70 shadow-inner">
+                                    <span class="text-emerald-500 text-[10px] sm:text-xs uppercase font-black tracking-wider mb-1">Sensor Óptico (Cámara)</span>
+                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug">60 FPS Constantes reales (1080p). Lente limpia, sin Auto-Enfoque dinámico.</span>
                                 </div>
-                                <div class="flex flex-col bg-black/60 p-2 rounded border border-yellow-900/50 shadow-inner">
-                                    <span class="text-yellow-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Iluminación Ambiental</span>
-                                    <span class="text-white text-[10px] font-bold">Luz LED Blanca Fija (Sin parpadeo)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-yellow-900/70 shadow-inner">
+                                    <span class="text-yellow-500 text-[10px] sm:text-xs uppercase font-black tracking-wider mb-1">Iluminación Ambiental</span>
+                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug">Luz LED blanca fija, uniforme y directa. Ausencia total de sombras o parpadeos.</span>
                                 </div>
-                                <div class="flex flex-col bg-black/60 p-2 rounded border border-purple-900/50 shadow-inner">
-                                    <span class="text-purple-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Memoria RAM</span>
-                                    <span class="text-white text-[10px] font-bold">8GB Mínimo (12GB+ Recomendado)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-purple-900/70 shadow-inner">
+                                    <span class="text-purple-500 text-[10px] sm:text-xs uppercase font-black tracking-wider mb-1">Memoria de Sistema (RAM)</span>
+                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug">8GB Mínimo (12GB+ muy recomendado para no saturar la lectura de matrices RGB).</span>
                                 </div>
-                                <div class="flex flex-col bg-black/60 p-2 rounded border border-orange-900/50 shadow-inner">
-                                    <span class="text-orange-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Estabilidad</span>
-                                    <span class="text-white text-[10px] font-bold">Montaje Rígido (Cero vibraciones)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-orange-900/70 shadow-inner">
+                                    <span class="text-orange-500 text-[10px] sm:text-xs uppercase font-black tracking-wider mb-1">Estabilidad Física</span>
+                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug">Trípode o anclaje 100% rígido. Las micro-vibraciones de la lente generan falsos positivos.</span>
                                 </div>
-                                <div class="flex flex-col bg-black/60 p-2 rounded border border-blue-900/50 shadow-inner">
-                                    <span class="text-blue-500 text-[8px] uppercase font-black tracking-wider mb-0.5">Navegador Web</span>
-                                    <span class="text-white text-[10px] font-bold">Chrome/Safari (Aceleración HW)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-blue-900/70 shadow-inner">
+                                    <span class="text-blue-500 text-[10px] sm:text-xs uppercase font-black tracking-wider mb-1">Motor de Navegador</span>
+                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug">Chrome o Safari actualizados. La Aceleración por Hardware debe estar activada.</span>
                                 </div>
                             </div>
-                            <p class="text-[8px] text-slate-400 text-center leading-tight mt-1 bg-cyan-950/20 p-1.5 rounded border border-cyan-900/30">
-                                * <strong>NOTA CRÍTICA:</strong> El motor lee hasta 60 matrices RGB completas por segundo. Dispositivos por debajo del hardware recomendado (Ej: Tab S9 o iPad Pro) sufrirán latencia grave, falsos positivos o saltos de milisegundos.
+                            <p class="text-[10px] sm:text-xs text-slate-300 text-center leading-relaxed mt-2 bg-cyan-950/40 p-3 rounded-lg border border-cyan-800/50 shadow-inner">
+                                <strong class="text-cyan-400">NOTA CRÍTICA:</strong> El fotodetector analiza la matriz RGB entera de la pista hasta 60 veces por segundo. Equipos por debajo del hardware recomendado (Ej: Tab S9 o iPad Pro) sufrirán latencia grave, falsos positivos por ruido en el sensor o saltos de fotogramas, arruinando la precisión milimétrica.
                             </p>
                         </div>
                     </div>
