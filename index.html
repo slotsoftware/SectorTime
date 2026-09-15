@@ -335,9 +335,9 @@
                         <!-- Panel de Requisitos (Tab S9) Detallado Elevado -->
                         <div class="w-full max-w-[95%] md:max-w-[85%] bg-slate-900/90 border border-cyan-800 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] p-4 flex flex-col relative overflow-hidden backdrop-blur-md absolute bottom-16 z-20 max-h-[35vh]">
                             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
-                            <h3 class="text-cyan-400 text-sm md:text-base font-black uppercase tracking-widest text-center border-b border-cyan-900 pb-2 mb-2 shrink-0 flex justify-center items-center" data-i18n="reqTitleEx">
+                            <h3 class="text-cyan-400 text-sm md:text-base font-black uppercase tracking-widest text-center border-b border-cyan-900 pb-2 mb-2 shrink-0 flex justify-center items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2 text-cyan-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                Specs Óptimas: Ref. Galaxy Tab S9
+                                <span data-i18n="reqTitleEx">Especificaciones Técnicas (Ref. Galaxy Tab S9)</span>
                             </h3>
                             
                             <div class="overflow-y-auto custom-tv-scroll flex-1 pr-2">
@@ -380,8 +380,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-[9px] md:text-[10px] text-slate-400 text-center leading-tight mt-2 shrink-0 bg-cyan-950/20 p-2 rounded border border-cyan-900/30" data-i18n="reqNoteEx">
-                                * <strong>NOTA CRÍTICA:</strong> El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas.
+                            <p class="text-[9px] md:text-[10px] text-slate-400 text-center leading-tight mt-2 shrink-0 bg-cyan-950/20 p-2 rounded border border-cyan-900/30">
+                                * <strong data-i18n="reqNoteCrit">NOTA CRÍTICA:</strong> <span data-i18n="reqNoteEx">El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas.</span>
                             </p>
                         </div>
                         
@@ -596,7 +596,7 @@
                     <button id="garage-save-btn" class="hidden bg-green-900/40 border border-green-500 hover:bg-green-500 text-green-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_15px_rgba(34,197,94,0.6)] hover:shadow-[0_0_25px_rgba(34,197,94,1)]">Guardar</button>
                     <button id="garage-delete-btn" class="bg-gray-800/50 border border-gray-500 hover:bg-red-800/80 hover:border-red-500 text-gray-300 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(107,114,128,0.3)] hover:shadow-[0_0_15px_rgba(239,68,68,0.6)]">Eliminar</button>
                     <div class="w-px h-6 bg-cyan-500/50 mx-1 shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
-                    <button id="close-garage-btn" class="text-gray-400 hover:text-cyan-400 hover:drop-shadow-[0_0_10px_rgba(34,211,238,1)] font-bold text-xl px-2 transition-all">X</button>
+                    <button id="close-garage-btn" class="bg-red-900/60 border border-red-500 hover:bg-red-500 text-white px-4 py-1 rounded text-[11px] font-black uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(239,68,68,0.8)]" data-i18n="exitBtn">SALIR</button>
                 </div>
             </div>
 
@@ -607,7 +607,7 @@
             <div class="flex-1 grid grid-cols-12 gap-4 min-h-0 relative z-10">
                 
                 <div class="col-span-4 flex flex-col gap-3 min-h-0">
-                    <div class="flex-1 border-2 border-cyan-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(34,211,238,0.3),inset_0_0_30px_rgba(34,211,238,0.15)] min-h-0">
+                    <div class="w-full aspect-[16/9] xl:aspect-[2/1] border-2 border-cyan-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(34,211,238,0.3),inset_0_0_30px_rgba(34,211,238,0.15)] shrink-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/30 via-transparent to-transparent pointer-events-none"></div>
                         <img id="garage-img" src="" alt="Coche" class="absolute inset-0 w-full h-full object-contain z-0">
                         <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
@@ -633,6 +633,13 @@
                     </div>
                     
                     <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-blue-900 to-blue-800 border border-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 text-sm font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] shrink-0">🏁 Pilotar Este Vehículo</button>
+
+                    <div class="g-box flex-1 flex flex-col min-h-0 border-cyan-500 bg-gradient-to-br from-cyan-950/40 to-black shadow-[0_0_20px_rgba(6,182,212,0.2),inset_0_0_15px_rgba(6,182,212,0.1)] rounded-lg mt-1 relative overflow-hidden">
+                        <div class="g-header shrink-0 mb-1 border-b border-cyan-500/50 pb-1 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] tracking-widest text-[10px]" data-i18n="perfFootprint">Huella de Sectores</div>
+                        <div class="flex-1 relative w-full min-h-0 p-1">
+                            <canvas id="garageChartLeftSectors"></canvas>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-span-8 flex flex-col gap-3 min-h-0">
@@ -731,34 +738,12 @@
     <script>
         const translations = {
             es: { 
-                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Ranking",
-                reqTitleEx: "Specs Óptimas: Ref. Galaxy Tab S9",
-                reqSocTitle: "Procesador (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.",
-                reqOpticTitle: "Sensor Óptico", reqOpticDesc: "60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.",
-                reqRamTitle: "Memoria / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.",
-                reqLightTitle: "Entorno Fotométrico", reqLightDesc: "> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).",
-                reqMechTitle: "Estabilidad Mecánica", reqMechDesc: "Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.",
-                reqDispTitle: "Pantalla / Refresco", reqDispDesc: "Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.",
-                reqWebTitle: "Motor de Render", reqWebDesc: "Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.",
-                reqNpuTitle: "Aceleración NPU", reqNpuDesc: "Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.",
-                reqThermTitle: "Gestión Térmica", reqThermDesc: "Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).",
-                reqNoteEx: "* NOTA CRÍTICA: El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas.",
-                demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING DEL GARAJE", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas"
+                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Ranking", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING DEL GARAJE", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
+                reqTitleEx: "Especificaciones Técnicas (Ref. Galaxy Tab S9)", reqSocTitle: "Procesador (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.", reqOpticTitle: "Sensor Óptico", reqOpticDesc: "60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.", reqRamTitle: "Memoria / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.", reqLightTitle: "Entorno Fotométrico", reqLightDesc: "> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).", reqMechTitle: "Estabilidad Mecánica", reqMechDesc: "Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.", reqDispTitle: "Pantalla / Refresco", reqDispDesc: "Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.", reqWebTitle: "Motor de Render", reqWebDesc: "Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.", reqNpuTitle: "Aceleración NPU", reqNpuDesc: "Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.", reqThermTitle: "Gestión Térmica", reqThermDesc: "Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).", reqNoteCrit: "NOTA CRÍTICA:", reqNoteEx: "El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas."
             },
             en: { 
-                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Ranking",
-                reqTitleEx: "Optimal Specs: Ref. Galaxy Tab S9",
-                reqSocTitle: "Processor (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capable of processing 60 RGB matrices/s with no thermal throttling.",
-                reqOpticTitle: "Optical Sensor", reqOpticDesc: "Locked 60 FPS at 1080p. Requires native Auto-Focus (AF-Lock) and AWB override.",
-                reqRamTitle: "Memory / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) for continuous video buffering with < 15ms internal latency.",
-                reqLightTitle: "Photometric Env.", reqLightDesc: "> 500 LUX continuous LED light. Fluorescent tubes forbidden (avoids 50/60Hz flickering).",
-                reqMechTitle: "Mechanical Stability", reqMechDesc: "Industrial tripod or VESA mount. Motion tolerance < 1mm. Zero table micro-vibrations.",
-                reqDispTitle: "Display / Refresh", reqDispDesc: "120Hz AMOLED panel for pure telemetry visual synchronization without tearing effects.",
-                reqWebTitle: "Web Render Engine", reqWebDesc: "Chrome v115+ / Safari 16+. Mandatory forced HW Acceleration and GPU Rasterization.",
-                reqNpuTitle: "NPU Acceleration", reqNpuDesc: "Dedicated AI unit for massive color matrix calculations without saturating CPU cores.",
-                reqThermTitle: "Thermal Management", reqThermDesc: "Passive Vapor Chamber to guarantee 100% performance in endurance racing (+1h).",
-                reqNoteEx: "* CRITICAL NOTE: The optical engine is a high-frequency scanner. Inferior devices will generate latency, time skips, and false readings.",
-                demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "GARAGE RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend"
+                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Ranking", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "GARAGE RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
+                reqTitleEx: "Technical Specifications (Ref. Galaxy Tab S9)", reqSocTitle: "Processor (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capable of processing 60 RGB matrices/s without thermal throttling.", reqOpticTitle: "Optical Sensor", reqOpticDesc: "Locked 60 FPS at 1080p. Requires Auto-Focus lock (AF-Lock) and fixed white balance.", reqRamTitle: "Memory / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) for continuous video buffering with internal latency < 15ms.", reqLightTitle: "Photometric Env.", reqLightDesc: "> 500 LUX continuous LED light. Avoid fluorescent tubes (prevents 50/60Hz flickering).", reqMechTitle: "Mechanical Stability", reqMechDesc: "Industrial tripod or VESA arm. Movement tolerance < 1mm. Zero micro-vibrations on the table.", reqDispTitle: "Display / Refresh", reqDispDesc: "120Hz AMOLED panel for pure visual telemetry synchronization without screen tearing.", reqWebTitle: "Render Engine", reqWebDesc: "Chrome v115+ / Safari 16+. HW acceleration and GPU Rasterization strictly forced.", reqNpuTitle: "NPU Acceleration", reqNpuDesc: "Dedicated AI unit for massive color matrix calculations without saturating CPU cores.", reqThermTitle: "Thermal Mngmt.", reqThermDesc: "Passive Vapor Chamber to guarantee performance in endurance racing (+1h).", reqNoteCrit: "CRITICAL NOTE:", reqNoteEx: "The optical engine is a high-frequency scanner. Inferior devices will generate latency, time skips, and false readings."
             }
         };
         let currentLang = 'es';
@@ -1471,7 +1456,7 @@
         }
 
         function drawGarageCharts(car) {
-            if (!window.garageCharts) window.garageCharts = { laps: null, speeds: null, sectors: null, dist: null, dev: null, trend: null };
+            if (!window.garageCharts) window.garageCharts = { laps: null, speeds: null, sectors: null, dist: null, dev: null, trend: null, leftSectors: null };
             
             const lapsData = car.recentLaps || [];
             const speedData = car.recentSpeeds || [];
@@ -1531,6 +1516,33 @@
             if (ctxTrend) {
                 if(window.garageCharts.trend) window.garageCharts.trend.destroy();
                 window.garageCharts.trend = new Chart(ctxTrend.getContext('2d'), { type: 'line', data: { labels: movingAvg.map((_, i) => 'V'+(i+1)), datasets: [{ data: movingAvg, borderColor: '#d946ef', backgroundColor: 'rgba(217, 70, 239, 0.1)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 0 }] }, options: commonOptions });
+            }
+
+            const ctxLeftSectors = document.getElementById('garageChartLeftSectors');
+            if (ctxLeftSectors) {
+                if(window.garageCharts.leftSectors) window.garageCharts.leftSectors.destroy();
+                window.garageCharts.leftSectors = new Chart(ctxLeftSectors.getContext('2d'), { 
+                    type: 'bar', 
+                    data: { 
+                        labels: ['S1', 'S2', 'S3', 'Meta'], 
+                        datasets: [{ 
+                            data: sectorData, 
+                            backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(234, 179, 8, 0.8)', 'rgba(168, 85, 247, 0.8)', 'rgba(16, 185, 129, 0.8)'],
+                            borderColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'],
+                            borderWidth: 1,
+                            borderRadius: 4
+                        }] 
+                    }, 
+                    options: { 
+                        responsive: true, maintainAspectRatio: false, 
+                        plugins: { legend: { display: false } },
+                        scales: { 
+                            x: { ticks: { color: '#94a3b8', font: {size: 9, weight: 'bold'} }, grid: { display: false } },
+                            y: { ticks: { color: '#475569', font: {size: 8}, maxTicksLimit: 4 }, grid: { color: 'rgba(6,182,212,0.1)' }, border: { dash: [4, 4] } }
+                        },
+                        layout: { padding: 4 }
+                    } 
+                });
             }
         }
 
