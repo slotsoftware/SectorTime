@@ -261,6 +261,17 @@
         <p data-i18n="rotateDeviceDesc">SECTOR TIME V.1.0 está diseñado para usarse únicamente en formato apaisado (horizontal).</p>
     </div>
 
+    <!-- MODAL DE SISTEMA (Sustituye alerts y confirms) -->
+    <div id="systemModal" class="modal-overlay hidden" style="z-index: 9999;">
+        <div class="modal-content p-6 text-center max-w-sm bg-slate-900 border border-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.3)] rounded-xl">
+            <h3 id="sys-modal-msg" class="text-lg font-bold text-white mb-6">...</h3>
+            <div class="flex justify-center gap-4">
+                <button id="sys-modal-cancel" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded font-bold transition-colors">Cancelar</button>
+                <button id="sys-modal-ok" class="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded font-bold shadow-[0_0_10px_rgba(34,211,238,0.4)] transition-colors">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
     <div class="dashboard-layout flex flex-row w-full h-screen p-2 sm:p-4 gap-3 md:gap-4 box-border overflow-hidden bg-transparent">
         
         <!-- PANEL IZQUIERDO: CAMARA & HUD -->
@@ -438,7 +449,7 @@
                 <div class="space-y-2 mb-3">
                      <div class="flex gap-2">
                         <div class="flex-1"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="pilotName">Piloto</label><input type="text" id="pilot-name-input" value="Piloto 1" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
-                        <div class="flex-1"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="carModel">Coche</label><input type="text" id="car-model-input" value="Porsche 911" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
+                        <div class="flex-1"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="carModel">Coche</label><select id="car-model-input" class="neon-input w-full p-1 text-[11px] rounded-md"></select></div>
                     </div>
                     <div class="flex gap-2">
                         <div class="w-1/3"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="trackLength">Long. (m)</label><input type="number" id="track-length-input" value="15" min="1" step="0.5" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
@@ -469,9 +480,10 @@
         </div>
     </div>
 
+    <!-- MODALES VARIOS -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
         <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
-            <!-- FONDO DE CARRETERA / ASFALTO (BLINDADO) -->
+            <!-- FONDO DE CARRETERA BLINDADO -->
             <div class="absolute inset-0 worn-asphalt-bg opacity-90 z-0"></div>
             
             <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
@@ -527,6 +539,94 @@
         </div>
     </div>
 
+    <!-- LISTAS DE AUTOAYUDA (DATALISTS) OCULTAS -->
+    <datalist id="slot-marcas">
+        <option value="Scalextric / SCX"></option>
+        <option value="Ninco"></option>
+        <option value="NSR"></option>
+        <option value="Slot.it"></option>
+        <option value="Scaleauto"></option>
+        <option value="Carrera"></option>
+        <option value="Avant Slot"></option>
+        <option value="Fly Car Model"></option>
+        <option value="Sideways"></option>
+        <option value="SRC"></option>
+        <option value="Policar"></option>
+        <option value="Revoslot"></option>
+        <option value="Thunderslot"></option>
+    </datalist>
+    <datalist id="slot-posicion">
+        <option value="In Line"></option>
+        <option value="Anglewinder"></option>
+        <option value="Sidewinder"></option>
+        <option value="Front Motor"></option>
+    </datalist>
+    <datalist id="slot-motores">
+        <option value="Mabuchi"></option>
+        <option value="NC-5 Speeder"></option>
+        <option value="NC-1"></option>
+        <option value="Boxer 2"></option>
+        <option value="Flat-6"></option>
+        <option value="V12/4"></option>
+        <option value="King 21"></option>
+        <option value="Shark 20k"></option>
+        <option value="Sprinter"></option>
+        <option value="RX-41"></option>
+        <option value="RK-42"></option>
+    </datalist>
+    <datalist id="slot-chasis">
+        <option value="Plástico Inyectado"></option>
+        <option value="Impresión 3D"></option>
+        <option value="Carbono"></option>
+        <option value="Lexan"></option>
+        <option value="Aluminio"></option>
+    </datalist>
+    <datalist id="slot-guias">
+        <option value="Estándar"></option>
+        <option value="Avanzada con Suspensión"></option>
+        <option value="Guía Basculante"></option>
+        <option value="Racing Perfil Bajo"></option>
+    </datalist>
+    <datalist id="slot-trencillas">
+        <option value="Cobre Estándar"></option>
+        <option value="Plata"></option>
+        <option value="Estañadas"></option>
+        <option value="Kevlar/Cobre"></option>
+        <option value="Dobles"></option>
+    </datalist>
+    <datalist id="slot-llantas">
+        <option value="Plástico 15.8mm"></option>
+        <option value="Aluminio 16.9mm"></option>
+        <option value="Magnesio 15.8mm"></option>
+        <option value="Eradicables (Urano)"></option>
+        <option value="Derlin"></option>
+    </datalist>
+    <datalist id="slot-neumaticos">
+        <option value="Goma Estándar"></option>
+        <option value="Silicona"></option>
+        <option value="Zero Grip (Delanteros)"></option>
+        <option value="Supergrip"></option>
+        <option value="Espuma (Mousse)"></option>
+        <option value="Mitoos M2"></option>
+    </datalist>
+    <datalist id="slot-suspension">
+        <option value="Sin Suspensión"></option>
+        <option value="Muelles Blandos"></option>
+        <option value="Muelles Duros"></option>
+        <option value="Magnética"></option>
+    </datalist>
+    <datalist id="slot-iman">
+        <option value="Sin Imán"></option>
+        <option value="Imán de Neodimio"></option>
+        <option value="Imán Estándar"></option>
+    </datalist>
+    <datalist id="slot-luces">
+        <option value="Sin Luces"></option>
+        <option value="LED Blancos"></option>
+        <option value="LED Xenón"></option>
+        <option value="Luces Freno Funcionales"></option>
+    </datalist>
+
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 300;">
         <div class="bg-[#050505] text-white w-[96vw] h-[94vh] flex flex-col rounded-xl border-2 border-cyan-600 shadow-[0_0_50px_rgba(34,211,238,0.5),inset_0_0_30px_rgba(34,211,238,0.2)] p-4 relative overflow-hidden" id="garage-container">
             
@@ -556,9 +656,9 @@
             <!-- LAYOUT A 3 COLUMNAS -->
             <div class="flex-1 flex flex-col lg:flex-row gap-4 min-h-0 relative z-10 overflow-hidden pb-1">
                 
-                <!-- 1. Columna Izquierda: Imagen Enorme -->
-                <div class="w-full lg:w-1/3 flex flex-col gap-3 h-full min-h-0">
-                    <div class="flex-1 shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)] min-h-0">
+                <!-- 1. Columna Izquierda: Imagen y Ficha Base -->
+                <div class="w-full lg:w-[25%] flex flex-col gap-3 h-full min-h-0 overflow-y-auto custom-tv-scroll pr-1">
+                    <div class="h-[180px] shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)]">
                         <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/20 via-transparent to-transparent pointer-events-none"></div>
                         <img id="garage-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='12' font-weight='900' fill='%2322d3ee' text-anchor='middle'>SIN IMAGEN</text></svg>" class="w-full h-full object-contain z-0">
                         <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
@@ -567,17 +667,11 @@
                             <input type="file" id="garage-img-input-galeria" accept="image/*" class="hidden"><input type="file" id="garage-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
                     </div>
-                    <div id="assign-buttons-container" class="shrink-0 z-20">
-                        <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 border border-cyan-500 hover:from-cyan-800 hover:to-blue-800 text-white py-3 text-sm font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]" data-i18n="driveCar">🏁 Pilotar Este Vehículo</button>
-                    </div>
-                </div>
-
-                <!-- 2. Columna Central: Datos y Especificaciones -->
-                <div class="w-full lg:w-1/3 flex flex-col gap-3 h-full min-h-0 overflow-y-auto custom-tv-scroll pr-1">
+                    
                     <div class="flex flex-col bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-inner shrink-0">
                         <div class="text-cyan-500 text-[10px] font-black uppercase tracking-widest border-b border-cyan-900/50 pb-1 mb-1.5" data-i18n="carIdentity">Identidad del Vehículo</div>
                         <div class="flex flex-col gap-1">
-                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="brand">Marca</span><span id="g-val-marca" class="font-bold text-[11px] text-white"></span><input id="g-inp-marca" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="brand">Marca</span><span id="g-val-marca" class="font-bold text-[11px] text-white"></span><input id="g-inp-marca" class="g-inp text-right w-1/2" list="slot-marcas"></div>
                             <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="ref">Referencia</span><span id="g-val-ref" class="font-bold text-[11px] text-white"></span><input id="g-inp-ref" class="g-inp text-right w-1/2"></div>
                             <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="year">Año</span><span id="g-val-year" class="font-bold text-[11px] text-white"></span><input id="g-inp-year" class="g-inp text-right w-1/2"></div>
                             <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="category">Categoría</span><span id="g-val-cat" class="font-bold text-[11px] text-white"></span><input id="g-inp-cat" class="g-inp text-right w-1/2"></div>
@@ -585,20 +679,42 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col bg-[#0a1120] border border-slate-800 rounded-xl p-3 shadow-inner shrink-0">
-                        <div class="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-800 pb-1 mb-1.5" data-i18n="techSpecs">Especificaciones Técnicas</div>
-                        <div class="flex flex-col gap-0.5">
-                            <div class="g-row"><span class="g-lbl" data-i18n="motor">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="position">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="ratio">Piñón/Cor.</span><span id="g-val-relacion" class="g-val"></span><input id="g-inp-relacion" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="chassis">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Neum. Del.</span><span id="g-val-neumaticoDelantero" class="g-val"></span><input id="g-inp-neumaticoDelantero" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="rearTire">Neum. Tras.</span><span id="g-val-neumaticoTrasero" class="g-val"></span><input id="g-inp-neumaticoTrasero" class="g-inp"></div>
+                    <div id="assign-buttons-container" class="shrink-0 z-20 mt-auto">
+                        <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 border border-cyan-500 hover:from-cyan-800 hover:to-blue-800 text-white py-3 text-sm font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]" data-i18n="driveCar">🏁 Pilotar Este Vehículo</button>
+                    </div>
+                </div>
+
+                <!-- 2. Columna Central: Especificaciones Ampliadas y Récords -->
+                <div class="w-full lg:w-[40%] flex flex-col gap-3 h-full min-h-0 overflow-y-auto custom-tv-scroll pr-1">
+                    
+                    <div class="flex flex-col bg-[#0a1120] border border-slate-800 rounded-xl p-3 shadow-inner shrink-0 min-h-[300px]">
+                        <div class="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-800 pb-1 mb-1.5 flex justify-between">
+                            <span data-i18n="techSpecs">Especificaciones Técnicas</span>
+                            <span class="text-cyan-500 opacity-60" data-i18n="autoHelp">Autoayuda Activa</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-0.5 pb-1">
+                            <div class="g-row"><span class="g-lbl" data-i18n="motor">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp" list="slot-motores"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="position">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp" list="slot-posicion"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="ratio">Piñón</span><span id="g-val-pinon" class="g-val"></span><input id="g-inp-pinon" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="ratio">Corona</span><span id="g-val-corona" class="g-val"></span><input id="g-inp-corona" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="ratio">Relación</span><span id="g-val-relacion" class="g-val"></span><input id="g-inp-relacion" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="chassis">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp" list="slot-chasis"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Guía</span><span id="g-val-guia" class="g-val"></span><input id="g-inp-guia" class="g-inp" list="slot-guias"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Trencillas</span><span id="g-val-trencillas" class="g-val"></span><input id="g-inp-trencillas" class="g-inp" list="slot-trencillas"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Cables</span><span id="g-val-cableado" class="g-val"></span><input id="g-inp-cableado" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Eje Del.</span><span id="g-val-ejeDel" class="g-val"></span><input id="g-inp-ejeDel" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Llanta Del.</span><span id="g-val-llantaDel" class="g-val"></span><input id="g-inp-llantaDel" class="g-inp" list="slot-llantas"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Neum. Del.</span><span id="g-val-neumaticoDel" class="g-val"></span><input id="g-inp-neumaticoDel" class="g-inp" list="slot-neumaticos"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="rearTire">Eje Tras.</span><span id="g-val-ejeTras" class="g-val"></span><input id="g-inp-ejeTras" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="rearTire">Llanta Tras.</span><span id="g-val-llantaTras" class="g-val"></span><input id="g-inp-llantaTras" class="g-inp" list="slot-llantas"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="rearTire">Neum. Tras.</span><span id="g-val-neumaticoTras" class="g-val"></span><input id="g-inp-neumaticoTras" class="g-inp" list="slot-neumaticos"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="rearTire">Suspensión</span><span id="g-val-suspension" class="g-val"></span><input id="g-inp-suspension" class="g-inp" list="slot-suspension"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="rearTire">Imán</span><span id="g-val-iman" class="g-val"></span><input id="g-inp-iman" class="g-inp" list="slot-iman"></div>
                             <div class="g-row"><span class="g-lbl" data-i18n="weight">Peso</span><span id="g-val-peso" class="g-val"></span><input id="g-inp-peso" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="lights">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="lights">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp" list="slot-luces"></div>
                         </div>
                     </div>
-                    
+
                     <div class="grid grid-cols-2 grid-rows-2 gap-2 bg-[#0a1120] border border-cyan-900/60 rounded-xl p-2.5 shadow-[0_8px_20px_rgba(0,0,0,0.4)] shrink-0 mt-auto">
                         <div class="flex flex-col px-2 border-r border-b border-cyan-900/50 pb-1">
                             <span class="text-emerald-500 text-[8px] uppercase font-black tracking-widest mb-0.5 flex items-center" data-i18n="absRecord"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Récord Absoluto</span>
@@ -620,7 +736,7 @@
                 </div>
 
                 <!-- 3. Columna Derecha: Telemetría Visual -->
-                <div class="w-full lg:w-1/3 flex flex-col gap-3 h-full min-h-0">
+                <div class="w-full lg:w-[35%] flex flex-col gap-3 h-full min-h-0">
                     <div class="flex flex-col bg-[#0a1120] border border-indigo-900/40 rounded-xl p-3 shadow-inner flex-1 min-h-[300px]">
                         <div class="text-indigo-400 text-[10px] font-black uppercase tracking-widest border-b border-indigo-900/50 pb-1 mb-2 flex items-center shrink-0" data-i18n="advAnalysis">
                             ANÁLISIS DE TELEMETRÍA AVANZADA
@@ -642,10 +758,10 @@
     <script>
         const translations = {
             es: { 
-                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Ranking", reqTitle: "Especificaciones Técnicas Óptimas", reqCpu: "Procesamiento (CPU)", reqSensor: "Sensor Óptico", reqLight: "Iluminación Ambiental", reqRam: "Memoria RAM", reqStab: "Estabilidad", reqBrowser: "Navegador Web", reqNote: "* NOTA CRÍTICA: El motor lee hasta 60 matrices RGB completas por segundo. Dispositivos por debajo del hardware recomendado (Ej: Tab S9 o iPad Pro) sufrirán latencia grave.", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING DEL GARAJE", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", calibPrefix: "Calibrando"
+                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Ranking", reqTitle: "Especificaciones Técnicas Óptimas", reqCpu: "Procesamiento (CPU)", reqSensor: "Sensor Óptico", reqLight: "Iluminación Ambiental", reqRam: "Memoria RAM", reqStab: "Estabilidad", reqBrowser: "Navegador Web", reqNote: "* NOTA CRÍTICA: El motor lee hasta 60 matrices RGB completas por segundo. Dispositivos por debajo del hardware recomendado (Ej: Tab S9 o iPad Pro) sufrirán latencia grave.", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING DEL GARAJE", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)"
             },
             en: { 
-                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Ranking", reqTitle: "Optimal Technical Specs", reqCpu: "Processing (CPU)", reqSensor: "Optical Sensor", reqLight: "Ambient Light", reqRam: "RAM Memory", reqStab: "Stability", reqBrowser: "Web Browser", reqNote: "* CRITICAL NOTE: The engine reads up to 60 full RGB matrices per second. Devices below recommended hardware will suffer severe latency.", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "GARAGE RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", calibPrefix: "Calibrating"
+                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Ranking", reqTitle: "Optimal Technical Specs", reqCpu: "Processing (CPU)", reqSensor: "Optical Sensor", reqLight: "Ambient Light", reqRam: "RAM Memory", reqStab: "Stability", reqBrowser: "Web Browser", reqNote: "* CRITICAL NOTE: The engine reads up to 60 full RGB matrices per second. Devices below recommended hardware will suffer severe latency.", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "GARAGE RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)"
             }
         };
         let currentLang = 'es';
@@ -788,7 +904,7 @@
 
                     if (crossed) {
                         data.stuckCount++;
-                        if (data.stuckCount > 45) { // Anti-Stuck en carrera también
+                        if (data.stuckCount > 45) {
                             data.baseRGB = null;
                             data.stuckCount = 0;
                         }
@@ -1054,7 +1170,6 @@
             if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop());
             const constraints = { video: deviceId ? { deviceId: { exact: deviceId } } : { facingMode: "environment" } };
             try {
-                speak(translations[currentLang]?.voiceCalibrating || "Calibrando sistema");
                 cameraStream = await navigator.mediaDevices.getUserMedia(constraints); currentVideoTrack = cameraStream.getVideoTracks()[0];
                 videoElement.srcObject = cameraStream; 
                 const playPromise = videoElement.play();
@@ -1085,6 +1200,7 @@
                         cameraOffBtn.disabled = false;
                         document.getElementById('video-status').textContent = translations[currentLang].camActive; 
                         document.getElementById('video-status').classList.replace('text-yellow-400', 'text-emerald-400');
+                        speak(translations[currentLang]?.voiceCalibrating || "Calibrando sistema");
                     }, 500);
                 }, 1500);
 
@@ -1119,7 +1235,7 @@
         calibrateBtn.addEventListener('click', () => {
             if(!isProcessing || isRaceActive || isCountdown) return;
             isCalibrating = true; 
-            speak(translations[currentLang]?.calibPrefix || "Calibrando");
+            speak(translations[currentLang]?.voiceCalibrating || "Calibrando sistema");
             roiData.forEach(d => d.baseRGB = null); 
             calibOverlay.classList.add('active'); 
             calibrateBtn.disabled = true;
@@ -1146,7 +1262,7 @@
                     if(!isProcessing || isRaceActive || isCountdown) return; 
                     roiData[i].baseRGB = null; 
                     btn.style.backgroundColor = '#ffffff'; btn.style.color = '#000000'; 
-                    speak(`${translations[currentLang]?.calibPrefix || "Calibrando"} ${roiData[i].nameKey}`);
+                    speak(`${translations[currentLang]?.calibrating || "Calibrando"} ${roiData[i].nameKey}`);
                     
                     setTimeout(() => {
                         let currentValTxt = document.getElementById(`det-val-${i}`).textContent;
@@ -1215,6 +1331,30 @@
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         });
 
+        function showSystemModal(message, isConfirm = false, onConfirm = null) {
+            const overlay = document.getElementById('systemModal');
+            const msgEl = document.getElementById('sys-modal-msg');
+            const okBtn = document.getElementById('sys-modal-ok');
+            const cancelBtn = document.getElementById('sys-modal-cancel');
+            
+            msgEl.textContent = message;
+            cancelBtn.style.display = isConfirm ? 'block' : 'none';
+            
+            okBtn.onclick = () => {
+                overlay.classList.remove('open');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+                if (onConfirm) onConfirm();
+            };
+            
+            cancelBtn.onclick = () => {
+                overlay.classList.remove('open');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            };
+            
+            overlay.classList.remove('hidden');
+            setTimeout(() => overlay.classList.add('open'), 10);
+        }
+
         let garageCars = JSON.parse(localStorage.getItem('sectortime_garage_cars')) || [];
         let currentGarageIndex = 0; let isGarageEditing = false;
         
@@ -1226,7 +1366,14 @@
         };
         ImageDB.init();
 
-        const garageFields = ['marca', 'ref', 'year', 'cat', 'sys', 'motor', 'posicion', 'relacion', 'chasis', 'neumaticoDelantero', 'neumaticoTrasero', 'peso', 'luces'];
+        const garageFields = [
+            'marca', 'ref', 'year', 'cat', 'sys',
+            'motor', 'posicion', 'pinon', 'corona', 'relacion',
+            'chasis', 'guia', 'trencillas', 'cableado',
+            'ejeDel', 'llantaDel', 'neumaticoDel',
+            'ejeTras', 'llantaTras', 'neumaticoTras',
+            'suspension', 'iman', 'peso', 'luces'
+        ];
         
         function initGarage() {
             if (garageCars.length === 0) {
@@ -1235,15 +1382,18 @@
                     const brand = brands[Math.floor(Math.random() * brands.length)];
                     const baseTime = 3.1 + (Math.random() * 3.5);
                     const avgSpd = (15 / baseTime) * 3.6;
-                    const hexColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
                     
                     garageCars.push({
                         id: "ID" + String(i).padStart(3, '0'),
                         name: `${brand} GT-${i}`,
-                        image: `https://placehold.co/400x400/0f172a/${hexColor}?text=CAR+${i}`,
-                        marca: brand, ref: "REF-00" + i, cat: "GT3 Pro", sys: "Advance",
-                        motor: "RK V8", posicion: "Anglewinder", relacion: "11:27", chasis: "Carbono", 
-                        neumaticoDelantero: "15x8", neumaticoTrasero: "17x10", peso: (70 + Math.random()*15).toFixed(1), luces: "LED",
+                        image: "",
+                        marca: brand, ref: "REF-00" + i, cat: "GT3 Pro", sys: "Advance", year: "2023",
+                        motor: "RK V8", posicion: "Anglewinder", pinon: "11z", corona: "27z", relacion: "11:27", 
+                        chasis: "Carbono", guia: "Estándar", trencillas: "Cobre", cableado: "Silicona",
+                        ejeDel: "Acero 55mm", llantaDel: "Plástico 15.8mm", neumaticoDel: "Zero Grip",
+                        ejeTras: "Acero 55mm", llantaTras: "Aluminio 16.9mm", neumaticoTras: "Supergrip",
+                        suspension: "Muelles", iman: "No",
+                        peso: (70 + Math.random()*15).toFixed(1), luces: "LED",
                         bestLap: baseTime.toFixed(3) + "s", 
                         totalTime: Math.floor(Math.random()*5) + "h " + Math.floor(Math.random()*60) + "m", 
                         totalDist: (Math.random()*50 + 10).toFixed(3) + " km", 
@@ -1319,7 +1469,13 @@
             car.name = document.getElementById('g-inp-name').value || "Coche Sin Nombre";
             garageFields.forEach(f => { const inpEl = document.getElementById(`g-inp-${f}`); if (inpEl) car[f] = inpEl.value; });
             saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false);
-            if(document.getElementById('car-model-input').value === car.name) document.getElementById('car-model-input').value = car.name;
+            
+            const carSelect = document.getElementById('car-model-input');
+            if(carSelect) {
+                let exists = Array.from(carSelect.options).some(opt => opt.value === car.name);
+                if (!exists) { const newOpt = document.createElement('option'); newOpt.value = car.name; newOpt.textContent = car.name; carSelect.appendChild(newOpt); }
+                if(carSelect.value === garageCars[currentGarageIndex].name) carSelect.value = car.name;
+            }
         }
 
         window.updateGarageCarStatsAfterRace = function() {
@@ -1351,11 +1507,30 @@
             document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10);
         });
         
-        document.getElementById('close-garage-btn').addEventListener('click', () => { if (isGarageEditing && !confirm("¿Cerrar sin guardar?")) return; toggleGarageEdit(false); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
+        document.getElementById('close-garage-btn').addEventListener('click', () => { 
+            if (isGarageEditing) {
+                showSystemModal("Tienes cambios sin guardar. ¿Cerrar de todos modos?", true, () => {
+                    toggleGarageEdit(false); 
+                    document.getElementById('garageModal').classList.remove('open'); 
+                    setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300);
+                });
+            } else {
+                document.getElementById('garageModal').classList.remove('open'); 
+                setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300);
+            }
+        });
+
         document.getElementById('garage-car-select').addEventListener('change', (e) => renderGarageCar(parseInt(e.target.value)));
         document.getElementById('garage-edit-btn').addEventListener('click', () => toggleGarageEdit(true));
         document.getElementById('garage-save-btn').addEventListener('click', saveGarageEdits);
-        document.getElementById('garage-assign-btn').addEventListener('click', () => { document.getElementById('car-model-input').value = garageCars[currentGarageIndex].name; document.getElementById('close-garage-btn').click(); });
+        document.getElementById('garage-assign-btn').addEventListener('click', () => { 
+            const carSelect = document.getElementById('car-model-input');
+            const carName = garageCars[currentGarageIndex].name;
+            let exists = Array.from(carSelect.options).some(opt => opt.value === carName);
+            if (!exists) { const newOpt = document.createElement('option'); newOpt.value = carName; newOpt.textContent = carName; carSelect.appendChild(newOpt); }
+            carSelect.value = carName; 
+            document.getElementById('close-garage-btn').click(); 
+        });
 
         document.getElementById('garage-add-btn').addEventListener('click', () => {
             const newCar = { id: `ID${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`, name: "Nuevo Coche", image: "" }; garageFields.forEach(f => newCar[f] = ""); garageCars.push(newCar);
@@ -1363,7 +1538,9 @@
         });
         document.getElementById('garage-delete-btn').addEventListener('click', () => {
             if (garageCars.length === 0) return;
-            if (confirm("¿Eliminar coche?")) { garageCars.splice(currentGarageIndex, 1); currentGarageIndex = Math.max(0, currentGarageIndex - 1); saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false); }
+            showSystemModal("¿Seguro que quieres eliminar este coche del garaje?", true, () => {
+                garageCars.splice(currentGarageIndex, 1); currentGarageIndex = Math.max(0, currentGarageIndex - 1); saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false); 
+            });
         });
 
         document.getElementById('btn-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-galeria').click(); });
@@ -1455,7 +1632,14 @@
         document.addEventListener('fullscreenchange', updateFsIcons);
         document.addEventListener('webkitfullscreenchange', updateFsIcons);
 
-        window.onload = () => { updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); };
+        window.onload = () => { 
+            updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); 
+            const carSelect = document.getElementById('car-model-input');
+            if(garageCars.length > 0) {
+                garageCars.forEach(c => { const o = document.createElement('option'); o.value=c.name; o.textContent=c.name; carSelect.appendChild(o); });
+                carSelect.value = garageCars[0].name;
+            }
+        };
     </script>
 </body>
 </html>
