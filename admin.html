@@ -292,11 +292,24 @@
 
                     snap.docs.forEach(d => {
                         const data = d.data();
-                        const isActive = (data.active !== false);
+                        // Comprobamos si ya ha iniciado sesión (tiene current_session o last_login)
+                        const hasLoggedIn = Boolean(data.current_session || data.last_login);
+                        const isManuallyActive = data.active === true;
                         
-                        window.loadedLicenses.push({ email: data.email, active: isActive });
+                        // Si se creó con active: true pero nunca se ha logueado, lo tratamos como Pendiente
+                        const isActive = isManuallyActive && hasLoggedIn;
+                        
+                        window.loadedLicenses.push({ email: data.email, active: isActive, hasLoggedIn: hasLoggedIn });
 
-                        const statusText = isActive ? '<span class="text-green-400 font-bold">Activo</span>' : '<span class="text-red-400 font-bold">Inactivo</span>';
+                        let statusText = '';
+                        if (isActive) {
+                            statusText = '<span class="text-cyan-400 font-bold">Activo</span>';
+                        } else if (hasLoggedIn) {
+                            statusText = '<span class="text-yellow-400 font-bold">Inactivo</span>';
+                        } else {
+                            statusText = '<span class="text-slate-400 font-bold">Pendiente</span>';
+                        }
+
                         body.innerHTML += `<tr>
                             <td>${data.email}</td>
                             <td class="font-mono text-cyan-300 font-bold">${data.code}</td>
@@ -352,8 +365,8 @@
         window.sendPaymentRequest = function() {
             const email = document.getElementById('client-email-1').value;
             if(!email) return showAlert("Escribe el correo.");
-            const subject = encodeURIComponent("Instrucciones Pago SECTOR TIME NEON");
-            const body = `Hola ${email},%0D%0A%0D%0APara activar tu licencia NEON de SECTOR TIME (${PRECIO}), los pasos son:%0D%0A%0D%0A1. Importe: ${PRECIO}%0D%0A2. Realiza el pago (Bizum/Transferencia) según lo acordado.%0D%0A%0D%0AEnvíame el justificante respondiendo a este correo y recibirás tu clave de activación inmediata.%0D%0A%0D%0AGracias.`;
+            const subject = encodeURIComponent("Instrucciones Pago SECTOR TIME V.1.0");
+            const body = `Hola ${email},%0D%0A%0D%0APara activar tu licencia de SECTOR TIME V.1.0 (${PRECIO}), los pasos son:%0D%0A%0D%0A1. Importe: ${PRECIO}%0D%0A2. Realiza el pago (Bizum/Transferencia) según lo acordado.%0D%0A%0D%0AEnvíame el justificante respondiendo a este correo y recibirás tu clave de activación inmediata.%0D%0A%0D%0AGracias.`;
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
             document.getElementById('client-email-2').value = email;
         }
@@ -371,12 +384,13 @@
             for(let i=0; i<3; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
 
             try {
+                // Al generar la clave, active empieza en true pero como no se ha logueado, saldrá como "Pendiente" hasta que entre
                 await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'access_codes'), { email: email, code: code, active: true, createdAt: new Date().toISOString() });
                 
                 document.getElementById('display-code').textContent = code;
                 document.getElementById('status').innerText = "✅ Guardado";
                 
-                const subject = encodeURIComponent("Tu Licencia SECTOR TIME NEON - Activada");
+                const subject = encodeURIComponent("Tu Licencia SECTOR TIME V.1.0 - Activada");
                 const bodyText = `SLOTSOFTWARE le da las gracias por confiar en nuestro producto.%0D%0A%0D%0APago recibido correctamente. Aquí tienes tu acceso:%0D%0A%0D%0A📧 Usuario: ${email}%0D%0A🔑 CLAVE: ${code}%0D%0A%0D%0A👉 Entra aquí: ${CLIENT_URL}%0D%0A%0D%0AGracias por tu confianza!`;
                 document.getElementById('btn-send-delivery').href = `mailto:${email}?subject=${subject}&body=${bodyText}`;
                 document.getElementById('delivery-section').classList.remove('hidden');
