@@ -170,9 +170,8 @@
         .g-inp:focus { border-color: #22d3ee; box-shadow: 0 0 10px rgba(34,211,238,0.6), inset 0 0 5px rgba(34,211,238,0.2); background: rgba(15,25,35,0.9); }
         .g-editing .g-val { display: none; } .g-editing .g-inp { display: block; }
         
-        /* FONDO DE CARRETERA (Asegurado y Permanente) */
         .worn-asphalt-bg {
-            background-color: #1e293b; 
+            background-color: #0c0f17; 
             background-image: 
                 linear-gradient(90deg, rgba(0,0,0,0) 15%, rgba(0,0,0,0.15) 22%, rgba(0,0,0,0.15) 28%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.15) 72%, rgba(0,0,0,0.15) 78%, rgba(0,0,0,0) 85%),
                 url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.12"/></svg>');
@@ -192,8 +191,8 @@
             width: 70%;
             margin: 0 auto;
             height: 4px;
-            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.6), transparent);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), transparent);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
             position: relative;
             z-index: 1;
             border-radius: 50%;
@@ -232,25 +231,23 @@
 
         .optical-idle-screen {
             position: absolute; inset: 0; background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 8; overflow: hidden; padding: 10px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 8; overflow: hidden;
         }
-        
-        /* TAMAÑO DOBLADO PARA LA LENTE */
         .optical-lens {
-            width: 200px; height: 200px; border-radius: 50%; border: 6px solid rgba(6, 182, 212, 0.5);
-            box-shadow: 0 0 60px rgba(6, 182, 212, 0.4), inset 0 0 45px rgba(34, 211, 238, 0.5);
+            width: 200px; height: 200px; border-radius: 50%; border: 4px solid rgba(6, 182, 212, 0.4);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.3), inset 0 0 40px rgba(34, 211, 238, 0.4);
             display: flex; align-items: center; justify-content: center; position: relative; animation: pulseLens 3s infinite ease-in-out;
-            margin-top: 0px;
+            margin-top: -10px;
         }
         .optical-core {
             width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle, #22d3ee 0%, #0284c7 70%, #0f172a 100%);
-            box-shadow: 0 0 45px #22d3ee; animation: pulseCore 1.5s infinite alternate ease-in-out;
+            box-shadow: 0 0 40px #22d3ee; animation: pulseCore 1.5s infinite alternate ease-in-out;
         }
         .laser-beam {
-            position: absolute; height: 4px; background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.9), transparent);
+            position: absolute; height: 3px; background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.9), transparent);
             animation: laserScan 2s infinite linear;
         }
-        @keyframes pulseLens { 0% { transform: scale(1); box-shadow: 0 0 40px rgba(6,182,212,0.3); } 50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(34,211,238,0.7); } 100% { transform: scale(1); box-shadow: 0 0 40px rgba(6,182,212,0.3); } }
+        @keyframes pulseLens { 0% { transform: scale(1); box-shadow: 0 0 40px rgba(6,182,212,0.3); } 50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(34,211,238,0.6); } 100% { transform: scale(1); box-shadow: 0 0 40px rgba(6,182,212,0.3); } }
         @keyframes pulseCore { from { transform: scale(0.9); opacity: 0.7; } to { transform: scale(1.1); opacity: 1; } }
         @keyframes laserScan { 0% { opacity: 0.2; width: 20%; left: 10%; } 50% { opacity: 1; width: 80%; left: 10%; } 100% { opacity: 0.2; width: 20%; left: 10%; } }
     </style>
@@ -260,7 +257,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>
         </svg>
-        <h2 data-i18n="rotateDeviceTitle">Gira tu dispositivo</h2>
+        <h2 data-i18n="rotateDeviceTitle">Gira tu dispositivo / Rotate Device</h2>
         <p data-i18n="rotateDeviceDesc">SECTOR TIME V.1.0 está diseñado para usarse únicamente en formato apaisado (horizontal).</p>
     </div>
 
@@ -275,6 +272,7 @@
                         <h1 class="text-sm md:text-lg neon-blue-title tracking-wider leading-tight">SECTOR TIME V.1.0</h1>
                         <span class="text-[9px] font-normal text-cyan-700">By Albert Closa</span>
                     </div>
+                    <!-- Botones Garaje y Ranking -->
                     <div class="flex items-center space-x-1.5 ml-1 bg-slate-900/60 p-1 rounded-xl border border-cyan-900/50 shadow-inner">
                         <button id="open-garage-btn" class="flex items-center text-cyan-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-cyan-950 border border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.2)] hover:shadow-[0_0_15px_rgba(6,182,212,0.6)] transition group" title="Garaje">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-cyan-400 group-hover:scale-110 transition-transform"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
@@ -288,9 +286,9 @@
                 </div>
 
                 <div class="flex items-center space-x-2 mt-2 sm:mt-0">
-                    <button id="calibrate-btn" class="p-1.5 px-3 rounded-lg bg-slate-800 text-cyan-300 border border-cyan-700 hover:bg-cyan-900 hover:text-white text-[10px] font-bold uppercase transition shadow-[0_0_8px_rgba(6,182,212,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center group" data-i18n="autoCalib">
+                    <button id="calibrate-btn" class="p-1.5 px-3 rounded-lg bg-slate-800 text-cyan-300 border border-cyan-700 hover:bg-cyan-900 hover:text-white text-[10px] font-bold uppercase transition shadow-[0_0_8px_rgba(6,182,212,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center group">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 group-hover:rotate-180 transition-transform duration-500"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                        Auto Calibrar
+                        <span data-i18n="autoCalib">Auto Calibrar</span>
                     </button>
                     <select id="cam-device-select" class="hidden w-32 bg-slate-900 border border-cyan-800 rounded p-1 text-[10px] font-bold text-cyan-400"></select>
                     <div class="flex bg-slate-900/90 p-1 rounded-xl border border-cyan-800/80 shadow-inner items-center space-x-1">
@@ -314,53 +312,53 @@
                             <div class="laser-beam" style="top: 20%;"></div>
                             <div class="laser-beam" style="bottom: 20%; animation-direction: reverse;"></div>
                         </div>
-                        <div class="mt-4 mb-2 px-8 py-3 rounded-2xl bg-slate-900/90 border border-cyan-500/50 shadow-[0_0_35px_rgba(6,182,212,0.5)] backdrop-blur-md flex items-center space-x-3">
-                            <div class="w-4 h-4 rounded-full bg-cyan-400 animate-ping"></div>
-                            <h2 class="text-cyan-300 font-black text-3xl sm:text-4xl uppercase tracking-[0.3em] drop-shadow-[0_0_15px_rgba(34,211,238,0.9)]">SECTOR TIME V.1.0</h2>
+                        <div class="mt-6 mb-3 px-8 py-3 rounded-xl bg-slate-900/80 border border-cyan-500/40 shadow-[0_0_30px_rgba(6,182,212,0.4)] backdrop-blur-md flex items-center space-x-4">
+                            <div class="w-3 h-3 rounded-full bg-cyan-400 animate-ping"></div>
+                            <h2 class="text-cyan-300 font-black text-3xl uppercase tracking-[0.3em] drop-shadow-[0_0_15px_rgba(34,211,238,0.9)]">SECTOR TIME V.1.0</h2>
                         </div>
                         
-                        <!-- MEGA-PANEL DE HARDWARE (Tab S9 Reference) -->
-                        <div class="w-full max-w-[98%] md:max-w-[95%] bg-slate-900/95 border-2 border-cyan-700 rounded-xl shadow-[0_0_30px_rgba(6,182,212,0.4)] p-3 sm:p-4 flex flex-col gap-2 relative overflow-hidden backdrop-blur-md mt-2">
-                            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-80"></div>
-                            <h3 class="text-cyan-300 text-sm sm:text-base font-black uppercase tracking-wider text-center border-b border-cyan-900 pb-2 mb-1 flex justify-center items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mr-2 text-cyan-400"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                <span data-i18n="reqTitle">Requisitos de Hardware Óptimo (Referencia Tab S9 / PC High-End)</span>
+                        <!-- Panel de Requisitos (Tab S9) Detallado -->
+                        <div class="w-full max-w-[95%] md:max-w-[85%] bg-slate-900/90 border border-cyan-800 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] p-4 flex flex-col gap-3 relative overflow-hidden backdrop-blur-md mt-2">
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
+                            <h3 class="text-cyan-400 text-sm md:text-base font-black uppercase tracking-widest text-center border-b border-cyan-900 pb-2 flex justify-center items-center" data-i18n="reqTitle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2 text-cyan-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                Especificaciones Técnicas Óptimas (Hardware Recomendado)
                             </h3>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mt-1">
-                                <div class="flex flex-col bg-black/80 p-2 sm:p-2.5 rounded border border-cyan-900/80 shadow-inner">
-                                    <span class="text-cyan-400 text-[11px] sm:text-xs uppercase font-black tracking-wide mb-1" data-i18n="reqCpu">Procesador (CPU)</span>
-                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug" data-i18n="reqCpuVal">Snapdragon 8 Gen 2+ / Apple M1+ / Intel i5 Gen 11+</span>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-cyan-900/50 shadow-inner">
+                                    <span class="text-cyan-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-1" data-i18n="reqCpu">Procesamiento (CPU)</span>
+                                    <span class="text-white text-xs md:text-sm font-bold">Snapdragon 8 Gen 2+ / Apple M1+</span>
                                 </div>
-                                <div class="flex flex-col bg-black/80 p-2 sm:p-2.5 rounded border border-emerald-900/80 shadow-inner">
-                                    <span class="text-emerald-400 text-[11px] sm:text-xs uppercase font-black tracking-wide mb-1" data-i18n="reqCam">Sensor Óptico</span>
-                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug" data-i18n="reqCamVal">Cámara 1080p con 60 FPS estables (Bloqueo AF/AE)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-emerald-900/50 shadow-inner">
+                                    <span class="text-emerald-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-1" data-i18n="reqSensor">Sensor Óptico</span>
+                                    <span class="text-white text-xs md:text-sm font-bold">60 FPS Constantes / 1080p (Sin Autofocus)</span>
                                 </div>
-                                <div class="flex flex-col bg-black/80 p-2 sm:p-2.5 rounded border border-yellow-900/80 shadow-inner">
-                                    <span class="text-yellow-400 text-[11px] sm:text-xs uppercase font-black tracking-wide mb-1" data-i18n="reqLight">Iluminación Pista</span>
-                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug" data-i18n="reqLightVal">Luz LED blanca cenital fija (Evitar parpadeo 50Hz)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-yellow-900/50 shadow-inner">
+                                    <span class="text-yellow-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-1" data-i18n="reqLight">Iluminación Ambiental</span>
+                                    <span class="text-white text-xs md:text-sm font-bold">Luz LED Blanca Fija (Sin parpadeo)</span>
                                 </div>
-                                <div class="flex flex-col bg-black/80 p-2 sm:p-2.5 rounded border border-purple-900/80 shadow-inner">
-                                    <span class="text-purple-400 text-[11px] sm:text-xs uppercase font-black tracking-wide mb-1" data-i18n="reqRam">Memoria RAM</span>
-                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug" data-i18n="reqRamVal">8 GB Mínimo (12 GB+ altamente recomendado)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-purple-900/50 shadow-inner">
+                                    <span class="text-purple-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-1" data-i18n="reqRam">Memoria RAM</span>
+                                    <span class="text-white text-xs md:text-sm font-bold">8GB Mínimo (12GB+ Recomendado)</span>
                                 </div>
-                                <div class="flex flex-col bg-black/80 p-2 sm:p-2.5 rounded border border-orange-900/80 shadow-inner">
-                                    <span class="text-orange-400 text-[11px] sm:text-xs uppercase font-black tracking-wide mb-1" data-i18n="reqStab">Estabilidad Soporte</span>
-                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug" data-i18n="reqStabVal">Trípode o brazo rígido (Cero vibraciones en sensor)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-orange-900/50 shadow-inner">
+                                    <span class="text-orange-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-1" data-i18n="reqStab">Estabilidad</span>
+                                    <span class="text-white text-xs md:text-sm font-bold">Montaje Rígido (Cero vibraciones)</span>
                                 </div>
-                                <div class="flex flex-col bg-black/80 p-2 sm:p-2.5 rounded border border-blue-900/80 shadow-inner">
-                                    <span class="text-blue-400 text-[11px] sm:text-xs uppercase font-black tracking-wide mb-1" data-i18n="reqBrowser">Navegador Web</span>
-                                    <span class="text-white text-xs sm:text-sm font-bold leading-snug" data-i18n="reqBrowserVal">Google Chrome / Safari (Aceleración HW activa)</span>
+                                <div class="flex flex-col bg-black/60 p-3 rounded-lg border border-blue-900/50 shadow-inner">
+                                    <span class="text-blue-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-1" data-i18n="reqBrowser">Navegador Web</span>
+                                    <span class="text-white text-xs md:text-sm font-bold">Chrome/Safari (Aceleración HW Activa)</span>
                                 </div>
                             </div>
-                            <p class="text-xs sm:text-sm text-cyan-200 text-center leading-tight mt-2 bg-cyan-950/60 p-2 rounded border border-cyan-800/80" data-i18n="reqNote">
-                                * <strong>NOTA CRÍTICA:</strong> El motor IA analiza hasta 60 matrices RGB completas por segundo. Dispositivos por debajo del hardware recomendado sufrirán latencia grave, falsos positivos o saltos de milisegundos en la precisión del sector.
+                            <p class="text-[10px] md:text-xs text-slate-400 text-center leading-tight mt-2 bg-cyan-950/20 p-2.5 rounded border border-cyan-900/30" data-i18n="reqNote">
+                                * <strong>NOTA CRÍTICA:</strong> El motor lee hasta 60 matrices RGB completas por segundo. Dispositivos por debajo del hardware recomendado (Ej: Tab S9 o iPad Pro) sufrirán latencia grave, falsos positivos o saltos de milisegundos.
                             </p>
                         </div>
                         
-                        <!-- BOTÓN VÍDEO DEMOSTRACIÓN -->
-                        <a href="1.mp4" target="_blank" class="mt-5 mb-2 px-8 py-3 rounded-xl bg-slate-900/80 border-2 border-cyan-500 hover:bg-cyan-900/80 hover:border-cyan-300 text-cyan-300 hover:text-white font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.9)] flex items-center justify-center group relative z-20 cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="mr-3 group-hover:scale-125 group-hover:text-cyan-200 transition-transform text-cyan-400"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            <span data-i18n="watchDemo">Ver Vídeo Demostración</span>
+                        <!-- Botón de Vídeo de Demostración -->
+                        <a href="1.mp4" target="_blank" class="mt-4 px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white font-black text-xs md:text-sm uppercase tracking-widest shadow-[0_0_20px_rgba(236,72,153,0.6)] hover:shadow-[0_0_30px_rgba(236,72,153,0.9)] hover:scale-105 transition-all flex items-center border border-pink-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="mr-2"><path d="M5 3l14 9-14 9V3z"/></svg>
+                            <span data-i18n="demoBtn">Ver Vídeo Demostración</span>
                         </a>
                     </div>
 
@@ -381,9 +379,9 @@
 
                     <div id="sector-log-container"></div>
 
-                    <!-- ROIs (Ocultos por defecto hasta que la cámara esté activa) -->
+                    <!-- ROIs (Ocultos por defecto) -->
                     <div id="roi-container" class="hidden">
-                        <div id="roi-0" class="roi-box active-roi" style="left:20%; top:20%; width:30%; height:30%;" data-index="0"><div class="roi-label">META</div><div class="detection-val-indicator" id="det-val-0">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
+                        <div id="roi-0" class="roi-box active-roi" style="left:20%; top:20%; width:30%; height:30%;" data-index="0"><div class="roi-label" data-i18n="roiMeta">META</div><div class="detection-val-indicator" id="det-val-0">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
                         <div id="roi-1" class="roi-box" style="left:55%; top:20%; width:20%; height:20%;" data-index="1"><div class="roi-label">S1</div><div class="detection-val-indicator" id="det-val-1">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
                         <div id="roi-2" class="roi-box" style="left:20%; top:55%; width:20%; height:20%;" data-index="2"><div class="roi-label">S2</div><div class="detection-val-indicator" id="det-val-2">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
                         <div id="roi-3" class="roi-box" style="left:55%; top:55%; width:20%; height:20%;" data-index="3"><div class="roi-label">S3</div><div class="detection-val-indicator" id="det-val-3">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
@@ -461,32 +459,31 @@
                 </div>
 
                 <h2 class="text-[11px] neon-blue-title mb-2 border-b border-cyan-900 pb-1 flex items-center justify-start"><span data-i18n="aiSens">Sensibilidad IA (RGB)</span></h2>
-                <div id="sensitivity-controls-container" class="space-y-1">
-                    <div id="sens-container-0" class="flex flex-col bg-slate-800/80 p-1 rounded border border-emerald-900/50"><div class="flex justify-between items-center"><label class="text-[9px] font-bold text-emerald-400">META (Verde)</label><button id="auto-calib-btn-0" class="text-[10px] bg-emerald-900/50 text-emerald-300 px-2 py-0.5 rounded border border-emerald-700 font-bold hover:bg-emerald-800 transition shadow-[0_0_8px_rgba(16,185,129,0.3)]">Auto IA</button></div><div class="flex items-center space-x-1"><input type="range" id="threshold-slider-0" min="5" max="100" value="20" class="w-full h-1 bg-slate-700 rounded appearance-none accent-emerald-500 cursor-pointer"><span id="current-threshold-0" class="font-bold text-emerald-200 text-[9px] w-4 text-right">20</span></div></div>
-                    <div id="sens-container-1" class="flex flex-col bg-slate-800/80 p-1 rounded border border-blue-900/50"><div class="flex justify-between items-center"><label class="text-[9px] font-bold text-blue-400">S1 (Azul)</label><button id="auto-calib-btn-1" class="text-[10px] bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded border border-blue-700 font-bold hover:bg-blue-800 transition shadow-[0_0_8px_rgba(59,130,246,0.3)]">Auto IA</button></div><div class="flex items-center space-x-1"><input type="range" id="threshold-slider-1" min="5" max="100" value="20" class="w-full h-1 bg-slate-700 rounded appearance-none accent-blue-500 cursor-pointer"><span id="current-threshold-1" class="font-bold text-blue-200 text-[9px] w-4 text-right">20</span></div></div>
-                    <div id="sens-container-2" class="flex flex-col bg-slate-800/80 p-1 rounded border border-yellow-900/50"><div class="flex justify-between items-center"><label class="text-[9px] font-bold text-yellow-400">S2 (Amarillo)</label><button id="auto-calib-btn-2" class="text-[10px] bg-yellow-900/50 text-yellow-300 px-2 py-0.5 rounded border border-yellow-700 font-bold hover:bg-yellow-800 transition shadow-[0_0_8px_rgba(234,179,8,0.3)]">Auto IA</button></div><div class="flex items-center space-x-1"><input type="range" id="threshold-slider-2" min="5" max="100" value="20" class="w-full h-1 bg-slate-700 rounded appearance-none accent-yellow-500 cursor-pointer"><span id="current-threshold-2" class="font-bold text-yellow-200 text-[9px] w-4 text-right">20</span></div></div>
-                    <div id="sens-container-3" class="flex flex-col bg-slate-800/80 p-1 rounded border border-purple-900/50"><div class="flex justify-between items-center"><label class="text-[9px] font-bold text-purple-400">S3 (Morado)</label><button id="auto-calib-btn-3" class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded border border-purple-700 font-bold hover:bg-purple-800 transition shadow-[0_0_8px_rgba(168,85,247,0.3)]">Auto IA</button></div><div class="flex items-center space-x-1"><input type="range" id="threshold-slider-3" min="5" max="100" value="20" class="w-full h-1 bg-slate-700 rounded appearance-none accent-purple-500 cursor-pointer"><span id="current-threshold-3" class="font-bold text-purple-200 text-[9px] w-4 text-right">20</span></div></div>
+                <div id="sensitivity-controls-container" class="space-y-1.5">
+                    <div id="sens-container-0" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-emerald-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-emerald-400" data-i18n="sensMeta">META (Verde)</label><button id="auto-calib-btn-0" class="text-[10px] bg-emerald-900/50 text-emerald-300 px-3 py-1 rounded border border-emerald-700 font-bold hover:bg-emerald-800 transition shadow-[0_0_8px_rgba(16,185,129,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-0" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-emerald-500 cursor-pointer"><span id="current-threshold-0" class="font-bold text-emerald-200 text-xs w-6 text-right">20</span></div></div>
+                    <div id="sens-container-1" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-blue-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-blue-400" data-i18n="sensS1">S1 (Azul)</label><button id="auto-calib-btn-1" class="text-[10px] bg-blue-900/50 text-blue-300 px-3 py-1 rounded border border-blue-700 font-bold hover:bg-blue-800 transition shadow-[0_0_8px_rgba(59,130,246,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-1" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-blue-500 cursor-pointer"><span id="current-threshold-1" class="font-bold text-blue-200 text-xs w-6 text-right">20</span></div></div>
+                    <div id="sens-container-2" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-yellow-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-yellow-400" data-i18n="sensS2">S2 (Amarillo)</label><button id="auto-calib-btn-2" class="text-[10px] bg-yellow-900/50 text-yellow-300 px-3 py-1 rounded border border-yellow-700 font-bold hover:bg-yellow-800 transition shadow-[0_0_8px_rgba(234,179,8,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-2" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-yellow-500 cursor-pointer"><span id="current-threshold-2" class="font-bold text-yellow-200 text-xs w-6 text-right">20</span></div></div>
+                    <div id="sens-container-3" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-purple-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-purple-400" data-i18n="sensS3">S3 (Morado)</label><button id="auto-calib-btn-3" class="text-[10px] bg-purple-900/50 text-purple-300 px-3 py-1 rounded border border-purple-700 font-bold hover:bg-purple-800 transition shadow-[0_0_8px_rgba(168,85,247,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-3" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-purple-500 cursor-pointer"><span id="current-threshold-3" class="font-bold text-purple-200 text-xs w-6 text-right">20</span></div></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL RANKING F1 CON FONDO DE CARRETERA SEGURO -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
         <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
+            <!-- FONDO DE CARRETERA / ASFALTO (BLINDADO) -->
+            <div class="absolute inset-0 worn-asphalt-bg opacity-90 z-0"></div>
             
             <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
                 <div class="flex items-center space-x-3 ml-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
-                    <h2 class="italic font-black text-2xl tracking-widest text-white uppercase"><span data-i18n="rankingModalTitle">RANKING DEL GARAJE</span> <span class="text-cyan-400">TOP 25</span></h2>
+                    <h2 class="italic font-black text-2xl tracking-widest text-white uppercase" data-i18n="garageRankingTitle">RANKING DEL GARAJE <span class="text-cyan-400">TOP 25</span></h2>
                 </div>
-                <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors" data-i18n="exitBtn">SALIR</button>
+                <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors" data-i18n="exit">SALIR</button>
             </div>
 
-            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-8 pb-32 worn-asphalt-bg">
-                <div class="minimal-start-line mb-8"></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
-                </div>
+            <!-- Contenedor Parrilla Estilo F1 -->
+            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-12 pb-32 custom-tv-scroll grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
             </div>
             
             <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
@@ -501,7 +498,7 @@
             <div class="flex gap-4 min-h-0 flex-1">
                 <div class="flex-1 bg-slate-900/80 rounded-xl border border-cyan-800 shadow-inner overflow-hidden flex flex-col">
                     <div class="bg-cyan-900/50 py-2 px-4 border-b border-cyan-700 flex justify-between items-center">
-                        <span id="modal-pilot-car" class="font-bold text-white uppercase tracking-widest text-sm">Piloto / Coche</span>
+                        <span id="modal-pilot-car" class="font-bold text-white uppercase tracking-widest text-sm" data-i18n="pilotCar">Piloto / Coche</span>
                         <div class="text-right">
                             <span class="text-xs text-cyan-300 font-bold" data-i18n="totalTime">Tiempo Total:</span>
                             <span id="modal-total-time" class="ml-2 font-mono font-bold text-white">00:00.000</span>
@@ -516,7 +513,6 @@
                         </table>
                     </div>
                 </div>
-                <!-- Gráfico de Rendimiento (Líneas) -->
                 <div class="flex-1 bg-slate-900/80 rounded-xl border border-cyan-800 shadow-inner p-3 flex flex-col">
                     <h4 class="text-xs font-bold text-cyan-500 uppercase tracking-widest text-center mb-2" data-i18n="perfCurve">Curva de Rendimiento</h4>
                     <div class="flex-1 relative w-full h-full min-h-0">
@@ -544,10 +540,10 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <button id="garage-add-btn" class="bg-cyan-900/40 border border-cyan-500 hover:bg-cyan-500 text-cyan-100 px-3 py-1 text-[11px] font-bold uppercase rounded shadow-[0_0_10px_rgba(34,211,238,0.3)]" data-i18n="addBtn">Añadir</button>
-                    <button id="garage-edit-btn" class="bg-blue-900/40 border border-blue-500 hover:bg-blue-500 text-blue-100 px-3 py-1 text-[11px] font-bold uppercase rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]" data-i18n="editBtn">Editar</button>
-                    <button id="garage-save-btn" class="hidden bg-green-900/40 border border-green-500 hover:bg-green-500 text-green-100 px-3 py-1 text-[11px] font-bold uppercase rounded shadow-[0_0_10px_rgba(34,197,94,0.6)]" data-i18n="saveBtn">Guardar</button>
-                    <button id="garage-delete-btn" class="bg-gray-800/50 border border-gray-500 hover:bg-red-800/80 hover:border-red-500 text-gray-300 px-3 py-1 text-[11px] font-bold uppercase rounded" data-i18n="deleteBtn">Eliminar</button>
+                    <button id="garage-add-btn" class="bg-cyan-900/40 border border-cyan-500 hover:bg-cyan-500 text-cyan-100 px-3 py-1 text-[11px] font-bold uppercase rounded shadow-[0_0_10px_rgba(34,211,238,0.3)]" data-i18n="add">Añadir</button>
+                    <button id="garage-edit-btn" class="bg-blue-900/40 border border-blue-500 hover:bg-blue-500 text-blue-100 px-3 py-1 text-[11px] font-bold uppercase rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]" data-i18n="edit">Editar</button>
+                    <button id="garage-save-btn" class="hidden bg-green-900/40 border border-green-500 hover:bg-green-500 text-green-100 px-3 py-1 text-[11px] font-bold uppercase rounded shadow-[0_0_10px_rgba(34,197,94,0.6)]" data-i18n="save">Guardar</button>
+                    <button id="garage-delete-btn" class="bg-gray-800/50 border border-gray-500 hover:bg-red-800/80 hover:border-red-500 text-gray-300 px-3 py-1 text-[11px] font-bold uppercase rounded" data-i18n="delete">Eliminar</button>
                     <div class="w-px h-6 bg-cyan-500/50 mx-1"></div>
                     <button id="close-garage-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1 rounded text-xs font-bold uppercase shadow-[0_0_10px_rgba(239,68,68,0.5)] flex items-center"><span data-i18n="exitBtn">SALIR</span> <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-1"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
                 </div>
@@ -557,75 +553,86 @@
                 <input type="text" id="g-inp-name" class="w-full bg-black/80 border-2 border-cyan-500 text-white px-3 py-1.5 rounded text-base font-bold outline-none" placeholder="Nombre completo del coche...">
             </div>
 
+            <!-- LAYOUT A 3 COLUMNAS -->
             <div class="flex-1 flex flex-col lg:flex-row gap-4 min-h-0 relative z-10 overflow-hidden pb-1">
-                <!-- Columna Izquierda: Imagen y Ficha Tecnica ESTÁTICA SIN SCROLL -->
-                <div class="w-full lg:w-[35%] flex flex-col gap-2 h-full min-h-0 justify-between">
-                    <div class="h-[180px] shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)]">
-                        <img id="garage-img" src="" class="absolute inset-0 w-full h-full object-cover z-0">
-                        <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-2 backdrop-blur-sm">
-                            <button id="btn-galeria" class="text-cyan-300 text-[10px] font-bold uppercase border border-cyan-400 px-3 py-1.5 rounded hover:bg-cyan-400 hover:text-black transition-colors" data-i18n="galleryBtn">Galería</button>
-                            <button id="btn-camara" class="text-cyan-300 text-[10px] font-bold uppercase border border-cyan-400 px-3 py-1.5 rounded hover:bg-cyan-400 hover:text-black transition-colors" data-i18n="camBtn">Cámara</button>
+                
+                <!-- 1. Columna Izquierda: Imagen Enorme -->
+                <div class="w-full lg:w-1/3 flex flex-col gap-3 h-full min-h-0">
+                    <div class="flex-1 shrink-0 border border-cyan-800 rounded-xl overflow-hidden bg-[#050b14] relative flex items-center justify-center group shadow-[0_8px_20px_rgba(0,0,0,0.4)] min-h-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/20 via-transparent to-transparent pointer-events-none"></div>
+                        <img id="garage-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='12' font-weight='900' fill='%2322d3ee' text-anchor='middle'>SIN IMAGEN</text></svg>" class="w-full h-full object-contain z-0">
+                        <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
+                            <button id="btn-galeria" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black transition-colors" data-i18n="galleryBtn">Galería</button>
+                            <button id="btn-camara" class="text-cyan-300 text-[11px] font-bold uppercase border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black transition-colors" data-i18n="cameraBtn">Cámara</button>
                             <input type="file" id="garage-img-input-galeria" accept="image/*" class="hidden"><input type="file" id="garage-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
                     </div>
-                    
-                    <div class="flex flex-col bg-[#0a1120] border border-cyan-900/60 rounded-xl p-2.5 shadow-inner shrink-0">
-                        <div class="text-cyan-500 text-[10px] font-black uppercase tracking-widest border-b border-cyan-900/50 pb-1 mb-1" data-i18n="carIdHeader">Identidad del Vehículo</div>
-                        <div class="flex flex-col gap-1">
-                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="brandLbl">Marca</span><span id="g-val-marca" class="font-bold text-[11px] text-white"></span><input id="g-inp-marca" class="g-inp text-right w-1/2"></div>
-                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="refLbl">Referencia</span><span id="g-val-ref" class="font-bold text-[11px] text-white"></span><input id="g-inp-ref" class="g-inp text-right w-1/2"></div>
-                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="yearLbl">Año</span><span id="g-val-year" class="font-bold text-[11px] text-white"></span><input id="g-inp-year" class="g-inp text-right w-1/2"></div>
-                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="catLbl">Categoría</span><span id="g-val-cat" class="font-bold text-[11px] text-white"></span><input id="g-inp-cat" class="g-inp text-right w-1/2"></div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col bg-[#0a1120] border border-slate-800 rounded-xl p-2.5 shadow-inner shrink-0">
-                        <div class="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-800 pb-1 mb-1" data-i18n="techSpecHeader">Especificaciones Técnicas</div>
-                        <div class="grid grid-cols-2 gap-x-2 gap-y-0.5">
-                            <div class="g-row"><span class="g-lbl" data-i18n="specMotor">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="specPos">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="specRel">Piñón/Cor.</span><span id="g-val-relacion" class="g-val"></span><input id="g-inp-relacion" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="specChas">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="specWeight">Peso</span><span id="g-val-peso" class="g-val"></span><input id="g-inp-peso" class="g-inp"></div>
-                            <div class="g-row"><span class="g-lbl" data-i18n="specLights">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp"></div>
-                        </div>
-                    </div>
-
-                    <div id="assign-buttons-container" class="shrink-0 z-20 mt-auto">
-                        <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 border border-cyan-500 hover:from-cyan-800 hover:to-blue-800 text-white py-2 text-xs font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)]" data-i18n="pilotCarBtn">🏁 Pilotar Este Vehículo</button>
+                    <div id="assign-buttons-container" class="shrink-0 z-20">
+                        <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-cyan-900 to-blue-900 border border-cyan-500 hover:from-cyan-800 hover:to-blue-800 text-white py-3 text-sm font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]" data-i18n="driveCar">🏁 Pilotar Este Vehículo</button>
                     </div>
                 </div>
 
-                <div class="w-full lg:w-[65%] flex flex-col gap-3 h-full min-h-0 justify-between">
-                    <div class="flex flex-row justify-between items-center bg-[#0a1120] border border-cyan-900/60 rounded-xl p-2.5 shadow-[0_8px_20px_rgba(0,0,0,0.4)] shrink-0">
-                        <div class="flex flex-col flex-1 px-2 border-r border-cyan-900/50">
-                            <span class="text-emerald-500 text-[9px] uppercase font-black tracking-widest mb-0.5 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span><span data-i18n="absBestLap">Récord Absoluto</span></span>
-                            <span id="g-val-bestLap" class="font-mono font-black text-emerald-300 text-lg truncate mt-0.5">--.---</span>
-                        </div>
-                        <div class="flex flex-col flex-1 px-2 border-r border-cyan-900/50">
-                            <span class="text-orange-500 text-[8px] uppercase font-black tracking-widest mb-0.5" data-i18n="accTime">T. Pista Acumulado</span>
-                            <span id="g-val-totalTime" class="font-mono font-bold text-orange-200 text-xs truncate mt-0.5">0h 0m</span>
-                        </div>
-                        <div class="flex flex-col flex-1 px-2 border-r border-cyan-900/50">
-                            <span class="text-purple-500 text-[8px] uppercase font-black tracking-widest mb-0.5" data-i18n="accDist">Distancia Total</span>
-                            <span id="g-val-totalDist" class="font-mono font-bold text-purple-200 text-xs truncate mt-0.5">0.0 km</span>
-                        </div>
-                        <div class="flex flex-col flex-1 px-2">
-                            <span class="text-cyan-500 text-[8px] uppercase font-black tracking-widest mb-0.5" data-i18n="histAvgSpd">Vel. Media Histórica</span>
-                            <span id="g-val-avgSpd" class="font-mono font-bold text-cyan-200 text-xs truncate mt-0.5">0.0</span>
+                <!-- 2. Columna Central: Datos y Especificaciones -->
+                <div class="w-full lg:w-1/3 flex flex-col gap-3 h-full min-h-0 overflow-y-auto custom-tv-scroll pr-1">
+                    <div class="flex flex-col bg-[#0a1120] border border-cyan-900/60 rounded-xl p-3 shadow-inner shrink-0">
+                        <div class="text-cyan-500 text-[10px] font-black uppercase tracking-widest border-b border-cyan-900/50 pb-1 mb-1.5" data-i18n="carIdentity">Identidad del Vehículo</div>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="brand">Marca</span><span id="g-val-marca" class="font-bold text-[11px] text-white"></span><input id="g-inp-marca" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="ref">Referencia</span><span id="g-val-ref" class="font-bold text-[11px] text-white"></span><input id="g-inp-ref" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="year">Año</span><span id="g-val-year" class="font-bold text-[11px] text-white"></span><input id="g-inp-year" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/20 p-1 rounded"><span class="text-cyan-600/80 text-[10px] uppercase font-bold" data-i18n="category">Categoría</span><span id="g-val-cat" class="font-bold text-[11px] text-white"></span><input id="g-inp-cat" class="g-inp text-right w-1/2"></div>
+                            <div class="flex justify-between items-center bg-cyan-950/40 border border-cyan-800/50 p-1 rounded mt-0.5"><span class="text-cyan-400 text-[10px] uppercase font-black tracking-widest" data-i18n="system">Sistema</span><span id="g-val-sys" class="font-black text-[12px] text-cyan-300"></span><input id="g-inp-sys" class="g-inp text-right w-1/2"></div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col bg-[#0a1120] border border-indigo-900/40 rounded-xl p-2.5 shadow-inner flex-1 min-h-0">
-                        <div class="text-indigo-400 text-[10px] font-black uppercase tracking-widest border-b border-indigo-900/50 pb-1 mb-2 flex items-center shrink-0" data-i18n="advancedTelemetry">
+                    <div class="flex flex-col bg-[#0a1120] border border-slate-800 rounded-xl p-3 shadow-inner shrink-0">
+                        <div class="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-800 pb-1 mb-1.5" data-i18n="techSpecs">Especificaciones Técnicas</div>
+                        <div class="flex flex-col gap-0.5">
+                            <div class="g-row"><span class="g-lbl" data-i18n="motor">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="position">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="ratio">Piñón/Cor.</span><span id="g-val-relacion" class="g-val"></span><input id="g-inp-relacion" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="chassis">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="frontTire">Neum. Del.</span><span id="g-val-neumaticoDelantero" class="g-val"></span><input id="g-inp-neumaticoDelantero" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="rearTire">Neum. Tras.</span><span id="g-val-neumaticoTrasero" class="g-val"></span><input id="g-inp-neumaticoTrasero" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="weight">Peso</span><span id="g-val-peso" class="g-val"></span><input id="g-inp-peso" class="g-inp"></div>
+                            <div class="g-row"><span class="g-lbl" data-i18n="lights">Luces</span><span id="g-val-luces" class="g-val"></span><input id="g-inp-luces" class="g-inp"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Columna Derecha: Telemetría Visual -->
+                <div class="w-full lg:w-1/3 flex flex-col gap-3 h-full min-h-0">
+                    
+                    <div class="grid grid-cols-2 grid-rows-2 gap-2 bg-[#0a1120] border border-cyan-900/60 rounded-xl p-2.5 shadow-[0_8px_20px_rgba(0,0,0,0.4)] shrink-0">
+                        <div class="flex flex-col px-2 border-r border-b border-cyan-900/50 pb-1">
+                            <span class="text-emerald-500 text-[8px] uppercase font-black tracking-widest mb-0.5 flex items-center" data-i18n="absRecord"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>Récord Absoluto</span>
+                            <span id="g-val-bestLap" class="font-mono font-black text-emerald-300 text-lg truncate mt-1"></span>
+                        </div>
+                        <div class="flex flex-col px-2 border-b border-cyan-900/50 pb-1 pl-3">
+                            <span class="text-cyan-500 text-[8px] uppercase font-black tracking-widest mb-0.5" data-i18n="avgSpeedHist">Vel. Media Histórica</span>
+                            <span id="g-val-avgSpd" class="font-mono font-bold text-cyan-200 text-sm truncate mt-1"></span>
+                        </div>
+                        <div class="flex flex-col px-2 border-r border-cyan-900/50 pt-1">
+                            <span class="text-orange-500 text-[8px] uppercase font-black tracking-widest mb-0.5" data-i18n="totalTimeHist">T. Pista Acumulado</span>
+                            <span id="g-val-totalTime" class="font-mono font-bold text-orange-200 text-sm truncate mt-1"></span>
+                        </div>
+                        <div class="flex flex-col px-2 pt-1 pl-3">
+                            <span class="text-purple-500 text-[8px] uppercase font-black tracking-widest mb-0.5" data-i18n="totalDist">Distancia Total</span>
+                            <span id="g-val-totalDist" class="font-mono font-bold text-purple-200 text-sm truncate mt-1"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col bg-[#0a1120] border border-indigo-900/40 rounded-xl p-3 shadow-inner flex-1 min-h-[300px]">
+                        <div class="text-indigo-400 text-[10px] font-black uppercase tracking-widest border-b border-indigo-900/50 pb-1 mb-2 flex items-center shrink-0" data-i18n="advAnalysis">
                             ANÁLISIS DE TELEMETRÍA AVANZADA
                         </div>
-                        <!-- Grid de 4 gráficas fijas y estáticas sin scroll -->
-                        <div class="grid grid-cols-2 gap-2 flex-1 min-h-0 relative">
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1 flex flex-col shadow-inner overflow-hidden"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-0.5 tracking-widest shrink-0" data-i18n="chartLapTimes">Tiempos por Vuelta (s)</span><div class="relative flex-1 w-full h-full min-h-0"><canvas id="garageChartLaps" class="absolute inset-0 w-full h-full"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1 flex flex-col shadow-inner overflow-hidden"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-0.5 tracking-widest shrink-0" data-i18n="chartSpeedEv">Evolución Vel. (Km/h)</span><div class="relative flex-1 w-full h-full min-h-0"><canvas id="garageChartSpeed" class="absolute inset-0 w-full h-full"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1 flex flex-col shadow-inner overflow-hidden"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-0.5 tracking-widest shrink-0" data-i18n="chartSectorRec">Récords por Sector</span><div class="relative flex-1 w-full h-full min-h-0"><canvas id="garageChartSectors" class="absolute inset-0 w-full h-full"></canvas></div></div>
-                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1 flex flex-col shadow-inner overflow-hidden"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-0.5 tracking-widest shrink-0" data-i18n="chartBalance">Balance Sectores</span><div class="relative flex-1 w-full h-full min-h-0"><canvas id="garageChartRadar" class="absolute inset-0 w-full h-full"></canvas></div></div>
+                        <!-- Gráficas fijas sin animaciones molestas -->
+                        <div class="grid grid-cols-2 grid-rows-3 gap-2 flex-1 min-h-0">
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-purple-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-purple-400 font-bold uppercase mb-1 tracking-widest shrink-0" data-i18n="lapTimes">Tiempos por Vuelta (s)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartLaps" class="absolute inset-0 w-full h-full"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-cyan-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-cyan-400 font-bold uppercase mb-1 tracking-widest shrink-0" data-i18n="speedEvol">Evolución Vel. (Km/h)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSpeed" class="absolute inset-0 w-full h-full"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-emerald-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-emerald-400 font-bold uppercase mb-1 tracking-widest shrink-0" data-i18n="sectorRecords">Récords por Sector</span><div class="relative flex-1 min-h-0"><canvas id="garageChartSectors" class="absolute inset-0 w-full h-full"></canvas></div></div>
+                            <div class="relative w-full h-full bg-[#050b14] rounded-lg border border-pink-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-pink-400 font-bold uppercase mb-1 tracking-widest shrink-0" data-i18n="sectorDist">Balance de Tiempos</span><div class="relative flex-1 min-h-0"><canvas id="garageChartRadar" class="absolute inset-0 w-full h-full"></canvas></div></div>
+                            <div class="relative w-full h-full col-span-2 bg-[#050b14] rounded-lg border border-orange-900/50 p-1.5 flex flex-col shadow-inner"><span class="text-[9px] text-center text-orange-400 font-bold uppercase mb-1 tracking-widest shrink-0" data-i18n="deltaDeviation">Desviación Delta (s)</span><div class="relative flex-1 min-h-0"><canvas id="garageChartDelta" class="absolute inset-0 w-full h-full"></canvas></div></div>
                         </div>
                     </div>
                 </div>
@@ -636,19 +643,26 @@
     <script>
         const translations = {
             es: { 
-                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Sectores Activos", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto Calibrar", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MEDIA", maxSpeed: "V. MÁXIMA", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrated: "Calibrando sistema.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", voiceCalibrating: "Calibrando sistema.",
-                reqTitle: "Requisitos de Hardware Óptimo (Referencia Tab S9 / PC High-End)", reqCpu: "Procesador (CPU)", reqCpuVal: "Snapdragon 8 Gen 2+ / Apple M1+ / Intel i5 Gen 11+", reqCam: "Sensor Óptico", reqCamVal: "Cámara 1080p con 60 FPS estables (Bloqueo AF/AE)", reqLight: "Iluminación Pista", reqLightVal: "Luz LED blanca cenital fija (Evitar parpadeo 50Hz)", reqRam: "Memoria RAM", reqRamVal: "8 GB Mínimo (12 GB+ altamente recomendado)", reqStab: "Estabilidad Soporte", reqStabVal: "Trípode o brazo rígido (Cero vibraciones en sensor)", reqBrowser: "Navegador Web", reqBrowserVal: "Google Chrome / Safari (Aceleración HW activa)", reqNote: "* NOTA CRÍTICA: El motor IA analiza 60 matrices RGB/seg. Dispositivos inferiores sufrirán latencia o falsos positivos.",
-                garageBtn: "Garaje", rankingBtn: "Ranking", rankingModalTitle: "RANKING DEL GARAJE", exitBtn: "SALIR", sectorDistTitle: "Distribución de Sectores", selectCar: "Seleccionar Coche", addBtn: "Añadir", editBtn: "Editar", saveBtn: "Guardar", deleteBtn: "Eliminar", galleryBtn: "Galería", camBtn: "Cámara", carIdHeader: "Identidad del Vehículo", brandLbl: "Marca", refLbl: "Referencia", yearLbl: "Año", catLbl: "Categoría", techSpecHeader: "Especificaciones Técnicas", specMotor: "Motor", specPos: "Posición", specRel: "Piñón/Cor.", specChas: "Chasis", specWeight: "Peso", specLights: "Luces", pilotCarBtn: "🏁 Pilotar Este Vehículo", absBestLap: "Récord Absoluto", accTime: "T. Pista Acumulado", accDist: "Distancia Total", histAvgSpd: "Vel. Media Histórica", advancedTelemetry: "ANÁLISIS DE TELEMETRÍA AVANZADA", chartLapTimes: "Tiempos por Vuelta (s)", chartSpeedEv: "Evolución Vel. (Km/h)", chartSectorRec: "Récords por Sector", chartBalance: "Balance Sectores",
-                watchDemo: "Ver Vídeo Demostración", perfCurve: "Curva de Rendimiento"
+                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Ranking", reqTitle: "Especificaciones Técnicas Óptimas", reqCpu: "Procesamiento (CPU)", reqSensor: "Sensor Óptico", reqLight: "Iluminación Ambiental", reqRam: "Memoria RAM", reqStab: "Estabilidad", reqBrowser: "Navegador Web", reqNote: "* NOTA CRÍTICA: El motor lee hasta 60 matrices RGB completas por segundo. Dispositivos por debajo del hardware recomendado (Ej: Tab S9 o iPad Pro) sufrirán latencia grave.", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING DEL GARAJE", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", calibPrefix: "Calibrando"
             },
             en: { 
-                langLabel: "Language", pilotDataTitle: "Driver & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Active Sectors", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Anti-Bounce", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto Calibrate", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD", maxSpeed: "MAX SPD", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "START OVER", exportExcel: "Export (.csv)", yellowFlag: "YELLOW FLAG", voiceCalibrated: "Calibrating system.", voiceFalseStart: "False Start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", voiceCalibrating: "Calibrating system.",
-                reqTitle: "Optimal Hardware Requirements (Tab S9 / High-End PC Ref)", reqCpu: "Processor (CPU)", reqCpuVal: "Snapdragon 8 Gen 2+ / Apple M1+ / Intel i5 Gen 11+", reqCam: "Optical Sensor", reqCamVal: "1080p Camera at stable 60 FPS (AF/AE Lock)", reqLight: "Track Lighting", reqLightVal: "Fixed overhead white LED light (Avoid 50Hz flicker)", reqRam: "RAM Memory", reqRamVal: "8 GB Minimum (12 GB+ highly recommended)", reqStab: "Mount Stability", reqStabVal: "Rigid tripod or arm (Zero vibration on sensor)", reqBrowser: "Web Browser", reqBrowserVal: "Google Chrome / Safari (HW acceleration active)", reqNote: "* CRITICAL NOTE: AI engine processes 60 RGB matrices/sec. Lower-end devices will suffer latency or false positives.",
-                garageBtn: "Garage", rankingBtn: "Ranking", rankingModalTitle: "GARAGE RANKING", exitBtn: "EXIT", sectorDistTitle: "Sector Distribution", selectCar: "Select Car", addBtn: "Add", editBtn: "Edit", saveBtn: "Save", deleteBtn: "Delete", galleryBtn: "Gallery", camBtn: "Camera", carIdHeader: "Vehicle Identity", brandLbl: "Brand", refLbl: "Reference", yearLbl: "Year", catLbl: "Category", techSpecHeader: "Technical Specs", specMotor: "Motor", specPos: "Position", specRel: "Pinion/Spur", specChas: "Chassis", specWeight: "Weight", specLights: "Lights", pilotCarBtn: "🏁 Drive This Vehicle", absBestLap: "Absolute Record", accTime: "Acc. Track Time", accDist: "Total Distance", histAvgSpd: "Historical Avg Speed", advancedTelemetry: "ADVANCED TELEMETRY ANALYSIS", chartLapTimes: "Lap Times (s)", chartSpeedEv: "Speed Evolution (Km/h)", chartSectorRec: "Sector Records", chartBalance: "Sector Balance",
-                watchDemo: "Watch Demo Video", perfCurve: "Performance Curve"
+                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Ranking", reqTitle: "Optimal Technical Specs", reqCpu: "Processing (CPU)", reqSensor: "Optical Sensor", reqLight: "Ambient Light", reqRam: "RAM Memory", reqStab: "Stability", reqBrowser: "Web Browser", reqNote: "* CRITICAL NOTE: The engine reads up to 60 full RGB matrices per second. Devices below recommended hardware will suffer severe latency.", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "GARAGE RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", calibPrefix: "Calibrating"
             }
         };
         let currentLang = 'es';
+        
+        function updateTexts() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    if (el.tagName === 'OPTION') { el.textContent = t[key]; } 
+                    else { el.textContent = t[key]; }
+                }
+            });
+            if(document.getElementById('pause-btn') && !isPaused) document.getElementById('pause-text').textContent = t.pause;
+            else if(document.getElementById('pause-btn')) document.getElementById('pause-text').textContent = t.resume;
+        }
 
         const videoElement = document.getElementById('webcam-feed');
         const videoContainer = document.getElementById('video-container');
@@ -671,10 +685,10 @@
         
         let activeRoisCount = 1;
         const roiData = [
-            { el: document.getElementById('roi-0'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0 },
-            { el: document.getElementById('roi-1'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0 },
-            { el: document.getElementById('roi-2'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0 },
-            { el: document.getElementById('roi-3'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0 }
+            { el: document.getElementById('roi-0'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Meta" },
+            { el: document.getElementById('roi-1'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 1" },
+            { el: document.getElementById('roi-2'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 2" },
+            { el: document.getElementById('roi-3'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 3" }
         ];
         
         let trafficLightSession = 0, blindTimeMs = 3000, expectedRoiIndex = 0, hasCrossedStart = false;
@@ -775,7 +789,7 @@
 
                     if (crossed) {
                         data.stuckCount++;
-                        if (data.stuckCount > 45) {
+                        if (data.stuckCount > 45) { // Anti-Stuck en carrera también
                             data.baseRGB = null;
                             data.stuckCount = 0;
                         }
@@ -804,18 +818,16 @@
         function handleRoiLogic(index, crossed, now, imgData) {
             const data = roiData[index];
             if (data.blocked) {
-                if (now - data.lastTime >= blindTimeMs) {
-                    if (crossed) {
-                        data.baseRGB = null; 
-                        data.blocked = false;
-                    } else {
-                        data.el.classList.remove('roi-locked');
-                        data.blocked = false;
-                        updateExpectedRoiVisuals();
-                    }
-                } else {
-                    data.el.classList.add('roi-locked');
-                    data.el.classList.remove('roi-detected');
+                if (now - data.lastTime < blindTimeMs) { 
+                    data.el.classList.add('roi-locked'); data.el.classList.remove('roi-detected'); 
+                } else { 
+                    if (crossed) { 
+                        data.el.classList.add('roi-locked'); 
+                    } else { 
+                        data.el.classList.remove('roi-locked'); 
+                        data.blocked = false; 
+                        updateExpectedRoiVisuals(); 
+                    } 
                 }
             } else {
                 if (!crossed) {
@@ -927,15 +939,8 @@
         }
 
         function updateLapDisplay() {
-            const t = translations[currentLang];
-            if (raceMode === 'time') { 
-                document.getElementById('lap-count').textContent = currentLap; 
-                document.getElementById('mode-target-display').textContent = `${t.limitLabel}: ${document.getElementById('time-limit-select').value} min`; 
-                document.getElementById('mode-target-display').classList.remove('hidden'); 
-            } else { 
-                document.getElementById('lap-count').textContent = `${currentLap} / ${totalLaps === Infinity ? '∞' : totalLaps}`; 
-                document.getElementById('mode-target-display').classList.add('hidden'); 
-            }
+            if (raceMode === 'time') { document.getElementById('lap-count').textContent = currentLap; document.getElementById('mode-target-display').textContent = `Límite: ${document.getElementById('time-limit-select').value} min`; document.getElementById('mode-target-display').classList.remove('hidden'); } 
+            else { document.getElementById('lap-count').textContent = `${currentLap} / ${totalLaps === Infinity ? '∞' : totalLaps}`; document.getElementById('mode-target-display').classList.add('hidden'); }
         }
         function updateTelemetryDisplay() {
             document.getElementById('telemetry-best-time').textContent = bestLapTime !== Infinity ? formatTime(bestLapTime, false) : "--.---";
@@ -1021,7 +1026,7 @@
         
         function handleFalseStart() { raceAborted = true; isCountdown = false; trafficLightSession++; const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => { l.classList.remove('red', 'green'); }); try { polySynth.triggerAttackRelease(["C2", "F#2"], "1", Tone.now()); } catch(e){} document.getElementById('false-start-alert').classList.add('show'); speak(translations[currentLang].voiceFalseStart); resetRaceBtn.disabled = true; startRaceBtn.disabled = false; setTimeout(() => document.getElementById('false-start-alert').classList.remove('show'), 2000); updateExpectedRoiVisuals(); }
         function togglePause() { if (!isRaceActive) return; if (!isPaused) { isPaused = true; pauseStartTime = Date.now(); clearInterval(raceIntervalId); clearInterval(lapIntervalId); document.getElementById('yellow-flag-overlay').classList.add('active'); } else { isPaused = false; const pD = Date.now() - pauseStartTime; raceStartTime += pD; lapStartTimestamp += pD; lastSectorTimestamp += pD; roiData.forEach(d => d.lastTime += pD); raceIntervalId = setInterval(() => { finalRaceTimeMs = Date.now() - raceStartTime; document.getElementById('race-time').textContent = formatTime(finalRaceTimeMs, true); if (raceMode === 'time' && finalRaceTimeMs >= raceTimeLimit) stopRace(true); }, 50); lapIntervalId = setInterval(() => { document.getElementById('lap-time').textContent = formatTime(Date.now() - lapStartTimestamp, false); }, 30); document.getElementById('yellow-flag-overlay').classList.remove('active'); } updatePauseUI(); }
-        function updatePauseUI() { const btn = document.getElementById('pause-btn'); const txt = document.getElementById('pause-text'); const t = translations[currentLang]; if (isPaused) { txt.textContent = t.resume; btn.classList.replace('border-cyan-800', 'border-yellow-600'); txt.classList.replace('text-cyan-400', 'text-yellow-400'); document.getElementById('icon-pause').classList.add('hidden'); document.getElementById('icon-play').classList.remove('hidden'); } else { txt.textContent = t.pause; btn.classList.replace('border-yellow-600', 'border-cyan-800'); txt.classList.replace('text-yellow-400', 'text-cyan-400'); document.getElementById('icon-pause').classList.remove('hidden'); document.getElementById('icon-play').classList.add('hidden'); } }
+        function updatePauseUI() { const btn = document.getElementById('pause-btn'); const txt = document.getElementById('pause-text'); if (isPaused) { txt.textContent = translations[currentLang].resume; btn.classList.replace('border-cyan-800', 'border-yellow-600'); txt.classList.replace('text-cyan-400', 'text-yellow-400'); document.getElementById('icon-pause').classList.add('hidden'); document.getElementById('icon-play').classList.remove('hidden'); } else { txt.textContent = translations[currentLang].pause; btn.classList.replace('border-yellow-600', 'border-cyan-800'); txt.classList.replace('text-yellow-400', 'text-cyan-400'); document.getElementById('icon-pause').classList.remove('hidden'); document.getElementById('icon-play').classList.add('hidden'); } }
 
         function updateActiveRois() {
             activeRoisCount = parseInt(roiCountSelect.value);
@@ -1050,6 +1055,7 @@
             if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop());
             const constraints = { video: deviceId ? { deviceId: { exact: deviceId } } : { facingMode: "environment" } };
             try {
+                speak(translations[currentLang]?.voiceCalibrating || "Calibrando sistema");
                 cameraStream = await navigator.mediaDevices.getUserMedia(constraints); currentVideoTrack = cameraStream.getVideoTracks()[0];
                 videoElement.srcObject = cameraStream; 
                 const playPromise = videoElement.play();
@@ -1067,8 +1073,6 @@
                 document.getElementById('video-status').textContent = "Ajustando lente...";
                 document.getElementById('video-status').classList.replace('text-cyan-600', 'text-yellow-400');
                 
-                speak(translations[currentLang].voiceCalibrating);
-
                 setTimeout(() => {
                     isProcessing = true; 
                     processVideo(); 
@@ -1104,6 +1108,11 @@
         startRaceBtn.addEventListener('click', startTrafficLight); resetRaceBtn.addEventListener('click', () => stopRace(false)); document.getElementById('pause-btn').addEventListener('click', togglePause);
         document.getElementById('modal-restart-btn').addEventListener('click', () => { document.getElementById('resultsModal').classList.remove('open'); setTimeout(()=>document.getElementById('resultsModal').classList.add('hidden'),300); stopRace(false); });
         
+        document.getElementById('lang-select').addEventListener('change', (e) => {
+            currentLang = e.target.value;
+            updateTexts();
+        });
+
         document.getElementById('race-mode-select').addEventListener('change', (e) => { if (e.target.value === 'laps') { document.getElementById('laps-config-container').classList.remove('hidden'); document.getElementById('time-config-container').classList.add('hidden'); } else { document.getElementById('laps-config-container').classList.add('hidden'); document.getElementById('time-config-container').classList.remove('hidden'); } raceMode = e.target.value; updateLapDisplay(); });
         document.getElementById('lap-limit-select').addEventListener('change', () => { if (raceMode === 'laps') { totalLaps = document.getElementById('lap-limit-select').value === 'Infinity' ? Infinity : parseInt(document.getElementById('lap-limit-select').value); updateLapDisplay(); } });
         for (let i = 0; i < 4; i++) { document.getElementById(`threshold-slider-${i}`)?.addEventListener('input', e => { roiData[i].sens = parseInt(e.target.value); document.getElementById(`current-threshold-${i}`).textContent = e.target.value; }); }
@@ -1111,7 +1120,7 @@
         calibrateBtn.addEventListener('click', () => {
             if(!isProcessing || isRaceActive || isCountdown) return;
             isCalibrating = true; 
-            speak(translations[currentLang].voiceCalibrating);
+            speak(translations[currentLang]?.calibPrefix || "Calibrando");
             roiData.forEach(d => d.baseRGB = null); 
             calibOverlay.classList.add('active'); 
             calibrateBtn.disabled = true;
@@ -1138,19 +1147,7 @@
                     if(!isProcessing || isRaceActive || isCountdown) return; 
                     roiData[i].baseRGB = null; 
                     btn.style.backgroundColor = '#ffffff'; btn.style.color = '#000000'; 
-                    
-                    let phrase = "";
-                    if (currentLang === 'en') {
-                        const enNames = ["Finish line", "Sector 1", "Sector 2", "Sector 3"];
-                        phrase = "Calibrating " + enNames[i];
-                    } else if (currentLang === 'fr') {
-                        const frNames = ["Ligne d'arrivée", "Secteur 1", "Secteur 2", "Secteur 3"];
-                        phrase = "Calibrage " + frNames[i];
-                    } else {
-                        const esNames = ["Meta", "Sector 1", "Sector 2", "Sector 3"];
-                        phrase = "Calibrando " + esNames[i];
-                    }
-                    speak(phrase);
+                    speak(`${translations[currentLang]?.calibPrefix || "Calibrando"} ${roiData[i].nameKey}`);
                     
                     setTimeout(() => {
                         let currentValTxt = document.getElementById(`det-val-${i}`).textContent;
@@ -1164,36 +1161,6 @@
                     }, 1000);
                 }); 
             }
-        }
-
-        document.getElementById('lang-select').addEventListener('change', (e) => {
-            currentLang = e.target.value;
-            updateTexts();
-            localStorage.setItem('krono_lang', currentLang);
-        });
-
-        function updateTexts() {
-            const t = translations[currentLang];
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (t[key]) {
-                    if (el.tagName === 'INPUT' && el.type === 'text') {
-                        el.placeholder = t[key];
-                    } else if (el.tagName === 'OPTION') {
-                        el.textContent = t[key];
-                    } else {
-                        if(el.childNodes.length > 1) {
-                            const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.nodeValue.trim().length > 0);
-                            if(textNode) textNode.nodeValue = " " + t[key];
-                        } else {
-                            el.textContent = t[key];
-                        }
-                    }
-                }
-            });
-            document.getElementById('video-status').textContent = cameraStream ? t.camActive : t.camLoading;
-            document.getElementById('pause-text').textContent = isPaused ? t.resume : t.pause;
-            updateLapDisplay();
         }
 
         function speak(text) { 
@@ -1227,15 +1194,7 @@
 
             window.resultsChartInstance = new Chart(ctx, {
                 type: 'line', data: { labels: labels, datasets: datasets },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { legend: { labels: { color: '#e2e8f0' } } }, 
-                    scales: { 
-                        x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }, 
-                        y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.1)' } } 
-                    } 
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#e2e8f0' } } }, scales: { x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.1)' } } } }
             });
         }
 
@@ -1268,7 +1227,7 @@
         };
         ImageDB.init();
 
-        const garageFields = ['marca', 'ref', 'year', 'cat', 'sys', 'motor', 'posicion', 'relacion', 'chasis', 'peso', 'luces'];
+        const garageFields = ['marca', 'ref', 'year', 'cat', 'sys', 'motor', 'posicion', 'relacion', 'chasis', 'neumaticoDelantero', 'neumaticoTrasero', 'peso', 'luces'];
         
         function initGarage() {
             if (garageCars.length === 0) {
@@ -1284,14 +1243,16 @@
                         name: `${brand} GT-${i}`,
                         image: `https://placehold.co/400x400/0f172a/${hexColor}?text=CAR+${i}`,
                         marca: brand, ref: "REF-00" + i, cat: "GT3 Pro", sys: "Advance",
-                        motor: "RK V8", posicion: "Anglewinder", relacion: "11:27", chasis: "Carbono", peso: (70 + Math.random()*15).toFixed(1), luces: "LED",
+                        motor: "RK V8", posicion: "Anglewinder", relacion: "11:27", chasis: "Carbono", 
+                        neumaticoDelantero: "15x8", neumaticoTrasero: "17x10", peso: (70 + Math.random()*15).toFixed(1), luces: "LED",
                         bestLap: baseTime.toFixed(3) + "s", 
                         totalTime: Math.floor(Math.random()*5) + "h " + Math.floor(Math.random()*60) + "m", 
                         totalDist: (Math.random()*50 + 10).toFixed(3) + " km", 
                         avgSpd: avgSpd.toFixed(1) + " km/h",
                         recentLaps: [baseTime+0.1, baseTime+0.2, baseTime, baseTime+0.3], 
                         recentSpeeds: [avgSpd-0.5, avgSpd-1, avgSpd, avgSpd-1.5], 
-                        bestSectors: [1.1, 1.2, 1.0, 1.3]
+                        bestSectors: [Infinity, Infinity, Infinity, Infinity],
+                        _rawTotalTime: 0, _rawTotalDist: 0
                     });
                 }
                 saveGarageToLocal();
@@ -1310,54 +1271,42 @@
             currentGarageIndex = index; if (garageCars.length === 0) return; const car = garageCars[index];
             document.getElementById('garage-car-id').textContent = car.id || "ID---";
             const imgEl = document.getElementById('garage-img'); imgEl.src = ""; 
-            if (car.imageId) ImageDB.get(car.imageId).then(b => { imgEl.src = b || ""; }); else if (car.image) imgEl.src = car.image;
+            
+            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='12' font-weight='900' fill='%2322d3ee' text-anchor='middle'>SIN IMAGEN</text></svg>";
+
+            if (car.imageId) {
+                ImageDB.get(car.imageId).then(b => { imgEl.src = b || defaultImg; }); 
+            } else if (car.image && car.image.length > 5) {
+                imgEl.src = car.image;
+            } else {
+                imgEl.src = defaultImg;
+            }
             
             document.getElementById('g-inp-name').value = car.name || "";
             garageFields.forEach(f => { const valEl = document.getElementById(`g-val-${f}`); const inpEl = document.getElementById(`g-inp-${f}`); if (valEl) valEl.textContent = car[f] || "-"; if (inpEl) inpEl.value = car[f] || ""; });
             
             document.getElementById('g-val-bestLap').textContent = car.bestLap || "-"; document.getElementById('g-val-totalTime').textContent = car.totalTime || "-"; document.getElementById('g-val-totalDist').textContent = car.totalDist || "-"; document.getElementById('g-val-avgSpd').textContent = car.avgSpd || "-";
             
-            if (window.garageLapsChart) window.garageLapsChart.destroy(); 
-            if (window.garageSectorsChart) window.garageSectorsChart.destroy(); 
-            if (window.garageSpeedChart) window.garageSpeedChart.destroy(); 
-            if (window.garageRadarChart) window.garageRadarChart.destroy();
+            if (window.garageLapsChart) window.garageLapsChart.destroy(); if (window.garageSectorsChart) window.garageSectorsChart.destroy(); if (window.garageSpeedChart) window.garageSpeedChart.destroy(); if (window.garageRadarChart) window.garageRadarChart.destroy(); if (window.garageDeltaChart) window.garageDeltaChart.destroy();
 
-            const ctxLaps = document.getElementById('garageChartLaps').getContext('2d'); 
-            const ctxSpeed = document.getElementById('garageChartSpeed').getContext('2d'); 
-            const ctxSectors = document.getElementById('garageChartSectors').getContext('2d'); 
-            const ctxRadar = document.getElementById('garageChartRadar').getContext('2d');
-            
-            const rData = car.recentLaps && car.recentLaps.length > 0 ? car.recentLaps : [0,0,0,0,0]; 
-            const rSpeeds = car.recentSpeeds && car.recentSpeeds.length > 0 ? car.recentSpeeds : rData.map(t => t>0 ? (15/t)*3.6 : 0); 
-            const lbls = rData.map((_, i) => 'V' + (i+1));
+            const ctxLaps = document.getElementById('garageChartLaps').getContext('2d'); const ctxSpeed = document.getElementById('garageChartSpeed').getContext('2d'); const ctxSectors = document.getElementById('garageChartSectors').getContext('2d'); const ctxRadar = document.getElementById('garageChartRadar').getContext('2d'); const ctxDelta = document.getElementById('garageChartDelta').getContext('2d');
+            const rData = car.recentLaps && car.recentLaps.length > 0 ? car.recentLaps : [0,0,0,0,0]; const rSpeeds = car.recentSpeeds && car.recentSpeeds.length > 0 ? car.recentSpeeds : rData.map(t => t>0 ? (15/t)*3.6 : 0); const lbls = rData.map((_, i) => 'V' + (i+1));
 
-            const staticOptions = {
-                responsive: true, maintainAspectRatio: false, animation: false,
-                plugins: { legend: { display: false } },
-                scales: { x: { display: false }, y: { ticks: { color: '#94a3b8', font: {size: 8} }, grid: { color: 'rgba(255,255,255,0.05)' } } }
-            };
-
-            window.garageLapsChart = new Chart(ctxLaps, { 
-                type: 'line', data: { labels: lbls, datasets: [{ data: rData, borderColor: '#c026d3', backgroundColor: 'rgba(192, 38, 211, 0.2)', borderWidth: 2, pointRadius: 1, fill: true, tension: 0.2 }] }, 
-                options: staticOptions 
-            });
+            window.garageLapsChart = new Chart(ctxLaps, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Tiempo (s)', data: rData, borderColor: '#c026d3', backgroundColor: 'rgba(192, 38, 211, 0.2)', borderWidth: 2, pointRadius: 2, fill: true, tension: 0.3 }] }, options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
+            window.garageSpeedChart = new Chart(ctxSpeed, { type: 'line', data: { labels: lbls, datasets: [{ label: 'Velocidad (Km/h)', data: rSpeeds, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.2)', borderWidth: 2, pointRadius: 2, fill: true, tension: 0.4 }] }, options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
             
-            window.garageSpeedChart = new Chart(ctxSpeed, { 
-                type: 'line', data: { labels: lbls, datasets: [{ data: rSpeeds, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.2)', borderWidth: 2, pointRadius: 1, fill: true, tension: 0.2 }] }, 
-                options: staticOptions 
-            });
+            const bSecs = car.bestSectors || [Infinity, Infinity, Infinity, Infinity]; const sData = bSecs.map(s => s === Infinity ? 0 : s/1000);
+            window.garageSectorsChart = new Chart(ctxSectors, { type: 'bar', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ label: 'Récord Sector (s)', data: sData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderColor: 'rgba(255,255,255,0.2)', borderWidth: 1, borderRadius: 4 }] }, options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#cbd5e1', font: {size: 9, weight: 'bold'} }, grid: { display: false } }, y: { beginAtZero: false, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
             
-            const bSecs = car.bestSectors || [1.1, 1.2, 1.0, 1.3]; 
-            window.garageSectorsChart = new Chart(ctxSectors, { 
-                type: 'bar', data: { labels: ['S1', 'S2', 'S3', 'M'], datasets: [{ data: bSecs, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderWidth: 0, borderRadius: 2 }] }, 
-                options: { ...staticOptions, scales: { x: { ticks: { color: '#cbd5e1', font: {size: 8} }, grid: { display: false } }, y: { ticks: { color: '#94a3b8', font: {size: 8} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } 
-            });
+            let sumSectors = sData.reduce((a,b)=>a+b, 0);
+            if (sumSectors === 0) sumSectors = 1; 
+            const doughnutData = sData.map(v => (v/sumSectors)*100);
+            window.garageRadarChart = new Chart(ctxRadar, { type: 'doughnut', data: { labels: ['S1', 'S2', 'S3', 'META'], datasets: [{ data: doughnutData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderColor: '#0f172a', borderWidth: 2 }] }, options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'right', labels: { color: '#cbd5e1', boxWidth: 10, font: {size: 9} } } } } });
             
-            window.garageRadarChart = new Chart(ctxRadar, { 
-                type: 'doughnut', 
-                data: { labels: ['S1', 'S2', 'S3', 'Meta'], datasets: [{ data: bSecs, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderWidth: 0 }] }, 
-                options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false } } } 
-            });
+            let validRData = rData.filter(v=>v>0);
+            let bestValForDelta = parseFloat(car.bestLap) || (validRData.length > 0 ? Math.min(...validRData) : 0);
+            const deltaData = rData.map(t => t > 0 && bestValForDelta > 0 ? (t - bestValForDelta) : 0);
+            window.garageDeltaChart = new Chart(ctxDelta, { type: 'bar', data: { labels: lbls, datasets: [{ label: 'Delta (s)', data: deltaData, backgroundColor: 'rgba(249, 115, 22, 0.4)', borderColor: '#f97316', borderWidth: 1, borderRadius: 2 }] }, options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: true, ticks: { color: '#94a3b8', font: {size: 8} }, grid: { display: false } }, y: { beginAtZero: true, ticks: { color: '#94a3b8', font: {size: 9} }, grid: { color: 'rgba(255,255,255,0.05)' } } } } });
         }
 
         function toggleGarageEdit(editing) {
@@ -1388,9 +1337,10 @@
             let rawDist = car._rawTotalDist || 0; let raceDistKm = (trackLen * currentLap) / 1000; rawDist += raceDistKm; car._rawTotalDist = rawDist; car.totalDist = rawDist.toFixed(3) + " km";
             if (rawTime > 0) { let avgSpdKmh = ((rawDist * 1000) / (rawTime / 1000)) * 3.6; car.avgSpd = avgSpdKmh.toFixed(1) + " km/h"; }
             
-            if (!car.recentLaps) car.recentLaps = []; if (!car.recentSpeeds) car.recentSpeeds = []; if (!car.bestSectors) car.bestSectors = [1.1, 1.2, 1.0, 1.3];
+            if (!car.recentLaps) car.recentLaps = []; if (!car.recentSpeeds) car.recentSpeeds = []; if (!car.bestSectors) car.bestSectors = [Infinity, Infinity, Infinity, Infinity];
             lapHistory.forEach(l => { car.recentLaps.push(l.time / 1000); car.recentSpeeds.push(l.speed); });
             if (car.recentLaps.length > 20) { car.recentLaps = car.recentLaps.slice(-20); car.recentSpeeds = car.recentSpeeds.slice(-20); }
+            for(let i=0; i<4; i++) { if(bestSectorTimes[i] < car.bestSectors[i]) car.bestSectors[i] = bestSectorTimes[i]; }
             saveGarageToLocal();
         };
 
@@ -1439,9 +1389,9 @@
             }
 
             const carsWithImages = await Promise.all(top25.map(async (car) => {
-                let imgSrc = 'https://placehold.co/150x150/0f172a/38bdf8?text=F1';
+                let imgSrc = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230f172a'/><text x='50' y='54' font-family='Arial' font-size='15' font-weight='900' fill='%2338bdf8' text-anchor='middle'>F1</text></svg>";
                 if (car.imageId) { const b = await ImageDB.get(car.imageId); if (b) imgSrc = b; } 
-                else if (car.image) { imgSrc = car.image; }
+                else if (car.image && car.image.length > 5) { imgSrc = car.image; }
                 return { ...car, displayImage: imgSrc };
             }));
 
@@ -1456,13 +1406,10 @@
                     <div class="relative w-full ${staggerClass} pb-6 group">
                         <div class="f1-box-marking"></div>
                         <div class="f1-grid-slot overflow-hidden p-3 sm:p-4 flex flex-row items-center justify-between gap-4 relative min-h-[90px]">
-                            
-                            <!-- FONDO DE FOTO GARANTIZADO -->
-                            <div class="absolute inset-0 z-0 bg-black">
+                            <div class="absolute inset-0 z-0">
                                 <img src="${car.displayImage}" class="w-full h-full object-cover blur-[6px] opacity-35 group-hover:blur-0 group-hover:opacity-70 transition-all duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent"></div>
                             </div>
-                            
                             <div class="flex items-center space-x-3 shrink-0 relative z-10">
                                 <span class="font-black text-4xl sm:text-5xl italic font-arial ${badgeColor} w-12 text-right drop-shadow-[0_0_10px_currentColor]">P${pos}</span>
                             </div>
@@ -1471,7 +1418,7 @@
                                 <div class="text-[11px] text-slate-300 uppercase tracking-widest truncate drop-shadow-md">${car.marca || 'S/M'} • ${car.cat || 'GT3'}</div>
                             </div>
                             <div class="flex flex-col items-end shrink-0 pl-3 border-l-2 border-slate-500/50 relative z-10 bg-black/40 p-2 rounded-r-lg backdrop-blur-sm">
-                                <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold drop-shadow-md" data-i18n="bestLap">Mejor Vuelta</span>
+                                <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold drop-shadow-md">Mejor Vuelta</span>
                                 <span class="text-emerald-400 font-mono font-black text-base sm:text-lg drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">${car.bestLap}</span>
                                 <span class="text-[10px] text-cyan-300 font-mono mt-0.5 drop-shadow-md">${car.avgSpd || '0.0 km/h'}</span>
                             </div>
@@ -1509,7 +1456,7 @@
         document.addEventListener('fullscreenchange', updateFsIcons);
         document.addEventListener('webkitfullscreenchange', updateFsIcons);
 
-        window.onload = () => { updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); updateTexts(); };
+        window.onload = () => { updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); };
     </script>
 </body>
 </html>
