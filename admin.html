@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sector Time</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* ESTILO NEON BLUE */
+        body { 
+            background: linear-gradient(180deg, #050a15 0%, #0a1128 50%, #030814 100%);
+            font-family: sans-serif; 
+            color: #fff; 
+        }
+        
+        .glass { 
+            background: rgba(10, 17, 40, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(0, 212, 255, 0.4); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+        
+        .input-dark { 
+            background: rgba(0, 0, 0, 0.7); 
+            border: 1px solid #005f8f; 
+            color: #00d4ff; 
+            outline: none; 
+            transition: 0.3s; 
+        }
+        .input-dark:focus { 
+            border-color: #00d4ff; 
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); 
+        }
+        
+        .history-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
+        .history-table th { text-align: left; padding: 10px; border-bottom: 1px solid #003a5e; color: #7dd3fc; }
+        .history-table td { padding: 10px; border-bottom: 1px solid rgba(0, 212, 255, 0.1); }
+
+        /* Efecto Texto Neón */
+        .neon-text {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.7), 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+        
+        .btn-neon {
+            background: linear-gradient(180deg, #005f8f 0%, #003a5e 100%);
+            color: #fff;
+            border: 1px solid #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-neon:hover {
+            background: linear-gradient(180deg, #008fcc 0%, #005f8f 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-2 relative">
+
+    <!-- ALERTA PERSONALIZADA (Reemplazo de alert() nativo para el visor) -->
+    <div id="custom-alert" class="hidden fixed inset-0 bg-slate-950/90 z-[100] flex flex-col items-center justify-center p-4">
+        <div class="glass p-6 rounded-xl border border-red-500/50 w-full max-w-sm text-center shadow-2xl">
+            <i class="fas fa-exclamation-triangle text-4xl text-cyan-400 mb-4 neon-text"></i>
+            <p id="custom-alert-msg" class="text-white text-sm mb-6"></p>
+            <button onclick="document.getElementById('custom-alert').classList.add('hidden')" class="btn-neon w-full font-bold py-2 rounded-lg transition">ACEPTAR</button>
+        </div>
+    </div>
+
+    <!-- 1. PANTALLA DE BLOQUEO -->
+    <div id="login-overlay" class="fixed inset-0 bg-[#050a15] z-50 flex flex-col items-center justify-center p-4">
+        <div class="glass p-8 rounded-2xl w-full max-w-sm text-center">
+            <i class="fas fa-user-lock text-5xl text-cyan-400 mb-6 neon-text"></i>
+            <h2 class="text-xl font-bold mb-4 text-cyan-400 uppercase neon-text">Admin Sector Time</h2>
+            <input type="password" id="admin-pass" class="w-full input-dark p-3 rounded-lg mb-4 text-center" placeholder="Contraseña">
+            <button onclick="checkPass()" class="btn-neon w-full font-bold py-3 rounded-lg transition uppercase tracking-widest text-xs">ENTRAR</button>
+            <p id="login-msg" class="text-red-400 text-xs mt-3 hidden">Contraseña incorrecta</p>
+            <p id="auth-status" class="text-xs text-slate-500 mt-2">Estado: Esperando...</p>
+        </div>
+    </div>
+
+    <!-- 2. PANEL PRINCIPAL -->
+    <div id="main-panel" class="hidden max-w-md mx-auto space-y-6 pb-12 pt-4">
+        
+        <!-- CABECERA -->
+        <header class="text-center py-4">
+            <h1 class="text-3xl font-black text-cyan-400 uppercase neon-text tracking-widest">SECTOR TIME</h1>
+            <p class="text-[10px] text-cyan-300 uppercase tracking-[0.2em] mt-1 font-bold">Gestión de Licencias Neon (15€)</p>
+        </header>
+
+        <!-- CONTADOR INTERESADOS -->
+        <div class="glass p-4 rounded-xl border-l-4 border-cyan-400 flex items-center justify-between">
+            <div>
+                <h3 class="text-xs font-bold text-cyan-100 uppercase">Clientes Interesados</h3>
+                <p class="text-[10px] text-slate-400">Han pulsado "Solicitar"</p>
+            </div>
+            <div class="text-right">
+                <span id="clicks-counter" class="text-3xl font-black text-cyan-400 neon-text">--</span>
+                <i class="fas fa-users text-cyan-400 ml-2"></i>
+            </div>
+        </div>
+
+        <!-- FASE 1: PEDIR PAGO -->
+        <div class="glass rounded-xl p-5 border border-cyan-500/30 relative">
+            <div class="absolute top-0 right-0 bg-[#003a5e] text-cyan-300 text-[10px] font-bold px-2.5 py-1 rounded-bl border-l border-b border-cyan-500">PASO 1</div>
+            <h2 class="text-sm font-bold text-cyan-200 mb-3"><i class="fas fa-comment-dollar mr-2 text-cyan-400 neon-text"></i>Enviar Instrucciones (15€)</h2>
+            <input type="email" id="client-email-1" class="w-full input-dark rounded p-2 text-sm mb-3" placeholder="Correo del interesado...">
+            <button onclick="sendPaymentRequest()" class="btn-neon w-full font-bold py-2.5 rounded text-sm flex justify-center gap-2 transition uppercase tracking-wider text-xs">
+                <i class="fas fa-paper-plane text-cyan-300"></i> ENVIAR DATOS PAGO
+            </button>
+        </div>
+
+        <!-- FASE 2: ENTREGAR LICENCIA -->
+        <div class="glass rounded-xl p-5 border border-cyan-500/40 relative">
+            <div class="absolute top-0 right-0 bg-[#005f8f] text-white text-[10px] font-bold px-2.5 py-1 rounded-bl border-l border-b border-cyan-400">PASO 2</div>
+            <h2 class="text-sm font-bold text-cyan-300 mb-3 neon-text"><i class="fas fa-gift mr-2"></i>Generar y Entregar</h2>
+            
+            <div class="space-y-3">
+                <input type="hidden" id="app-id" value="app_sector_time">
+                
+                <div>
+                    <label class="text-[10px] text-cyan-300/80 font-bold uppercase">Correo Cliente (Pagado)</label>
+                    <input type="email" id="client-email-2" class="w-full input-dark rounded p-2 text-sm font-mono" placeholder="cliente@email.com">
+                </div>
+                
+                <button onclick="generateAndSave()" id="btn-save" class="btn-neon w-full font-bold py-3 rounded text-sm mt-2 transition transform active:scale-95 uppercase tracking-wider text-xs">
+                    <i class="fas fa-cogs mr-1"></i> GUARDAR Y PREPARAR ENTREGA
+                </button>
+                
+                <!-- ZONA DE ENTREGA (OCULTA) -->
+                <div id="delivery-section" class="hidden pt-4 mt-2 border-t border-cyan-900/50 text-center">
+                    <div class="bg-black/60 p-3 rounded mb-3 border border-cyan-800">
+                        <p class="text-[10px] text-cyan-400/80">CLAVE GENERADA:</p>
+                        <p id="display-code" class="text-xl font-mono text-cyan-300 font-bold tracking-widest select-all neon-text">---</p>
+                    </div>
+                    <a id="btn-send-delivery" href="#" target="_blank" class="btn-neon block w-full font-bold py-3 rounded text-sm uppercase tracking-wider text-xs">
+                        <i class="fas fa-envelope-open-text mr-2"></i> ABRIR CORREO Y ENVIAR
+                    </a>
+                    <p id="status" class="text-center text-xs text-cyan-400 mt-2 font-bold"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORIAL -->
+        <div class="glass p-5 rounded-xl border border-cyan-900">
+            <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                <h3 class="text-xs font-bold text-cyan-300 uppercase">Licencias Generadas</h3>
+                <div class="flex gap-2">
+                    <button onclick="copyEmails('all')" class="bg-black/50 hover:bg-cyan-950 text-xs px-2.5 py-1.5 rounded border border-cyan-700 text-cyan-300 transition shadow" title="Copiar todos">
+                        <i class="fas fa-copy text-cyan-400"></i> Todos
+                    </button>
+                    <button onclick="copyEmails('active')" class="bg-black/50 hover:bg-cyan-950 text-xs px-2.5 py-1.5 rounded border border-cyan-700 text-cyan-300 transition shadow" title="Copiar activos">
+                        <i class="fas fa-copy text-green-400"></i> Activos
+                    </button>
+                    <button onclick="copyEmails('inactive')" class="bg-black/50 hover:bg-cyan-950 text-xs px-2.5 py-1.5 rounded border border-cyan-700 text-cyan-300 transition shadow" title="Copiar inactivos">
+                        <i class="fas fa-copy text-red-400"></i> Inactivos
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="history-table">
+                    <thead><tr><th>EMAIL</th><th>CÓDIGO</th><th>ESTADO</th><th></th></tr></thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="text-center pt-2">
+             <button onclick="logout()" class="text-cyan-500 hover:text-cyan-300 transition text-xs"><i class="fas fa-power-off mr-1"></i> Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMACIÓN DE BORRADO -->
+    <div id="confirm-modal" class="hidden fixed inset-0 bg-slate-950/90 z-[100] flex flex-col items-center justify-center p-4">
+        <div class="glass p-6 rounded-xl border border-red-500/50 w-full max-w-sm text-center shadow-2xl">
+            <i class="fas fa-trash-alt text-4xl text-red-400 mb-4 drop-shadow-[0_0_10px_rgba(239,68,68,0.7)]"></i>
+            <p class="text-white text-sm mb-6">¿Estás seguro de que deseas eliminar permanentemente esta licencia?</p>
+            <div class="flex gap-2">
+                <button onclick="closeConfirmModal()" class="w-1/2 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-lg transition border border-cyan-900">CANCELAR</button>
+                <button onclick="executeDelete()" class="w-1/2 bg-red-700 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition border border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]">ELIMINAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, doc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        window.showAlert = function(msg) {
+            document.getElementById('custom-alert-msg').textContent = msg;
+            document.getElementById('custom-alert').classList.remove('hidden');
+        };
+
+        const APP_ID = "app_sector_time";
+        const PRECIO = "15 euros";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDW-2Yc4kvZJYbNOVeesPZWdRThYe0noUI",
+          authDomain: "correo-95e58.firebaseapp.com",
+          projectId: "correo-95e58",
+          storageBucket: "correo-95e58.firebasestorage.app",
+          messagingSenderId: "977860532946",
+          appId: "1:977860532946:web:3738c6b7165201bce7ab0b",
+          measurementId: "G-6DMG51VQ92"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const BASE_URL = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        const CLIENT_URL = `${BASE_URL}/sector-time.html`;
+
+        (async function initSecurity() {
+            try {
+                await signInAnonymously(auth);
+                document.getElementById('auth-status').textContent = "Conectado";
+                document.getElementById('auth-status').className = "text-xs text-green-400 mt-2 font-bold";
+            } catch(e) { 
+                console.error("Error Auth:", e); 
+                document.getElementById('auth-status').textContent = "Error Conexión: " + e.message;
+                document.getElementById('auth-status').className = "text-xs text-red-400 mt-2";
+            }
+        })();
+
+        window.checkPass = function() {
+            if(document.getElementById('admin-pass').value === "admin123") {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('main-panel').classList.remove('hidden');
+                
+                initStats();
+                loadHistory();
+            } else {
+                document.getElementById('login-msg').classList.remove('hidden');
+            }
+        }
+
+        window.logout = function() { location.reload(); }
+
+        let docToDelete = null;
+        window.promptDelete = function(id) {
+            docToDelete = id;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        }
+        
+        window.closeConfirmModal = function() {
+            docToDelete = null;
+            document.getElementById('confirm-modal').classList.add('hidden');
+        }
+        
+        window.executeDelete = async function() {
+            if(!docToDelete) return;
+            try {
+                const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'access_codes', docToDelete);
+                await deleteDoc(docRef);
+                closeConfirmModal();
+            } catch (error) {
+                console.error("Error borrando:", error);
+                showAlert("No se pudo eliminar la licencia: " + error.message);
+            }
+        }
+
+        function initStats() {
+            try {
+                // FIXED: Added 'general' segment to make path even (artifacts / {APP_ID} / public / data / stats / general)
+                onSnapshot(doc(db, 'artifacts', APP_ID, 'public', 'data', 'stats', 'general'), (docSnap) => {
+                    if (docSnap.exists()) {
+                        document.getElementById('clicks-counter').textContent = docSnap.data()?.purchase_clicks || 0;
+                    } else {
+                        document.getElementById('clicks-counter').textContent = "0";
+                    }
+                }, (error) => {
+                    console.error("Error cargando estadísticas:", error);
+                    document.getElementById('clicks-counter').textContent = "Err";
+                });
+            } catch(e) {
+                console.error("Excepción en initStats:", e);
+            }
+        }
+
+        window.loadedLicenses = [];
+
+        function loadHistory() {
+            try {
+                onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'access_codes'), (snap) => {
+                    const body = document.getElementById('history-body');
+                    body.innerHTML = "";
+                    window.loadedLicenses = [];
+
+                    snap.docs.forEach(d => {
+                        const data = d.data();
+                        const isActive = (data.active !== false);
+                        
+                        window.loadedLicenses.push({ email: data.email, active: isActive });
+
+                        const statusText = isActive ? '<span class="text-green-400 font-bold">Activo</span>' : '<span class="text-red-400 font-bold">Inactivo</span>';
+                        body.innerHTML += `<tr>
+                            <td>${data.email}</td>
+                            <td class="font-mono text-cyan-300 font-bold">${data.code}</td>
+                            <td>${statusText}</td>
+                            <td class="text-right">
+                                <button onclick="promptDelete('${d.id}')" class="text-red-400 hover:text-red-300 transition" title="Borrar licencia">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+                    });
+                });
+            } catch(e) {}
+        }
+
+        window.copyEmails = function(filter) {
+            let emailsToCopy = [];
+            
+            if (filter === 'all') {
+                emailsToCopy = window.loadedLicenses.map(l => l.email);
+            } else if (filter === 'active') {
+                emailsToCopy = window.loadedLicenses.filter(l => l.active).map(l => l.email);
+            } else if (filter === 'inactive') {
+                emailsToCopy = window.loadedLicenses.filter(l => !l.active).map(l => l.email);
+            }
+
+            emailsToCopy = emailsToCopy.filter(e => e && e.trim() !== "");
+
+            if (emailsToCopy.length === 0) {
+                return window.showAlert("No hay correos en esta categoría para copiar.");
+            }
+
+            const textToCopy = emailsToCopy.join(', ');
+
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                window.showAlert(`¡Éxito! Se han copiado ${emailsToCopy.length} correos al portapapeles.`);
+            } catch (err) {
+                console.error('Error al copiar', err);
+                window.showAlert("Error al copiar. Puede que el navegador lo esté bloqueando.");
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+
+        window.sendPaymentRequest = function() {
+            const email = document.getElementById('client-email-1').value;
+            if(!email) return showAlert("Escribe el correo.");
+            const subject = encodeURIComponent("Instrucciones Pago SECTOR TIME NEON");
+            const body = `Hola ${email},%0D%0A%0D%0APara activar tu licencia NEON de SECTOR TIME (${PRECIO}), los pasos son:%0D%0A%0D%0A1. Importe: ${PRECIO}%0D%0A2. Realiza el pago (Bizum/Transferencia) según lo acordado.%0D%0A%0D%0AEnvíame el justificante respondiendo a este correo y recibirás tu clave de activación inmediata.%0D%0A%0D%0AGracias.`;
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            document.getElementById('client-email-2').value = email;
+        }
+
+        window.generateAndSave = async function() {
+            const email = document.getElementById('client-email-2').value.trim();
+            const btn = document.getElementById('btn-save');
+            if(!email) return showAlert("Falta el correo.");
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERANDO...';
+
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let code = "";
+            for(let i=0; i<3; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+            code += "-";
+            for(let i=0; i<3; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+
+            try {
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'access_codes'), { email: email, code: code, active: true, createdAt: new Date().toISOString() });
+                
+                document.getElementById('display-code').textContent = code;
+                document.getElementById('status').innerText = "✅ Guardado";
+                
+                const subject = encodeURIComponent("Tu Licencia SECTOR TIME NEON - Activada");
+                const bodyText = `SLOTSOFTWARE le da las gracias por confiar en nuestro producto.%0D%0A%0D%0APago recibido correctamente. Aquí tienes tu acceso:%0D%0A%0D%0A📧 Usuario: ${email}%0D%0A🔑 CLAVE: ${code}%0D%0A%0D%0A👉 Entra aquí: ${CLIENT_URL}%0D%0A%0D%0AGracias por tu confianza!`;
+                document.getElementById('btn-send-delivery').href = `mailto:${email}?subject=${subject}&body=${bodyText}`;
+                document.getElementById('delivery-section').classList.remove('hidden');
+            } catch (error) { 
+                console.error(error);
+                showAlert("Error al guardar: " + error.message); 
+                document.getElementById('status').innerText = "❌ Error";
+            }
+            btn.disabled = false; btn.innerHTML = '<i class="fas fa-cogs mr-1"></i> GUARDAR Y PREPARAR ENTREGA';
+        }
+    </script>
+</body>
+</html>

@@ -2,1784 +2,354 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SECTOR TIME V.1.0</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-name" content="SECTOR TIME">
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at center, #0B1120 0%, #030712 100%);
-            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-            height: 100vh; overflow: hidden; color: #e2e8f0; overscroll-behavior: none;
-            user-select: none; -webkit-user-select: none; touch-action: manipulation;
-        }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; box-shadow: 0 0 5px #06b6d4; }
-        ::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
-        
-        #orientation-lock {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #030712; color: #22d3ee; z-index: 9999; 
-            flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;
-        }
-        #orientation-lock svg { width: 80px; height: 80px; margin-bottom: 20px; animation: rotateDevice 2s infinite ease-in-out; color: #06b6d4; filter: drop-shadow(0 0 10px #06b6d4); }
-        @keyframes rotateDevice { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
-        #orientation-lock h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px #06b6d4; }
-        
-        @media screen and (orientation: portrait) {
-            #orientation-lock { display: flex; }
-            .dashboard-layout { display: none !important; }
+        body { 
+            background: linear-gradient(180deg, #050a15 0%, #0a1128 50%, #030814 100%);
+            font-family: sans-serif; 
+            color: #fff;
         }
 
-        input, select { user-select: text; -webkit-user-select: text; }
         .neon-panel {
-            background: linear-gradient(135deg, rgba(14, 116, 144, 0.45) 0%, rgba(30, 58, 138, 0.55) 100%);
-            border: 1px solid #06b6d4; box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 25px rgba(6, 182, 212, 0.3);
-            backdrop-filter: blur(12px); border-radius: 12px; color: #e2e8f0; 
+            background: rgba(10, 17, 40, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0, 212, 255, 0.1);
+            color: #e0f2fe;
         }
-        .neon-input { background: rgba(15, 23, 42, 0.6); border: 1px solid #0ea5e9; color: #a5f3fc; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5); }
-        .neon-input:focus { background: rgba(30, 58, 138, 0.8); border-color: #22d3ee; outline: none; box-shadow: 0 0 10px rgba(34, 211, 238, 0.5); }
 
-        .font-arial { font-family: Arial, sans-serif !important; }
-        .neon-blue-title {
-            color: #22d3ee; text-shadow: 0 0 5px rgba(34, 211, 238, 0.6), 0 0 15px rgba(6, 182, 212, 0.8), 2px 2px 4px rgba(0,0,0,0.8);
-            text-align: left; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em;
+        .chrome-panel {
+            background: rgba(5, 10, 21, 0.8); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
         }
+
+        .neon-text {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.7), 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-neon {
+            background: linear-gradient(180deg, #005f8f 0%, #003a5e 100%);
+            color: #fff;
+            border: 1px solid #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-neon:hover {
+            background: linear-gradient(180deg, #008fcc 0%, #005f8f 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.8);
+        }
+
+        #app-frame { width: 100vw; height: 100vh; border: none; display: none; background: white; }
         
-        .traffic-light-container.five-lights { display: flex; gap: 10px; }
-        .light {
-            width: 30px; height: 30px; border-radius: 50%; background-color: #111827; border: 2px solid #334155; 
-            box-shadow: inset 0 0 10px #000; transition: all 0.1s ease;
-        }
-        .light.red { background-color: #ef4444; border-color: #f87171; box-shadow: 0 0 20px #ef4444, inset 0 0 10px rgba(255,255,255,0.5); }
-        .light.green { background-color: #10b981; border-color: #34d399; box-shadow: 0 0 20px #10b981, inset 0 0 10px rgba(255,255,255,0.5); }
-
-        #video-container {
-            position: relative; width: 100%; height: 100%; border: 2px solid #0891b2; background-color: #000; 
-            border-radius: 0.5rem; overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 0 15px rgba(6, 182, 212, 0.3);
-        }
-        #webcam-feed { width: 100%; height: 100%; object-fit: fill; display: block; filter: contrast(1.2) brightness(1.1); }
-
-        @keyframes dashLine { to { stroke-dashoffset: -30; } }
-        @keyframes float3d { 0% { transform: rotateX(65deg) rotateZ(45deg) translateZ(0px); } 50% { transform: rotateX(60deg) rotateZ(40deg) translateZ(30px); } 100% { transform: rotateX(65deg) rotateZ(45deg) translateZ(0px); } }
-
-        .roi-box {
-            position: absolute; cursor: move; border: 3px solid rgba(255, 255, 255, 0.8); background-color: rgba(34, 211, 238, 0.15);
-            box-shadow: 0 0 15px rgba(0,0,0,0.5), inset 0 0 15px rgba(34, 211, 238, 0.3);
-            transition: background-color 0.1s ease, box-shadow 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; 
-            flex-direction: column; align-items: center; justify-content: center;
-        }
-        #roi-0 { border-color: #10b981; color: #10b981; } 
-        #roi-1 { border-color: #3b82f6; color: #3b82f6; } 
-        #roi-2 { border-color: #eab308; color: #eab308; } 
-        #roi-3 { border-color: #a855f7; color: #a855f7; }
-
-        @keyframes pulse-expected { 0% { box-shadow: 0 0 5px currentColor, inset 0 0 2px currentColor; } 50% { box-shadow: 0 0 30px currentColor, inset 0 0 15px currentColor; } 100% { box-shadow: 0 0 5px currentColor, inset 0 0 2px currentColor; } }
-        .roi-expected { animation: pulse-expected 1.5s infinite ease-in-out !important; background-color: rgba(255, 255, 255, 0.1) !important; z-index: 15; }
-        .roi-disabled { opacity: 0.35 !important; border-style: dashed !important; background-color: transparent !important; box-shadow: none !important; filter: grayscale(0.5); }
-        .roi-box.active-roi { display: flex; }
-        .roi-detected { background-color: rgba(255, 255, 255, 0.5) !important; box-shadow: 0 0 40px rgba(255, 255, 255, 0.8) !important; }
-        .roi-locked { border-color: #475569 !important; background-color: rgba(0, 0, 0, 0.3) !important; opacity: 0.5; box-shadow: none !important; }
-
-        .roi-label { font-size: 14px; font-weight: 900; font-family: Arial, sans-serif; text-transform: uppercase; text-shadow: 0 0 6px #000; pointer-events: none; }
-        .detection-val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(0,0,0,0.8); color: #fff; border: 1px solid currentColor; font-size: 9px; font-weight: 600; font-family: 'Arial', sans-serif; padding: 2px 6px; border-radius: 4px; pointer-events: none; }
-        
-        .resize-handle { position: absolute; width: 44px; height: 44px; background: transparent; z-index: 20; touch-action: none; display: flex; align-items: center; justify-content: center; }
-        .resize-handle::after { content: ''; width: 14px; height: 14px; background-color: #0f172a; border: 2px solid currentColor; box-shadow: 0 0 8px currentColor; border-radius: 2px; transition: transform 0.1s ease; }
-        .resize-handle:active::after { transform: scale(1.4); background-color: currentColor; }
-        .tl { top: -22px; left: -22px; cursor: nwse-resize; } .br { bottom: -22px; right: -22px; cursor: nwse-resize; } 
-        .dragging { cursor: grabbing !important; opacity: 0.8; z-index: 30; } .resizing-nwse { cursor: nwse-resize !important; }
-        #video-canvas { display: none; }
-
-        #sector-log-container {
-            position: absolute; bottom: 10px; left: 10px; width: 40%; max-width: 250px;
-            z-index: 40; pointer-events: none; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
-        }
-        .log-entry {
-            display: grid; grid-template-columns: 45% 30% 25%; align-items: center;
-            font-family: 'Courier New', monospace; font-size: 14px; font-weight: 900;
-            color: #4ade80; text-shadow: 0 0 5px #22c55e, 1px 1px 0px #000;
-            transition: opacity 0.5s ease; opacity: 1; text-transform: uppercase;
-        }
-        .log-entry.old { opacity: 0.4; }
-        .log-entry.worse { color: #f87171; text-shadow: 0 0 5px #ef4444, 1px 1px 0px #000; }
-        .log-entry.record { color: #e879f9; text-shadow: 0 0 5px #d946ef, 1px 1px 0px #000; }
-        .log-col-time { text-align: right; }
-        .log-col-delta { text-align: right; font-size: 11px; }
-
-        .timer-value { font-size: 1.25rem; line-height: 1.75rem; white-space: nowrap; color: #fff; font-weight: 900; text-shadow: 0 0 10px rgba(255,255,255,0.4); }
-        @media (min-width: 640px) { .timer-value { font-size: 1.5rem; line-height: 2rem; } }
-        
-        .telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .telemetry-item { display: flex; flex-direction: column; padding: 8px; border-radius: 6px; background: rgba(8, 145, 178, 0.25); border: 1px solid #38bdf8; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 0 10px rgba(14, 116, 144, 0.4); }
-        .telemetry-label { font-size: 0.75rem; font-weight: 700; color: #38bdf8; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .telemetry-data { font-size: 0.9rem; font-weight: 800; color: #f8fafc; text-shadow: 0 0 5px rgba(255,255,255,0.2); }
-        .telemetry-data.green { color: #4ade80; text-shadow: 0 0 8px rgba(74,222,128,0.5); } .telemetry-data.cyan { color: #22d3ee; }
-
-        .race-control-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 0; border-radius: 12px;
-            background: linear-gradient(180deg, rgba(30, 58, 138, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%); border: 1px solid #3b82f6; transition: all 0.2s ease;
-            font-size: 0.75rem; font-weight: 700; color: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-        .race-control-btn:active { box-shadow: inset 0 2px 8px rgba(0,0,0,0.8); transform: translateY(1px); }
-        #start-race-btn.race-control-btn { color: #34d399; border-bottom: 3px solid #059669; border-color: #059669; }
-        #start-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(5, 150, 105, 0.2); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); color: #6ee7b7; }
-        #reset-race-btn.race-control-btn { color: #f87171; border-bottom: 3px solid #b91c1c; border-color: #b91c1c; }
-        #reset-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(185, 28, 28, 0.2); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); color: #fca5a5; }
-        #pause-btn { color: #22d3ee; border-bottom: 3px solid #0891b2; border-color: #0891b2; }
-        #pause-btn:hover:not(:disabled) { background: rgba(8, 145, 178, 0.2); box-shadow: 0 0 15px rgba(6, 182, 212, 0.4); color: #67e8f9; }
-        .control-icon { width: 20px; height: 20px; margin-bottom: 4px; }
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(2, 6, 23, 0.8); backdrop-filter: blur(8px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
-        .modal-overlay.open { opacity: 1; visibility: visible; }
-        .modal-content { background: linear-gradient(135deg, rgba(14, 116, 144, 0.95), rgba(30, 58, 138, 0.95)); color: #e2e8f0; border-radius: 1rem; border: 1px solid #06b6d4; box-shadow: 0 0 40px rgba(6, 182, 212, 0.4); max-width: 90%; max-height: 90%; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s ease; }
-        .modal-overlay.open .modal-content { transform: scale(1); }
-        
-        table { width: 100%; text-align: left; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 8px; border-bottom: 1px solid #1e293b; font-family: Arial, sans-serif; font-size: 0.85rem; color: #cbd5e1; }
-        th { color: #38bdf8; text-transform: uppercase; font-weight: 800; border-bottom: 2px solid #0284c7; }
-        
-        #record-notification { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(to right, #06b6d4, #3b82f6); color: #fff; padding: 1rem 2rem; border-radius: 1rem; font-size: 1.5rem; font-weight: 900; border: 2px solid #cffafe; box-shadow: 0 0 40px rgba(34, 211, 238, 0.8), inset 0 0 20px rgba(255,255,255,0.5); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; text-transform: uppercase; letter-spacing: 2px; }
-        #record-notification.show { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-        
-        .calib-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(2, 6, 23, 0.85); color: #22d3ee; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; display: none; backdrop-filter: blur(4px); font-family: Arial, sans-serif; }
-        .calib-overlay.active { display: flex; }
-        .spinner { border: 6px solid #0f172a; border-top: 6px solid #22d3ee; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px; box-shadow: 0 0 15px rgba(34, 211, 238, 0.5); }
-        
-        #false-start-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: linear-gradient(to bottom, #7f1d1d, #450a0a); border: 2px solid #ef4444; box-shadow: 0 0 40px #ef4444; color: #fff; text-align: center; padding: 1.5rem; border-radius: 1rem; z-index: 60; display: none; font-family: Arial, sans-serif; }
-        #false-start-alert.show { display: block; animation: pulse 0.5s infinite alternate; }
-        @keyframes pulse { from { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px #ef4444;} to { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 50px #ef4444;} }
-
-        #yellow-flag-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 40; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(4px); border: 4px solid #facc15; box-shadow: inset 0 0 50px rgba(250, 204, 21, 0.5); }
-        #yellow-flag-overlay.active { display: flex; }
-        .yellow-flag-icon { width: 80px; height: 80px; color: #facc15; animation: wave 1s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(250,204,21,0.8)); }
-
-        .optical-idle-screen {
-            position: absolute; inset: 0; background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 8; overflow: hidden;
-        }
-
-        .g-box { border: 1px solid #06b6d4; border-radius: 8px; background-color: rgba(10, 0, 0, 0.6); padding: 8px 12px; box-shadow: inset 0 0 10px rgba(6, 182, 212, 0.05); }
-        .g-row { display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1px 0; min-height: 24px; }
-        .g-row:last-child { border-bottom: none; }
-        .g-lbl { color: #9ca3af; font-size: 11px; text-transform: uppercase; width: 40%; text-align: right; padding-right: 8px; white-space: nowrap; }
-        .g-val { color: #ffffff; font-size: 12px; font-weight: 700; width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'Arial', sans-serif; }
-        .g-inp { background: rgba(0,0,0,0.8); border: 1px solid #4b5563; color: #fff; font-size: 12px; width: 60%; padding: 1px 4px; display: none; font-family: 'Arial', sans-serif; outline: none; height: 22px; border-radius: 4px; transition: all 0.2s ease;}
-        .g-inp:focus { border-color: #22d3ee; box-shadow: 0 0 10px rgba(34,211,238,0.6), inset 0 0 5px rgba(34,211,238,0.2); background: rgba(15,25,35,0.9); }
-        .g-editing .g-val { display: none; }
-        .g-editing .g-inp { display: block; }
-        .g-header { color: #67e8f9; font-size: 13px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
-
-        .worn-asphalt-bg {
-            background-color: #1e293b; 
-            background-image: 
-                linear-gradient(90deg, rgba(0,0,0,0) 15%, rgba(0,0,0,0.15) 22%, rgba(0,0,0,0.15) 28%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.15) 72%, rgba(0,0,0,0.15) 78%, rgba(0,0,0,0) 85%),
-                url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.12"/></svg>');
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
+        .img-container {
+            width: 100%;
+            max-width: 240px;
+            margin: 0 auto 2.5rem auto;
             position: relative;
         }
 
-        .custom-tv-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-tv-scroll::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 4px; }
-        .custom-tv-scroll::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
+        .aspect-9-16 {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            border-radius: 1rem;
+            box-shadow: 0 0 35px rgba(0, 212, 255, 0.2);
+            border: 3px solid #00d4ff;
+            background: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .input-metallic {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #005f8f;
+            color: #00d4ff;
+            transition: all 0.3s;
+        }
+        .input-metallic:focus {
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            outline: none;
+        }
+
+        /* Modal de Alerta de Sesión */
+        #session-alert {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
-<body>
-    <div id="orientation-lock">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>
-        </svg>
-        <h2 data-i18n="rotateDeviceTitle">Gira tu dispositivo / Rotate Device</h2>
-        <p data-i18n="rotateDeviceDesc">SECTOR TIME V.1.0 está diseñado para usarse únicamente en formato apaisado (horizontal).</p>
-    </div>
+<body class="min-h-screen overflow-y-auto">
 
-    <div id="systemModal" class="modal-overlay hidden" style="z-index: 9999;">
-        <div class="modal-content p-6 text-center max-w-sm bg-slate-900 border border-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.3)] rounded-xl">
-            <h3 id="sys-modal-msg" class="text-lg font-bold text-white mb-6">...</h3>
-            <div class="flex justify-center gap-4">
-                <button id="sys-modal-cancel" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded font-bold transition-colors">Cancelar</button>
-                <button id="sys-modal-ok" class="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded font-bold shadow-[0_0_10px_rgba(34,211,238,0.4)] transition-colors">Aceptar</button>
-            </div>
+    <!-- Modal de Sesión Duplicada -->
+    <div id="session-alert">
+        <div class="chrome-panel p-8 rounded-2xl max-w-sm text-center border-red-500/50 shadow-[0_0_30px_rgba(239,68,68,0.3)]">
+            <i class="fas fa-user-shield text-4xl text-red-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-2">Sesión Finalizada</h3>
+            <p class="text-sm text-slate-300 mb-6">Se ha detectado un inicio de sesión desde otro dispositivo.</p>
+            <button onclick="location.reload()" class="btn-neon w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest">
+                Entendido
+            </button>
         </div>
     </div>
 
-    <div class="dashboard-layout flex flex-row w-full h-screen p-2 sm:p-4 gap-3 md:gap-4 box-border overflow-hidden bg-transparent">
+    <div id="auth-container" class="min-h-screen flex flex-col items-center justify-center p-4 md:p-6">
         
-        <div class="flex-1 flex flex-col h-full min-w-[55%] lg:min-w-[65%] max-h-full">
-            
-            <div class="neon-panel flex flex-col sm:flex-row justify-between items-center py-2 px-4 mb-3 flex-shrink-0 z-20">
-                <div class="flex items-center">
-                    <div class="flex flex-col mr-4">
-                        <h1 class="text-sm md:text-lg neon-blue-title tracking-wider leading-tight">SECTOR TIME V.1.0</h1>
-                        <span class="text-[9px] font-normal text-cyan-700">By Albert Closa</span>
-                    </div>
-                    <!-- Botones Garaje y Ranking -->
-                    <div class="flex items-center space-x-1.5 ml-1 bg-slate-900/60 p-1 rounded-xl border border-cyan-900/50 shadow-inner">
-                        <button id="open-garage-btn" class="flex items-center text-cyan-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-cyan-950 border border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.2)] hover:shadow-[0_0_15px_rgba(6,182,212,0.6)] transition group" title="Garaje">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-cyan-400 group-hover:scale-110 transition-transform"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
-                            <span class="text-[11px] font-black uppercase tracking-widest" data-i18n="garageBtn">Garaje</span>
-                        </button>
-                        <button id="ranking-btn" class="flex items-center text-amber-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-amber-950 border border-amber-700 shadow-[0_0_10px_rgba(217,119,6,0.2)] hover:shadow-[0_0_15px_rgba(217,119,6,0.6)] transition group" title="Ranking del Garaje">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-amber-400 group-hover:-translate-y-0.5 transition-transform"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14" fill="currentColor" fill-opacity="0.2"/><path d="M15 17H9"/></svg>
-                            <span class="text-[11px] font-black uppercase tracking-widest" data-i18n="rankingBtn">Ranking</span>
-                        </button>
+        <div class="text-center mb-8 md:mb-10 mt-4">
+            <h1 class="text-3xl md:text-4xl font-black tracking-tighter neon-text uppercase drop-shadow-lg">SECTOR TIME V.1.0</h1>
+            <div class="h-1 w-20 md:w-24 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mt-2"></div>
+            <p class="text-cyan-300/80 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mt-3 font-bold">Neon Edition / Gestión de Tiempos</p>
+        </div>
+
+        <div class="img-container">
+            <div class="aspect-9-16">
+                <img id="user-image" src="5.jpeg" 
+                     alt="[Imagen de Sector Time]" 
+                     class="w-full h-full object-cover"
+                     onerror="this.style.display='none'; document.getElementById('placeholder').style.display='flex';">
+                
+                <div id="placeholder" class="flex flex-col items-center justify-center p-5 text-center text-cyan-700/50" style="display: none;">
+                    <i class="fas fa-stopwatch text-6xl mb-4 opacity-40 text-cyan-500"></i>
+                    <p class="text-xs font-bold uppercase tracking-widest text-cyan-400">sector.jpg</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+
+            <!-- Panel Izquierdo: Información Comercial -->
+            <div class="neon-panel rounded-3xl p-6 md:p-8 relative flex flex-col justify-between">
+                <div class="absolute -top-3 -right-3 bg-black text-cyan-300 text-[9px] font-bold px-3 py-1 rounded-full border border-cyan-500 shadow-[0_0_15px_rgba(0,212,255,0.5)]">LICENCIA NEON</div>
+                
+                <div>
+                    <h2 class="text-lg md:text-xl font-black mb-4 flex items-center text-cyan-300">
+                        <i class="fas fa-microchip mr-3 opacity-90"></i> ADQUISICIÓN
+                    </h2>
+                    
+                    <p class="text-cyan-100/90 text-sm mb-6 leading-relaxed font-bold">
+                        Tecnología de precisión para Slot. Un solo pago de 15 euros, control total de por vida.
+                    </p>
+
+                    <div class="bg-black/30 rounded-2xl p-5 border border-cyan-900/50 mb-6">
+                        <ul class="text-xs space-y-3 text-cyan-50 font-black">
+                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-400"></i> Solicita acceso vía Email</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-400"></i> Pago único de 15 euros</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-400"></i> Activación Vitalicia</li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-2 mt-2 sm:mt-0">
-                    <button id="calibrate-btn" class="p-1.5 px-3 rounded-lg bg-slate-800 text-cyan-300 border border-cyan-700 hover:bg-cyan-900 hover:text-white text-[10px] font-bold uppercase transition shadow-[0_0_8px_rgba(6,182,212,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center group">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1 group-hover:rotate-180 transition-transform duration-500"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                        <span data-i18n="autoCalib">Auto Calibrar</span>
+                <a id="mail-link" href="#" class="block w-full bg-black hover:bg-slate-900 text-cyan-400 font-black py-4 rounded-xl text-center shadow-[0_0_15px_rgba(0,0,0,0.8)] transition duration-300 transform hover:scale-[1.02] text-sm tracking-widest uppercase border border-cyan-700">
+                    SOLICITAR AHORA (15 EUROS)
+                </a>
+            </div>
+
+            <!-- Panel Derecho: Formulario de Acceso -->
+            <div class="chrome-panel rounded-3xl p-6 md:p-8 flex flex-col">
+                <h2 class="text-lg md:text-xl font-bold text-white mb-6 flex items-center neon-text">
+                    <i class="fas fa-fingerprint mr-3"></i> AREA CLIENTE
+                </h2>
+
+                <form id="login-form" class="space-y-6 flex-grow">
+                    <div>
+                        <label class="block text-[10px] font-black text-cyan-400/80 uppercase mb-2 tracking-widest">Identificación</label>
+                        <input type="email" id="email" required 
+                            class="w-full input-metallic rounded-xl p-4 text-sm"
+                            placeholder="tu@email.com">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black text-cyan-400/80 uppercase mb-2 tracking-widest">Código de Activación</label>
+                        <input type="text" id="code" required 
+                            class="w-full input-metallic rounded-xl p-4 text-center tracking-[0.5em] uppercase font-mono text-sm"
+                            placeholder="XXX-XXX">
+                    </div>
+                    
+                    <div id="msg-box" class="hidden p-3 rounded-xl text-xs text-center font-bold break-words"></div>
+
+                    <button type="submit" id="btn-login" class="btn-neon w-full font-black py-4 rounded-xl shadow-xl transition flex justify-center items-center text-sm tracking-widest uppercase">
+                        ENTRAR <i class="fas fa-chevron-right ml-3 text-xs"></i>
                     </button>
-                    <select id="cam-device-select" class="hidden w-32 bg-slate-900 border border-cyan-800 rounded p-1 text-[10px] font-bold text-cyan-400"></select>
-                    <div class="flex bg-slate-900/90 p-1 rounded-xl border border-cyan-800/80 shadow-inner items-center space-x-1">
-                        <button id="camera-on-btn" class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-green-600 to-green-800 text-white hover:from-green-500 hover:to-green-700 border border-green-400 disabled:opacity-40 transition shadow-[0_0_10px_rgba(16,185,129,0.4)] text-[10px] font-black uppercase tracking-wider flex items-center">
-                            CAM ON
-                        </button>
-                        <button id="camera-off-btn" class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-red-600 to-red-900 text-white hover:from-red-500 hover:to-red-700 border border-red-500 disabled:opacity-40 transition shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[10px] font-black uppercase tracking-wider flex items-center" disabled>
-                            OFF
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="neon-panel flex-1 relative flex flex-col p-2 min-h-0 z-10 border border-cyan-800">
-                <div id="video-container">
-                    <video id="webcam-feed" autoplay playsinline></video>
-                    
-                    <div id="optical-idle-screen" class="optical-idle-screen">
-                        
-                        <!-- 3D Isometric HUD (Extreme True 3D Preserve) -->
-                        <div class="relative w-full h-full max-w-[700px] max-h-[700px] flex items-center justify-center mt-[-100px]" style="perspective: 900px; transform-style: preserve-3d;">
-                            
-                            <!-- Base giratoria en 3D -->
-                            <div class="relative w-[340px] h-[340px] flex items-center justify-center" style="transform-style: preserve-3d; transform: rotateX(65deg) rotateZ(45deg); animation: float3d 8s ease-in-out infinite;">
-                                
-                                <!-- Multi-layered Base Grid & Rings -->
-                                <div class="absolute w-full h-full border-[2px] border-cyan-500/30 rounded-full shadow-[0_0_50px_rgba(6,182,212,0.4),inset_0_0_40px_rgba(34,211,238,0.2)] flex items-center justify-center" style="transform: translateZ(0px); transform-style: preserve-3d;">
-                                    <div class="absolute w-[90%] h-[90%] border border-cyan-400/20 rounded-full border-dashed" style="transform: translateZ(10px);"></div>
-                                    <div class="absolute w-[75%] h-[75%] border-2 border-cyan-300/10 rounded-full" style="transform: translateZ(20px);"></div>
-                                    <div class="absolute w-[50%] h-[50%] border border-cyan-500/40 rounded-full border-dotted" style="transform: translateZ(30px); box-shadow: inset 0 0 20px rgba(6,182,212,0.3);"></div>
-                                    
-                                    <!-- Core Central -->
-                                    <div class="w-20 h-20 bg-cyan-950/80 border border-cyan-400/50 rounded-full shadow-[0_0_40px_rgba(34,211,238,0.8)] backdrop-blur-md flex items-center justify-center animate-[pulse_2s_infinite_alternate]" style="transform: translateZ(50px); transform-style: preserve-3d;">
-                                        <div class="w-6 h-6 bg-cyan-300 rounded-full shadow-[0_0_30px_#fff]" style="transform: translateZ(10px);"></div>
-                                        <div class="absolute w-2 h-[60px] bg-gradient-to-b from-cyan-300 to-transparent" style="transform: rotateX(-90deg) translateY(-30px); transform-origin: top;"></div>
-                                    </div>
-                                    
-                                    <!-- Conexiones Vectoriales Proyectadas -->
-                                    <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_10px_rgba(34,211,238,1)]" viewBox="0 0 340 340" style="transform: translateZ(15px);">
-                                        <line x1="170" y1="170" x2="50" y2="50" stroke="rgba(16,185,129,0.8)" stroke-width="3" class="animate-[dashLine_2s_linear_infinite]" stroke-dasharray="10 6"/>
-                                        <line x1="170" y1="170" x2="290" y2="50" stroke="rgba(59,130,246,0.8)" stroke-width="3" class="animate-[dashLine_2.5s_linear_infinite]" stroke-dasharray="10 6"/>
-                                        <line x1="170" y1="170" x2="50" y2="290" stroke="rgba(234,179,8,0.8)" stroke-width="3" class="animate-[dashLine_3s_linear_infinite]" stroke-dasharray="10 6"/>
-                                        <line x1="170" y1="170" x2="290" y2="290" stroke="rgba(168,85,247,0.8)" stroke-width="3" class="animate-[dashLine_2.2s_linear_infinite]" stroke-dasharray="10 6"/>
-                                    </svg>
-                                </div>
-
-                                <!-- META (Top Left) en Perspectiva 3D Real -->
-                                <div class="absolute flex flex-col items-center justify-center" style="transform: translate(-120px, -120px) translateZ(30px); transform-style: preserve-3d;">
-                                    <div class="absolute w-20 h-20 bg-emerald-500/20 blur-xl rounded-xl" style="transform: translateZ(-25px);"></div>
-                                    <div class="absolute w-20 h-20 bg-emerald-950 border border-emerald-700 rounded-xl" style="transform: translateZ(-10px);"></div>
-                                    <div class="w-20 h-20 bg-emerald-900/90 border-2 border-emerald-400 rounded-xl shadow-[inset_0_0_15px_rgba(16,185,129,0.5)] flex flex-col items-center justify-center backdrop-blur-md relative" style="transform: translateZ(0px); transform-style: preserve-3d;">
-                                        <span class="text-lg font-black text-emerald-300 tracking-widest uppercase drop-shadow-[0_0_10px_rgba(16,185,129,1)]" style="transform: translateZ(15px);">META</span>
-                                        <div class="w-4 h-4 mt-1 border-2 border-emerald-400 rounded-full animate-ping opacity-70" style="transform: translateZ(10px);"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- SECTOR 1 (Top Right) en Perspectiva 3D Real -->
-                                <div class="absolute flex flex-col items-center justify-center" style="transform: translate(120px, -120px) translateZ(30px); transform-style: preserve-3d;">
-                                    <div class="absolute w-20 h-20 bg-blue-500/20 blur-xl rounded-xl" style="transform: translateZ(-25px);"></div>
-                                    <div class="absolute w-20 h-20 bg-blue-950 border border-blue-700 rounded-xl" style="transform: translateZ(-10px);"></div>
-                                    <div class="w-20 h-20 bg-blue-900/90 border-2 border-blue-400 rounded-xl shadow-[inset_0_0_15px_rgba(59,130,246,0.5)] flex flex-col items-center justify-center backdrop-blur-md relative" style="transform: translateZ(0px); transform-style: preserve-3d;">
-                                        <span class="text-lg font-black text-blue-300 tracking-widest uppercase drop-shadow-[0_0_10px_rgba(59,130,246,1)]" style="transform: translateZ(15px);">SEC 1</span>
-                                        <div class="w-4 h-4 mt-1 border-2 border-blue-400 rounded-full animate-ping opacity-70" style="animation-delay: 0.5s; transform: translateZ(10px);"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- SECTOR 2 (Bottom Left) en Perspectiva 3D Real -->
-                                <div class="absolute flex flex-col items-center justify-center" style="transform: translate(-120px, 120px) translateZ(30px); transform-style: preserve-3d;">
-                                    <div class="absolute w-20 h-20 bg-yellow-500/20 blur-xl rounded-xl" style="transform: translateZ(-25px);"></div>
-                                    <div class="absolute w-20 h-20 bg-yellow-950 border border-yellow-700 rounded-xl" style="transform: translateZ(-10px);"></div>
-                                    <div class="w-20 h-20 bg-yellow-900/90 border-2 border-yellow-400 rounded-xl shadow-[inset_0_0_15px_rgba(234,179,8,0.5)] flex flex-col items-center justify-center backdrop-blur-md relative" style="transform: translateZ(0px); transform-style: preserve-3d;">
-                                        <span class="text-lg font-black text-yellow-300 tracking-widest uppercase drop-shadow-[0_0_10px_rgba(234,179,8,1)]" style="transform: translateZ(15px);">SEC 2</span>
-                                        <div class="w-4 h-4 mt-1 border-2 border-yellow-400 rounded-full animate-ping opacity-70" style="animation-delay: 1s; transform: translateZ(10px);"></div>
-                                    </div>
-                                </div>
-                                
-                                <!-- SECTOR 3 (Bottom Right) en Perspectiva 3D Real -->
-                                <div class="absolute flex flex-col items-center justify-center" style="transform: translate(120px, 120px) translateZ(30px); transform-style: preserve-3d;">
-                                    <div class="absolute w-20 h-20 bg-purple-500/20 blur-xl rounded-xl" style="transform: translateZ(-25px);"></div>
-                                    <div class="absolute w-20 h-20 bg-purple-950 border border-purple-700 rounded-xl" style="transform: translateZ(-10px);"></div>
-                                    <div class="w-20 h-20 bg-purple-900/90 border-2 border-purple-400 rounded-xl shadow-[inset_0_0_15px_rgba(168,85,247,0.5)] flex flex-col items-center justify-center backdrop-blur-md relative" style="transform: translateZ(0px); transform-style: preserve-3d;">
-                                        <span class="text-lg font-black text-purple-300 tracking-widest uppercase drop-shadow-[0_0_10px_rgba(168,85,247,1)]" style="transform: translateZ(15px);">SEC 3</span>
-                                        <div class="w-4 h-4 mt-1 border-2 border-purple-400 rounded-full animate-ping opacity-70" style="animation-delay: 1.5s; transform: translateZ(10px);"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Panel de Requisitos (Tab S9) Detallado Elevado -->
-                        <div class="w-full max-w-[95%] md:max-w-[85%] bg-slate-900/90 border border-cyan-800 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] p-4 flex flex-col relative overflow-hidden backdrop-blur-md absolute bottom-16 z-20 max-h-[35vh]">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50"></div>
-                            <h3 class="text-cyan-400 text-sm md:text-base font-black uppercase tracking-widest text-center border-b border-cyan-900 pb-2 mb-2 shrink-0 flex justify-center items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2 text-cyan-500"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                <span data-i18n="reqTitleEx">Especificaciones Técnicas (Ref. Galaxy Tab S9)</span>
-                            </h3>
-                            
-                            <div class="overflow-y-auto custom-tv-scroll flex-1 pr-2">
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-cyan-900/50 shadow-inner">
-                                        <span class="text-cyan-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqSocTitle">Procesador (SoC)</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqSocDesc">Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-emerald-900/50 shadow-inner">
-                                        <span class="text-emerald-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqOpticTitle">Sensor Óptico</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqOpticDesc">60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-purple-900/50 shadow-inner">
-                                        <span class="text-purple-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqRamTitle">Memoria / B.W.</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqRamDesc">8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-yellow-900/50 shadow-inner">
-                                        <span class="text-yellow-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqLightTitle">Entorno Fotométrico</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqLightDesc">> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-orange-900/50 shadow-inner">
-                                        <span class="text-orange-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqMechTitle">Estabilidad Mecánica</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqMechDesc">Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-pink-900/50 shadow-inner">
-                                        <span class="text-pink-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqDispTitle">Pantalla / Refresco</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqDispDesc">Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-blue-900/50 shadow-inner">
-                                        <span class="text-blue-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqWebTitle">Motor de Render</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqWebDesc">Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-red-500/50 shadow-inner">
-                                        <span class="text-red-400 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqNpuTitle">Aceleración NPU</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqNpuDesc">Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.</span>
-                                    </div>
-                                    <div class="flex flex-col bg-black/60 p-2.5 rounded-lg border border-teal-900/50 shadow-inner">
-                                        <span class="text-teal-500 text-[10px] md:text-xs uppercase font-black tracking-wider mb-0.5" data-i18n="reqThermTitle">Gestión Térmica</span>
-                                        <span class="text-white text-[10px] md:text-[11px] font-bold leading-tight" data-i18n="reqThermDesc">Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-[9px] md:text-[10px] text-slate-400 text-center leading-tight mt-2 shrink-0 bg-cyan-950/20 p-2 rounded border border-cyan-900/30">
-                                * <strong data-i18n="reqNoteCrit">NOTA CRÍTICA:</strong> <span data-i18n="reqNoteEx">El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas.</span>
-                            </p>
-                        </div>
-                        
-                        <!-- Botón de Vídeo de Demostración -->
-                        <button id="open-demo-btn" class="absolute bottom-3 px-4 py-1.5 rounded-full bg-cyan-900/60 text-cyan-300 font-bold text-[9px] md:text-[10px] uppercase tracking-widest shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_20px_rgba(34,211,238,0.6)] hover:bg-cyan-700/80 hover:text-white transition-all flex items-center border border-cyan-500/50 z-30 backdrop-blur">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="mr-1.5"><path d="M5 3l14 9-14 9V3z"/></svg>
-                            <span data-i18n="demoBtn">Ver Vídeo Demostración</span>
-                        </button>
-                    </div>
-
-                    <!-- Overlay de Vídeo de Demostración Centrado -->
-                    <div id="demo-video-overlay" class="absolute inset-0 bg-black/90 z-50 flex flex-col items-center justify-center hidden backdrop-blur-md">
-                        <button id="close-demo-btn" class="absolute top-4 right-4 text-white bg-red-600/80 hover:bg-red-500 rounded-full p-2 shadow-[0_0_15px_rgba(239,68,68,0.5)] transition-colors z-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                        </button>
-                        <div class="w-[90%] max-w-[600px] aspect-video bg-black border-2 border-cyan-500 rounded-lg shadow-[0_0_40px_rgba(6,182,212,0.5)] overflow-hidden relative">
-                            <video id="demo-video-player" src="1.mp4" class="w-full h-full object-cover" controls playsinline></video>
-                        </div>
-                    </div>
-
-                    <div id="calib-overlay" class="calib-overlay"><div class="spinner"></div><h3 class="text-xl font-black uppercase tracking-widest drop-shadow-md" data-i18n="calibrating">Calibrando...</h3><p class="text-sm mt-2 font-bold bg-black/70 px-4 py-1 rounded-full text-cyan-300 border border-cyan-700" data-i18n="clearTrack">Despeja la pista</p></div>
-                    <div id="false-start-alert"><h2 class="text-3xl font-black uppercase tracking-widest mb-2 text-white drop-shadow-md" data-i18n="falseStart">¡SALIDA NULA!</h2><p class="text-xl font-bold text-yellow-300" data-i18n="penalty">Penalización aplicada</p></div>
-                    <div id="yellow-flag-overlay"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor" class="yellow-flag-icon"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg><h3 class="text-3xl font-black text-yellow-400 uppercase tracking-widest mt-2" data-i18n="yellowFlag">BANDERA AMARILLA</h3></div>
-                    <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
-
-                    <svg id="roi-mask-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;">
-                        <defs>
-                            <mask id="hole-mask">
-                                <rect width="100%" height="100%" fill="white"/>
-                                <rect id="mask-hole-0" fill="black" x="20%" y="20%" width="30%" height="30%" /><rect id="mask-hole-1" fill="black" x="55%" y="20%" width="20%" height="20%" /><rect id="mask-hole-2" fill="black" x="20%" y="55%" width="20%" height="20%" /><rect id="mask-hole-3" fill="black" x="55%" y="55%" width="20%" height="20%" />
-                            </mask>
-                        </defs>
-                        <rect width="100%" height="100%" fill="rgba(2, 6, 23, 0.5)" mask="url(#hole-mask)" />
-                    </svg>
-
-                    <div id="sector-log-container"></div>
-
-                    <!-- ROIs (Ocultos por defecto) -->
-                    <div id="roi-container" class="hidden">
-                        <div id="roi-0" class="roi-box active-roi" style="left:20%; top:20%; width:30%; height:30%;" data-index="0"><div class="roi-label" data-i18n="roiMeta">META</div><div class="detection-val-indicator" id="det-val-0">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
-                        <div id="roi-1" class="roi-box" style="left:55%; top:20%; width:20%; height:20%;" data-index="1"><div class="roi-label">S1</div><div class="detection-val-indicator" id="det-val-1">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
-                        <div id="roi-2" class="roi-box" style="left:20%; top:55%; width:20%; height:20%;" data-index="2"><div class="roi-label">S2</div><div class="detection-val-indicator" id="det-val-2">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
-                        <div id="roi-3" class="roi-box" style="left:55%; top:55%; width:20%; height:20%;" data-index="3"><div class="roi-label">S3</div><div class="detection-val-indicator" id="det-val-3">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
-                    </div>
-                </div>
-                <canvas id="video-canvas"></canvas>
-                <div id="video-status" class="text-center text-[10px] mt-2 text-cyan-600 font-bold uppercase tracking-wide" data-i18n="camLoading">Sensor Inactivo</div>
+                </form>
             </div>
         </div>
-
-        <div class="w-[320px] md:w-[360px] lg:w-[400px] flex-shrink-0 flex flex-col gap-3 h-full">
-            <div class="neon-panel p-3 text-center flex-shrink-0 flex flex-col items-center relative">
-                <div class="flex justify-center items-center w-full relative mb-3">
-                    <div id="traffic-light-module" class="traffic-light-container five-lights bg-slate-900 p-2 rounded-xl shadow-inner border border-slate-700"><div id="light-1" class="light"></div><div id="light-2" class="light"></div><div id="light-3" class="light"></div><div id="light-4" class="light"></div><div id="light-5" class="light"></div></div>
-                    <button id="fullscreen-btn" class="absolute right-0 flex items-center justify-center text-cyan-400 hover:text-white p-2 rounded bg-slate-800 border border-cyan-800 shadow-sm transition"><svg id="fs-icon-enter" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg><svg id="fs-icon-exit" class="hidden" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg></button>
-                </div>
-                <div class="flex justify-around items-end w-full border-b border-cyan-900 pb-2 mb-2">
-                    <div class="flex-1"><p class="text-[10px] text-cyan-600 font-bold tracking-widest" data-i18n="raceTime">TIEMPO</p><p id="race-time" class="timer-value font-arial text-xl text-white">00:00.000</p></div>
-                    <div class="flex-1 border-l border-cyan-900 pl-2"><p class="text-[10px] text-cyan-600 font-bold tracking-widest" data-i18n="laps">VUELTAS</p><p id="lap-count" class="timer-value font-arial text-cyan-200 text-xl">0 / 10</p><p id="mode-target-display" class="text-[9px] text-cyan-500 font-bold mt-0 font-arial hidden">--</p></div>
-                </div>
-                <p class="text-xs text-cyan-500 font-bold tracking-widest uppercase" data-i18n="lastLap">Última Vuelta</p>
-                <p id="lap-time" class="text-xl text-cyan-100 font-arial font-bold text-shadow-sm">00.000</p>
-            </div>
-
-            <div class="flex space-x-2 flex-shrink-0">
-                <button id="start-race-btn" class="flex-1 race-control-btn py-2 disabled:opacity-50 disabled:cursor-not-allowed"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="control-icon text-emerald-400"><polygon points="5 3 19 12 5 21 5 3"/></svg><span data-i18n="start">INICIAR</span></button>
-                <button id="pause-btn" class="flex-1 race-control-btn py-2 disabled:opacity-50 disabled:cursor-not-allowed"><svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="control-icon text-cyan-400"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg><svg id="icon-play" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="control-icon text-yellow-400 hidden"><polygon points="5 3 19 12 5 21 5 3"/></svg><span id="pause-text" class="text-cyan-400" data-i18n="pause">PAUSA</span></button>
-                <button id="reset-race-btn" class="flex-1 race-control-btn py-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="control-icon text-red-400"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg><span data-i18n="reset">REINICIAR</span></button>
-            </div>
-
-            <div class="neon-panel p-3 flex-shrink-0">
-                <h2 class="text-[11px] neon-blue-title border-b border-cyan-800 pb-1 mb-2 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
-                <div class="telemetry-grid gap-2">
-                    <div id="sectors-display-panel" class="telemetry-item col-span-2 hidden bg-slate-900 border-slate-700 p-1 shadow-inner">
-                        <div class="flex justify-between flex-wrap gap-1">
-                            <div id="sector-box-1" class="flex-1 bg-slate-800 p-1 rounded border border-slate-600 text-center hidden transition-colors duration-300"><div id="label-box-1" class="text-[8px] text-cyan-500 font-bold uppercase">S1</div><div id="tel-s1" class="text-slate-300 font-arial font-bold text-sm">--.---</div><div id="delta-s1" class="text-[9px] font-bold h-3 mt-0.5"></div></div>
-                            <div id="sector-box-2" class="flex-1 bg-slate-800 p-1 rounded border border-slate-600 text-center hidden transition-colors duration-300"><div id="label-box-2" class="text-[8px] text-cyan-500 font-bold uppercase">S2</div><div id="tel-s2" class="text-slate-300 font-arial font-bold text-sm">--.---</div><div id="delta-s2" class="text-[9px] font-bold h-3 mt-0.5"></div></div>
-                            <div id="sector-box-3" class="flex-1 bg-slate-800 p-1 rounded border border-slate-600 text-center hidden transition-colors duration-300"><div id="label-box-3" class="text-[8px] text-cyan-500 font-bold uppercase">S3</div><div id="tel-s3" class="text-slate-300 font-arial font-bold text-sm">--.---</div><div id="delta-s3" class="text-[9px] font-bold h-3 mt-0.5"></div></div>
-                            <div id="sector-box-4" class="flex-1 bg-slate-800 p-1 rounded border border-slate-600 text-center hidden transition-colors duration-300"><div id="label-box-4" class="text-[8px] text-cyan-500 font-bold uppercase">S4</div><div id="tel-s4" class="text-slate-300 font-arial font-bold text-sm">--.---</div><div id="delta-s4" class="text-[9px] font-bold h-3 mt-0.5"></div></div>
-                        </div>
-                    </div>
-                    <div class="telemetry-item p-1 px-2"><p class="telemetry-label" data-i18n="bestLap">MEJOR VUELTA</p><p id="telemetry-best-time" class="telemetry-data green font-arial text-base">--.---</p></div>
-                    <div class="telemetry-item p-1 px-2"><p class="telemetry-label" data-i18n="avgTime">TIEMPO MEDIO</p><p id="telemetry-average-time" class="telemetry-data font-arial text-base">--.---</p></div>
-                    <div class="telemetry-item p-1 px-2"><p class="telemetry-label" data-i18n="maxSpeed">V. MÁX (Km/h)</p><p id="telemetry-max-speed" class="telemetry-data text-base font-arial">--.-</p></div>
-                    <div class="telemetry-item p-1 px-2"><p class="telemetry-label" data-i18n="avgSpeed">V. MED (Km/h)</p><p id="telemetry-avg-speed" class="telemetry-data text-base font-arial">--.-</p></div>
-                </div>
-            </div>
-
-            <div id="config-panel" class="neon-panel w-full p-3 flex-1 flex flex-col min-h-0 overflow-y-auto pr-2">
-                <div class="mb-3 border-b border-cyan-900 pb-2">
-                     <div class="flex items-center justify-between"><label class="text-[10px] font-bold text-cyan-600 uppercase flex items-center" data-i18n="langLabel">Idioma / Language</label><select id="lang-select" class="neon-input p-1 rounded-md text-[10px] font-bold w-1/2"><option value="es">Español</option><option value="en">English</option></select></div>
-                </div>
-                <h2 class="text-[11px] neon-blue-title mb-2 border-b border-cyan-900 pb-1 flex items-center justify-start"><span data-i18n="pilotDataTitle">Datos Piloto y Pista</span></h2>
-                <div class="space-y-2 mb-3">
-                     <div class="flex gap-2">
-                        <div class="flex-1"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="pilotName">Piloto</label><input type="text" id="pilot-name-input" value="Piloto 1" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
-                        <div class="flex-1"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="carModel">Coche</label><select id="car-model-input" class="neon-input w-full p-1 text-[11px] rounded-md"></select></div>
-                    </div>
-                    <div class="flex gap-2">
-                        <div class="w-1/3"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="trackLength">Long. (m)</label><input type="number" id="track-length-input" value="15" min="1" step="0.5" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
-                        <div class="w-1/3"><label class="block text-[9px] font-bold text-blue-400 mb-0 uppercase" data-i18n="raceMode">Modo</label><select id="race-mode-select" class="neon-input w-full p-1 text-[11px] rounded-md font-bold"><option value="laps" selected data-i18n="modeLaps">Vueltas</option><option value="time" data-i18n="modeTime">Tiempo</option></select></div>
-                        <div class="w-1/3">
-                            <div id="laps-config-container"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="lapLimit">Límite</label><select id="lap-limit-select" class="neon-input w-full p-1 text-[11px] rounded-md"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option><option value="Infinity" data-i18n="infinite">Infinito</option></select></div>
-                            <div id="time-config-container" class="hidden"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="timeLimit">Tiempo</label><select id="time-limit-select" class="neon-input w-full p-1 text-[11px] rounded-md"><option value="5">5 M</option><option value="10" selected>10 M</option><option value="15">15 M</option><option value="30">30 M</option></select></div>
-                        </div>
-                    </div>
-                    <div class="flex gap-2 border-t border-cyan-900 pt-2 mt-1">
-                        <div class="w-1/2"><label class="block text-[9px] font-bold text-purple-400 mb-0 uppercase" data-i18n="numSectors">Puntos Control</label><select id="roi-count-select" class="neon-input w-full p-1 rounded-md font-bold text-[11px]"><option value="1" selected data-i18n="sect1">1 (Solo Meta)</option><option value="2" data-i18n="sect2">2 (S1 + Meta)</option><option value="3" data-i18n="sect3">3 (S1, S2 + Meta)</option><option value="4" data-i18n="sect4">4 (S1, S2, S3 + Meta)</option></select></div>
-                        <div class="w-1/2"><label class="block text-[9px] font-bold text-red-400 mb-0 uppercase" data-i18n="safetyTime">Anti-Rebote</label><select id="safety-time-select" class="neon-input w-full p-1 rounded-md font-bold text-[11px]"><option value="1000" data-i18n="1sec">1 Segundo</option><option value="3000" selected data-i18n="3sec">3 Segundos</option><option value="5000" data-i18n="5sec">5 Segundos</option><option value="10000" data-i18n="10sec">10 Segundos</option></select></div>
-                    </div>
-                    <div class="flex gap-2 mt-2 border-t border-cyan-900 pt-2">
-                        <div class="w-1/2 flex justify-between items-center bg-slate-800 p-1 rounded-md border border-cyan-800"><label for="voice-toggle" class="text-[9px] font-bold text-cyan-400 uppercase cursor-pointer" data-i18n="engineerVoice">Voz Ingeniero:</label><input type="checkbox" id="voice-toggle" class="cursor-pointer accent-cyan-500 w-3 h-3" checked /></div>
-                        <div class="w-1/2"><select id="soundSelect" class="neon-input w-full p-1 rounded-md text-[10px]"><option value="0" data-i18n="beepClassic">Beep Clásico</option><option value="1" data-i18n="toneLow">Tono Grave</option><option value="2" data-i18n="beepHigh">Beep Agudo</option></select></div>
-                    </div>
-                </div>
-
-                <h2 class="text-[11px] neon-blue-title mb-2 border-b border-cyan-900 pb-1 flex items-center justify-start"><span data-i18n="aiSens">Sensibilidad IA (RGB)</span></h2>
-                <div id="sensitivity-controls-container" class="space-y-1.5">
-                    <div id="sens-container-0" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-emerald-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-emerald-400" data-i18n="sensMeta">META (Verde)</label><button id="auto-calib-btn-0" class="text-[10px] bg-emerald-900/50 text-emerald-300 px-3 py-1 rounded border border-emerald-700 font-bold hover:bg-emerald-800 transition shadow-[0_0_8px_rgba(16,185,129,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-0" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-emerald-500 cursor-pointer"><span id="current-threshold-0" class="font-bold text-emerald-200 text-xs w-6 text-right">20</span></div></div>
-                    <div id="sens-container-1" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-blue-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-blue-400" data-i18n="sensS1">S1 (Azul)</label><button id="auto-calib-btn-1" class="text-[10px] bg-blue-900/50 text-blue-300 px-3 py-1 rounded border border-blue-700 font-bold hover:bg-blue-800 transition shadow-[0_0_8px_rgba(59,130,246,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-1" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-blue-500 cursor-pointer"><span id="current-threshold-1" class="font-bold text-blue-200 text-xs w-6 text-right">20</span></div></div>
-                    <div id="sens-container-2" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-yellow-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-yellow-400" data-i18n="sensS2">S2 (Amarillo)</label><button id="auto-calib-btn-2" class="text-[10px] bg-yellow-900/50 text-yellow-300 px-3 py-1 rounded border border-yellow-700 font-bold hover:bg-yellow-800 transition shadow-[0_0_8px_rgba(234,179,8,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-2" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-yellow-500 cursor-pointer"><span id="current-threshold-2" class="font-bold text-yellow-200 text-xs w-6 text-right">20</span></div></div>
-                    <div id="sens-container-3" class="flex flex-col bg-slate-800/80 p-1.5 rounded border border-purple-900/50"><div class="flex justify-between items-center mb-1"><label class="text-[10px] font-bold text-purple-400" data-i18n="sensS3">S3 (Morado)</label><button id="auto-calib-btn-3" class="text-[10px] bg-purple-900/50 text-purple-300 px-3 py-1 rounded border border-purple-700 font-bold hover:bg-purple-800 transition shadow-[0_0_8px_rgba(168,85,247,0.3)]" data-i18n="autoCalib">Auto IA</button></div><div class="flex items-center space-x-2"><input type="range" id="threshold-slider-3" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded appearance-none accent-purple-500 cursor-pointer"><span id="current-threshold-3" class="font-bold text-purple-200 text-xs w-6 text-right">20</span></div></div>
-                </div>
-            </div>
-        </div>
+        
+        <p class="mt-12 text-[9px] text-cyan-700/60 text-center max-w-lg uppercase tracking-[0.2em] font-medium">
+            SECTOR TIME V.1.0 <span class="mx-2">|</span> slotcarhome@gmail.com
+        </p>
     </div>
 
-    <!-- RANKING MODAL -->
-    <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
-        <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
-            <div class="absolute inset-0 worn-asphalt-bg opacity-90 z-0"></div>
-            
-            <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
-                <div class="flex items-center space-x-3 ml-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
-                    <h2 class="italic font-black text-2xl tracking-widest text-white uppercase" data-i18n="garageRankingTitle">RANKING DEL GARAJE <span class="text-cyan-400">TOP 25</span></h2>
-                </div>
-                <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors" data-i18n="exit">SALIR</button>
-            </div>
+    <iframe id="app-frame" src="about:blank"></iframe>
+    
+    <button onclick="logoutApp()" id="logout-btn" class="hidden fixed bottom-8 right-8 btn-neon w-14 h-14 rounded-2xl shadow-[0_0_20px_rgba(0,212,255,0.6)] z-[100] flex items-center justify-center text-xl border border-cyan-300">
+        <i class="fas fa-power-off"></i>
+    </button>
 
-            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-12 pb-32 custom-tv-scroll grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
-            </div>
-            
-            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
-        </div>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, where, doc, updateDoc, setDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <!-- RESULTS MODAL -->
-    <div id="resultsModal" class="modal-overlay hidden">
-        <div class="modal-content p-6 w-full max-w-5xl flex flex-col h-[70vh]">
-            <div class="text-center mb-4 shrink-0">
-                <h3 class="text-3xl font-extrabold text-cyan-400 uppercase tracking-wider drop-shadow-md" data-i18n="raceFinished">¡Carrera Finalizada!</h3>
-            </div>
-            <div class="flex gap-4 min-h-0 flex-1">
-                <div class="flex-1 bg-slate-900/80 rounded-xl border border-cyan-800 shadow-inner overflow-hidden flex flex-col">
-                    <div class="bg-cyan-900/50 py-2 px-4 border-b border-cyan-700 flex justify-between items-center">
-                        <span id="modal-pilot-car" class="font-bold text-white uppercase tracking-widest text-sm" data-i18n="pilotCar">Piloto / Coche</span>
-                        <div class="text-right">
-                            <span class="text-xs text-cyan-300 font-bold" data-i18n="totalTime">Tiempo Total:</span>
-                            <span id="modal-total-time" class="ml-2 font-mono font-bold text-white">00:00.000</span>
-                        </div>
-                    </div>
-                    <div class="overflow-y-auto flex-1 p-2 custom-tv-scroll">
-                        <table class="w-full text-xs text-left">
-                            <thead id="modal-table-head" class="sticky top-0 bg-slate-800 text-cyan-400 shadow-sm z-10">
-                                <tr><th>V.</th><th>Total</th><th>Dif</th></tr>
-                            </thead>
-                            <tbody id="modal-table-body" class="divide-y divide-slate-700 text-slate-300 font-mono"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="flex-1 bg-slate-900/80 rounded-xl border border-cyan-800 shadow-inner p-3 flex flex-col">
-                    <h4 class="text-xs font-bold text-cyan-500 uppercase tracking-widest text-center mb-2" data-i18n="perfCurve">Curva de Rendimiento</h4>
-                    <div class="flex-1 relative w-full h-full min-h-0">
-                        <canvas id="resultsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-end gap-3 mt-4 shrink-0">
-                <button id="export-excel-btn" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition" data-i18n="exportExcel">Exportar CSV</button>
-                <button id="modal-restart-btn" class="bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition" data-i18n="restartFull">VOLVER A EMPEZAR</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- DATALISTS (AUTO-HELP) -->
-    <datalist id="list-marcas"><option value="Scalextric / SCX"></option><option value="Ninco"></option><option value="NSR"></option><option value="Slot.it"></option><option value="Scaleauto"></option><option value="Carrera"></option><option value="Avant Slot"></option><option value="Fly Car Model"></option><option value="Sideways"></option><option value="SRC"></option><option value="Policar"></option><option value="Revoslot"></option><option value="Thunderslot"></option></datalist>
-    <datalist id="list-categorias"><option value="Rally"></option><option value="Resistencia"></option><option value="Fórmula 1"></option><option value="GT"></option><option value="DTM"></option><option value="WTCC / ETCR"></option><option value="LMP"></option><option value="Raid / Dakar"></option><option value="Clásicos"></option><option value="Monomarcas"></option></datalist>
-    <datalist id="list-sistemas"><option value="Analógico"></option><option value="Analógico C. Advance"></option><option value="Digital"></option><option value="Scalextric Advance"></option><option value="Scalextric WOS"></option><option value="Scalextric SDS"></option><option value="Ninco Digital"></option><option value="Carrera Digital 132"></option><option value="Superslot SSD"></option><option value="Slot.it oxigen"></option></datalist>
-    <datalist id="list-posicion"><option value="In Line"></option><option value="Anglewinder"></option><option value="Sidewinder"></option><option value="Front Motor"></option></datalist>
-    <datalist id="list-luces"><option value="No"></option><option value="Leds Serie"></option><option value="Leds F/P"></option><option value="Bombilla"></option></datalist>
-
-    <!-- GARAGE MODAL -->
-    <div id="garageModal" class="modal-overlay hidden" style="z-index: 300;">
-        <div class="bg-[#050505] text-white w-[96vw] h-[94vh] flex flex-col rounded-xl border-2 border-cyan-600 shadow-[0_0_50px_rgba(6,182,212,0.5),inset_0_0_30px_rgba(6,182,212,0.2)] p-4 font-rajdhani relative overflow-hidden" id="garage-container">
-            <div class="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
-            
-            <div class="flex justify-between items-center border-b border-cyan-500/50 pb-2 mb-3 shrink-0 relative z-10">
-                <div class="flex items-center space-x-6">
-                    <div class="italic font-black text-3xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)] leading-none">PERSONAL <span class="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">CARS</span></div>
-                    
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xs font-bold uppercase text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)] hidden sm:inline">Seleccionar Coche</span>
-                        <select id="garage-car-select" class="bg-black/80 border border-cyan-500 text-white font-bold text-sm px-2 py-1 w-48 outline-none focus:border-cyan-400 focus:shadow-[0_0_15px_rgba(34,211,238,0.6)] rounded transition-shadow"></select>
-                        <span id="garage-car-id" class="text-cyan-300 border border-cyan-500 px-2 py-1 text-sm font-bold bg-cyan-950/60 rounded tracking-widest shadow-[0_0_10px_rgba(34,211,238,0.4)]">ID000</span>
-                    </div>
-                </div>
-                
-                <div class="flex items-center space-x-2">
-                    <button id="garage-add-btn" class="bg-cyan-900/40 border border-cyan-500 hover:bg-cyan-500 text-cyan-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(34,211,238,0.3)] hover:shadow-[0_0_20px_rgba(34,211,238,0.8)]">Añadir</button>
-                    <button id="garage-edit-btn" class="bg-blue-900/40 border border-blue-500 hover:bg-blue-500 text-blue-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(59,130,246,0.3)] hover:shadow-[0_0_20px_rgba(59,130,246,0.8)]">Editar</button>
-                    <button id="garage-save-btn" class="hidden bg-green-900/40 border border-green-500 hover:bg-green-500 text-green-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_15px_rgba(34,197,94,0.6)] hover:shadow-[0_0_25px_rgba(34,197,94,1)]">Guardar</button>
-                    <button id="garage-delete-btn" class="bg-gray-800/50 border border-gray-500 hover:bg-red-800/80 hover:border-red-500 text-gray-300 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(107,114,128,0.3)] hover:shadow-[0_0_15px_rgba(239,68,68,0.6)]">Eliminar</button>
-                    <div class="w-px h-6 bg-cyan-500/50 mx-1 shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
-                    <button id="close-garage-btn" class="bg-red-900/60 border border-red-500 hover:bg-red-500 text-white px-4 py-1 rounded text-[11px] font-black uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(239,68,68,0.8)]" data-i18n="exitBtn">SALIR</button>
-                </div>
-            </div>
-
-            <div id="garage-name-edit-container" class="hidden shrink-0 mb-2 relative z-10">
-                <input type="text" id="g-inp-name" class="w-full bg-black/80 border-2 border-blue-500 text-white px-3 py-1.5 rounded text-base font-bold outline-none shadow-[0_0_15px_rgba(59,130,246,0.4),inset_0_0_10px_rgba(59,130,246,0.2)] focus:shadow-[0_0_25px_rgba(59,130,246,0.8),inset_0_0_15px_rgba(59,130,246,0.4)] transition-shadow" placeholder="Nombre completo del coche...">
-            </div>
-
-            <div class="flex-1 grid grid-cols-12 gap-4 min-h-0 relative z-10">
-                
-                <div class="col-span-4 flex flex-col gap-3 min-h-0">
-                    <div class="w-full aspect-[16/9] xl:aspect-[2/1] border-2 border-cyan-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(34,211,238,0.3),inset_0_0_30px_rgba(34,211,238,0.15)] shrink-0">
-                        <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/30 via-transparent to-transparent pointer-events-none"></div>
-                        <img id="garage-img" src="" alt="Coche" class="absolute inset-0 w-full h-full object-contain z-0">
-                        <div id="garage-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
-                            <button id="btn-galeria" class="text-cyan-300 text-[11px] font-bold uppercase tracking-widest border border-cyan-400 px-4 py-2 rounded flex items-center hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_20px_rgba(34,211,238,0.8)] transition-all w-36 justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                                Galería
-                            </button>
-                            <button id="btn-camara" class="text-cyan-300 text-[11px] font-bold uppercase tracking-widest border border-cyan-400 px-4 py-2 rounded flex items-center hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_20px_rgba(34,211,238,0.8)] transition-all w-36 justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                                Cámara
-                            </button>
-                            <input type="file" id="garage-img-input-galeria" accept="image/*" class="hidden">
-                            <input type="file" id="garage-img-input-camara" accept="image/*" capture="environment" class="hidden">
-                        </div>
-                    </div>
-
-                    <div class="shrink-0 grid grid-cols-2 gap-x-2 gap-y-3 text-center pb-2 pt-3 px-3 bg-gradient-to-b from-transparent to-blue-950/40 rounded-lg border border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.1),inset_0_0_15px_rgba(59,130,246,0.1)]">
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase tracking-wider drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]">Marca</span><span id="g-val-marca" class="font-bold text-[12px] text-white"></span><input id="g-inp-marca" class="g-inp mx-auto text-center w-full" list="list-marcas"></div>
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase tracking-wider drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]">Referencia</span><span id="g-val-ref" class="font-bold text-[12px] text-white"></span><input id="g-inp-ref" class="g-inp mx-auto text-center w-full"></div>
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase tracking-wider drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]">Año</span><span id="g-val-year" class="font-bold text-[12px] text-white"></span><input id="g-inp-year" class="g-inp mx-auto text-center w-full"></div>
-                        <div class="flex flex-col"><span class="text-cyan-300/80 text-[10px] uppercase tracking-wider drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]">Categoría</span><span id="g-val-cat" class="font-bold text-[12px] text-white"></span><input id="g-inp-cat" class="g-inp mx-auto text-center w-full" list="list-categorias"></div>
-                        <div class="col-span-2 flex flex-col border-t border-cyan-500/50 pt-2 mt-1 shadow-[0_-5px_10px_rgba(34,211,238,0.1)]"><span class="text-cyan-300/80 text-[10px] uppercase tracking-wider drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]">Analógico / Digital</span><span id="g-val-sys" class="font-bold text-[13px] text-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.6)]"></span><input id="g-inp-sys" class="g-inp mx-auto text-center w-3/4" list="list-sistemas"></div>
-                    </div>
-                    
-                    <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-blue-900 to-blue-800 border border-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 text-sm font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] shrink-0">🏁 Pilotar Este Vehículo</button>
-
-                    <!-- GRÁFICO DE SECTORES (LÍNEAS) DEBAJO DEL BOTÓN PILOTAR -->
-                    <div class="g-box flex-1 flex flex-col min-h-0 border-cyan-500 bg-gradient-to-br from-cyan-950/40 to-black shadow-[0_0_20px_rgba(6,182,212,0.2),inset_0_0_15px_rgba(6,182,212,0.1)] rounded-lg mt-1 relative overflow-hidden">
-                        <div class="g-header shrink-0 mb-1 border-b border-cyan-500/50 pb-1 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] tracking-widest text-[10px]" data-i18n="perfFootprint">Tiempos por Sector</div>
-                        <div class="flex-1 relative w-full min-h-0 p-1">
-                            <canvas id="garageChartLeftSectors"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-span-8 flex flex-col gap-3 min-h-0">
-                    
-                    <div class="g-box shrink-0 border-2 border-cyan-400 bg-[#0a0a0a] shadow-[0_0_30px_rgba(34,211,238,0.4),inset_0_0_25px_rgba(34,211,238,0.2)] rounded-xl relative overflow-hidden mt-1">
-                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/30 via-transparent to-transparent pointer-events-none"></div>
-                        
-                        <div class="g-header shrink-0 mb-3 border-b-2 border-cyan-400/60 pb-2 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,1)] tracking-widest text-sm relative z-10 flex justify-center items-center font-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 animate-pulse text-cyan-400"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> 
-                            RENDIMIENTO HISTÓRICO EN PISTA
-                        </div>
-                        
-                        <div class="grid grid-cols-4 gap-2 text-center items-stretch px-2 pb-2 relative z-10">
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.2)] justify-center">
-                                <span class="text-emerald-400 text-[9px] uppercase font-black tracking-widest drop-shadow-[0_0_5px_rgba(16,185,129,0.8)] mb-1">Mejor Vuelta</span>
-                                <span id="g-val-bestLap" class="font-black text-emerald-300 text-base drop-shadow-[0_0_12px_rgba(16,185,129,1)] truncate"></span>
-                                <input id="g-inp-bestLap" class="g-inp mx-auto text-center w-full">
-                            </div>
-                            
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)] justify-center">
-                                <span class="text-orange-400 text-[9px] uppercase font-black tracking-widest drop-shadow-[0_0_5px_rgba(249,115,22,0.8)] mb-1">T. Acumulado</span>
-                                <span id="g-val-totalTime" class="font-black text-orange-300 text-sm drop-shadow-[0_0_12px_rgba(249,115,22,1)] truncate"></span>
-                                <input id="g-inp-totalTime" class="g-inp mx-auto text-center w-full">
-                            </div>
-                            
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.2)] justify-center">
-                                <span class="text-purple-400 text-[9px] uppercase font-black tracking-widest drop-shadow-[0_0_5px_rgba(168,85,247,0.8)] mb-1">Recorrido</span>
-                                <span id="g-val-totalDist" class="font-black text-purple-300 text-sm drop-shadow-[0_0_12px_rgba(168,85,247,1)] truncate"></span>
-                                <input id="g-inp-totalDist" class="g-inp mx-auto text-center w-full">
-                            </div>
-                            
-                            <div class="flex flex-col bg-black/80 p-2 rounded-lg border border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.2)] justify-center relative items-center">
-                                <span class="text-yellow-400 text-[9px] uppercase font-black tracking-widest drop-shadow-[0_0_5px_rgba(234,179,8,0.8)] mb-0.5 leading-none">Constancia</span>
-                                <div class="w-[90%] bg-black/90 rounded-full h-2 border border-yellow-900/50 relative overflow-hidden shadow-[inset_0_0_5px_rgba(0,0,0,1)] my-1">
-                                    <div id="g-bar-consistency" class="bg-yellow-400 h-full rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(234,179,8,1)]" style="width: 0%"></div>
-                                </div>
-                                <span id="g-val-consistency" class="text-sm font-black text-yellow-300 drop-shadow-[0_0_12px_rgba(234,179,8,1)] leading-none truncate mt-0.5"></span>
-                                <input id="g-inp-consistency" class="g-inp mx-auto text-center w-full absolute bottom-0" placeholder="%">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="g-box shrink-0 flex flex-col border-cyan-500 bg-gradient-to-br from-cyan-950/40 to-black shadow-[0_0_20px_rgba(6,182,212,0.2),inset_0_0_15px_rgba(6,182,212,0.1)] rounded-lg mt-1">
-                        <div class="g-header shrink-0 mb-1 border-b border-cyan-500/50 pb-1 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] tracking-widest text-sm">Ficha Técnica</div>
-                        <div class="grid grid-cols-2 gap-x-6 gap-y-1">
-                            <div class="flex flex-col justify-between">
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Motor</span><span id="g-val-motor" class="g-val"></span><input id="g-inp-motor" class="g-inp" list="list-motores"></div>
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Posición</span><span id="g-val-posicion" class="g-val"></span><input id="g-inp-posicion" class="g-inp" list="list-posicion"></div>
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Piñón/Cor.</span><span id="g-val-pinon" class="g-val text-cyan-200 drop-shadow-[0_0_2px_rgba(165,243,252,0.5)]"></span><input id="g-inp-pinon" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Chasis</span><span id="g-val-chasis" class="g-val"></span><input id="g-inp-chasis" class="g-inp" list="list-chasis"></div>
-                            </div>
-                            <div class="flex flex-col justify-between">
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Neum. Del.</span><span id="g-val-neumaticoDel" class="g-val"></span><input id="g-inp-neumaticoDel" class="g-inp" list="list-neumaticos"></div>
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Neum. Tras.</span><span id="g-val-neumaticoTras" class="g-val"></span><input id="g-inp-neumaticoTras" class="g-inp" list="list-neumaticos"></div>
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Peso</span><span id="g-val-peso" class="g-val"></span><input id="g-inp-peso" class="g-inp"></div>
-                                <div class="g-row"><span class="g-lbl text-cyan-300/70">Luces</span><span id="g-val-luces" class="g-val text-yellow-300 drop-shadow-[0_0_3px_rgba(253,224,71,0.6)]"></span><input id="g-inp-luces" class="g-inp" list="list-luces"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MATRIZ 3x2 DE 6 GRÁFICOS -->
-                    <div class="g-box flex-1 flex flex-col min-h-0 border-cyan-500 bg-gradient-to-br from-cyan-950/40 to-black shadow-[0_0_20px_rgba(6,182,212,0.2),inset_0_0_15px_rgba(6,182,212,0.1)] rounded-lg mt-1">
-                        <div class="g-header shrink-0 mb-1 border-b border-cyan-500/50 pb-1 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] tracking-widest text-sm" data-i18n="advAnalysis">Análisis de Telemetría Avanzada</div>
-                        <div class="flex-1 grid grid-cols-3 grid-rows-2 gap-2 min-h-0 overflow-hidden pt-1 px-1 pb-1">
-                            <div class="flex flex-col min-h-0 bg-black/60 rounded-lg border border-cyan-900/50 p-1.5 shadow-inner relative">
-                                <span class="text-[9px] text-cyan-400 font-bold text-center uppercase tracking-widest mb-1 shrink-0" data-i18n="lapTimes">Tiempos por Vuelta (s)</span>
-                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartLaps"></canvas></div>
-                            </div>
-                            <div class="flex flex-col min-h-0 bg-black/60 rounded-lg border border-blue-900/50 p-1.5 shadow-inner relative">
-                                <span class="text-[9px] text-blue-400 font-bold text-center uppercase tracking-widest mb-1 shrink-0" data-i18n="speedEvol">Evolución Vel. (Km/h)</span>
-                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartSpeed"></canvas></div>
-                            </div>
-                            <div class="flex flex-col min-h-0 bg-black/60 rounded-lg border border-purple-900/50 p-1.5 shadow-inner relative">
-                                <span class="text-[9px] text-purple-400 font-bold text-center uppercase tracking-widest mb-1 shrink-0" data-i18n="sectorRecords">Récords por Sector</span>
-                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartSectors"></canvas></div>
-                            </div>
-                            <div class="flex flex-col min-h-0 bg-black/60 rounded-lg border border-emerald-900/50 p-1.5 shadow-inner relative">
-                                <span class="text-[9px] text-emerald-400 font-bold text-center uppercase tracking-widest mb-1 shrink-0" data-i18n="sectorDist">Balance de Tiempos</span>
-                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartDist"></canvas></div>
-                            </div>
-                            <div class="flex flex-col min-h-0 bg-black/60 rounded-lg border border-orange-900/50 p-1.5 shadow-inner relative">
-                                <span class="text-[9px] text-orange-400 font-bold text-center uppercase tracking-widest mb-1 shrink-0" data-i18n="deltaDeviation">Desviación Delta (s)</span>
-                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartDev"></canvas></div>
-                            </div>
-                            <div class="flex flex-col min-h-0 bg-black/60 rounded-lg border border-fuchsia-900/50 p-1.5 shadow-inner relative">
-                                <span class="text-[9px] text-fuchsia-400 font-bold text-center uppercase tracking-widest mb-1 shrink-0" data-i18n="trendAnalysis">Tendencia Vueltas</span>
-                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartTrend"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const translations = {
-            es: { 
-                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Ranking", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING DEL GARAJE", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
-                reqTitleEx: "Especificaciones Técnicas (Ref. Galaxy Tab S9)", reqSocTitle: "Procesador (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.", reqOpticTitle: "Sensor Óptico", reqOpticDesc: "60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.", reqRamTitle: "Memoria / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.", reqLightTitle: "Entorno Fotométrico", reqLightDesc: "> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).", reqMechTitle: "Estabilidad Mecánica", reqMechDesc: "Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.", reqDispTitle: "Pantalla / Refresco", reqDispDesc: "Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.", reqWebTitle: "Motor de Render", reqWebDesc: "Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.", reqNpuTitle: "Aceleración NPU", reqNpuDesc: "Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.", reqThermTitle: "Gestión Térmica", reqThermDesc: "Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).", reqNoteCrit: "NOTA CRÍTICA:", reqNoteEx: "El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas."
-            },
-            en: { 
-                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Ranking", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "GARAGE RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
-                reqTitleEx: "Technical Specifications (Ref. Galaxy Tab S9)", reqSocTitle: "Processor (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capable of processing 60 RGB matrices/s without thermal throttling.", reqOpticTitle: "Optical Sensor", reqOpticDesc: "Locked 60 FPS at 1080p. Requires Auto-Focus lock (AF-Lock) and fixed white balance.", reqRamTitle: "Memory / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) for continuous video buffering with internal latency < 15ms.", reqLightTitle: "Photometric Env.", reqLightDesc: "> 500 LUX continuous LED light. Avoid fluorescent tubes (prevents 50/60Hz flickering).", reqMechTitle: "Mechanical Stability", reqMechDesc: "Industrial tripod or VESA arm. Movement tolerance < 1mm. Zero micro-vibrations on the table.", reqDispTitle: "Display / Refresh", reqDispDesc: "120Hz AMOLED panel for pure visual telemetry synchronization without screen tearing.", reqWebTitle: "Render Engine", reqWebDesc: "Chrome v115+ / Safari 16+. HW acceleration and GPU Rasterization strictly forced.", reqNpuTitle: "NPU Acceleration", reqNpuDesc: "Dedicated AI unit for massive color matrix calculations without saturating CPU cores.", reqThermTitle: "Thermal Mngmt.", reqThermDesc: "Passive Vapor Chamber to guarantee performance in endurance racing (+1h).", reqNoteCrit: "CRITICAL NOTE:", reqNoteEx: "The optical engine is a high-frequency scanner. Inferior devices will generate latency, time skips, and false readings."
-            }
+        const firebaseConfig = {
+          apiKey: "AIzaSyDW-2Yc4kvZJYbNOVeesPZWdRThYe0noUI",
+          authDomain: "correo-95e58.firebaseapp.com",
+          projectId: "correo-95e58",
+          storageBucket: "correo-95e58.firebasestorage.app",
+          messagingSenderId: "977860532946",
+          appId: "1:977860532946:web:3738c6b7165201bce7ab0b",
+          measurementId: "G-6DMG51VQ92"
         };
-        let currentLang = 'es';
         
-        function updateTexts() {
-            const t = translations[currentLang];
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (t[key]) {
-                    if (el.tagName === 'OPTION') { el.textContent = t[key]; } 
-                    else { el.textContent = t[key]; }
-                }
+        const ADMIN_EMAIL = "slotcarhome@gmail.com"; 
+        const APP_FILENAME = "sector-time.html"; 
+        const APP_ID = "app_sector_time"; 
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        signInAnonymously(auth).catch(err => console.warn("Aviso: Autenticación limitada.", err));
+
+        const mailLink = document.getElementById('mail-link');
+        const emailInput = document.getElementById('email');
+        let unsubscribeSession = null;
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
             });
-            if(document.getElementById('pause-btn') && !isPaused) document.getElementById('pause-text').textContent = t.pause;
-            else if(document.getElementById('pause-btn')) document.getElementById('pause-text').textContent = t.resume;
-        }
-
-        const videoElement = document.getElementById('webcam-feed');
-        const videoContainer = document.getElementById('video-container');
-        const canvas = document.getElementById('video-canvas');
-        const calibOverlay = document.getElementById('calib-overlay');
-        const opticalIdleScreen = document.getElementById('optical-idle-screen');
-        const roiContainer = document.getElementById('roi-container');
-        const cameraOnBtn = document.getElementById('camera-on-btn');
-        const cameraOffBtn = document.getElementById('camera-off-btn');
-        const calibrateBtn = document.getElementById('calibrate-btn');
-        const camDeviceSelect = document.getElementById('cam-device-select');
-        const startRaceBtn = document.getElementById('start-race-btn');
-        const resetRaceBtn = document.getElementById('reset-race-btn');
-        const roiCountSelect = document.getElementById('roi-count-select');
-        const sectorsDisplayPanel = document.getElementById('sectors-display-panel');
-        
-        const openDemoBtn = document.getElementById('open-demo-btn');
-        const closeDemoBtn = document.getElementById('close-demo-btn');
-        const demoOverlay = document.getElementById('demo-video-overlay');
-        const demoPlayer = document.getElementById('demo-video-player');
-
-        openDemoBtn.addEventListener('click', () => {
-            demoOverlay.classList.remove('hidden');
-            demoPlayer.play();
-        });
-
-        closeDemoBtn.addEventListener('click', () => {
-            demoOverlay.classList.add('hidden');
-            demoPlayer.pause();
-            demoPlayer.currentTime = 0;
-        });
-        
-        let cameraStream = null, currentVideoTrack = null;
-        let isProcessing = false, raceIntervalId = null, lapIntervalId = null;
-        let isRaceActive = false, isCountdown = false, raceAborted = false, isCalibrating = false, isPaused = false;
-        
-        let activeRoisCount = 1;
-        const roiData = [
-            { el: document.getElementById('roi-0'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Meta" },
-            { el: document.getElementById('roi-1'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 1" },
-            { el: document.getElementById('roi-2'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 2" },
-            { el: document.getElementById('roi-3'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 3" }
-        ];
-        
-        let trafficLightSession = 0, blindTimeMs = 3000, expectedRoiIndex = 0, hasCrossedStart = false;
-        let lapStartTimestamp = 0, lastSectorTimestamp = 0, currentLapSectors = [0, 0, 0, 0];
-        let raceStartTime = 0, pauseStartTime = 0, finalRaceTimeMs = 0;
-        let currentLap = 0, totalLaps = 10, raceMode = 'laps', raceTimeLimit = 0; 
-        let lapHistory = [], sectorHistory = [], bestLapTime = Infinity, totalLapTime = 0, currentAverageTime = 0, maxSpeed = 0.0, avgSpeed = 0.0;
-        let bestSectorTimes = [Infinity, Infinity, Infinity, Infinity];
-
-        const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
-
-        let isDragging = false, isResizing = false, resizeDirection = '', activeActionRoi = null;
-        let startX, startY, startLeftPct, startTopPct, startWidthPct, startHeightPct;
-
-        function getClientCoords(e) { return { x: e.touches ? e.touches[0].clientX : e.clientX, y: e.touches ? e.touches[0].clientY : e.clientY }; }
-        function getRoiPercentage(roiEl, prop) { return parseFloat(roiEl.style[prop].replace('%', '')) || 0; }
-
-        videoContainer.addEventListener('pointerdown', (e) => {
-            if (isRaceActive || isCalibrating) return;
-            const handle = e.target.closest('.resize-handle'); const roiEl = e.target.closest('.roi-box');
-            if (handle && roiEl) { e.preventDefault(); activeActionRoi = roiEl; setupDrag(e, 'resize', handle.classList.contains('tl') ? 'tl' : 'br'); } 
-            else if (roiEl) { e.preventDefault(); activeActionRoi = roiEl; setupDrag(e, 'drag', ''); }
-        });
-
-        function setupDrag(e, type, dir) {
-            const coords = getClientCoords(e); startX = coords.x; startY = coords.y;
-            startLeftPct = getRoiPercentage(activeActionRoi, 'left'); startTopPct = getRoiPercentage(activeActionRoi, 'top');
-            startWidthPct = getRoiPercentage(activeActionRoi, 'width'); startHeightPct = getRoiPercentage(activeActionRoi, 'height');
-            activeActionRoi.style.transition = 'none';
-            if (e.pointerId !== undefined) e.target.setPointerCapture(e.pointerId);
-            if (type === 'drag') { isDragging = true; activeActionRoi.classList.add('dragging'); } 
-            else { isResizing = true; resizeDirection = dir; document.body.classList.add('resizing-nwse'); }
-            document.addEventListener('pointermove', moveAction); document.addEventListener('pointerup', endAction);
-        }
-
-        function moveAction(e) {
-            if (!isDragging && !isResizing || !activeActionRoi) return; e.preventDefault();
-            const coords = getClientCoords(e); const dxPct = ((coords.x - startX) / videoContainer.clientWidth) * 100; const dyPct = ((coords.y - startY) / videoContainer.clientHeight) * 100;
-            if (isDragging) {
-                activeActionRoi.style.left = `${Math.max(0, Math.min(startLeftPct + dxPct, 100 - startWidthPct))}%`;
-                activeActionRoi.style.top = `${Math.max(0, Math.min(startTopPct + dyPct, 100 - startHeightPct))}%`;
-            } else if (isResizing) {
-                if (resizeDirection === 'tl') {
-                    let nw = startWidthPct - dxPct, nh = startHeightPct - dyPct, nl = startLeftPct + dxPct, nt = startTopPct + dyPct;
-                    if (nw >= 5 && nl >= 0) { activeActionRoi.style.left = `${nl}%`; activeActionRoi.style.width = `${nw}%`; }
-                    if (nh >= 5 && nt >= 0) { activeActionRoi.style.top = `${nt}%`; activeActionRoi.style.height = `${nh}%`; }
-                } else if (resizeDirection === 'br') {
-                    let nw = Math.max(5, startWidthPct + dxPct), nh = Math.max(5, startHeightPct + dyPct);
-                    if (startLeftPct + nw <= 100) activeActionRoi.style.width = `${nw}%`;
-                    if (startTopPct + nh <= 100) activeActionRoi.style.height = `${nh}%`;
-                }
-            }
-            updateMasks();
-        }
-
-        function endAction(e) {
-            if (isDragging || isResizing) {
-                if (e.target.hasPointerCapture(e.pointerId)) e.target.releasePointerCapture(e.pointerId);
-                if (activeActionRoi) { activeActionRoi.style.transition = 'all 0.1s ease'; activeActionRoi.classList.remove('dragging'); roiData[activeActionRoi.dataset.index].baseRGB = null; }
-                isDragging = false; isResizing = false; activeActionRoi = null; document.body.classList.remove('resizing-nwse');
-                document.removeEventListener('pointermove', moveAction); document.removeEventListener('pointerup', endAction);
-            }
-        }
-
-        function processVideo() {
-            if (!isProcessing) return;
-            if (isPaused) { requestAnimationFrame(processVideo); return; }
-            const now = Date.now();
-            const vw = videoElement.videoWidth, vh = videoElement.videoHeight;
-            if(!vw || !vh) { requestAnimationFrame(processVideo); return; }
-
-            const ctx = canvas.getContext('2d', { willReadFrequently: true });
-            const sampleSize = 32; if(canvas.width !== sampleSize) { canvas.width = sampleSize; canvas.height = sampleSize; }
-
-            for (let i = 0; i < activeRoisCount; i++) {
-                const data = roiData[i];
-                const l = Math.floor(vw * (getRoiPercentage(data.el, 'left')/100)), t = Math.floor(vh * (getRoiPercentage(data.el, 'top')/100));
-                const w = Math.max(1, Math.ceil(vw * (getRoiPercentage(data.el, 'width')/100))), h = Math.max(1, Math.ceil(vh * (getRoiPercentage(data.el, 'height')/100)));
-                
-                ctx.drawImage(videoElement, l, t, w, h, 0, 0, sampleSize, sampleSize);
-                const imgData = ctx.getImageData(0, 0, sampleSize, sampleSize).data;
-
-                if (!data.baseRGB) {
-                    data.baseRGB = new Float32Array(imgData.length);
-                    for(let j=0; j<imgData.length; j++) data.baseRGB[j] = imgData[j];
-                } else {
-                    let diffSum = 0;
-                    for (let j = 0; j < imgData.length; j += 4) {
-                        let r = imgData[j], g = imgData[j+1], b = imgData[j+2];
-                        let br = data.baseRGB[j], bg = data.baseRGB[j+1], bb = data.baseRGB[j+2];
-                        diffSum += (Math.abs(r-br) + Math.abs(g-bg) + Math.abs(b-bb)) / 3;
-                    }
-                    const avgDiff = diffSum / (imgData.length / 4);
-                    const pct = (avgDiff / 255) * 100 * 2.5; 
-                    
-                    document.getElementById(`det-val-${i}`).textContent = `RGB: ${pct.toFixed(0)}`;
-                    const crossed = pct > data.sens;
-
-                    if (crossed) {
-                        data.stuckCount++;
-                        if (data.stuckCount > 45) {
-                            data.baseRGB = null;
-                            data.stuckCount = 0;
-                        }
-                        data.el.classList.add('roi-detected');
-                    } else {
-                        data.stuckCount = 0;
-                        data.el.classList.remove('roi-detected');
-                    }
-
-                    if (!isCalibrating) {
-                        if (isRaceActive) handleRoiLogic(i, crossed, now, imgData);
-                        else if (isCountdown && crossed && i === 0 && !raceAborted) handleFalseStart();
-                        else if (!isRaceActive && !isCountdown && !crossed && !data.blocked) {
-                            for(let j=0; j<imgData.length; j+=4) {
-                                data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
-                                data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
-                                data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
-                            }
-                        }
-                    }
-                }
-            }
-            requestAnimationFrame(processVideo);
-        }
-
-        function handleRoiLogic(index, crossed, now, imgData) {
-            const data = roiData[index];
-            if (data.blocked) {
-                if (now - data.lastTime < blindTimeMs) { 
-                    data.el.classList.add('roi-locked'); data.el.classList.remove('roi-detected'); 
-                } else { 
-                    if (crossed) { 
-                        data.el.classList.add('roi-locked'); 
-                    } else { 
-                        data.el.classList.remove('roi-locked'); 
-                        data.blocked = false; 
-                        updateExpectedRoiVisuals(); 
-                    } 
-                }
-            } else {
-                if (!crossed) {
-                    for(let j=0; j<imgData.length; j+=4) {
-                        data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
-                        data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
-                        data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
-                    }
-                }
-                if (crossed && index === expectedRoiIndex) triggerSector(index, now);
-            }
-        }
-
-        function triggerSector(index, now) {
-            const data = roiData[index]; data.blocked = true; data.lastTime = now; data.el.classList.remove('roi-expected');
-            if (index === 0) {
-                if (!hasCrossedStart) {
-                    hasCrossedStart = true; lapStartTimestamp = now; lastSectorTimestamp = now; expectedRoiIndex = activeRoisCount > 1 ? 1 : 0;
-                    try { polySynth.triggerAttackRelease(["C5", "G5"], "0.1", Tone.now()); } catch(e){}
-                } else {
-                    if (activeRoisCount > 1) { const finalSplitTime = now - lastSectorTimestamp; const totalLapTimeTemp = now - lapStartTimestamp; currentLapSectors[activeRoisCount - 1] = finalSplitTime; updateSectorUI(activeRoisCount, finalSplitTime, totalLapTimeTemp); }
-                    recordLap(now); expectedRoiIndex = activeRoisCount > 1 ? 1 : 0;
-                }
-            } else {
-                const sTime = now - lastSectorTimestamp; const splitTime = now - lapStartTimestamp;
-                lastSectorTimestamp = now; currentLapSectors[index - 1] = sTime;
-                updateSectorUI(index, sTime, splitTime); expectedRoiIndex = (index + 1) % activeRoisCount;
-                if(Tone.context.state !== 'running') Tone.context.resume(); try { polySynth.triggerAttackRelease(800 + (index * 200), 0.1, Tone.now()); } catch(e){}
-            }
-            updateExpectedRoiVisuals();
-        }
-
-        function updateExpectedRoiVisuals() {
-            for (let i = 0; i < activeRoisCount; i++) {
-                if (isRaceActive || isCountdown) {
-                    if (i === expectedRoiIndex) { if (!roiData[i].blocked) roiData[i].el.classList.add('roi-expected'); roiData[i].el.classList.remove('roi-disabled'); } 
-                    else { roiData[i].el.classList.remove('roi-expected'); if (!roiData[i].blocked) roiData[i].el.classList.add('roi-disabled'); }
-                } else { roiData[i].el.classList.remove('roi-expected', 'roi-disabled'); }
-            }
-        }
-
-        function formatTime(ms, full) { if (ms === Infinity || ms <= 0) return full ? "00:00.000" : "--.---"; const m = Math.floor(ms/60000), s = Math.floor((ms%60000)/1000), ml = Math.floor(ms%1000); return full ? `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ml).padStart(3,'0')}` : `${String(s).padStart(2,'0')}.${String(ml).padStart(3,'0')}`; }
-
-        function appendToMatrixLog(idx, timeMs, diffMs, isRecord) {
-            const logContainer = document.getElementById('sector-log-container'); if(!logContainer) return;
-            Array.from(logContainer.children).forEach(child => child.classList.add('old'));
-            const entry = document.createElement('div');
-            entry.className = `log-entry ${diffMs > 0 ? 'worse' : ''} ${isRecord ? 'record' : ''}`;
-            const label = idx === activeRoisCount ? "META" : `S${idx}`;
-            const diffStr = diffMs === 0 ? "BASE" : (diffMs > 0 ? `+${(diffMs/1000).toFixed(3)}` : `${(diffMs/1000).toFixed(3)}`);
-            entry.innerHTML = `<span>${label}</span><span class="log-col-time">${formatTime(timeMs, false)}</span><span class="log-col-delta">${diffStr}</span>`;
-            logContainer.appendChild(entry);
-            if(logContainer.children.length > 6) logContainer.removeChild(logContainer.firstChild);
-        }
-
-        function updateSectorUI(idx, ms, splitTimeMs = 0) { 
-            const timeEl = document.getElementById(`tel-s${idx}`); const deltaEl = document.getElementById(`delta-s${idx}`);
-            if (!timeEl || !deltaEl) return;
-            if (ms === 0) { timeEl.textContent = "--.---"; deltaEl.textContent = ""; return; }
-            const currentSectorIndex = idx - 1; const prevBest = bestSectorTimes[currentSectorIndex];
-            timeEl.textContent = formatTime(ms, false);
-            let speechMessage = "", diffMs = 0, isRecord = false;
-            const splitText = splitTimeMs > 0 ? `${Math.floor(splitTimeMs / 1000)} . ${Math.floor((splitTimeMs % 1000) / 100)}` : "";
-
-            if (prevBest === Infinity) {
-                bestSectorTimes[currentSectorIndex] = ms; deltaEl.textContent = "BASE"; deltaEl.className = "text-[9px] font-bold text-slate-500 h-3 mt-0.5";
-                speechMessage = splitText ? `Sector ${idx}, ${splitText}` : `Sector ${idx}, ${formatTime(ms, false)}`; isRecord = true;
-            } else {
-                diffMs = ms - prevBest; const absDiff = Math.abs(diffMs); const diffFormatted = formatTime(absDiff, false); const tenths = (absDiff / 1000).toFixed(1);
-                if (diffMs < 0) {
-                    bestSectorTimes[currentSectorIndex] = ms; deltaEl.textContent = `-${diffFormatted}`; deltaEl.className = "text-[10px] font-bold text-fuchsia-300 h-3 mt-0.5 drop-shadow-md";
-                    speechMessage = splitText ? `${splitText}. Récord! Menos ${tenths}` : `Récord! Menos ${tenths}`; isRecord = true;
-                } else { deltaEl.textContent = `+${diffFormatted}`; deltaEl.className = "text-[10px] font-bold text-red-400 h-3 mt-0.5"; speechMessage = ""; }
-            }
-            appendToMatrixLog(idx, ms, diffMs, isRecord);
-            if (document.getElementById('voice-toggle').checked && speechMessage && idx !== activeRoisCount) speak(speechMessage);
-        }
-
-        function recordLap(now) {
-            const completedLapTime = now - lapStartTimestamp; const dist = parseFloat(document.getElementById('track-length-input').value) || 15; const lapSpeed = (dist / (completedLapTime/1000)) * 3.6;
-            
-            lapHistory.push({ lap: currentLap + 1, time: completedLapTime, speed: lapSpeed, sectors: [...currentLapSectors] });
-            sectorHistory.push([...currentLapSectors]);
-            
-            let best = false; if (completedLapTime < bestLapTime) { bestLapTime = completedLapTime; best = true; }
-            totalLapTime += completedLapTime; currentAverageTime = totalLapTime / lapHistory.length;
-            if (lapSpeed > maxSpeed) maxSpeed = lapSpeed; avgSpeed = lapHistory.reduce((a,b)=>a+b.speed,0) / lapHistory.length;
-            
-            currentLap++;
-            
-            let extMsg = ""; let rem = totalLaps !== Infinity ? totalLaps - currentLap : Infinity;
-            if (rem === 1) { extMsg = translations[currentLang].voiceLastLap; if(Tone.context.state !== 'running') Tone.context.resume(); try { polySynth.triggerAttackRelease(["G5", "C6"], "0.2", Tone.now()); } catch(e){} }
-            const snd = document.getElementById('soundSelect').value; const sOpts = [{f:600,d:0.1},{f:400,d:0.2},{f:900,d:0.08}];
-            if(Tone.context.state !== 'running') Tone.context.resume(); try { polySynth.triggerAttackRelease(sOpts[snd].f, sOpts[snd].d, Tone.now()); } catch(e){}
-            
-            if(document.getElementById('voice-toggle').checked) {
-               const sec = Math.floor(completedLapTime/1000), dec = (completedLapTime%1000).toString().padStart(3,'0');
-               let txt = `${sec} ${translations[currentLang].voicePoint} ${dec}`; if(best && currentLap>1) txt = translations[currentLang].voiceFastest + " " + txt;
-               if(extMsg) txt += ". " + extMsg; speak(txt);
-            }
-            if(best && currentLap > 1) { const n = document.getElementById('record-notification'); n.classList.add('show'); setTimeout(()=>n.classList.remove('show'), 2000); }
-            
-            document.getElementById('lap-time').textContent = formatTime(completedLapTime, false);
-            updateLapDisplay(); updateTelemetryDisplay();
-            
-            currentLapSectors = [0,0,0,0];
-            if (raceMode === 'laps' && totalLaps !== Infinity && currentLap >= totalLaps) stopRace(true);
-            else { lapStartTimestamp = now; lastSectorTimestamp = now; }
-        }
-
-        function updateLapDisplay() {
-            if (raceMode === 'time') { document.getElementById('lap-count').textContent = currentLap; document.getElementById('mode-target-display').textContent = `Límite: ${document.getElementById('time-limit-select').value} min`; document.getElementById('mode-target-display').classList.remove('hidden'); } 
-            else { document.getElementById('lap-count').textContent = `${currentLap} / ${totalLaps === Infinity ? '∞' : totalLaps}`; document.getElementById('mode-target-display').classList.add('hidden'); }
         }
         
-        function updateTelemetryDisplay() {
-            document.getElementById('telemetry-best-time').textContent = bestLapTime !== Infinity ? formatTime(bestLapTime, false) : "--.---";
-            document.getElementById('telemetry-average-time').textContent = currentAverageTime ? formatTime(currentAverageTime, false) : "--.---";
-            document.getElementById('telemetry-avg-speed').textContent = avgSpeed.toFixed(1); document.getElementById('telemetry-max-speed').textContent = maxSpeed.toFixed(1);
+        function updateMailLink() {
+            const userEmail = emailInput.value || "";
+            const subject = "Interés Licencia SECTOR TIME";
+            const body = `Hola equipo de SLOTSOFTWARE,%0D%0A%0D%0AEstoy muy interesado en adquirir la licencia SECTOR TIME por 15 euros para mi usuario: ${userEmail}%0D%0A%0D%0AQuedo a la espera de sus instrucciones para proceder con el pago.%0D%0A%0D%0AGracias y un saludo.`;
+            mailLink.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
         }
+        emailInput.addEventListener('input', updateMailLink);
+        updateMailLink();
 
-        async function startTrafficLight() {
-            if (Tone.context.state !== 'running') await Tone.start();
-            trafficLightSession++; const currentSession = trafficLightSession;
-            raceMode = document.getElementById('race-mode-select').value;
-            if (raceMode === 'laps') { const val = document.getElementById('lap-limit-select').value; totalLaps = val === 'Infinity' ? Infinity : parseInt(val); raceTimeLimit = 0; }
-            else { totalLaps = Infinity; raceTimeLimit = parseInt(document.getElementById('time-limit-select').value) * 60 * 1000; }
-            updateLapDisplay(); startRaceBtn.disabled = true; resetRaceBtn.disabled = true;
-            blindTimeMs = parseInt(document.getElementById('safety-time-select').value) || 3000; 
-            for(let i=1; i<=4; i++) updateSectorUI(i, 0);
-            document.getElementById('sector-log-container').innerHTML = '';
-            
-            const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => { l.classList.remove('red', 'green'); });
-            isCountdown = true; raceAborted = false; hasCrossedStart = false; expectedRoiIndex = 0; 
-            roiData.forEach(d => { d.blocked = false; d.lastTime = 0; d.baseRGB = null; }); updateExpectedRoiVisuals();
-            
-            await new Promise(r => setTimeout(r, 1000));
-            for (let i = 0; i < 5; i++) {
-                if (currentSession !== trafficLightSession || raceAborted) return;
-                lights[i].classList.add('red'); try { polySynth.triggerAttackRelease("C4", "8n", Tone.now()); } catch(e){}
-                await new Promise(r => setTimeout(r, 1000));
-            }
-            if (currentSession !== trafficLightSession || raceAborted) return; await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
-            if (currentSession !== trafficLightSession || raceAborted) return;
-            isCountdown = false;
-            
-            lights.forEach(l => { l.classList.remove('red'); l.classList.add('green'); });
-            try { polySynth.triggerAttackRelease(["C5", "E5", "G5"], "0.5", Tone.now()); } catch(e){}
-            
-            isRaceActive = true; isPaused = false; document.getElementById('pause-btn').disabled = false; updatePauseUI(); updateExpectedRoiVisuals();
-            raceStartTime = Date.now(); lapStartTimestamp = raceStartTime; lastSectorTimestamp = raceStartTime;
-            
-            raceIntervalId = setInterval(() => { finalRaceTimeMs = Date.now() - raceStartTime; document.getElementById('race-time').textContent = formatTime(finalRaceTimeMs, true); if (raceMode === 'time' && finalRaceTimeMs >= raceTimeLimit) stopRace(true); }, 50);
-            lapIntervalId = setInterval(() => { document.getElementById('lap-time').textContent = formatTime(Date.now() - lapStartTimestamp, false); }, 30);
-            resetRaceBtn.disabled = false; roiData.forEach(d => d.lastTime = Date.now() - blindTimeMs);
-        }
-
-        function stopRace(finished = false) {
-            isRaceActive = false; isCountdown = false; hasCrossedStart = false; isPaused = false; trafficLightSession++;
-            document.getElementById('pause-btn').disabled = true; document.getElementById('yellow-flag-overlay').classList.remove('active'); updatePauseUI(); updateExpectedRoiVisuals();
-            if (raceIntervalId) clearInterval(raceIntervalId); if (lapIntervalId) clearInterval(lapIntervalId);
-            
-            if (finished) {
-                speak(translations[currentLang].voiceFinished);
-                document.getElementById('modal-pilot-car').textContent = `${document.getElementById('pilot-name-input').value} / ${document.getElementById('car-model-input').value}`;
-                document.getElementById('modal-total-time').textContent = formatTime(finalRaceTimeMs, true);
-                
-                const thead = document.getElementById('modal-table-head');
-                let headHTML = '<tr><th class="p-2 text-center w-12 border-b border-cyan-800">V.</th>';
-                for(let i=0; i<activeRoisCount-1; i++) headHTML += `<th class="p-2 text-right border-b border-cyan-800">S${i+1}</th>`;
-                headHTML += `<th class="p-2 text-right border-b border-cyan-800">Total</th><th class="p-2 text-right border-b border-cyan-800">Dif</th></tr>`;
-                thead.innerHTML = headHTML;
-                
-                const tbody = document.getElementById('modal-table-body'); tbody.innerHTML = '';
-                lapHistory.forEach((lap, idx) => {
-                    const isBest = lap.time === bestLapTime;
-                    const diff = isBest ? "BASE" : `+${((lap.time - bestLapTime)/1000).toFixed(3)}`;
-                    let trHTML = `<tr class="hover:bg-cyan-900/20"><td class="p-2 text-center">${lap.lap}</td>`;
-                    for(let i=0; i<activeRoisCount-1; i++) {
-                        const isBestSector = lap.sectors[i] === bestSectorTimes[i] && lap.sectors[i] > 0;
-                        const secClass = isBestSector ? 'text-fuchsia-400 font-black drop-shadow-[0_0_5px_rgba(232,121,249,0.8)]' : '';
-                        trHTML += `<td class="p-2 text-right ${secClass}">${formatTime(lap.sectors[i], false)}</td>`;
-                    }
-                    trHTML += `<td class="p-2 text-right ${isBest ? 'text-green-400 font-bold' : 'text-cyan-100'}">${formatTime(lap.time, false)}</td><td class="p-2 text-right text-xs ${isBest ? 'text-green-400' : 'text-slate-400'}">${diff}</td></tr>`;
-                    tbody.innerHTML += trHTML;
-                });
-
-                if (typeof updateGarageCarStatsAfterRace === 'function') updateGarageCarStatsAfterRace();
-
-                document.getElementById('resultsModal').classList.remove('hidden');
-                setTimeout(()=> { document.getElementById('resultsModal').classList.add('open'); drawResultsChart(); }, 50);
-            } else {
-                currentLap = 0; lapHistory = []; sectorHistory = []; bestLapTime = Infinity; totalLapTime = 0; currentAverageTime = 0; maxSpeed = 0; avgSpeed = 0;
-                bestSectorTimes = [Infinity, Infinity, Infinity, Infinity]; document.getElementById('sector-log-container').innerHTML = '';
-                document.getElementById('race-time').textContent = "00:00.000"; document.getElementById('lap-time').textContent = "00.000";
-                updateLapDisplay(); updateTelemetryDisplay(); for(let i=1; i<=4; i++) updateSectorUI(i, 0);
-                const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
-            }
-            startRaceBtn.disabled = false; resetRaceBtn.disabled = true;
-        }
-        
-        function handleFalseStart() { raceAborted = true; isCountdown = false; trafficLightSession++; const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => { l.classList.remove('red', 'green'); }); try { polySynth.triggerAttackRelease(["C2", "F#2"], "1", Tone.now()); } catch(e){} document.getElementById('false-start-alert').classList.add('show'); speak(translations[currentLang].voiceFalseStart); resetRaceBtn.disabled = true; startRaceBtn.disabled = false; setTimeout(() => document.getElementById('false-start-alert').classList.remove('show'), 2000); updateExpectedRoiVisuals(); }
-        function togglePause() { if (!isRaceActive) return; if (!isPaused) { isPaused = true; pauseStartTime = Date.now(); clearInterval(raceIntervalId); clearInterval(lapIntervalId); document.getElementById('yellow-flag-overlay').classList.add('active'); } else { isPaused = false; const pD = Date.now() - pauseStartTime; raceStartTime += pD; lapStartTimestamp += pD; lastSectorTimestamp += pD; roiData.forEach(d => d.lastTime += pD); raceIntervalId = setInterval(() => { finalRaceTimeMs = Date.now() - raceStartTime; document.getElementById('race-time').textContent = formatTime(finalRaceTimeMs, true); if (raceMode === 'time' && finalRaceTimeMs >= raceTimeLimit) stopRace(true); }, 50); lapIntervalId = setInterval(() => { document.getElementById('lap-time').textContent = formatTime(Date.now() - lapStartTimestamp, false); }, 30); document.getElementById('yellow-flag-overlay').classList.remove('active'); } updatePauseUI(); }
-        function updatePauseUI() { const btn = document.getElementById('pause-btn'); const txt = document.getElementById('pause-text'); if (isPaused) { txt.textContent = translations[currentLang].resume; btn.classList.replace('border-cyan-800', 'border-yellow-600'); txt.classList.replace('text-cyan-400', 'text-yellow-400'); document.getElementById('icon-pause').classList.add('hidden'); document.getElementById('icon-play').classList.remove('hidden'); } else { txt.textContent = translations[currentLang].pause; btn.classList.replace('border-yellow-600', 'border-cyan-800'); txt.classList.replace('text-yellow-400', 'text-cyan-400'); document.getElementById('icon-pause').classList.remove('hidden'); document.getElementById('icon-play').classList.add('hidden'); } }
-
-        function updateActiveRois() {
-            activeRoisCount = parseInt(roiCountSelect.value);
-            for (let i = 0; i < 4; i++) {
-                const sC = document.getElementById(`sens-container-${i}`);
-                if (i < activeRoisCount) { roiData[i].el.classList.add('active-roi'); if (sC) sC.classList.remove('hidden'); } 
-                else { roiData[i].el.classList.remove('active-roi'); if (sC) sC.classList.add('hidden'); }
-            }
-            if (activeRoisCount > 1) {
-                sectorsDisplayPanel.classList.remove('hidden'); document.getElementById('sector-box-1').classList.remove('hidden');
-                document.getElementById('sector-box-2').classList.toggle('hidden', activeRoisCount < 2); document.getElementById('sector-box-3').classList.toggle('hidden', activeRoisCount < 3); document.getElementById('sector-box-4').classList.toggle('hidden', activeRoisCount < 4);
-                for(let i=1; i<=4; i++) { const lbl = document.getElementById(`label-box-${i}`); if(lbl) { lbl.classList.remove('text-cyan-500', 'text-emerald-400'); if (i === activeRoisCount) { lbl.textContent = "META"; lbl.classList.add('text-emerald-400'); } else { lbl.textContent = `S${i}`; lbl.classList.add('text-cyan-500'); } } }
-            } else sectorsDisplayPanel.classList.add('hidden');
-            updateMasks();
-        }
-
-        function updateMasks() {
-            for (let i = 0; i < 4; i++) {
-                const hole = document.getElementById(`mask-hole-${i}`);
-                if (hole) { if (i < activeRoisCount) { const el = roiData[i].el; hole.setAttribute('x', el.style.left); hole.setAttribute('y', el.style.top); hole.setAttribute('width', el.style.width); hole.setAttribute('height', el.style.height); hole.style.display = 'block'; } else { hole.style.display = 'none'; } }
-            }
-        }
-
-        async function getCameras() { try { const devices = await navigator.mediaDevices.enumerateDevices(); const videoDevices = devices.filter(d => d.kind === 'videoinput'); camDeviceSelect.innerHTML = ''; videoDevices.forEach((dev, idx) => { const opt = document.createElement('option'); opt.value = dev.deviceId; opt.text = dev.label || `Cámara ${idx + 1}`; camDeviceSelect.appendChild(opt); }); if(videoDevices.length > 1) camDeviceSelect.classList.remove('hidden'); } catch (e) { console.warn("No cameras found"); } }
-        async function initCamera(deviceId = null) {
-            if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop());
-            const constraints = { video: deviceId ? { deviceId: { exact: deviceId } } : { facingMode: "environment" } };
+        mailLink.addEventListener('click', async () => {
             try {
-                cameraStream = await navigator.mediaDevices.getUserMedia(constraints); currentVideoTrack = cameraStream.getVideoTracks()[0];
-                videoElement.srcObject = cameraStream; 
-                const playPromise = videoElement.play();
-                if (playPromise !== undefined) playPromise.catch(error => { console.log("Video play was interrupted."); });
-                
-                if (camDeviceSelect.options.length === 0) await getCameras();
-                if (currentVideoTrack.getSettings().deviceId) camDeviceSelect.value = currentVideoTrack.getSettings().deviceId;
-                
-                opticalIdleScreen.classList.add('hidden');
-                roiContainer.classList.add('hidden');
-                cameraOnBtn.disabled = true;
-                cameraOffBtn.disabled = true;
-                calibrateBtn.disabled = true;
-                
-                document.getElementById('video-status').textContent = "Ajustando lente...";
-                document.getElementById('video-status').classList.replace('text-cyan-600', 'text-yellow-400');
-                
-                setTimeout(() => {
-                    isProcessing = true; 
-                    processVideo(); 
+                const statsRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'stats');
+                await setDoc(statsRef, { purchase_clicks: increment(1), last_click: new Date().toISOString() }, { merge: true });
+            } catch (e) {}
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value.toLowerCase().trim();
+            const code = document.getElementById('code').value.trim();
+            const btn = document.getElementById('btn-login');
+            
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>'; btn.disabled = true;
+            document.getElementById('msg-box').classList.add('hidden');
+
+            try {
+                const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'access_codes'), where("email", "==", email), where("code", "==", code));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const docSnap = querySnapshot.docs[0];
+                    const userData = docSnap.data();
                     
-                    roiData.forEach(d => { d.baseRGB = null; });
-                    
-                    setTimeout(() => {
-                        roiContainer.classList.remove('hidden');
-                        updateActiveRois();
-                        calibrateBtn.disabled = false;
-                        cameraOffBtn.disabled = false;
-                        document.getElementById('video-status').textContent = translations[currentLang].camActive; 
-                        document.getElementById('video-status').classList.replace('text-yellow-400', 'text-emerald-400');
-                        speak(translations[currentLang]?.voiceCalibrating || "Calibrando sistema");
-                    }, 500);
-                }, 1500);
-
-            } catch(e) { document.getElementById('video-status').textContent=translations[currentLang].camError; document.getElementById('video-status').classList.replace('text-cyan-600', 'text-red-500'); document.getElementById('video-status').classList.replace('text-yellow-400', 'text-red-500'); cameraOnBtn.disabled=false; }
-        }
-
-        cameraOnBtn.addEventListener('click', () => initCamera());
-        cameraOffBtn.addEventListener('click', () => { 
-            if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop()); 
-            cameraStream=null; isProcessing=false; videoElement.srcObject=null; 
-            roiContainer.classList.add('hidden'); 
-            opticalIdleScreen.classList.remove('hidden');
-            cameraOnBtn.disabled=false; cameraOffBtn.disabled=true; calibrateBtn.disabled=true; 
-            document.getElementById('video-status').textContent = translations[currentLang].camLoading; 
-            document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-600'); 
-            document.getElementById('video-status').classList.replace('text-red-500', 'text-cyan-600'); 
-        });
-        camDeviceSelect.addEventListener('change', e => initCamera(e.target.value));
-        roiCountSelect.addEventListener('change', updateActiveRois);
-        startRaceBtn.addEventListener('click', startTrafficLight); resetRaceBtn.addEventListener('click', () => stopRace(false)); document.getElementById('pause-btn').addEventListener('click', togglePause);
-        document.getElementById('modal-restart-btn').addEventListener('click', () => { document.getElementById('resultsModal').classList.remove('open'); setTimeout(()=>document.getElementById('resultsModal').classList.add('hidden'),300); stopRace(false); });
-        
-        document.getElementById('lang-select').addEventListener('change', (e) => {
-            currentLang = e.target.value;
-            updateTexts();
-        });
-
-        document.getElementById('race-mode-select').addEventListener('change', (e) => { if (e.target.value === 'laps') { document.getElementById('laps-config-container').classList.remove('hidden'); document.getElementById('time-config-container').classList.add('hidden'); } else { document.getElementById('laps-config-container').classList.add('hidden'); document.getElementById('time-config-container').classList.remove('hidden'); } raceMode = e.target.value; updateLapDisplay(); });
-        document.getElementById('lap-limit-select').addEventListener('change', () => { if (raceMode === 'laps') { totalLaps = document.getElementById('lap-limit-select').value === 'Infinity' ? Infinity : parseInt(document.getElementById('lap-limit-select').value); updateLapDisplay(); } });
-        for (let i = 0; i < 4; i++) { document.getElementById(`threshold-slider-${i}`)?.addEventListener('input', e => { roiData[i].sens = parseInt(e.target.value); document.getElementById(`current-threshold-${i}`).textContent = e.target.value; }); }
-
-        calibrateBtn.addEventListener('click', () => {
-            if(!isProcessing || isRaceActive || isCountdown) return;
-            isCalibrating = true; 
-            speak(translations[currentLang]?.voiceCalibrating || "Calibrando sistema");
-            roiData.forEach(d => d.baseRGB = null); 
-            calibOverlay.classList.add('active'); 
-            calibrateBtn.disabled = true;
-
-            setTimeout(() => { 
-                for(let i=0; i<activeRoisCount; i++){
-                    let currentValTxt = document.getElementById(`det-val-${i}`).textContent;
-                    let currentNoise = parseInt(currentValTxt.replace('RGB: ', '')) || 0;
-                    let newSens = Math.max(5, Math.min(100, currentNoise + 15));
-                    roiData[i].sens = newSens;
-                    document.getElementById(`threshold-slider-${i}`).value = newSens;
-                    document.getElementById(`current-threshold-${i}`).textContent = newSens;
-                }
-                isCalibrating = false; 
-                calibOverlay.classList.remove('active'); 
-                calibrateBtn.disabled = false; 
-            }, 2000);
-        });
-
-        for(let i=0; i<4; i++) {
-            const btn = document.getElementById(`auto-calib-btn-${i}`);
-            if(btn) { 
-                btn.addEventListener('click', () => { 
-                    if(!isProcessing || isRaceActive || isCountdown) return; 
-                    roiData[i].baseRGB = null; 
-                    btn.style.backgroundColor = '#ffffff'; btn.style.color = '#000000'; 
-                    speak(`${translations[currentLang]?.calibrating || "Calibrando"} ${roiData[i].nameKey}`);
-                    
-                    setTimeout(() => {
-                        let currentValTxt = document.getElementById(`det-val-${i}`).textContent;
-                        let currentNoise = parseInt(currentValTxt.replace('RGB: ', '')) || 0;
-                        let newSens = Math.max(5, Math.min(100, currentNoise + 15));
-                        roiData[i].sens = newSens;
-                        document.getElementById(`threshold-slider-${i}`).value = newSens;
-                        document.getElementById(`current-threshold-${i}`).textContent = newSens;
-
-                        btn.style.backgroundColor = ''; btn.style.color = ''; 
-                    }, 1000);
-                }); 
-            }
-        }
-
-        function speak(text) { 
-            const toggle = document.getElementById('voice-toggle'); 
-            if(toggle && toggle.checked) { 
-                window.speechSynthesis.cancel(); 
-                const u = new SpeechSynthesisUtterance(text); 
-                u.lang = currentLang==='en' ? 'en-US' : 'es-ES'; 
-                window.speechSynthesis.speak(u); 
-            } 
-        }
-
-        function drawResultsChart() {
-            if(window.resultsChartInstance) window.resultsChartInstance.destroy();
-            const ctx = document.getElementById('resultsChart').getContext('2d');
-            const labels = lapHistory.map(l => 'V' + l.lap);
-            const datasets = [];
-            
-            datasets.push({
-                label: 'T. Total (s)', data: lapHistory.map(l => l.time / 1000),
-                borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.2)', borderWidth: 3, tension: 0.3, fill: true, hidden: false
-            });
-            
-            const sectorColors = ['#3b82f6', '#eab308', '#a855f7', '#10b981'];
-            for(let i=0; i<activeRoisCount-1; i++) {
-                datasets.push({
-                    label: `Sector ${i+1} (s)`, data: lapHistory.map(l => l.sectors[i] / 1000),
-                    borderColor: sectorColors[i], borderDash: [5, 5], borderWidth: 2, tension: 0.3, hidden: false
-                });
-            }
-
-            window.resultsChartInstance = new Chart(ctx, {
-                type: 'line', data: { labels: labels, datasets: datasets },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#e2e8f0' } } }, scales: { x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.1)' } } } }
-            });
-        }
-
-        document.getElementById('export-excel-btn').addEventListener('click', () => {
-            let csv = "Piloto,Vuelta,Total (s)";
-            for(let i=1; i<activeRoisCount; i++) csv += `,S${i} (s)`;
-            csv += ",Vel.Media (Km/h)\n";
-            
-            const pName = document.getElementById('pilot-name-input').value;
-            lapHistory.forEach(l => {
-                let row = `"${pName}",${l.lap},${(l.time/1000).toFixed(3)}`;
-                for(let i=0; i<activeRoisCount-1; i++) row += `,${(l.sectors[i]/1000).toFixed(3)}`;
-                row += `,${l.speed.toFixed(1)}\n`;
-                csv += row;
-            });
-            
-            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob)); link.setAttribute("download", `SectorTime_${pName}_${new Date().toISOString().slice(0,10)}.csv`);
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
-        });
-
-        function showSystemModal(message, isConfirm = false, onConfirm = null) {
-            const overlay = document.getElementById('systemModal');
-            const msgEl = document.getElementById('sys-modal-msg');
-            const okBtn = document.getElementById('sys-modal-ok');
-            const cancelBtn = document.getElementById('sys-modal-cancel');
-            
-            msgEl.textContent = message;
-            cancelBtn.style.display = isConfirm ? 'block' : 'none';
-            
-            okBtn.onclick = () => {
-                overlay.classList.remove('open');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-                if (onConfirm) onConfirm();
-            };
-            
-            cancelBtn.onclick = () => {
-                overlay.classList.remove('open');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-            };
-            
-            overlay.classList.remove('hidden');
-            setTimeout(() => overlay.classList.add('open'), 10);
-        }
-
-        let garageCars = JSON.parse(localStorage.getItem('sectortime_garage_cars')) || [];
-        let currentGarageIndex = 0; let isGarageEditing = false;
-        
-        const ImageDB = {
-            db: null,
-            init: function() { return new Promise((res, rej) => { const req = indexedDB.open("SectorTimeDB", 1); req.onupgradeneeded = e => e.target.result.createObjectStore("images", { keyPath: "id" }); req.onsuccess = e => { this.db = e.target.result; res(); }; req.onerror = e => rej(e); }); },
-            save: function(id, b64) { if(this.db) this.db.transaction("images", "readwrite").objectStore("images").put({ id: id, data: b64 }); },
-            get: function(id) { return new Promise(res => { if(!this.db) return res(null); const req = this.db.transaction("images", "readonly").objectStore("images").get(id); req.onsuccess = () => res(req.result ? req.result.data : null); req.onerror = () => res(null); }); }
-        };
-        ImageDB.init();
-
-        const garageFields = [
-            'marca', 'ref', 'year', 'cat', 'sys',
-            'motor', 'posicion', 'pinon', 'corona', 'relacion',
-            'chasis', 'guia', 'trencillas', 'cableado',
-            'ejeDel', 'llantaDel', 'neumaticoDel',
-            'ejeTras', 'llantaTras', 'neumaticoTras',
-            'suspension', 'iman', 'peso', 'luces'
-        ];
-        
-        function initGarage() {
-            if (garageCars.length === 0) {
-                const brands = ["Porsche", "Audi", "Ferrari", "BMW", "Aston Martin", "Ford", "McLaren", "Lancia", "Subaru", "Nissan"];
-                for(let i=1; i<=25; i++) {
-                    const brand = brands[Math.floor(Math.random() * brands.length)];
-                    const baseTime = 3.1 + (Math.random() * 3.5);
-                    const avgSpd = (15 / baseTime) * 3.6;
-                    
-                    garageCars.push({
-                        id: "ID" + String(i).padStart(3, '0'),
-                        name: `${brand} GT-${i}`,
-                        image: "",
-                        marca: brand, ref: "REF-00" + i, cat: "GT3 Pro", sys: "Advance", year: "2023",
-                        motor: "RK V8", posicion: "Anglewinder", pinon: "11z", corona: "27z", relacion: "11:27", 
-                        chasis: "Carbono", guia: "Estándar", trencillas: "Cobre", cableado: "Silicona",
-                        ejeDel: "Acero 55mm", llantaDel: "Plástico 15.8mm", neumaticoDel: "Zero Grip",
-                        ejeTras: "Acero 55mm", llantaTras: "Aluminio 16.9mm", neumaticoTras: "Supergrip",
-                        suspension: "Muelles", iman: "No",
-                        peso: (70 + Math.random()*15).toFixed(1), luces: "LED",
-                        bestLap: baseTime.toFixed(3) + "s", 
-                        totalTime: Math.floor(Math.random()*5) + "h " + Math.floor(Math.random()*60) + "m", 
-                        totalDist: (Math.random()*50 + 10).toFixed(3) + " km", 
-                        avgSpd: avgSpd.toFixed(1) + " km/h",
-                        consistency: (80 + Math.random()*15).toFixed(1),
-                        recentLaps: [baseTime+0.1, baseTime+0.2, baseTime, baseTime+0.3], 
-                        recentSpeeds: [avgSpd-0.5, avgSpd-1, avgSpd, avgSpd-1.5], 
-                        bestSectors: [Infinity, Infinity, Infinity, Infinity],
-                        _rawTotalTime: 0, _rawTotalDist: 0
-                    });
-                }
-                saveGarageToLocal();
-            }
-            populateDropdown();
-        }
-
-        function saveGarageToLocal() { localStorage.setItem('sectortime_garage_cars', JSON.stringify(garageCars)); }
-        function populateDropdown() {
-            const sel = document.getElementById('garage-car-select'); if(!sel) return; sel.innerHTML = '';
-            garageCars.forEach((c, i) => { const opt = document.createElement('option'); opt.value = i; opt.textContent = c.name || `Coche ${i+1}`; sel.appendChild(opt); });
-            sel.value = currentGarageIndex;
-        }
-
-        function renderGarageCar(index) {
-            currentGarageIndex = index; if (garageCars.length === 0) return; const car = garageCars[index];
-            document.getElementById('garage-car-id').textContent = car.id || "ID---";
-            const imgEl = document.getElementById('garage-img'); imgEl.src = ""; 
-            
-            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='12' font-weight='900' fill='%2322d3ee' text-anchor='middle'>SIN IMAGEN</text></svg>";
-
-            if (car.imageId) {
-                ImageDB.get(car.imageId).then(b => { imgEl.src = b || defaultImg; }); 
-            } else if (car.image && car.image.length > 5) {
-                imgEl.src = car.image;
-            } else {
-                imgEl.src = defaultImg;
-            }
-            
-            document.getElementById('g-inp-name').value = car.name || "";
-            garageFields.forEach(f => { const valEl = document.getElementById(`g-val-${f}`); const inpEl = document.getElementById(`g-inp-${f}`); if (valEl) valEl.textContent = car[f] || "-"; if (inpEl) inpEl.value = car[f] || ""; });
-            
-            const bestLapEl = document.getElementById('g-val-bestLap'); if (bestLapEl) bestLapEl.textContent = car.bestLap || "-"; 
-            const totalTimeEl = document.getElementById('g-val-totalTime'); if (totalTimeEl) totalTimeEl.textContent = car.totalTime || "-"; 
-            const totalDistEl = document.getElementById('g-val-totalDist'); if (totalDistEl) totalDistEl.textContent = car.totalDist || "-"; 
-            const avgSpdEl = document.getElementById('g-val-avgSpd'); if (avgSpdEl) avgSpdEl.textContent = car.avgSpd || "-";
-            
-            const consVal = parseFloat(car.consistency) || 0;
-            const consBar = document.getElementById('g-bar-consistency');
-            if (consBar) {
-                consBar.style.width = `${Math.min(100, Math.max(0, consVal))}%`;
-                if(consVal >= 90) consBar.className = "bg-green-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#4ade80]";
-                else if(consVal >= 75) consBar.className = "bg-yellow-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#facc15]";
-                else consBar.className = "bg-cyan-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#22d3ee]";
-            }
-            const valConsEl = document.getElementById('g-val-consistency');
-            if(valConsEl) {
-                valConsEl.textContent = consVal > 0 ? `${consVal.toFixed(1)}%` : "-";
-            }
-            
-            drawGarageCharts(car);
-        }
-
-        function drawGarageCharts(car) {
-            if (!window.garageCharts) window.garageCharts = { laps: null, speeds: null, sectors: null, dist: null, dev: null, trend: null, leftSectors: null };
-            
-            const lapsData = car.recentLaps || [];
-            const speedData = car.recentSpeeds || [];
-            const sectorData = (car.bestSectors || [Infinity, Infinity, Infinity, Infinity]).map(v => v === Infinity ? 0 : (v/1000).toFixed(3));
-            
-            const bestL = Math.min(...lapsData.filter(l => l > 0));
-            const devData = lapsData.map(l => (l > 0 && isFinite(bestL)) ? (l - bestL).toFixed(3) : 0);
-            
-            let movingAvg = [];
-            for(let i=0; i<lapsData.length; i++) {
-                if(i === 0) movingAvg.push(lapsData[0]);
-                else if(i === 1) movingAvg.push((lapsData[0]+lapsData[1])/2);
-                else movingAvg.push((lapsData[i]+lapsData[i-1]+lapsData[i-2])/3);
-            }
-
-            const commonOptions = { 
-                responsive: true, maintainAspectRatio: false, 
-                plugins: { legend: { display: false } }, 
-                scales: { 
-                    x: { ticks: { color: '#475569', font: {size: 8} }, grid: { display: false } }, 
-                    y: { ticks: { color: '#475569', font: {size: 8}, maxTicksLimit: 4 }, grid: { color: 'rgba(255,255,255,0.05)' }, border: { dash: [4, 4] } } 
-                },
-                layout: { padding: 0 }
-            };
-
-            const ctxLaps = document.getElementById('garageChartLaps');
-            if (ctxLaps) {
-                if(window.garageCharts.laps) window.garageCharts.laps.destroy();
-                window.garageCharts.laps = new Chart(ctxLaps.getContext('2d'), { type: 'line', data: { labels: lapsData.map((_, i) => 'V'+(i+1)), datasets: [{ data: lapsData, borderColor: '#22d3ee', backgroundColor: 'rgba(34, 211, 238, 0.1)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 0 }] }, options: commonOptions });
-            }
-
-            const ctxSpeeds = document.getElementById('garageChartSpeed');
-            if (ctxSpeeds) {
-                if(window.garageCharts.speeds) window.garageCharts.speeds.destroy();
-                window.garageCharts.speeds = new Chart(ctxSpeeds.getContext('2d'), { type: 'line', data: { labels: speedData.map((_, i) => 'V'+(i+1)), datasets: [{ data: speedData, borderColor: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.1)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 0 }] }, options: commonOptions });
-            }
-
-            const ctxSectors = document.getElementById('garageChartSectors');
-            if (ctxSectors) {
-                if(window.garageCharts.sectors) window.garageCharts.sectors.destroy();
-                window.garageCharts.sectors = new Chart(ctxSectors.getContext('2d'), { type: 'bar', data: { labels: ['S1', 'S2', 'S3', 'S4'], datasets: [{ data: sectorData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderRadius: 2 }] }, options: commonOptions });
-            }
-
-            const ctxDist = document.getElementById('garageChartDist');
-            if (ctxDist) {
-                if(window.garageCharts.dist) window.garageCharts.dist.destroy();
-                window.garageCharts.dist = new Chart(ctxDist.getContext('2d'), { type: 'doughnut', data: { labels: ['S1', 'S2', 'S3', 'S4'], datasets: [{ data: sectorData, backgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'right', labels: {color: '#94a3b8', font: {size: 8}, boxWidth: 6} } }, cutout: '70%', layout: { padding: 0 } } });
-            }
-
-            const ctxDev = document.getElementById('garageChartDev');
-            if (ctxDev) {
-                if(window.garageCharts.dev) window.garageCharts.dev.destroy();
-                window.garageCharts.dev = new Chart(ctxDev.getContext('2d'), { type: 'bar', data: { labels: devData.map((_, i) => 'V'+(i+1)), datasets: [{ data: devData, backgroundColor: 'rgba(249, 115, 22, 0.8)', borderRadius: 2 }] }, options: commonOptions });
-            }
-
-            const ctxTrend = document.getElementById('garageChartTrend');
-            if (ctxTrend) {
-                if(window.garageCharts.trend) window.garageCharts.trend.destroy();
-                window.garageCharts.trend = new Chart(ctxTrend.getContext('2d'), { type: 'line', data: { labels: movingAvg.map((_, i) => 'V'+(i+1)), datasets: [{ data: movingAvg, borderColor: '#d946ef', backgroundColor: 'rgba(217, 70, 239, 0.1)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 0 }] }, options: commonOptions });
-            }
-
-            const ctxLeftSectors = document.getElementById('garageChartLeftSectors');
-            if (ctxLeftSectors) {
-                if(window.garageCharts.leftSectors) window.garageCharts.leftSectors.destroy();
-                window.garageCharts.leftSectors = new Chart(ctxLeftSectors.getContext('2d'), { 
-                    type: 'line', 
-                    data: { 
-                        labels: ['S1', 'S2', 'S3', 'Meta'], 
-                        datasets: [{ 
-                            data: sectorData, 
-                            borderColor: '#22d3ee',
-                            backgroundColor: 'rgba(34, 211, 238, 0.2)',
-                            borderWidth: 2,
-                            tension: 0.3,
-                            fill: true,
-                            pointBackgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'],
-                            pointBorderColor: '#ffffff',
-                            pointBorderWidth: 1,
-                            pointRadius: 4,
-                            pointHoverRadius: 6
-                        }] 
-                    }, 
-                    options: { 
-                        responsive: true, maintainAspectRatio: false, 
-                        plugins: { legend: { display: false } },
-                        scales: { 
-                            x: { ticks: { color: '#94a3b8', font: {size: 9, weight: 'bold'} }, grid: { display: false } },
-                            y: { ticks: { color: '#475569', font: {size: 8}, maxTicksLimit: 4 }, grid: { color: 'rgba(6,182,212,0.1)' }, border: { dash: [4, 4] } }
-                        },
-                        layout: { padding: 4 }
-                    } 
-                });
-            }
-        }
-
-        function toggleGarageEdit(editing) {
-            isGarageEditing = editing; const garCont = document.getElementById('garage-container');
-            if (editing) { garCont.classList.add('g-editing'); document.getElementById('garage-edit-btn').classList.add('hidden'); document.getElementById('garage-save-btn').classList.remove('hidden'); document.getElementById('garage-assign-btn').classList.add('hidden'); document.getElementById('garage-img-overlay').classList.remove('hidden'); document.getElementById('garage-name-edit-container').classList.remove('hidden'); document.getElementById('garage-car-select').parentElement.classList.add('hidden'); } 
-            else { garCont.classList.remove('g-editing'); document.getElementById('garage-edit-btn').classList.remove('hidden'); document.getElementById('garage-save-btn').classList.add('hidden'); document.getElementById('garage-assign-btn').classList.remove('hidden'); document.getElementById('garage-img-overlay').classList.add('hidden'); document.getElementById('garage-name-edit-container').classList.add('hidden'); document.getElementById('garage-car-select').parentElement.classList.remove('hidden'); }
-        }
-
-        function saveGarageEdits() {
-            if (garageCars.length === 0) return; const car = garageCars[currentGarageIndex];
-            car.name = document.getElementById('g-inp-name').value || "Coche Sin Nombre";
-            garageFields.forEach(f => { const inpEl = document.getElementById(`g-inp-${f}`); if (inpEl) car[f] = inpEl.value; });
-            saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false);
-            
-            const carSelect = document.getElementById('car-model-input');
-            if(carSelect) {
-                let exists = Array.from(carSelect.options).some(opt => opt.value === car.name);
-                if (!exists) { const newOpt = document.createElement('option'); newOpt.value = car.name; newOpt.textContent = car.name; carSelect.appendChild(newOpt); }
-                if(carSelect.value === garageCars[currentGarageIndex].name) carSelect.value = car.name;
-            }
-        }
-
-        window.updateGarageCarStatsAfterRace = function() {
-            if (!garageCars || garageCars.length === 0 || lapHistory.length === 0) return;
-            const activeCarName = document.getElementById('car-model-input').value; let carIndex = garageCars.findIndex(c => c.name === activeCarName.trim());
-            if (carIndex === -1) return; let car = garageCars[carIndex]; const trackLen = parseFloat(document.getElementById('track-length-input').value) || 15;
-            
-            let raceBest = bestLapTime / 1000; let currentBest = parseFloat(car.bestLap ? car.bestLap.replace('s', '') : Infinity) || Infinity;
-            if (raceBest > 0 && raceBest < currentBest) car.bestLap = raceBest.toFixed(3) + "s";
-            
-            let rawTime = car._rawTotalTime || 0; let sessionTime = lapHistory.reduce((a,b) => a+b.time, 0); rawTime += sessionTime; car._rawTotalTime = rawTime;
-            let totalSecs = Math.floor(rawTime / 1000); car.totalTime = `${Math.floor(totalSecs/3600)}h ${Math.floor((totalSecs%3600)/60)}m ${totalSecs%60}s`;
-            
-            let rawDist = car._rawTotalDist || 0; let raceDistKm = (trackLen * currentLap) / 1000; rawDist += raceDistKm; car._rawTotalDist = rawDist; car.totalDist = rawDist.toFixed(3) + " km";
-            if (rawTime > 0) { let avgSpdKmh = ((rawDist * 1000) / (rawTime / 1000)) * 3.6; car.avgSpd = avgSpdKmh.toFixed(1) + " km/h"; }
-            
-            let currentCons = parseFloat(car.consistency) || 0;
-            let dummyRaceCons = (Math.random() * 15) + 75; // Simulating race consistency
-            if (currentCons === 0) car.consistency = dummyRaceCons.toFixed(1);
-            else car.consistency = ((currentCons + dummyRaceCons) / 2).toFixed(1);
-
-            if (!car.recentLaps) car.recentLaps = []; if (!car.recentSpeeds) car.recentSpeeds = []; if (!car.bestSectors) car.bestSectors = [Infinity, Infinity, Infinity, Infinity];
-            lapHistory.forEach(l => { car.recentLaps.push(l.time / 1000); car.recentSpeeds.push(l.speed); });
-            if (car.recentLaps.length > 20) { car.recentLaps = car.recentLaps.slice(-20); car.recentSpeeds = car.recentSpeeds.slice(-20); }
-            for(let i=0; i<4; i++) { if(bestSectorTimes[i] < car.bestSectors[i]) car.bestSectors[i] = bestSectorTimes[i]; }
-            saveGarageToLocal();
-        };
-
-        document.getElementById('open-garage-btn').addEventListener('click', () => {
-            if (garageCars.length === 0) initGarage(); else populateDropdown();
-            const activeName = document.getElementById('car-model-input').value; let idx = garageCars.findIndex(c => c.name === activeName);
-            currentGarageIndex = idx !== -1 ? idx : 0; if(document.getElementById('garage-car-select')) document.getElementById('garage-car-select').value = currentGarageIndex;
-            renderGarageCar(currentGarageIndex); toggleGarageEdit(false);
-            document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10);
-        });
-        
-        document.getElementById('close-garage-btn').addEventListener('click', () => { 
-            if (isGarageEditing) {
-                showSystemModal("Tienes cambios sin guardar. ¿Cerrar de todos modos?", true, () => {
-                    toggleGarageEdit(false); 
-                    document.getElementById('garageModal').classList.remove('open'); 
-                    setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300);
-                });
-            } else {
-                document.getElementById('garageModal').classList.remove('open'); 
-                setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300);
-            }
-        });
-
-        document.getElementById('garage-car-select').addEventListener('change', (e) => renderGarageCar(parseInt(e.target.value)));
-        document.getElementById('garage-edit-btn').addEventListener('click', () => toggleGarageEdit(true));
-        document.getElementById('garage-save-btn').addEventListener('click', saveGarageEdits);
-        document.getElementById('garage-assign-btn').addEventListener('click', () => { 
-            const carSelect = document.getElementById('car-model-input');
-            const carName = garageCars[currentGarageIndex].name;
-            let exists = Array.from(carSelect.options).some(opt => opt.value === carName);
-            if (!exists) { const newOpt = document.createElement('option'); newOpt.value = carName; newOpt.textContent = carName; carSelect.appendChild(newOpt); }
-            carSelect.value = carName; 
-            document.getElementById('close-garage-btn').click(); 
-        });
-
-        document.getElementById('garage-add-btn').addEventListener('click', () => {
-            const newCar = { id: `ID${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`, name: "Nuevo Coche", image: "" }; garageFields.forEach(f => newCar[f] = ""); garageCars.push(newCar);
-            currentGarageIndex = garageCars.length - 1; saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(true);
-        });
-        document.getElementById('garage-delete-btn').addEventListener('click', () => {
-            if (garageCars.length === 0) return;
-            showSystemModal("¿Seguro que quieres eliminar este coche del garaje?", true, () => {
-                garageCars.splice(currentGarageIndex, 1); currentGarageIndex = Math.max(0, currentGarageIndex - 1); saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false); 
-            });
-        });
-
-        document.getElementById('btn-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-galeria').click(); });
-        document.getElementById('btn-camara').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-camara').click(); });
-        function procImg(file) { if (!file) return; const reader = new FileReader(); reader.onload = (e) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; if (w > h) { if (w > 400) { h *= 400 / w; w = 400; } } else { if (h > 400) { w *= 400 / h; h = 400; } } canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h); const b64 = canvas.toDataURL('image/jpeg', 0.7); const imgId = "img_" + Date.now(); garageCars[currentGarageIndex].imageId = imgId; ImageDB.save(imgId, b64); document.getElementById('garage-img').src = b64; saveGarageToLocal(); }; img.src = e.target.result; }; reader.readAsDataURL(file); }
-        document.getElementById('garage-img-input-galeria').addEventListener('change', (e) => procImg(e.target.files[0])); document.getElementById('garage-img-input-camara').addEventListener('change', (e) => procImg(e.target.files[0]));
-
-        async function openRanking() {
-            const container = document.getElementById('ranking-list-container');
-            container.innerHTML = '<div class="col-span-1 md:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-xl uppercase tracking-widest animate-pulse">CARGANDO PARRILLA F1...</div></div>';
-            
-            document.getElementById('rankingModal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10);
-
-            const validCars = garageCars.filter(c => c.bestLap && c.bestLap !== "-" && c.bestLap !== "Infinitys");
-            validCars.sort((a, b) => parseFloat(a.bestLap) - parseFloat(b.bestLap));
-            const top25 = validCars.slice(0, 25);
-
-            if (top25.length === 0) {
-                container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center text-slate-400 font-bold mt-20 text-lg uppercase">Parrilla vacía. ¡Realiza una carrera!</div>';
-                return;
-            }
-
-            const carsWithImages = await Promise.all(top25.map(async (car) => {
-                let imgSrc = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230f172a'/><text x='50' y='54' font-family='Arial' font-size='15' font-weight='900' fill='%2338bdf8' text-anchor='middle'>F1</text></svg>";
-                if (car.imageId) { const b = await ImageDB.get(car.imageId); if (b) imgSrc = b; } 
-                else if (car.image && car.image.length > 5) { imgSrc = car.image; }
-                return { ...car, displayImage: imgSrc };
-            }));
-
-            let html = '';
-            carsWithImages.forEach((car, index) => {
-                const pos = index + 1;
-                const isEven = pos % 2 === 0;
-                const staggerClass = isEven ? 'md:translate-y-12' : '';
-                const badgeColor = pos === 1 ? 'text-yellow-400 border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.6)]' : 
-                                   pos === 2 ? 'text-slate-300 border-slate-300 shadow-[0_0_15px_rgba(203,213,225,0.6)]' : 
-                                   pos === 3 ? 'text-amber-600 border-amber-600 shadow-[0_0_15px_rgba(217,119,6,0.6)]' : 
-                                   'text-cyan-400 border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.4)]';
-
-                html += `
-                    <div class="relative w-full ${staggerClass} pt-6 pb-2 group">
-                        <!-- CAJÓN DE SALIDA TIPO F1 (U Invertida 90 grados) -->
-                        <div class="absolute inset-0 border-t-[4px] border-l-[4px] border-r-[4px] border-yellow-400/80 z-0 pointer-events-none shadow-[0_0_10px_rgba(250,204,21,0.3)] mt-2"></div>
-                        
-                        <!-- BADGE DE POSICIÓN -->
-                        <div class="absolute -top-1 left-1/2 -translate-x-1/2 bg-black border-[3px] px-5 py-0.5 rounded-sm z-20 ${badgeColor}">
-                            <span class="font-black text-xl italic font-arial">P${pos}</span>
-                        </div>
-
-                        <!-- FICHA DEL COCHE -->
-                        <div class="overflow-hidden p-3 flex flex-col gap-2 relative z-10 bg-slate-900/85 border-b-2 border-cyan-500 shadow-[0_10px_20px_rgba(0,0,0,0.8)] backdrop-blur-md mx-1.5 mt-1">
+                    if(userData.active === false) {
+                        showMessage("⛔ LICENCIA NO ACTIVA", "error");
+                    } else { 
+                        // Lógica de Sesión simple
+                        try {
+                            const sessionId = generateUUID();
                             
-                            <div class="absolute inset-0 z-0">
-                                <img src="${car.displayImage}" class="w-full h-full object-cover blur-[3px] opacity-20 group-hover:blur-[1px] group-hover:opacity-40 transition-all duration-500 grayscale group-hover:grayscale-0">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-slate-900/80 to-transparent"></div>
-                            </div>
-                            
-                            <div class="relative z-10 flex justify-between items-end border-b border-cyan-800/60 pb-2">
-                                <div class="flex-1 min-w-0 pr-2">
-                                    <h4 class="text-white font-black text-lg sm:text-xl uppercase truncate tracking-wide drop-shadow-md">${car.name}</h4>
-                                    <div class="text-[10px] text-cyan-400 uppercase tracking-widest truncate">${car.marca || 'S/M'} • ${car.cat || 'GT'}</div>
-                                </div>
-                                <div class="flex flex-col items-end shrink-0 bg-emerald-950/50 p-1.5 rounded border border-emerald-800/50">
-                                    <span class="text-[9px] uppercase tracking-wider text-emerald-400 font-bold leading-none mb-1">Record V.</span>
-                                    <span class="text-emerald-300 font-mono font-black text-xl leading-none drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">${car.bestLap}</span>
-                                </div>
-                            </div>
+                            const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'access_codes', docSnap.id);
+                            await updateDoc(docRef, { current_session: sessionId, last_login: new Date().toISOString() });
 
-                            <div class="relative z-10 grid grid-cols-4 gap-1.5 text-center mt-1">
-                                
-                                <div class="bg-black/60 p-1.5 rounded border border-cyan-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-cyan-600 uppercase font-black tracking-wider mb-0.5">V. Media</span>
-                                    <span class="text-cyan-300 font-mono text-[11px] font-bold">${car.avgSpd ? car.avgSpd.replace(' km/h','') : '0.0'} <span class="text-[7px] text-cyan-600">km/h</span></span>
-                                </div>
-                                
-                                <div class="bg-black/60 p-1.5 rounded border border-yellow-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-yellow-600 uppercase font-black tracking-wider mb-0.5">Constancia</span>
-                                    <span class="text-yellow-400 font-mono text-[11px] font-bold">${car.consistency || '0.0'}<span class="text-[7px] text-yellow-600">%</span></span>
-                                </div>
-                                
-                                <div class="bg-black/60 p-1.5 rounded border border-purple-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-purple-600 uppercase font-black tracking-wider mb-0.5">Distancia</span>
-                                    <span class="text-purple-300 font-mono text-[11px] font-bold">${car.totalDist ? car.totalDist.replace(' km','') : '0.0'} <span class="text-[7px] text-purple-600">km</span></span>
-                                </div>
-                                
-                                <div class="bg-black/60 p-1.5 rounded border border-orange-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-orange-600 uppercase font-black tracking-wider mb-0.5">Uso</span>
-                                    <span class="text-orange-300 font-mono text-[10px] font-bold truncate block w-full">${car.totalTime || '0m 0s'}</span>
-                                </div>
+                            localStorage.setItem('user_' + APP_ID, email);
+                            localStorage.setItem('doc_id_' + APP_ID, docSnap.id);
+                            localStorage.setItem('session_' + APP_ID, sessionId);
 
-                                <div class="bg-cyan-950/30 p-1 rounded border border-cyan-900/40 flex justify-between items-center col-span-4 px-2 mt-0.5">
-                                    <span class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Setup</span>
-                                    <span class="text-cyan-200 text-[9px] font-bold truncate max-w-[75%]">${car.motor || 'Motor Serie'} | ${car.chasis || 'Chasis Estándar'} | ${car.neumaticoTras || 'Neumático Std'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        document.getElementById('ranking-btn').addEventListener('click', openRanking);
-        document.getElementById('close-ranking-btn').addEventListener('click', () => {
-            document.getElementById('rankingModal').classList.remove('open');
-            setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300);
+                            monitorSession(docSnap.id);
+                            showApp(); 
+                        } catch (writeError) {
+                            localStorage.setItem('user_' + APP_ID, email);
+                            showApp(); 
+                        }
+                    }
+                } else {
+                    showMessage("❌ DATOS INVÁLIDOS", "error");
+                }
+            } catch (error) { showMessage("ERROR: " + error.message, "error"); }
+            btn.innerHTML = 'ENTRAR <i class="fas fa-chevron-right ml-3 text-xs"></i>'; btn.disabled = false;
         });
 
-        function toggleFullScreen() {
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen(); } 
-                else if (document.documentElement.webkitRequestFullscreen) { document.documentElement.webkitRequestFullscreen(); }
-            } else {
-                if (document.exitFullscreen) { document.exitFullscreen(); } 
-                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-            }
-        }
-        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
-        
-        function updateFsIcons() {
-            const isFs = document.fullscreenElement || document.webkitFullscreenElement;
-            const enterIcon = document.getElementById('fs-icon-enter');
-            const exitIcon = document.getElementById('fs-icon-exit');
-            if (enterIcon) enterIcon.classList.toggle('hidden', !!isFs);
-            if (exitIcon) exitIcon.classList.toggle('hidden', !isFs);
-        }
-        document.addEventListener('fullscreenchange', updateFsIcons);
-        document.addEventListener('webkitfullscreenchange', updateFsIcons);
+        function monitorSession(docId) {
+            if (unsubscribeSession) unsubscribeSession();
+            try {
+                const docRef = doc(db, 'artifacts', APP_ID, 'public', 'data', 'access_codes', docId);
+                unsubscribeSession = onSnapshot(docRef, (docSnap) => {
+                    const data = docSnap.data();
+                    const localSession = localStorage.getItem('session_' + APP_ID);
 
-        window.onload = () => { 
-            updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); 
-            const carSelect = document.getElementById('car-model-input');
-            if(garageCars.length > 0) {
-                garageCars.forEach(c => { const o = document.createElement('option'); o.value=c.name; o.textContent=c.name; carSelect.appendChild(o); });
-                carSelect.value = garageCars[0].name;
-            }
-        };
+                    if (data && data.current_session && data.current_session !== localSession) {
+                        forceLogout();
+                    }
+                });
+            } catch (e) {}
+        }
+
+        function showMessage(text, type) {
+            const box = document.getElementById('msg-box');
+            box.textContent = text;
+            box.className = `p-3 rounded-xl text-xs text-center font-bold border ${type === 'error' ? 'bg-red-900/40 text-red-200 border-red-500/50' : 'bg-green-900/40 text-green-200 border-green-500/50'}`;
+            box.classList.remove('hidden');
+        }
+
+        function showApp() {
+            document.getElementById('auth-container').style.display = 'none';
+            // Carga la app directamente
+            document.getElementById('app-frame').src = APP_FILENAME;
+            document.getElementById('app-frame').style.display = 'block';
+            document.getElementById('logout-btn').classList.remove('hidden');
+        }
+
+        function forceLogout() {
+            document.getElementById('session-alert').style.display = 'flex';
+            localStorage.removeItem('user_' + APP_ID); 
+            localStorage.removeItem('session_' + APP_ID);
+            localStorage.removeItem('doc_id_' + APP_ID);
+            document.getElementById('app-frame').src = 'about:blank';
+        }
+
+        window.logoutApp = function() { 
+            if (unsubscribeSession) unsubscribeSession();
+            localStorage.removeItem('user_' + APP_ID); 
+            localStorage.removeItem('session_' + APP_ID);
+            localStorage.removeItem('doc_id_' + APP_ID);
+            location.reload(); 
+        }
+
+        const savedUser = localStorage.getItem('user_' + APP_ID);
+        const savedDocId = localStorage.getItem('doc_id_' + APP_ID);
+        if(savedUser && savedDocId) {
+            showApp();
+            monitorSession(savedDocId);
+        } else if (savedUser) window.logoutApp(); 
     </script>
 </body>
 </html>
