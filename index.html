@@ -1134,7 +1134,11 @@
                     const isBest = lap.time === bestLapTime;
                     const diff = isBest ? "BASE" : `+${((lap.time - bestLapTime)/1000).toFixed(3)}`;
                     let trHTML = `<tr class="hover:bg-cyan-900/20"><td class="p-2 text-center">${lap.lap}</td>`;
-                    for(let i=0; i<activeRoisCount-1; i++) trHTML += `<td class="p-2 text-right">${formatTime(lap.sectors[i], false)}</td>`;
+                    for(let i=0; i<activeRoisCount-1; i++) {
+                        const isBestSector = lap.sectors[i] === bestSectorTimes[i] && lap.sectors[i] > 0;
+                        const secClass = isBestSector ? 'text-fuchsia-400 font-black drop-shadow-[0_0_5px_rgba(232,121,249,0.8)]' : '';
+                        trHTML += `<td class="p-2 text-right ${secClass}">${formatTime(lap.sectors[i], false)}</td>`;
+                    }
                     trHTML += `<td class="p-2 text-right ${isBest ? 'text-green-400 font-bold' : 'text-cyan-100'}">${formatTime(lap.time, false)}</td><td class="p-2 text-right text-xs ${isBest ? 'text-green-400' : 'text-slate-400'}">${diff}</td></tr>`;
                     tbody.innerHTML += trHTML;
                 });
