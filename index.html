@@ -289,11 +289,8 @@
 
                                 <!-- META (Top Left) en Perspectiva 3D Real -->
                                 <div class="absolute flex flex-col items-center justify-center" style="transform: translate(-120px, -120px) translateZ(30px); transform-style: preserve-3d;">
-                                    <!-- Sombra en el suelo -->
                                     <div class="absolute w-20 h-20 bg-emerald-500/20 blur-xl rounded-xl" style="transform: translateZ(-25px);"></div>
-                                    <!-- Extrusión 3D -->
                                     <div class="absolute w-20 h-20 bg-emerald-950 border border-emerald-700 rounded-xl" style="transform: translateZ(-10px);"></div>
-                                    <!-- Cara Superior -->
                                     <div class="w-20 h-20 bg-emerald-900/90 border-2 border-emerald-400 rounded-xl shadow-[inset_0_0_15px_rgba(16,185,129,0.5)] flex flex-col items-center justify-center backdrop-blur-md relative" style="transform: translateZ(0px); transform-style: preserve-3d;">
                                         <span class="text-lg font-black text-emerald-300 tracking-widest uppercase drop-shadow-[0_0_10px_rgba(16,185,129,1)]" style="transform: translateZ(15px);">META</span>
                                         <div class="w-4 h-4 mt-1 border-2 border-emerald-400 rounded-full animate-ping opacity-70" style="transform: translateZ(10px);"></div>
@@ -634,8 +631,9 @@
                     
                     <button id="garage-assign-btn" class="w-full bg-gradient-to-r from-blue-900 to-blue-800 border border-blue-500 hover:from-blue-700 hover:to-blue-600 text-white py-3 text-sm font-black uppercase tracking-widest transition-all rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] shrink-0">🏁 Pilotar Este Vehículo</button>
 
+                    <!-- GRÁFICO DE SECTORES (LÍNEAS) DEBAJO DEL BOTÓN PILOTAR -->
                     <div class="g-box flex-1 flex flex-col min-h-0 border-cyan-500 bg-gradient-to-br from-cyan-950/40 to-black shadow-[0_0_20px_rgba(6,182,212,0.2),inset_0_0_15px_rgba(6,182,212,0.1)] rounded-lg mt-1 relative overflow-hidden">
-                        <div class="g-header shrink-0 mb-1 border-b border-cyan-500/50 pb-1 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] tracking-widest text-[10px]" data-i18n="perfFootprint">Huella de Sectores</div>
+                        <div class="g-header shrink-0 mb-1 border-b border-cyan-500/50 pb-1 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] tracking-widest text-[10px]" data-i18n="perfFootprint">Tiempos por Sector</div>
                         <div class="flex-1 relative w-full min-h-0 p-1">
                             <canvas id="garageChartLeftSectors"></canvas>
                         </div>
@@ -1226,7 +1224,11 @@
         startRaceBtn.addEventListener('click', startTrafficLight); resetRaceBtn.addEventListener('click', () => stopRace(false)); document.getElementById('pause-btn').addEventListener('click', togglePause);
         document.getElementById('modal-restart-btn').addEventListener('click', () => { document.getElementById('resultsModal').classList.remove('open'); setTimeout(()=>document.getElementById('resultsModal').classList.add('hidden'),300); stopRace(false); });
         
-        document.getElementById('lang-select').addEventListener('change', (e) => { currentLang = e.target.value; updateTexts(); });
+        document.getElementById('lang-select').addEventListener('change', (e) => {
+            currentLang = e.target.value;
+            updateTexts();
+        });
+
         document.getElementById('race-mode-select').addEventListener('change', (e) => { if (e.target.value === 'laps') { document.getElementById('laps-config-container').classList.remove('hidden'); document.getElementById('time-config-container').classList.add('hidden'); } else { document.getElementById('laps-config-container').classList.add('hidden'); document.getElementById('time-config-container').classList.remove('hidden'); } raceMode = e.target.value; updateLapDisplay(); });
         document.getElementById('lap-limit-select').addEventListener('change', () => { if (raceMode === 'laps') { totalLaps = document.getElementById('lap-limit-select').value === 'Infinity' ? Infinity : parseInt(document.getElementById('lap-limit-select').value); updateLapDisplay(); } });
         for (let i = 0; i < 4; i++) { document.getElementById(`threshold-slider-${i}`)?.addEventListener('input', e => { roiData[i].sens = parseInt(e.target.value); document.getElementById(`current-threshold-${i}`).textContent = e.target.value; }); }
@@ -1522,15 +1524,21 @@
             if (ctxLeftSectors) {
                 if(window.garageCharts.leftSectors) window.garageCharts.leftSectors.destroy();
                 window.garageCharts.leftSectors = new Chart(ctxLeftSectors.getContext('2d'), { 
-                    type: 'bar', 
+                    type: 'line', 
                     data: { 
                         labels: ['S1', 'S2', 'S3', 'Meta'], 
                         datasets: [{ 
                             data: sectorData, 
-                            backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(234, 179, 8, 0.8)', 'rgba(168, 85, 247, 0.8)', 'rgba(16, 185, 129, 0.8)'],
-                            borderColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'],
-                            borderWidth: 1,
-                            borderRadius: 4
+                            borderColor: '#22d3ee',
+                            backgroundColor: 'rgba(34, 211, 238, 0.2)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true,
+                            pointBackgroundColor: ['#3b82f6', '#eab308', '#a855f7', '#10b981'],
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 1,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
                         }] 
                     }, 
                     options: { 
