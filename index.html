@@ -171,31 +171,11 @@
         .g-editing .g-val { display: none; } .g-editing .g-inp { display: block; }
         
         .worn-asphalt-bg {
-            background-color: #0c0f17; 
+            background-color: #0c0f17;
             background-image: 
-                linear-gradient(90deg, rgba(0,0,0,0) 15%, rgba(0,0,0,0.15) 22%, rgba(0,0,0,0.15) 28%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.15) 72%, rgba(0,0,0,0.15) 78%, rgba(0,0,0,0) 85%),
-                url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.12"/></svg>');
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
-            position: relative;
-        }
-        .worn-asphalt-bg::before {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.15) 0, rgba(255,255,255,0.15) 40px, transparent 40px, transparent 80px);
-            z-index: 0;
-        }
-        .minimal-start-line {
-            width: 70%;
-            margin: 0 auto;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), transparent);
-            box-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
-            position: relative;
-            z-index: 1;
-            border-radius: 50%;
+                radial-gradient(circle at 50% 50%, rgba(20, 25, 35, 0.3) 0%, rgba(5, 8, 12, 0.85) 100%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.18'/%3E%3Cpath d='M30,120 Q45,115 60,130 T90,110 M250,300 Q280,310 310,290 M150,50 Q160,70 140,90 M320,80 Q340,75 350,100' stroke='%23000' stroke-width='0.6' fill='none' opacity='0.6'/%3E%3C/svg%3E");
+            background-size: 250px 250px;
         }
 
         .f1-grid-slot {
@@ -483,7 +463,6 @@
     <!-- MODALES VARIOS -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 350;">
         <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
-            <!-- FONDO DE CARRETERA BLINDADO -->
             <div class="absolute inset-0 worn-asphalt-bg opacity-90 z-0"></div>
             
             <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
@@ -1355,7 +1334,17 @@
             setTimeout(() => overlay.classList.add('open'), 10);
         }
 
-        let garageCars = JSON.parse(localStorage.getItem('sectortime_garage_cars')) || [];
+        let garageCars = [];
+        try {
+            const storedCars = localStorage.getItem('sectortime_garage_cars');
+            if (storedCars) {
+                garageCars = JSON.parse(storedCars);
+            }
+        } catch(e) {
+            console.warn("Error parsing garage cars from local storage", e);
+            garageCars = [];
+        }
+
         let currentGarageIndex = 0; let isGarageEditing = false;
         
         const ImageDB = {
