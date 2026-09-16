@@ -1034,17 +1034,19 @@
             const currentSectorIndex = idx - 1; const prevBest = bestSectorTimes[currentSectorIndex];
             timeEl.textContent = formatTime(ms, false);
             let speechMessage = "", diffMs = 0, isRecord = false;
-            const splitText = splitTimeMs > 0 ? `${Math.floor(splitTimeMs / 1000)} . ${Math.floor((splitTimeMs % 1000) / 100)}` : "";
 
             if (prevBest === Infinity) {
                 bestSectorTimes[currentSectorIndex] = ms; deltaEl.textContent = "BASE"; deltaEl.className = "text-[9px] font-bold text-slate-500 h-3 mt-0.5";
-                speechMessage = splitText ? `Sector ${idx}, ${splitText}` : `Sector ${idx}, ${formatTime(ms, false)}`; isRecord = true;
+                speechMessage = currentLang === 'en' ? "Fast" : "Rápido"; isRecord = true;
             } else {
-                diffMs = ms - prevBest; const absDiff = Math.abs(diffMs); const diffFormatted = formatTime(absDiff, false); const tenths = (absDiff / 1000).toFixed(1);
+                diffMs = ms - prevBest; const absDiff = Math.abs(diffMs); const diffFormatted = formatTime(absDiff, false);
                 if (diffMs < 0) {
                     bestSectorTimes[currentSectorIndex] = ms; deltaEl.textContent = `-${diffFormatted}`; deltaEl.className = "text-[10px] font-bold text-fuchsia-300 h-3 mt-0.5 drop-shadow-md";
-                    speechMessage = splitText ? `${splitText}. Récord! Menos ${tenths}` : `Récord! Menos ${tenths}`; isRecord = true;
-                } else { deltaEl.textContent = `+${diffFormatted}`; deltaEl.className = "text-[10px] font-bold text-red-400 h-3 mt-0.5"; speechMessage = ""; }
+                    speechMessage = currentLang === 'en' ? "Fast" : "Rápido"; isRecord = true;
+                } else { 
+                    deltaEl.textContent = `+${diffFormatted}`; deltaEl.className = "text-[10px] font-bold text-red-400 h-3 mt-0.5"; 
+                    speechMessage = currentLang === 'en' ? "Slow" : "Lento"; 
+                }
             }
             appendToMatrixLog(idx, ms, diffMs, isRecord);
             if (document.getElementById('voice-toggle').checked && speechMessage && idx !== activeRoisCount) speak(speechMessage);
