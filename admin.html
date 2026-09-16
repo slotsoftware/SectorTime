@@ -211,8 +211,7 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        const BASE_URL = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
-        const CLIENT_URL = `${BASE_URL}/sector-time.html`;
+        const CLIENT_URL = "https://slotsoftware.github.io/SectorTime/index.html";
 
         (async function initSecurity() {
             try {
