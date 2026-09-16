@@ -181,6 +181,18 @@
         .g-editing .g-inp { display: block; }
         .g-header { color: #67e8f9; font-size: 13px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
 
+        @keyframes prometheus-title-anim {
+            0% { letter-spacing: 0.5em; padding-left: 0.5em; filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.4)); opacity: 0.9; }
+            100% { letter-spacing: 0.85em; padding-left: 0.85em; filter: drop-shadow(0 0 40px rgba(34, 211, 238, 1)) drop-shadow(0 0 60px rgba(255, 255, 255, 0.8)); opacity: 1; }
+        }
+        .prometheus-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 200;
+            color: #ffffff;
+            animation: prometheus-title-anim 6s ease-in-out infinite alternate;
+            transform: scaleY(0.85);
+        }
+
         .worn-asphalt-bg {
             background-color: #1e293b; 
             background-image: 
@@ -330,9 +342,9 @@
                         </div>
 
                         <!-- Título SECTOR TIME V.1.0 sobre las especificaciones -->
-                        <div class="absolute bottom-[35vh] sm:bottom-[38vh] w-full flex justify-center items-center z-20 pointer-events-none mb-4">
-                            <h2 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.8)] tracking-widest text-center" style="transform: perspective(500px) rotateX(15deg); font-family: 'Inter', sans-serif;">
-                                SECTOR TIME <span class="text-white drop-shadow-[0_0_15px_rgba(255,255,255,1)]">V.1.0</span>
+                        <div class="absolute bottom-[40vh] sm:bottom-[42vh] w-full flex justify-center items-center z-20 pointer-events-none mb-6 overflow-visible">
+                            <h2 class="text-[5.5vw] sm:text-[4.5vw] lg:text-[4vw] prometheus-title text-center uppercase whitespace-nowrap">
+                                SECTOR TIME <span class="text-[3vw] sm:text-[2.5vw] lg:text-[2vw] font-bold text-cyan-400 align-top" style="letter-spacing: 0.3em; margin-left: 1rem; padding-left: 0; animation: none; filter: none;">V.1.0</span>
                             </h2>
                         </div>
                         
