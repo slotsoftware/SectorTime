@@ -626,6 +626,10 @@
                     <button id="garage-save-btn" class="hidden bg-green-900/40 border border-green-500 hover:bg-green-500 text-green-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_15px_rgba(34,197,94,0.6)] hover:shadow-[0_0_25px_rgba(34,197,94,1)]">Guardar</button>
                     <button id="garage-delete-btn" class="bg-gray-800/50 border border-gray-500 hover:bg-red-800/80 hover:border-red-500 text-gray-300 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(107,114,128,0.3)] hover:shadow-[0_0_15px_rgba(239,68,68,0.6)]">Eliminar</button>
                     <div class="w-px h-6 bg-cyan-500/50 mx-1 shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
+                    <button id="garage-import-btn" class="bg-purple-900/40 border border-purple-500 hover:bg-purple-500 text-purple-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(168,85,247,0.3)] hover:shadow-[0_0_20px_rgba(168,85,247,0.8)]">Importar</button>
+                    <button id="garage-export-btn" class="bg-orange-900/40 border border-orange-500 hover:bg-orange-500 text-orange-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(249,115,22,0.3)] hover:shadow-[0_0_20px_rgba(249,115,22,0.8)]">Exportar</button>
+                    <input type="file" id="garage-import-file" accept=".json" class="hidden">
+                    <div class="w-px h-6 bg-cyan-500/50 mx-1 shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
                     <button id="close-garage-btn" class="bg-red-900/60 border border-red-500 hover:bg-red-500 text-white px-4 py-1 rounded text-[11px] font-black uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(239,68,68,0.8)]" data-i18n="exitBtn">SALIR</button>
                 </div>
             </div>
@@ -1412,49 +1416,30 @@
         ];
         
         function initGarage() {
-            if (garageCars.length === 0) {
-                const brands = ["Porsche", "Audi", "Ferrari", "BMW", "Aston Martin", "Ford", "McLaren", "Lancia", "Subaru", "Nissan"];
-                for(let i=1; i<=25; i++) {
-                    const brand = brands[Math.floor(Math.random() * brands.length)];
-                    const baseTime = 3.1 + (Math.random() * 3.5);
-                    const avgSpd = (15 / baseTime) * 3.6;
-                    
-                    garageCars.push({
-                        id: "ID" + String(i).padStart(3, '0'),
-                        name: `${brand} GT-${i}`,
-                        image: "",
-                        marca: brand, ref: "REF-00" + i, cat: "GT3 Pro", sys: "Advance", year: "2023",
-                        motor: "RK V8", posicion: "Anglewinder", pinon: "11z", corona: "27z", relacion: "11:27", 
-                        chasis: "Carbono", guia: "Estándar", trencillas: "Cobre", cableado: "Silicona",
-                        ejeDel: "Acero 55mm", llantaDel: "Plástico 15.8mm", neumaticoDel: "Zero Grip",
-                        ejeTras: "Acero 55mm", llantaTras: "Aluminio 16.9mm", neumaticoTras: "Supergrip",
-                        suspension: "Muelles", iman: "No",
-                        peso: (70 + Math.random()*15).toFixed(1), luces: "LED",
-                        bestLap: baseTime.toFixed(3) + "s", 
-                        totalTime: Math.floor(Math.random()*5) + "h " + Math.floor(Math.random()*60) + "m", 
-                        totalDist: (Math.random()*50 + 10).toFixed(3) + " km", 
-                        avgSpd: avgSpd.toFixed(1) + " km/h",
-                        consistency: (80 + Math.random()*15).toFixed(1),
-                        recentLaps: [baseTime+0.1, baseTime+0.2, baseTime, baseTime+0.3], 
-                        recentSpeeds: [avgSpd-0.5, avgSpd-1, avgSpd, avgSpd-1.5], 
-                        bestSectors: [Infinity, Infinity, Infinity, Infinity],
-                        _rawTotalTime: 0, _rawTotalDist: 0
-                    });
-                }
-                saveGarageToLocal();
-            }
             populateDropdown();
         }
 
         function saveGarageToLocal() { localStorage.setItem('sectortime_garage_cars', JSON.stringify(garageCars)); }
         function populateDropdown() {
             const sel = document.getElementById('garage-car-select'); if(!sel) return; sel.innerHTML = '';
+            if (garageCars.length === 0) { const opt = document.createElement('option'); opt.value = ""; opt.textContent = "GARAJE VACÍO"; sel.appendChild(opt); sel.disabled = true; } else { sel.disabled = false; }
             garageCars.forEach((c, i) => { const opt = document.createElement('option'); opt.value = i; opt.textContent = c.name || `Coche ${i+1}`; sel.appendChild(opt); });
-            sel.value = currentGarageIndex;
+            if (garageCars.length > 0) sel.value = currentGarageIndex;
         }
 
         function renderGarageCar(index) {
-            currentGarageIndex = index; if (garageCars.length === 0) return; const car = garageCars[index];
+            currentGarageIndex = index; 
+            if (garageCars.length === 0) {
+                document.getElementById('garage-car-id').textContent = "ID---";
+                const imgEl = document.getElementById('garage-img'); imgEl.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='12' font-weight='900' fill='%2322d3ee' text-anchor='middle'>GARAJE VACÍO</text></svg>";
+                document.getElementById('g-inp-name').value = "";
+                garageFields.forEach(f => { const valEl = document.getElementById(`g-val-${f}`); const inpEl = document.getElementById(`g-inp-${f}`); if (valEl) valEl.textContent = "-"; if (inpEl) inpEl.value = ""; });
+                const stats = ['bestLap', 'totalTime', 'totalDist', 'avgSpd']; stats.forEach(f => { const el = document.getElementById(`g-val-${f}`); if(el) el.textContent = "-"; });
+                const consBar = document.getElementById('g-bar-consistency'); if (consBar) { consBar.style.width = '0%'; consBar.className = "bg-slate-700 h-full rounded-full transition-all"; }
+                const valConsEl = document.getElementById('g-val-consistency'); if(valConsEl) valConsEl.textContent = "-";
+                return;
+            }
+            const car = garageCars[index];
             document.getElementById('garage-car-id').textContent = car.id || "ID---";
             const imgEl = document.getElementById('garage-img'); imgEl.src = ""; 
             
@@ -1656,10 +1641,10 @@
             }
         });
 
-        document.getElementById('garage-car-select').addEventListener('change', (e) => renderGarageCar(parseInt(e.target.value)));
-        document.getElementById('garage-edit-btn').addEventListener('click', () => toggleGarageEdit(true));
+        document.getElementById('garage-edit-btn').addEventListener('click', () => { if (garageCars.length > 0) toggleGarageEdit(true); });
         document.getElementById('garage-save-btn').addEventListener('click', saveGarageEdits);
         document.getElementById('garage-assign-btn').addEventListener('click', () => { 
+            if (garageCars.length === 0) { showSystemModal("Añade primero un coche al garaje.", false); return; }
             const carSelect = document.getElementById('car-model-input');
             const carName = garageCars[currentGarageIndex].name;
             let exists = Array.from(carSelect.options).some(opt => opt.value === carName);
@@ -1677,6 +1662,63 @@
             showSystemModal("¿Seguro que quieres eliminar este coche del garaje?", true, () => {
                 garageCars.splice(currentGarageIndex, 1); currentGarageIndex = Math.max(0, currentGarageIndex - 1); saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false); 
             });
+        });
+
+        document.getElementById('garage-export-btn').addEventListener('click', async () => {
+            if (garageCars.length === 0) { showSystemModal("El garaje está vacío.", false); return; }
+            const exportData = JSON.parse(JSON.stringify(garageCars));
+            
+            // Recopilar imágenes desde IndexedDB para incrustarlas en el JSON
+            for (let car of exportData) {
+                if (car.imageId) {
+                    const imgData = await ImageDB.get(car.imageId);
+                    if (imgData) { car.imageDataBase64 = imgData; }
+                }
+            }
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `SectorTime_Garage_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
+
+        document.getElementById('garage-import-btn').addEventListener('click', () => {
+            document.getElementById('garage-import-file').click();
+        });
+
+        document.getElementById('garage-import-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                try {
+                    const importedCars = JSON.parse(event.target.result);
+                    if (Array.isArray(importedCars)) {
+                        for (let car of importedCars) {
+                            if (car.imageDataBase64) {
+                                ImageDB.save(car.imageId, car.imageDataBase64); // Restaurar en IndexedDB
+                                delete car.imageDataBase64; // Limpiar JSON para no saturar LocalStorage
+                            }
+                        }
+                        garageCars = importedCars;
+                        saveGarageToLocal();
+                        populateDropdown();
+                        currentGarageIndex = 0;
+                        renderGarageCar(currentGarageIndex);
+                        showSystemModal("Garaje importado correctamente.", false);
+                    } else {
+                        showSystemModal("Archivo no válido. Debe ser un export de Sector Time.", false);
+                    }
+                } catch (error) {
+                    showSystemModal("Error al procesar el archivo JSON.", false);
+                }
+                e.target.value = ''; // Reset
+            };
+            reader.readAsText(file);
         });
 
         document.getElementById('btn-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-galeria').click(); });
@@ -1813,6 +1855,9 @@
             if(garageCars.length > 0) {
                 garageCars.forEach(c => { const o = document.createElement('option'); o.value=c.name; o.textContent=c.name; carSelect.appendChild(o); });
                 carSelect.value = garageCars[0].name;
+            } else {
+                const o = document.createElement('option'); o.value="Coche Estandar"; o.textContent="Coche Estandar"; carSelect.appendChild(o);
+                carSelect.value = "Coche Estandar";
             }
         };
     </script>
