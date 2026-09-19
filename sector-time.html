@@ -731,46 +731,38 @@
                             </div>
                         </div>
 
-                        <div class="flex-1 overflow-y-auto custom-tv-scroll pr-1 pb-1 flex flex-col gap-3 min-h-0">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[160px] shrink-0">
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-cyan-400 uppercase font-bold text-center mb-1">Tendencia de Vueltas (s)</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartLaps"></canvas></div>
-                                </div>
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-blue-400 uppercase font-bold text-center mb-1">Evolución de Velocidad (Km/h)</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartSpeed"></canvas></div>
-                                </div>
+                        <div class="flex-1 grid grid-cols-2 grid-rows-4 gap-2 min-h-0 overflow-hidden pr-1 pb-1">
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-cyan-400 uppercase font-bold text-center mb-0.5 shrink-0">Tendencia de Vueltas (s)</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartLaps"></canvas></div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[160px] shrink-0">
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-emerald-400 uppercase font-bold text-center mb-1">Mejores Sectores (s)</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartLeftSectors"></canvas></div>
-                                </div>
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-purple-400 uppercase font-bold text-center mb-1">Desgaste / Tendencia</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartTrend"></canvas></div>
-                                </div>
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-blue-400 uppercase font-bold text-center mb-0.5 shrink-0">Evolución de Velocidad (Km/h)</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartSpeed"></canvas></div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[160px] shrink-0">
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-yellow-400 uppercase font-bold text-center mb-1">Tiempos por Sector</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
-                                </div>
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-orange-400 uppercase font-bold text-center mb-1">Balance de Tiempos</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartDist"></canvas></div>
-                                </div>
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-emerald-400 uppercase font-bold text-center mb-0.5 shrink-0">Mejores Sectores (s)</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartLeftSectors"></canvas></div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[160px] shrink-0">
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-pink-400 uppercase font-bold text-center mb-1">Desviación Delta (s)</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartDev"></canvas></div>
-                                </div>
-                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-indigo-400 uppercase font-bold text-center mb-1">Evolución Constancia (%)</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartCons"></canvas></div>
-                                </div>
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-purple-400 uppercase font-bold text-center mb-0.5 shrink-0">Desgaste / Tendencia</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartTrend"></canvas></div>
+                            </div>
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-yellow-400 uppercase font-bold text-center mb-0.5 shrink-0">Tiempos por Sector</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartSectors"></canvas></div>
+                            </div>
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-orange-400 uppercase font-bold text-center mb-0.5 shrink-0">Balance de Tiempos</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartDist"></canvas></div>
+                            </div>
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-pink-400 uppercase font-bold text-center mb-0.5 shrink-0">Desviación Delta (s)</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartDev"></canvas></div>
+                            </div>
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-1.5 flex flex-col min-h-0">
+                                <span class="text-[9px] text-indigo-400 uppercase font-bold text-center mb-0.5 shrink-0">Evolución Constancia (%)</span>
+                                <div class="flex-1 relative w-full min-h-0"><canvas id="garageChartCons"></canvas></div>
                             </div>
                         </div>
                     </div>
