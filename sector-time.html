@@ -974,6 +974,7 @@
                     } else { 
                         data.el.classList.remove('roi-locked'); 
                         data.blocked = false; 
+                        data.baseRGB = null; // <--- AUTOCALIBRACIÓN: Resetea el fondo cuando el coche sale del sector
                         updateExpectedRoiVisuals(); 
                     } 
                 }
