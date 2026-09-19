@@ -632,6 +632,10 @@
                     <button id="garage-save-btn" class="hidden bg-green-900/40 border border-green-500 hover:bg-green-500 text-green-100 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_15px_rgba(34,197,94,0.6)] hover:shadow-[0_0_25px_rgba(34,197,94,1)]" data-i18n="save">Guardar</button>
                     <button id="garage-delete-btn" class="bg-gray-800/50 border border-gray-500 hover:bg-red-800/80 hover:border-red-500 text-gray-300 px-3 py-1 text-[11px] font-bold uppercase transition rounded shadow-[0_0_10px_rgba(107,114,128,0.3)] hover:shadow-[0_0_15px_rgba(239,68,68,0.6)]" data-i18n="delete">Eliminar</button>
                     <div class="w-px h-6 bg-cyan-500/50 mx-1 shadow-[0_0_10px_rgba(34,211,238,0.8)]"></div>
+                    <button id="garage-fullscreen-btn" class="text-slate-400 hover:text-cyan-400 hover:drop-shadow-[0_0_10px_rgba(34,211,238,1)] transition-all px-1" title="Pantalla Completa">
+                        <svg id="g-fs-enter" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+                        <svg id="g-fs-exit" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+                    </button>
                     <button id="close-garage-btn" class="text-slate-400 hover:text-red-400 hover:drop-shadow-[0_0_10px_rgba(239,68,68,1)] font-bold text-xl px-2 transition-all">X</button>
                 </div>
             </div>
@@ -734,18 +738,38 @@
                                     <div class="flex-1 relative w-full"><canvas id="garageChartLaps"></canvas></div>
                                 </div>
                                 <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-emerald-400 uppercase font-bold text-center mb-1">Mejores Sectores (s)</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartLeftSectors"></canvas></div>
+                                    <span class="text-[9px] text-blue-400 uppercase font-bold text-center mb-1">Evolución de Velocidad (Km/h)</span>
+                                    <div class="flex-1 relative w-full"><canvas id="garageChartSpeed"></canvas></div>
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[160px] shrink-0">
                                 <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
-                                    <span class="text-[9px] text-blue-400 uppercase font-bold text-center mb-1">Evolución de Velocidad (Km/h)</span>
-                                    <div class="flex-1 relative w-full"><canvas id="garageChartSpeed"></canvas></div>
+                                    <span class="text-[9px] text-emerald-400 uppercase font-bold text-center mb-1">Mejores Sectores (s)</span>
+                                    <div class="flex-1 relative w-full"><canvas id="garageChartLeftSectors"></canvas></div>
                                 </div>
                                 <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
                                     <span class="text-[9px] text-purple-400 uppercase font-bold text-center mb-1">Desgaste / Tendencia</span>
                                     <div class="flex-1 relative w-full"><canvas id="garageChartTrend"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[160px] shrink-0">
+                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
+                                    <span class="text-[9px] text-yellow-400 uppercase font-bold text-center mb-1">Tiempos por Sector</span>
+                                    <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
+                                </div>
+                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
+                                    <span class="text-[9px] text-orange-400 uppercase font-bold text-center mb-1">Balance de Tiempos</span>
+                                    <div class="flex-1 relative w-full"><canvas id="garageChartDist"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 min-h-[160px] shrink-0">
+                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
+                                    <span class="text-[9px] text-pink-400 uppercase font-bold text-center mb-1">Desviación Delta (s)</span>
+                                    <div class="flex-1 relative w-full"><canvas id="garageChartDev"></canvas></div>
+                                </div>
+                                <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-2 flex flex-col">
+                                    <span class="text-[9px] text-indigo-400 uppercase font-bold text-center mb-1">Evolución Constancia (%)</span>
+                                    <div class="flex-1 relative w-full"><canvas id="garageChartCons"></canvas></div>
                                 </div>
                             </div>
                         </div>
@@ -2012,7 +2036,7 @@
         });
 
         function drawGarageCharts(car) {
-            if (!window.garageCharts) window.garageCharts = { laps: null, speeds: null, sectors: null, dist: null, dev: null, trend: null, leftSectors: null };
+            if (!window.garageCharts) window.garageCharts = { laps: null, speeds: null, sectors: null, dist: null, dev: null, trend: null, leftSectors: null, cons: null };
             
             const lapsData = car.recentLaps || [];
             const speedData = car.recentSpeeds || [];
@@ -2072,6 +2096,24 @@
             if (ctxTrend) {
                 if(window.garageCharts.trend) window.garageCharts.trend.destroy();
                 window.garageCharts.trend = new Chart(ctxTrend.getContext('2d'), { type: 'line', data: { labels: movingAvg.map((_, i) => 'V'+(i+1)), datasets: [{ data: movingAvg, borderColor: '#d946ef', backgroundColor: 'rgba(217, 70, 239, 0.1)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 0 }] }, options: commonOptions });
+            }
+
+            const ctxCons = document.getElementById('garageChartCons');
+            if (ctxCons) {
+                let runningConsistencies = [];
+                let tTime = 0; let currBest = Infinity;
+                lapsData.forEach((l, idx) => {
+                    if(l > 0) {
+                        tTime += l;
+                        if(l < currBest) currBest = l;
+                        let avg = tTime / (idx + 1);
+                        runningConsistencies.push((currBest / avg) * 100);
+                    } else {
+                        runningConsistencies.push(0);
+                    }
+                });
+                if(window.garageCharts.cons) window.garageCharts.cons.destroy();
+                window.garageCharts.cons = new Chart(ctxCons.getContext('2d'), { type: 'line', data: { labels: runningConsistencies.map((_, i) => 'V'+(i+1)), datasets: [{ data: runningConsistencies, borderColor: '#818cf8', backgroundColor: 'rgba(129, 140, 248, 0.1)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 0 }] }, options: commonOptions });
             }
 
             const ctxLeftSectors = document.getElementById('garageChartLeftSectors');
@@ -2425,12 +2467,24 @@
         }
         document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
         
+        const garageFullscreenBtn = document.getElementById('garage-fullscreen-btn');
+        if (garageFullscreenBtn) {
+            garageFullscreenBtn.addEventListener('click', toggleFullScreen);
+        }
+        
         function updateFsIcons() {
             const isFs = document.fullscreenElement || document.webkitFullscreenElement;
             const enterIcon = document.getElementById('fs-icon-enter');
             const exitIcon = document.getElementById('fs-icon-exit');
             if (enterIcon) enterIcon.classList.toggle('hidden', !!isFs);
             if (exitIcon) exitIcon.classList.toggle('hidden', !isFs);
+            
+            const gFsEnter = document.getElementById('g-fs-enter');
+            const gFsExit = document.getElementById('g-fs-exit');
+            if (gFsEnter && gFsExit) {
+                if (isFs) { gFsEnter.classList.add('hidden'); gFsExit.classList.remove('hidden'); } 
+                else { gFsEnter.classList.remove('hidden'); gFsExit.classList.add('hidden'); }
+            }
         }
         document.addEventListener('fullscreenchange', updateFsIcons);
         document.addEventListener('webkitfullscreenchange', updateFsIcons);
