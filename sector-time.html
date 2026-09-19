@@ -565,10 +565,13 @@
                         <div class="flex-1"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="pilotName">Piloto</label><input type="text" id="pilot-name-input" value="Piloto 1" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
                         <div class="flex-1"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="carModel">Coche</label><select id="car-model-input" class="neon-input w-full p-1 text-[11px] rounded-md"></select></div>
                     </div>
+                    <div class="flex gap-2 mb-2">
+                        <div class="w-1/2"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="trackName">Circuito</label><input type="text" id="track-name-input" value="Circuito 1" list="list-tracks" class="neon-input w-full p-1 text-[11px] rounded-md font-bold text-yellow-300" /></div>
+                        <div class="w-1/2"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="trackLength">Long. (m)</label><input type="number" id="track-length-input" value="15" min="1" step="0.5" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
+                    </div>
                     <div class="flex gap-2">
-                        <div class="w-1/3"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="trackLength">Long. (m)</label><input type="number" id="track-length-input" value="15" min="1" step="0.5" class="neon-input w-full p-1 text-[11px] rounded-md" /></div>
-                        <div class="w-1/3"><label class="block text-[9px] font-bold text-blue-400 mb-0 uppercase" data-i18n="raceMode">Modo</label><select id="race-mode-select" class="neon-input w-full p-1 text-[11px] rounded-md font-bold"><option value="laps" selected data-i18n="modeLaps">Vueltas</option><option value="time" data-i18n="modeTime">Tiempo</option></select></div>
-                        <div class="w-1/3">
+                        <div class="w-1/2"><label class="block text-[9px] font-bold text-blue-400 mb-0 uppercase" data-i18n="raceMode">Modo</label><select id="race-mode-select" class="neon-input w-full p-1 text-[11px] rounded-md font-bold"><option value="laps" selected data-i18n="modeLaps">Vueltas</option><option value="time" data-i18n="modeTime">Tiempo</option></select></div>
+                        <div class="w-1/2">
                             <div id="laps-config-container"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="lapLimit">Límite</label><select id="lap-limit-select" class="neon-input w-full p-1 text-[11px] rounded-md"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option><option value="Infinity" data-i18n="infinite">Infinito</option></select></div>
                             <div id="time-config-container" class="hidden"><label class="block text-[9px] font-bold text-cyan-600 mb-0 uppercase" data-i18n="timeLimit">Tiempo</label><select id="time-limit-select" class="neon-input w-full p-1 text-[11px] rounded-md"><option value="5">5 M</option><option value="10" selected>10 M</option><option value="15">15 M</option><option value="30">30 M</option></select></div>
                         </div>
@@ -668,9 +671,12 @@
                     <div class="g-box shrink-0 border-2 border-cyan-400 bg-[#0a0a0a] shadow-[0_0_30px_rgba(34,211,238,0.4),inset_0_0_25px_rgba(34,211,238,0.2)] rounded-xl relative overflow-hidden mt-1">
                         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/30 via-transparent to-transparent pointer-events-none"></div>
                         
-                        <div class="g-header shrink-0 mb-3 border-b-2 border-cyan-400/60 pb-2 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,1)] tracking-widest text-sm relative z-10 flex justify-center items-center font-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 animate-pulse text-cyan-400"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> 
-                            RENDIMIENTO HISTÓRICO EN PISTA
+                        <div class="g-header shrink-0 mb-3 border-b-2 border-cyan-400/60 pb-2 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,1)] tracking-widest text-sm relative z-10 flex justify-between items-center font-black px-2">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 animate-pulse text-cyan-400"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> 
+                                RENDIMIENTO HISTÓRICO
+                            </div>
+                            <select id="garage-track-select" class="bg-black/80 border border-cyan-500 text-yellow-300 font-bold text-[10px] px-2 py-1 w-32 outline-none rounded shadow-[0_0_10px_rgba(34,211,238,0.4)] uppercase"></select>
                         </div>
                         
                         <div class="grid grid-cols-4 gap-2 text-center items-stretch px-2 pb-2 relative z-10">
@@ -786,12 +792,15 @@
             <div class="absolute inset-0 worn-asphalt-bg opacity-90 z-0"></div>
             
             <div class="relative z-20 flex flex-col bg-black/90 border-b border-slate-800 p-0 shrink-0 shadow-lg">
-                <div class="flex justify-between items-center p-4 pb-2">
-                    <div class="flex items-center space-x-3 ml-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
-                        <h2 class="italic font-black text-2xl tracking-widest text-white uppercase" data-i18n="garageRankingTitle">RANKING POR SECTORES <span class="text-cyan-400">TOP 25</span></h2>
+                <div class="flex flex-col sm:flex-row justify-between items-center p-4 pb-2 gap-3">
+                    <div class="flex items-center space-x-3 ml-0 sm:ml-4 w-full sm:w-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
+                        <h2 class="italic font-black text-xl sm:text-2xl tracking-widest text-white uppercase"><span data-i18n="garageRankingTitle">RANKING POR SECTORES</span></h2>
                     </div>
-                    <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors" data-i18n="exit">SALIR</button>
+                    <div class="flex items-center justify-end space-x-3 w-full sm:w-auto px-2 sm:px-4">
+                        <select id="ranking-track-select" class="bg-slate-900 border border-amber-500/50 text-amber-300 font-bold text-xs px-2 py-1.5 outline-none rounded shadow-[0_0_10px_rgba(245,158,11,0.2)] uppercase max-w-[150px]"></select>
+                        <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider transition-colors shrink-0" data-i18n="exit">SALIR</button>
+                    </div>
                 </div>
                 
                 <div class="flex justify-start sm:justify-center gap-2 px-4 pb-3 overflow-x-auto custom-tv-scroll pt-2">
@@ -853,15 +862,16 @@
     <datalist id="list-sistemas"><option value="Analógico"></option><option value="Analógico C. Advance"></option><option value="Digital"></option><option value="Scalextric Advance"></option><option value="Scalextric WOS"></option><option value="Scalextric SDS"></option><option value="Ninco Digital"></option><option value="Carrera Digital 132"></option><option value="Superslot SSD"></option><option value="Slot.it oxigen"></option></datalist>
     <datalist id="list-posicion"><option value="In Line"></option><option value="Anglewinder"></option><option value="Sidewinder"></option><option value="Front Motor"></option></datalist>
     <datalist id="list-luces"><option value="No"></option><option value="Leds Serie"></option><option value="Leds F/P"></option><option value="Bombilla"></option></datalist>
+    <datalist id="list-tracks"></datalist>
 
     <script>
         const translations = {
             es: { 
-                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Sectores", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING POR SECTORES", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
+                langLabel: "Idioma", trackName: "Circuito", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Sectores", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING POR SECTORES", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
                 reqTitleEx: "Especificaciones Técnicas (Ref. Galaxy Tab S9)", reqSocTitle: "Procesador (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.", reqOpticTitle: "Sensor Óptico", reqOpticDesc: "60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.", reqRamTitle: "Memoria / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.", reqLightTitle: "Entorno Fotométrico", reqLightDesc: "> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).", reqMechTitle: "Estabilidad Mecánica", reqMechDesc: "Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.", reqDispTitle: "Pantalla / Refresco", reqDispDesc: "Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.", reqWebTitle: "Motor de Render", reqWebDesc: "Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.", reqNpuTitle: "Aceleración NPU", reqNpuDesc: "Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.", reqThermTitle: "Gestión Térmica", reqThermDesc: "Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).", reqNoteCrit: "NOTA CRÍTICA:", reqNoteEx: "El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas."
             },
             en: { 
-                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Sectors", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "SECTORS RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
+                langLabel: "Language", trackName: "Track Name", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Sectors", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "SECTORS RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
                 reqTitleEx: "Technical Specifications (Ref. Galaxy Tab S9)", reqSocTitle: "Processor (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capable of processing 60 RGB matrices/s without thermal throttling.", reqOpticTitle: "Optical Sensor", reqOpticDesc: "Locked 60 FPS at 1080p. Requires Auto-Focus lock (AF-Lock) and fixed white balance.", reqRamTitle: "Memory / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) for continuous video buffering with internal latency < 15ms.", reqLightTitle: "Photometric Env.", reqLightDesc: "> 500 LUX continuous LED light. Avoid fluorescent tubes (prevents 50/60Hz flickering).", reqMechTitle: "Mechanical Stability", reqMechDesc: "Industrial tripod or VESA arm. Movement tolerance < 1mm. Zero micro-vibrations on the table.", reqDispTitle: "Display / Refresh", reqDispDesc: "120Hz AMOLED panel for pure visual telemetry synchronization without screen tearing.", reqWebTitle: "Render Engine", reqWebDesc: "Chrome v115+ / Safari 16+. HW acceleration and GPU Rasterization strictly forced.", reqNpuTitle: "NPU Acceleration", reqNpuDesc: "Dedicated AI unit for massive color matrix calculations without saturating CPU cores.", reqThermTitle: "Thermal Mngmt.", reqThermDesc: "Passive Vapor Chamber to guarantee performance in endurance racing (+1h).", reqNoteCrit: "CRITICAL NOTE:", reqNoteEx: "The optical engine is a high-frequency scanner. Inferior devices will generate latency, time skips, and false readings."
             }
         };
@@ -1533,6 +1543,41 @@
             cloudGarageId = Math.random().toString(36).substring(2, 8).toUpperCase();
             localStorage.setItem('sectortime_cloud_id', cloudGarageId);
         }
+
+        // --- SISTEMA DE CIRCUITOS (MIGRACIÓN / ACTUALIZACIÓN DATOS) ---
+        function upgradeCarData(car) {
+            if (!car.trackRecords) {
+                car.trackRecords = {};
+                car.trackRecords["Circuito 1"] = {
+                    bestLap: car.bestLap || "-",
+                    bestSectors: car.bestSectors || [Infinity, Infinity, Infinity, Infinity],
+                    totalTime: car.totalTime || "0h 0m 0s",
+                    totalDist: car.totalDist || "0.000 km",
+                    avgSpd: car.avgSpd || "0.0 km/h",
+                    consistency: car.consistency || "0",
+                    _rawTotalTime: car._rawTotalTime || 0,
+                    _rawTotalDist: car._rawTotalDist || 0,
+                    recentLaps: car.recentLaps || [],
+                    recentSpeeds: car.recentSpeeds || []
+                };
+            }
+        }
+
+        function updateTrackDatalist() {
+            const datalist = document.getElementById('list-tracks');
+            if (!datalist) return;
+            const tracks = new Set();
+            garageCars.forEach(c => {
+                upgradeCarData(c);
+                Object.keys(c.trackRecords).forEach(t => tracks.add(t));
+            });
+            datalist.innerHTML = '';
+            tracks.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t;
+                datalist.appendChild(opt);
+            });
+        }
         
         async function syncImageToCloud(imgId, base64) {
             if (!window.db || !window.fs) return;
@@ -1589,6 +1634,30 @@
             sel.value = currentGarageIndex;
         }
 
+        function renderGarageCarStats(car, trackName) {
+            if (!car.trackRecords || !car.trackRecords[trackName]) return;
+            const tr = car.trackRecords[trackName];
+
+            const bestLapEl = document.getElementById('g-val-bestLap'); if (bestLapEl) bestLapEl.textContent = tr.bestLap || "-"; 
+            const totalTimeEl = document.getElementById('g-val-totalTime'); if (totalTimeEl) totalTimeEl.textContent = tr.totalTime || "-"; 
+            const totalDistEl = document.getElementById('g-val-totalDist'); if (totalDistEl) totalDistEl.textContent = tr.totalDist || "-"; 
+            
+            const consVal = parseFloat(tr.consistency) || 0;
+            const consBar = document.getElementById('g-bar-consistency');
+            if (consBar) {
+                consBar.style.width = `${Math.min(100, Math.max(0, consVal))}%`;
+                if(consVal >= 90) consBar.className = "bg-green-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#4ade80]";
+                else if(consVal >= 75) consBar.className = "bg-yellow-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#facc15]";
+                else consBar.className = "bg-cyan-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#22d3ee]";
+            }
+            const valConsEl = document.getElementById('g-val-consistency');
+            if(valConsEl) {
+                valConsEl.textContent = consVal > 0 ? `${consVal.toFixed(1)}%` : "-";
+            }
+            
+            drawGarageCharts(tr);
+        }
+
         function renderGarageCar(index) {
             currentGarageIndex = index; if (garageCars.length === 0) return; const car = garageCars[index];
             document.getElementById('garage-car-id').textContent = car.id || "ID---";
@@ -1620,26 +1689,32 @@
             document.getElementById('g-inp-name').value = car.name || "";
             garageFields.forEach(f => { const valEl = document.getElementById(`g-val-${f}`); const inpEl = document.getElementById(`g-inp-${f}`); if (valEl) valEl.textContent = car[f] || "-"; if (inpEl) inpEl.value = car[f] || ""; });
             
-            const bestLapEl = document.getElementById('g-val-bestLap'); if (bestLapEl) bestLapEl.textContent = car.bestLap || "-"; 
-            const totalTimeEl = document.getElementById('g-val-totalTime'); if (totalTimeEl) totalTimeEl.textContent = car.totalTime || "-"; 
-            const totalDistEl = document.getElementById('g-val-totalDist'); if (totalDistEl) totalDistEl.textContent = car.totalDist || "-"; 
-            const avgSpdEl = document.getElementById('g-val-avgSpd'); if (avgSpdEl) avgSpdEl.textContent = car.avgSpd || "-";
+            upgradeCarData(car);
+            const trackSelect = document.getElementById('garage-track-select');
+            const allCarTracks = Object.keys(car.trackRecords);
             
-            const consVal = parseFloat(car.consistency) || 0;
-            const consBar = document.getElementById('g-bar-consistency');
-            if (consBar) {
-                consBar.style.width = `${Math.min(100, Math.max(0, consVal))}%`;
-                if(consVal >= 90) consBar.className = "bg-green-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#4ade80]";
-                else if(consVal >= 75) consBar.className = "bg-yellow-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#facc15]";
-                else consBar.className = "bg-cyan-400 h-full rounded-full transition-all duration-500 shadow-[0_0_15px_#22d3ee]";
+            let selectedTrack = trackSelect.value;
+            if (!allCarTracks.includes(selectedTrack)) {
+                selectedTrack = document.getElementById('track-name-input').value.trim();
+                if (!allCarTracks.includes(selectedTrack)) {
+                    selectedTrack = allCarTracks.length > 0 ? allCarTracks[0] : "Circuito 1";
+                }
             }
-            const valConsEl = document.getElementById('g-val-consistency');
-            if(valConsEl) {
-                valConsEl.textContent = consVal > 0 ? `${consVal.toFixed(1)}%` : "-";
-            }
-            
-            drawGarageCharts(car);
+
+            trackSelect.innerHTML = '';
+            allCarTracks.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t; opt.textContent = t;
+                if(t === selectedTrack) opt.selected = true;
+                trackSelect.appendChild(opt);
+            });
+
+            renderGarageCarStats(car, selectedTrack);
         }
+
+        document.getElementById('garage-track-select').addEventListener('change', (e) => {
+            if (garageCars.length > 0) renderGarageCarStats(garageCars[currentGarageIndex], e.target.value);
+        });
 
         function drawGarageCharts(car) {
             if (!window.garageCharts) window.garageCharts = { laps: null, speeds: null, sectors: null, dist: null, dev: null, trend: null, leftSectors: null };
@@ -1761,27 +1836,44 @@
         window.updateGarageCarStatsAfterRace = function() {
             if (!garageCars || garageCars.length === 0 || lapHistory.length === 0) return;
             const activeCarName = document.getElementById('car-model-input').value; let carIndex = garageCars.findIndex(c => c.name === activeCarName.trim());
-            if (carIndex === -1) return; let car = garageCars[carIndex]; const trackLen = parseFloat(document.getElementById('track-length-input').value) || 15;
-            
-            let raceBest = bestLapTime / 1000; let currentBest = parseFloat(car.bestLap ? car.bestLap.replace('s', '') : Infinity) || Infinity;
-            if (raceBest > 0 && raceBest < currentBest) car.bestLap = raceBest.toFixed(3) + "s";
-            
-            let rawTime = car._rawTotalTime || 0; let sessionTime = lapHistory.reduce((a,b) => a+b.time, 0); rawTime += sessionTime; car._rawTotalTime = rawTime;
-            let totalSecs = Math.floor(rawTime / 1000); car.totalTime = `${Math.floor(totalSecs/3600)}h ${Math.floor((totalSecs%3600)/60)}m ${totalSecs%60}s`;
-            
-            let rawDist = car._rawTotalDist || 0; let raceDistKm = (trackLen * currentLap) / 1000; rawDist += raceDistKm; car._rawTotalDist = rawDist; car.totalDist = rawDist.toFixed(3) + " km";
-            if (rawTime > 0) { let avgSpdKmh = ((rawDist * 1000) / (rawTime / 1000)) * 3.6; car.avgSpd = avgSpdKmh.toFixed(1) + " km/h"; }
-            
-            let currentCons = parseFloat(car.consistency) || 0;
-            let dummyRaceCons = (Math.random() * 15) + 75; // Simulating race consistency
-            if (currentCons === 0) car.consistency = dummyRaceCons.toFixed(1);
-            else car.consistency = ((currentCons + dummyRaceCons) / 2).toFixed(1);
+            if (carIndex === -1) return; let car = garageCars[carIndex]; 
+            const trackLen = parseFloat(document.getElementById('track-length-input').value) || 15;
+            const trackName = document.getElementById('track-name-input').value.trim() || "Circuito 1";
 
-            if (!car.recentLaps) car.recentLaps = []; if (!car.recentSpeeds) car.recentSpeeds = []; if (!car.bestSectors) car.bestSectors = [Infinity, Infinity, Infinity, Infinity];
-            lapHistory.forEach(l => { car.recentLaps.push(l.time / 1000); car.recentSpeeds.push(l.speed); });
-            if (car.recentLaps.length > 20) { car.recentLaps = car.recentLaps.slice(-20); car.recentSpeeds = car.recentSpeeds.slice(-20); }
-            for(let i=0; i<4; i++) { if(bestSectorTimes[i] < car.bestSectors[i]) car.bestSectors[i] = bestSectorTimes[i]; }
+            if (!car.trackRecords) car.trackRecords = {};
+            if (!car.trackRecords[trackName]) {
+                car.trackRecords[trackName] = {
+                    bestLap: "-", bestSectors: [Infinity, Infinity, Infinity, Infinity],
+                    totalTime: "0h 0m 0s", totalDist: "0.000 km", avgSpd: "0.0 km/h", consistency: "0",
+                    _rawTotalTime: 0, _rawTotalDist: 0, recentLaps: [], recentSpeeds: []
+                };
+            }
+            let tr = car.trackRecords[trackName];
+            
+            let raceBest = bestLapTime / 1000; let currentBest = parseFloat(tr.bestLap ? tr.bestLap.replace('s', '') : Infinity) || Infinity;
+            if (raceBest > 0 && raceBest < currentBest) tr.bestLap = raceBest.toFixed(3) + "s";
+            
+            let rawTime = tr._rawTotalTime || 0; let sessionTime = lapHistory.reduce((a,b) => a+b.time, 0); rawTime += sessionTime; tr._rawTotalTime = rawTime;
+            let totalSecs = Math.floor(rawTime / 1000); tr.totalTime = `${Math.floor(totalSecs/3600)}h ${Math.floor((totalSecs%3600)/60)}m ${totalSecs%60}s`;
+            
+            let rawDist = tr._rawTotalDist || 0; let raceDistKm = (trackLen * currentLap) / 1000; rawDist += raceDistKm; tr._rawTotalDist = rawDist; tr.totalDist = rawDist.toFixed(3) + " km";
+            if (rawTime > 0) { let avgSpdKmh = ((rawDist * 1000) / (rawTime / 1000)) * 3.6; tr.avgSpd = avgSpdKmh.toFixed(1) + " km/h"; }
+            
+            let currentCons = parseFloat(tr.consistency) || 0;
+            let dummyRaceCons = (Math.random() * 15) + 75; 
+            if (currentCons === 0) tr.consistency = dummyRaceCons.toFixed(1);
+            else tr.consistency = ((currentCons + dummyRaceCons) / 2).toFixed(1);
+
+            if (!tr.recentLaps) tr.recentLaps = []; if (!tr.recentSpeeds) tr.recentSpeeds = []; if (!tr.bestSectors) tr.bestSectors = [Infinity, Infinity, Infinity, Infinity];
+            lapHistory.forEach(l => { tr.recentLaps.push(l.time / 1000); tr.recentSpeeds.push(l.speed); });
+            if (tr.recentLaps.length > 20) { tr.recentLaps = tr.recentLaps.slice(-20); tr.recentSpeeds = tr.recentSpeeds.slice(-20); }
+            for(let i=0; i<4; i++) { if(bestSectorTimes[i] < tr.bestSectors[i]) tr.bestSectors[i] = bestSectorTimes[i]; }
+            
+            // Retro-compatibilidad visual para la ficha principal
+            car.bestLap = tr.bestLap;
+            
             saveGarageToLocal();
+            updateTrackDatalist();
         };
 
         document.getElementById('open-garage-btn').addEventListener('click', () => {
@@ -1862,6 +1954,8 @@
         if(rankTabs.s2) rankTabs.s2.addEventListener('click', () => switchRankingTab('s2'));
         if(rankTabs.s3) rankTabs.s3.addEventListener('click', () => switchRankingTab('s3'));
 
+        document.getElementById('ranking-track-select').addEventListener('change', openRanking);
+
         async function openRanking() {
             const container = document.getElementById('ranking-list-container');
             container.innerHTML = '<div class="col-span-1 md:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-xl uppercase tracking-widest animate-pulse">CARGANDO PARRILLA...</div></div>';
@@ -1869,26 +1963,48 @@
             document.getElementById('rankingModal').classList.remove('hidden');
             setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10);
 
+            const allTracks = new Set();
+            garageCars.forEach(c => {
+                upgradeCarData(c);
+                if(c.trackRecords) Object.keys(c.trackRecords).forEach(t => allTracks.add(t));
+            });
+            
+            const trackSelect = document.getElementById('ranking-track-select');
+            let selectedTrack = trackSelect.value || document.getElementById('track-name-input').value.trim() || "Circuito 1";
+            if (!allTracks.has(selectedTrack) && allTracks.size > 0) selectedTrack = Array.from(allTracks)[0];
+
+            trackSelect.innerHTML = '';
+            allTracks.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t; opt.textContent = t;
+                if(t === selectedTrack) opt.selected = true;
+                trackSelect.appendChild(opt);
+            });
+
             const validCars = garageCars.filter(c => {
-                if (currentRankingTab === 'general') return c.bestLap && c.bestLap !== "-" && c.bestLap !== "Infinitys";
-                if (currentRankingTab === 's1') return c.bestSectors && c.bestSectors[0] && c.bestSectors[0] !== Infinity && c.bestSectors[0] > 0;
-                if (currentRankingTab === 's2') return c.bestSectors && c.bestSectors[1] && c.bestSectors[1] !== Infinity && c.bestSectors[1] > 0;
-                if (currentRankingTab === 's3') return c.bestSectors && c.bestSectors[2] && c.bestSectors[2] !== Infinity && c.bestSectors[2] > 0;
+                if (!c.trackRecords || !c.trackRecords[selectedTrack]) return false;
+                const tr = c.trackRecords[selectedTrack];
+                if (currentRankingTab === 'general') return tr.bestLap && tr.bestLap !== "-" && tr.bestLap !== "Infinitys";
+                if (currentRankingTab === 's1') return tr.bestSectors && tr.bestSectors[0] && tr.bestSectors[0] !== Infinity && tr.bestSectors[0] > 0;
+                if (currentRankingTab === 's2') return tr.bestSectors && tr.bestSectors[1] && tr.bestSectors[1] !== Infinity && tr.bestSectors[1] > 0;
+                if (currentRankingTab === 's3') return tr.bestSectors && tr.bestSectors[2] && tr.bestSectors[2] !== Infinity && tr.bestSectors[2] > 0;
                 return false;
             });
 
             validCars.sort((a, b) => {
-                if (currentRankingTab === 'general') return parseFloat(a.bestLap) - parseFloat(b.bestLap);
-                if (currentRankingTab === 's1') return a.bestSectors[0] - b.bestSectors[0];
-                if (currentRankingTab === 's2') return a.bestSectors[1] - b.bestSectors[1];
-                if (currentRankingTab === 's3') return a.bestSectors[2] - b.bestSectors[2];
+                const trA = a.trackRecords[selectedTrack];
+                const trB = b.trackRecords[selectedTrack];
+                if (currentRankingTab === 'general') return parseFloat(trA.bestLap) - parseFloat(trB.bestLap);
+                if (currentRankingTab === 's1') return trA.bestSectors[0] - trB.bestSectors[0];
+                if (currentRankingTab === 's2') return trA.bestSectors[1] - trB.bestSectors[1];
+                if (currentRankingTab === 's3') return trA.bestSectors[2] - trB.bestSectors[2];
                 return 0;
             });
 
             const top25 = validCars.slice(0, 25);
 
             if (top25.length === 0) {
-                container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center text-slate-400 font-bold mt-20 text-lg uppercase">Parrilla vacía en esta categoría.</div>';
+                container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center text-slate-400 font-bold mt-20 text-lg uppercase">Parrilla vacía en este circuito y categoría.</div>';
                 return;
             }
 
@@ -1901,6 +2017,7 @@
 
             let html = '';
             carsWithImages.forEach((car, index) => {
+                const tr = car.trackRecords[selectedTrack];
                 const pos = index + 1;
                 const isEven = pos % 2 === 0;
                 const staggerClass = isEven ? 'md:translate-y-12' : '';
@@ -1910,10 +2027,10 @@
                                    'text-cyan-400 border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.4)]';
 
                 let recordTitle = "Record V.";
-                let recordValue = car.bestLap;
-                if (currentRankingTab === 's1') { recordTitle = "Sector 1"; recordValue = formatTime(car.bestSectors[0], false); }
-                else if (currentRankingTab === 's2') { recordTitle = "Sector 2"; recordValue = formatTime(car.bestSectors[1], false); }
-                else if (currentRankingTab === 's3') { recordTitle = "Sector 3"; recordValue = formatTime(car.bestSectors[2], false); }
+                let recordValue = tr.bestLap;
+                if (currentRankingTab === 's1') { recordTitle = "Sector 1"; recordValue = formatTime(tr.bestSectors[0], false); }
+                else if (currentRankingTab === 's2') { recordTitle = "Sector 2"; recordValue = formatTime(tr.bestSectors[1], false); }
+                else if (currentRankingTab === 's3') { recordTitle = "Sector 3"; recordValue = formatTime(tr.bestSectors[2], false); }
 
                 html += `
                     <div class="relative w-full ${staggerClass} pt-6 pb-2 group">
@@ -1945,19 +2062,19 @@
                             <div class="relative z-10 grid grid-cols-4 gap-1.5 text-center mt-1">
                                 <div class="bg-black/60 p-1.5 rounded border border-cyan-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-cyan-600 uppercase font-black tracking-wider mb-0.5">V. Media</span>
-                                    <span class="text-cyan-300 font-mono text-[10px] sm:text-[11px] font-bold">${car.avgSpd ? car.avgSpd.replace(' km/h','') : '0.0'} <span class="text-[7px] text-cyan-600">km/h</span></span>
+                                    <span class="text-cyan-300 font-mono text-[10px] sm:text-[11px] font-bold">${tr.avgSpd ? tr.avgSpd.replace(' km/h','') : '0.0'} <span class="text-[7px] text-cyan-600">km/h</span></span>
                                 </div>
                                 <div class="bg-black/60 p-1.5 rounded border border-yellow-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-yellow-600 uppercase font-black tracking-wider mb-0.5">Constancia</span>
-                                    <span class="text-yellow-400 font-mono text-[10px] sm:text-[11px] font-bold">${car.consistency || '0.0'}<span class="text-[7px] text-yellow-600">%</span></span>
+                                    <span class="text-yellow-400 font-mono text-[10px] sm:text-[11px] font-bold">${tr.consistency || '0.0'}<span class="text-[7px] text-yellow-600">%</span></span>
                                 </div>
                                 <div class="bg-black/60 p-1.5 rounded border border-purple-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-purple-600 uppercase font-black tracking-wider mb-0.5">Distancia</span>
-                                    <span class="text-purple-300 font-mono text-[10px] sm:text-[11px] font-bold">${car.totalDist ? car.totalDist.replace(' km','') : '0.0'} <span class="text-[7px] text-purple-600">km</span></span>
+                                    <span class="text-purple-300 font-mono text-[10px] sm:text-[11px] font-bold">${tr.totalDist ? tr.totalDist.replace(' km','') : '0.0'} <span class="text-[7px] text-purple-600">km</span></span>
                                 </div>
                                 <div class="bg-black/60 p-1.5 rounded border border-orange-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-orange-600 uppercase font-black tracking-wider mb-0.5">Uso</span>
-                                    <span class="text-orange-300 font-mono text-[9px] sm:text-[10px] font-bold truncate block w-full">${car.totalTime || '0m 0s'}</span>
+                                    <span class="text-orange-300 font-mono text-[9px] sm:text-[10px] font-bold truncate block w-full">${tr.totalTime || '0m 0s'}</span>
                                 </div>
                                 <div class="bg-cyan-950/30 p-1 rounded border border-cyan-900/40 flex justify-between items-center col-span-4 px-2 mt-0.5">
                                     <span class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Setup</span>
@@ -2001,7 +2118,7 @@
         document.addEventListener('webkitfullscreenchange', updateFsIcons);
 
         window.onload = () => { 
-            updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); 
+            updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); updateTrackDatalist();
             const carSelect = document.getElementById('car-model-input');
             if(garageCars.length > 0) {
                 garageCars.forEach(c => { const o = document.createElement('option'); o.value=c.name; o.textContent=c.name; carSelect.appendChild(o); });
