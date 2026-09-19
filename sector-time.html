@@ -130,14 +130,14 @@
 
         @keyframes titleGlow { 0% { text-shadow: 0 0 10px rgba(34,211,238,0.3), 0 0 20px rgba(34,211,238,0.2); } 100% { text-shadow: 0 0 20px rgba(34,211,238,0.8), 0 0 40px rgba(34,211,238,0.6); } }
         @keyframes prometheusReveal { 
-            0% { letter-spacing: -0.05em; opacity: 0; filter: blur(8px); transform: scaleY(0.65) translateZ(0); } 
+            0% { letter-spacing: -0.05em; opacity: 0; filter: blur(8px); transform: scaleY(0.7) translateZ(0); } 
             15% { opacity: 1; filter: blur(0px); } 
-            100% { letter-spacing: 0.8em; opacity: 1; filter: blur(0px); transform: scaleY(0.65) translateZ(0); } 
+            100% { letter-spacing: 0.8em; opacity: 1; filter: blur(0px); transform: scaleY(0.7) translateZ(0); } 
         }
 
         .prometheus-title {
             position: absolute;
-            bottom: 43%; 
+            bottom: 45%; 
             font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
             font-size: 2.2rem;
             font-weight: 100;
@@ -149,14 +149,14 @@
             animation: prometheusReveal 12s cubic-bezier(0.25, 1, 0.5, 1) forwards, titleGlow 4s infinite alternate;
             white-space: nowrap;
             pointer-events: none;
-            will-change: letter-spacing, opacity, filter;
+            will-change: letter-spacing, opacity, filter, transform;
             -webkit-font-smoothing: antialiased;
             backface-visibility: hidden;
-            transform: scaleY(0.65) translateZ(0);
+            transform: scaleY(0.7) translateZ(0);
             transform-origin: center bottom;
         }
         @media (min-width: 768px) {
-            .prometheus-title { font-size: 3rem; bottom: 45%; }
+            .prometheus-title { font-size: 3rem; bottom: 48%; }
         }
 
         .roi-box {
@@ -309,15 +309,15 @@
                         <h1 class="text-sm md:text-lg neon-blue-title tracking-wider leading-tight">SECTOR TIME V.1.0</h1>
                         <span class="text-[9px] font-normal text-cyan-700">By Albert Closa</span>
                     </div>
-                    <!-- Botones Garaje y Ranking -->
+                    <!-- Botones Garaje y Ranking (con S1, S2, S3) -->
                     <div class="flex items-center space-x-1.5 ml-1 bg-slate-900/60 p-1 rounded-xl border border-cyan-900/50 shadow-inner">
                         <button id="open-garage-btn" class="flex items-center text-cyan-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-cyan-950 border border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.2)] hover:shadow-[0_0_15px_rgba(6,182,212,0.6)] transition group" title="Garaje">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-cyan-400 group-hover:scale-110 transition-transform"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
                             <span class="text-[11px] font-black uppercase tracking-widest" data-i18n="garageBtn">Garaje</span>
                         </button>
-                        <button id="ranking-btn" class="flex items-center text-amber-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-amber-950 border border-amber-700 shadow-[0_0_10px_rgba(217,119,6,0.2)] hover:shadow-[0_0_15px_rgba(217,119,6,0.6)] transition group" title="Ranking del Garaje">
+                        <button id="ranking-btn" class="flex items-center text-amber-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-amber-950 border border-amber-700 shadow-[0_0_10px_rgba(217,119,6,0.2)] hover:shadow-[0_0_15px_rgba(217,119,6,0.6)] transition group" title="Ranking por Sectores">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-amber-400 group-hover:-translate-y-0.5 transition-transform"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14" fill="currentColor" fill-opacity="0.2"/><path d="M15 17H9"/></svg>
-                            <span class="text-[11px] font-black uppercase tracking-widest" data-i18n="rankingBtn">Ranking</span>
+                            <span class="text-[11px] font-black uppercase tracking-widest hidden sm:inline" data-i18n="rankingBtn">Sectores</span>
                         </button>
                     </div>
                 </div>
@@ -639,12 +639,8 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
                                 Cámara
                             </button>
-                            <button id="btn-buscar-web" class="text-yellow-300 text-[11px] font-bold uppercase tracking-widest border border-yellow-400 px-4 py-2 rounded flex items-center hover:bg-yellow-400 hover:text-black hover:shadow-[0_0_20px_rgba(250,204,21,0.8)] transition-all w-36 justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                                Buscar Web
-                            </button>
-                            <input type="file" id="garage-img-input-galeria" accept="image/jpeg, image/png, image/webp" class="hidden">
-                            <input type="file" id="garage-img-input-camara" accept="image/jpeg, image/png, image/webp" capture="environment" class="hidden">
+                            <input type="file" id="garage-img-input-galeria" accept="image/*" class="hidden">
+                            <input type="file" id="garage-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
                     </div>
 
@@ -760,13 +756,13 @@
             
             <div class="flex flex-col md:flex-row justify-between items-center mt-2 pt-2 border-t border-cyan-900/50 shrink-0 gap-3 md:gap-2">
                 
-                <div class="flex items-center space-x-2 bg-blue-950/40 border border-blue-500/50 px-3 py-1.5 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.2)] w-full md:w-auto justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-pulse shrink-0"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-                    <span class="text-blue-300 text-[10px] sm:text-xs uppercase font-bold tracking-widest shrink-0">ID Nube:</span>
-                    <input type="text" id="garage-cloud-id" class="bg-black/80 border border-blue-400/50 text-white text-xs sm:text-sm font-black text-center w-24 sm:w-28 py-1 rounded outline-none uppercase focus:border-blue-400 focus:shadow-[0_0_10px_rgba(59,130,246,0.5)] transition-all tracking-widest" maxlength="6" title="Código para sincronizar tu garaje entre dispositivos">
-                    <button id="garage-cloud-sync-btn" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-xs font-bold uppercase transition shadow-[0_0_10px_rgba(37,99,235,0.4)] hover:shadow-[0_0_15px_rgba(37,99,235,0.8)] shrink-0">Vincular</button>
+                <div class="flex items-center space-x-2 bg-blue-950/40 border border-blue-500/50 px-3 py-1.5 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.2)] w-full md:w-auto justify-center opacity-50 cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                    <span class="text-blue-300 text-[10px] sm:text-xs uppercase font-bold tracking-widest shrink-0" title="Sincronización en la nube desactivada temporalmente">ID Nube:</span>
+                    <input type="text" id="garage-cloud-id" class="bg-black/80 border border-blue-400/50 text-white text-xs sm:text-sm font-black text-center w-24 sm:w-28 py-1 rounded outline-none uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed" maxlength="6" title="Sincronización en la nube desactivada temporalmente" disabled>
+                    <button id="garage-cloud-sync-btn" class="bg-slate-600 text-white px-3 py-1 rounded text-xs font-bold uppercase shrink-0 disabled:opacity-50 disabled:cursor-not-allowed" title="Sincronización en la nube desactivada temporalmente" disabled>Vincular</button>
                     <div class="w-px h-4 bg-blue-500/50 mx-1"></div>
-                    <button id="garage-bottom-close-btn" class="bg-red-900/60 hover:bg-red-600 border border-red-500/50 text-white px-3 py-1 rounded text-xs font-bold uppercase transition shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_15px_rgba(239,68,68,0.8)] shrink-0" data-i18n="exitBtn">Salir</button>
+                    <button id="garage-bottom-close-btn" class="bg-red-900/60 hover:bg-red-600 border border-red-500/50 text-white px-3 py-1 rounded text-xs font-bold uppercase transition shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_15px_rgba(239,68,68,0.8)] shrink-0 pointer-events-auto cursor-pointer" data-i18n="exitBtn">Salir</button>
                 </div>
 
                 <div class="flex space-x-2 shrink-0">
@@ -789,15 +785,24 @@
         <div class="w-full max-w-[96vw] md:max-w-[90vw] lg:max-w-7xl h-[92vh] md:h-[82vh] flex flex-col relative overflow-hidden rounded-xl border-2 border-slate-700 shadow-[0_0_60px_rgba(0,0,0,0.9)] bg-black/95">
             <div class="absolute inset-0 worn-asphalt-bg opacity-90 z-0"></div>
             
-            <div class="relative z-20 flex justify-between items-center bg-black/90 border-b border-slate-800 p-4 shrink-0 shadow-lg">
-                <div class="flex items-center space-x-3 ml-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
-                    <h2 class="italic font-black text-2xl tracking-widest text-white uppercase" data-i18n="garageRankingTitle">RANKING DEL GARAJE <span class="text-cyan-400">TOP 25</span></h2>
+            <div class="relative z-20 flex flex-col bg-black/90 border-b border-slate-800 p-0 shrink-0 shadow-lg">
+                <div class="flex justify-between items-center p-4 pb-2">
+                    <div class="flex items-center space-x-3 ml-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13.693 7.848 12l2.368 4.736L15.352 2l3.416 17.08L22 17.552"/></svg>
+                        <h2 class="italic font-black text-2xl tracking-widest text-white uppercase" data-i18n="garageRankingTitle">RANKING POR SECTORES <span class="text-cyan-400">TOP 25</span></h2>
+                    </div>
+                    <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors" data-i18n="exit">SALIR</button>
                 </div>
-                <button id="close-ranking-btn" class="bg-red-900/80 border border-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded text-xs font-black uppercase tracking-wider mr-4 transition-colors" data-i18n="exit">SALIR</button>
+                
+                <div class="flex justify-start sm:justify-center gap-2 px-4 pb-3 overflow-x-auto custom-tv-scroll pt-2">
+                    <button id="tab-rank-general" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-cyan-600 text-white shadow-[0_0_10px_rgba(34,211,238,0.5)] transition-all shrink-0">Global</button>
+                    <button id="tab-rank-s1" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all shrink-0">Sector 1</button>
+                    <button id="tab-rank-s2" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all shrink-0">Sector 2</button>
+                    <button id="tab-rank-s3" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all shrink-0">Sector 3</button>
+                </div>
             </div>
 
-            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-12 pb-32 custom-tv-scroll grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
+            <div class="relative z-10 flex-1 overflow-y-auto px-6 sm:px-16 py-8 pb-32 custom-tv-scroll grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 content-start" id="ranking-list-container">
             </div>
             
             <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none"></div>
@@ -852,44 +857,16 @@
     <script>
         const translations = {
             es: { 
-                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Ranking", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING DEL GARAJE", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
+                langLabel: "Idioma", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Longitud (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Sectores", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING POR SECTORES", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
                 reqTitleEx: "Especificaciones Técnicas (Ref. Galaxy Tab S9)", reqSocTitle: "Procesador (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.", reqOpticTitle: "Sensor Óptico", reqOpticDesc: "60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.", reqRamTitle: "Memoria / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.", reqLightTitle: "Entorno Fotométrico", reqLightDesc: "> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).", reqMechTitle: "Estabilidad Mecánica", reqMechDesc: "Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.", reqDispTitle: "Pantalla / Refresco", reqDispDesc: "Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.", reqWebTitle: "Motor de Render", reqWebDesc: "Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.", reqNpuTitle: "Aceleración NPU", reqNpuDesc: "Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.", reqThermTitle: "Gestión Térmica", reqThermDesc: "Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).", reqNoteCrit: "NOTA CRÍTICA:", reqNoteEx: "El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas."
             },
             en: { 
-                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Ranking", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "GARAGE RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
+                langLabel: "Language", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Track Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Sectors", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "SECTORS RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
                 reqTitleEx: "Technical Specifications (Ref. Galaxy Tab S9)", reqSocTitle: "Processor (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capable of processing 60 RGB matrices/s without thermal throttling.", reqOpticTitle: "Optical Sensor", reqOpticDesc: "Locked 60 FPS at 1080p. Requires Auto-Focus lock (AF-Lock) and fixed white balance.", reqRamTitle: "Memory / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) for continuous video buffering with internal latency < 15ms.", reqLightTitle: "Photometric Env.", reqLightDesc: "> 500 LUX continuous LED light. Avoid fluorescent tubes (prevents 50/60Hz flickering).", reqMechTitle: "Mechanical Stability", reqMechDesc: "Industrial tripod or VESA arm. Movement tolerance < 1mm. Zero micro-vibrations on the table.", reqDispTitle: "Display / Refresh", reqDispDesc: "120Hz AMOLED panel for pure visual telemetry synchronization without screen tearing.", reqWebTitle: "Render Engine", reqWebDesc: "Chrome v115+ / Safari 16+. HW acceleration and GPU Rasterization strictly forced.", reqNpuTitle: "NPU Acceleration", reqNpuDesc: "Dedicated AI unit for massive color matrix calculations without saturating CPU cores.", reqThermTitle: "Thermal Mngmt.", reqThermDesc: "Passive Vapor Chamber to guarantee performance in endurance racing (+1h).", reqNoteCrit: "CRITICAL NOTE:", reqNoteEx: "The optical engine is a high-frequency scanner. Inferior devices will generate latency, time skips, and false readings."
             }
         };
         let currentLang = 'es';
-
-        // FUNCIÓN GLOBAL PARA MOSTRAR AVISOS SIN USAR confirm()
-        function showCustomConfirm(title, message, onAccept) {
-            const modal = document.getElementById('garageSyncConfirmModal');
-            document.getElementById('garage-sync-title').textContent = title;
-            document.getElementById('garage-sync-msg').innerHTML = message.replace(/\n/g, '<br>');
-            
-            const cancelBtn = document.getElementById('garage-sync-cancel');
-            const acceptBtn = document.getElementById('garage-sync-accept');
-            
-            const newCancel = cancelBtn.cloneNode(true);
-            const newAccept = acceptBtn.cloneNode(true);
-            cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
-            acceptBtn.parentNode.replaceChild(newAccept, acceptBtn);
-            
-            newCancel.addEventListener('click', () => {
-                modal.classList.remove('open');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-            });
-            
-            newAccept.addEventListener('click', () => {
-                modal.classList.remove('open');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-                if (onAccept) onAccept();
-            });
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.add('open'), 10);
-        }
+        let currentRankingTab = 'general';
         
         function updateTexts() {
             const t = translations[currentLang];
@@ -1519,53 +1496,44 @@
                 if (this.initPromise) return this.initPromise;
                 this.initPromise = new Promise((resolve) => {
                     try {
-                        const req = indexedDB.open("SectorTimeGarageDB", 1);
-                        req.onupgradeneeded = (e) => { 
+                        const req = indexedDB.open("SectorTimeDB", 1);
+                        req.onupgradeneeded = e => {
                             if (!e.target.result.objectStoreNames.contains("images")) {
-                                e.target.result.createObjectStore("images", { keyPath: "id" }); 
+                                e.target.result.createObjectStore("images", { keyPath: "id" });
                             }
                         };
-                        req.onsuccess = (e) => { this.db = e.target.result; resolve(true); };
-                        req.onerror = (e) => { console.warn("IndexedDB error:", e); resolve(false); };
+                        req.onsuccess = e => { this.db = e.target.result; resolve(true); };
+                        req.onerror = e => resolve(false);
                     } catch(e) { resolve(false); }
                 });
                 return this.initPromise;
             },
-            save: async function(id, base64) {
+            save: async function(id, b64) {
                 const inited = await this.init();
-                if(!inited || !this.db || !id) return;
-                try {
-                    const tx = this.db.transaction("images", "readwrite");
-                    tx.objectStore("images").put({ id: id, data: base64 });
-                } catch(e) { console.warn("Error al guardar imagen IndexedDB", e); }
+                if(inited && this.db) {
+                    try { this.db.transaction("images", "readwrite").objectStore("images").put({ id: id, data: b64 }); } catch(e){}
+                }
             },
             get: async function(id) {
                 const inited = await this.init();
-                return new Promise((resolve) => {
-                    if(!inited || !this.db || !id) return resolve(null);
+                return new Promise(res => {
+                    if(!inited || !this.db) return res(null);
                     try {
-                        const tx = this.db.transaction("images", "readonly");
-                        const req = tx.objectStore("images").get(id);
-                        req.onsuccess = () => {
-                            const res = req.result;
-                            if (res && typeof res === 'object' && res.data) resolve(res.data);
-                            else resolve(res); 
-                        };
-                        req.onerror = () => { resolve(null); };
-                    } catch(e) { resolve(null); }
+                        const req = this.db.transaction("images", "readonly").objectStore("images").get(id);
+                        req.onsuccess = () => res(req.result ? req.result.data : null);
+                        req.onerror = () => res(null);
+                    } catch(e) { res(null); }
                 });
-            },
-            delete: async function(id) {
-                const inited = await this.init();
-                if(!inited || !this.db || !id) return;
-                try {
-                    const tx = this.db.transaction("images", "readwrite");
-                    tx.objectStore("images").delete(id);
-                } catch(e) {}
             }
         };
+        ImageDB.init();
 
-        // INTEGRACIÓN FIREBASE GARAJE
+        let cloudGarageId = localStorage.getItem('sectortime_cloud_id');
+        if (!cloudGarageId) {
+            cloudGarageId = Math.random().toString(36).substring(2, 8).toUpperCase();
+            localStorage.setItem('sectortime_cloud_id', cloudGarageId);
+        }
+        
         async function syncImageToCloud(imgId, base64) {
             if (!window.db || !window.fs) return;
             try {
@@ -1582,7 +1550,6 @@
                 retries--;
             }
             if (!window.auth || !window.auth.currentUser) return null;
-
             try {
                 const docRef = window.fs.doc(window.db, 'artifacts', 'app_sectortime', 'public', 'data', 'cloud_garages_images', imgId);
                 const snap = await window.fs.getDoc(docRef);
@@ -1591,176 +1558,63 @@
             return null;
         }
 
-        ImageDB.init();
-
-        let cloudGarageId = localStorage.getItem('sectortime_cloud_id');
-        if (!cloudGarageId) {
-            cloudGarageId = Math.random().toString(36).substring(2, 8).toUpperCase();
-            localStorage.setItem('sectortime_cloud_id', cloudGarageId);
-        }
-        let unsubGarageCloud = null;
         let isSyncingFromCloud = false;
-
         async function saveGarageToCloud() {
             if (!window.db || !window.fs || isSyncingFromCloud) return;
             try {
                 const docRef = window.fs.doc(window.db, 'artifacts', 'app_sectortime', 'public', 'data', 'cloud_garages', cloudGarageId);
                 let exportCars = JSON.parse(JSON.stringify(garageCars));
                 let payload = { cars: exportCars, updatedAt: Date.now() };
-                let jsonStr = JSON.stringify(payload);
-                
-                if (jsonStr.length > 900000) { 
-                    for (let i = 0; i < exportCars.length; i++) {
-                        if (exportCars[i].image) {
-                            exportCars[i].image = "";
-                            if (JSON.stringify(payload).length <= 900000) break;
-                        }
-                    }
-                }
                 await window.fs.setDoc(docRef, payload);
             } catch(e) { console.error("Error sincronizando garaje a la nube:", e); }
         }
 
-        function listenToCloudGarage() {
-            if (!window.db || !window.fs) return;
-            if (unsubGarageCloud) unsubGarageCloud(); 
-            
-            const docRef = window.fs.doc(window.db, 'artifacts', 'app_sectortime', 'public', 'data', 'cloud_garages', cloudGarageId);
-            unsubGarageCloud = window.fs.onSnapshot(docRef, async (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    
-                    isSyncingFromCloud = true;
-                    garageCars = data.cars || [];
-                    
-                    localStorage.setItem('sectortime_garage_cars', JSON.stringify(garageCars));
-                    
-                    if (!document.getElementById('garageModal').classList.contains('hidden')) {
-                        populateDropdown();
-                        if(currentGarageIndex >= garageCars.length) currentGarageIndex = 0;
-                        renderGarageCar(currentGarageIndex);
-                    }
-                    if (typeof updateConfigCarList === 'function') updateConfigCarList();
-                    
-                    const syncBtn = document.getElementById('garage-cloud-sync-btn');
-                    if(syncBtn && syncBtn.textContent === "CONECTANDO...") {
-                        syncBtn.textContent = "¡VINCULADO!";
-                        syncBtn.classList.add('bg-green-600', 'shadow-[0_0_15px_#16a34a]');
-                        setTimeout(() => {
-                            syncBtn.textContent = "VINCULAR";
-                            syncBtn.classList.remove('bg-green-600', 'shadow-[0_0_15px_#16a34a]');
-                        }, 3000);
-                    }
-                    
-                    setTimeout(() => { isSyncingFromCloud = false; }, 500);
-                }
-            }, (error) => { console.error("Error escuchando cambios de la nube:", error); });
-        }
-
         const garageFields = [
             'marca', 'ref', 'year', 'cat', 'sys',
-            'motor', 'posicion', 'pinon', 'chasis',
-            'neumaticoDel', 'neumaticoTras', 'peso', 'luces'
+            'motor', 'posicion', 'pinon', 'corona', 'relacion',
+            'chasis', 'guia', 'trencillas', 'cableado',
+            'ejeDel', 'llantaDel', 'neumaticoDel',
+            'ejeTras', 'llantaTras', 'neumaticoTras',
+            'suspension', 'iman', 'peso', 'luces'
         ];
         
         function initGarage() {
             populateDropdown();
         }
 
-        function saveGarageToLocal() { 
-            try {
-                let exportCars = JSON.parse(JSON.stringify(garageCars));
-                let jsonStr = JSON.stringify(exportCars);
-                
-                if (jsonStr.length > 4500000) {
-                    for(let i = 0; i < exportCars.length; i++) {
-                        if (exportCars[i].image) {
-                            exportCars[i].image = "";
-                            if (JSON.stringify(exportCars).length <= 4500000) break;
-                        }
-                    }
-                    jsonStr = JSON.stringify(exportCars);
-                    garageCars = exportCars; 
-                }
-                
-                localStorage.setItem('sectortime_garage_cars', jsonStr);
-                saveGarageToCloud();
-                
-            } catch (e) {
-                console.error("Error saving garage:", e);
-                alert("⚠️ Error crítico de memoria. Liberando espacio de fotos antiguas...");
-                garageCars.forEach(car => car.image = "");
-                try {
-                    localStorage.setItem('sectortime_garage_cars', JSON.stringify(garageCars));
-                    saveGarageToCloud(); 
-                    if (typeof updateConfigCarList === 'function') updateConfigCarList();
-                    renderGarageCar(currentGarageIndex);
-                } catch (e2) { alert("Error crítico: No se ha podido guardar el garaje."); }
-            }
-        }
-
+        function saveGarageToLocal() { localStorage.setItem('sectortime_garage_cars', JSON.stringify(garageCars)); saveGarageToCloud(); }
         function populateDropdown() {
             const sel = document.getElementById('garage-car-select'); if(!sel) return; sel.innerHTML = '';
-            if (garageCars.length === 0) {
-                 const opt = document.createElement('option'); opt.value = ""; opt.textContent = "Garaje Vacío"; sel.appendChild(opt);
-                 return;
-            }
             garageCars.forEach((c, i) => { const opt = document.createElement('option'); opt.value = i; opt.textContent = c.name || `Coche ${i+1}`; sel.appendChild(opt); });
             sel.value = currentGarageIndex;
         }
 
         function renderGarageCar(index) {
-            currentGarageIndex = index; 
-            const imgEl = document.getElementById('garage-img');
-            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='12' font-weight='900' fill='%2322d3ee' text-anchor='middle'>SIN IMAGEN</text></svg>";
-            
-            if (garageCars.length === 0) {
-                document.getElementById('garage-car-id').textContent = "ID---";
-                imgEl.src = defaultImg;
-                document.getElementById('g-inp-name').value = "";
-                garageFields.forEach(f => { const valEl = document.getElementById(`g-val-${f}`); const inpEl = document.getElementById(`g-inp-${f}`); if (valEl) valEl.textContent = "-"; if (inpEl) inpEl.value = ""; });
-                const bestLapEl = document.getElementById('g-val-bestLap'); if (bestLapEl) bestLapEl.textContent = "-"; 
-                const totalTimeEl = document.getElementById('g-val-totalTime'); if (totalTimeEl) totalTimeEl.textContent = "-"; 
-                const totalDistEl = document.getElementById('g-val-totalDist'); if (totalDistEl) totalDistEl.textContent = "-"; 
-                const avgSpdEl = document.getElementById('g-val-avgSpd'); if (avgSpdEl) avgSpdEl.textContent = "-";
-                const consBar = document.getElementById('g-bar-consistency'); if (consBar) consBar.style.width = `0%`;
-                const valConsEl = document.getElementById('g-val-consistency'); if(valConsEl) valConsEl.textContent = "-";
-                if (window.garageCharts) {
-                    ['laps', 'speeds', 'sectors', 'dist', 'dev', 'trend', 'leftSectors'].forEach(key => {
-                        if (window.garageCharts[key]) window.garageCharts[key].destroy();
-                    });
-                }
-                return;
-            }
-            
-            const car = garageCars[index];
+            currentGarageIndex = index; if (garageCars.length === 0) return; const car = garageCars[index];
             document.getElementById('garage-car-id').textContent = car.id || "ID---";
-            imgEl.src = ""; imgEl.classList.add('opacity-50', 'animate-pulse');
+            const imgEl = document.getElementById('garage-img'); imgEl.src = ""; 
+            
+            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='12' font-weight='900' fill='%2322d3ee' text-anchor='middle'>SIN IMAGEN</text></svg>";
 
             if (car.imageId) {
-                ImageDB.get(car.imageId).then(base64 => {
-                    if (currentGarageIndex !== index) return; 
-
-                    if (base64) {
-                        imgEl.src = base64;
-                        imgEl.classList.remove('opacity-50', 'animate-pulse');
+                ImageDB.get(car.imageId).then(b => { 
+                    if (b) {
+                        imgEl.src = b;
                     } else {
-                        fetchImageFromCloud(car.imageId).then(cloudBase64 => {
-                            if (currentGarageIndex !== index) return; 
-                            imgEl.classList.remove('opacity-50', 'animate-pulse');
-                            if (cloudBase64) {
-                                ImageDB.save(car.imageId, cloudBase64);
-                                imgEl.src = cloudBase64;
+                        fetchImageFromCloud(car.imageId).then(cloudB => {
+                            if (cloudB) {
+                                ImageDB.save(car.imageId, cloudB);
+                                imgEl.src = cloudB;
                             } else {
                                 imgEl.src = defaultImg;
                             }
                         });
                     }
-                });
+                }); 
             } else if (car.image && car.image.length > 5) {
-                imgEl.src = car.image; imgEl.classList.remove('opacity-50', 'animate-pulse');
+                imgEl.src = car.image;
             } else {
-                imgEl.src = defaultImg; imgEl.classList.remove('opacity-50', 'animate-pulse');
+                imgEl.src = defaultImg;
             }
             
             document.getElementById('g-inp-name').value = car.name || "";
@@ -1769,6 +1623,7 @@
             const bestLapEl = document.getElementById('g-val-bestLap'); if (bestLapEl) bestLapEl.textContent = car.bestLap || "-"; 
             const totalTimeEl = document.getElementById('g-val-totalTime'); if (totalTimeEl) totalTimeEl.textContent = car.totalTime || "-"; 
             const totalDistEl = document.getElementById('g-val-totalDist'); if (totalDistEl) totalDistEl.textContent = car.totalDist || "-"; 
+            const avgSpdEl = document.getElementById('g-val-avgSpd'); if (avgSpdEl) avgSpdEl.textContent = car.avgSpd || "-";
             
             const consVal = parseFloat(car.consistency) || 0;
             const consBar = document.getElementById('g-bar-consistency');
@@ -1929,45 +1784,11 @@
             saveGarageToLocal();
         };
 
-        window.updateConfigCarList = function() {
-            const carSelect = document.getElementById('car-model-input');
-            if(!carSelect) return;
-            
-            const currentVal = localStorage.getItem('sectortime_car_model') || carSelect.value;
-            carSelect.innerHTML = '';
-            
-            if (!garageCars || garageCars.length === 0) {
-                const opt = document.createElement('option');
-                opt.value = currentVal || "Porsche 911";
-                opt.textContent = currentVal || "Sin coches en garaje";
-                carSelect.appendChild(opt);
-            } else {
-                garageCars.forEach(car => {
-                    const opt = document.createElement('option');
-                    const carName = car.name || `${car.marca || 'Coche'} ${car.ref || ''}`.trim() || 'Coche Desconocido';
-                    opt.value = carName;
-                    opt.textContent = carName;
-                    carSelect.appendChild(opt);
-                });
-            }
-
-            if (currentVal && Array.from(carSelect.options).some(o => o.value === currentVal)) {
-                carSelect.value = currentVal;
-            } else if (carSelect.options.length > 0) {
-                carSelect.value = carSelect.options[0].value;
-                localStorage.setItem('sectortime_car_model', carSelect.value);
-            }
-        };
-
         document.getElementById('open-garage-btn').addEventListener('click', () => {
             if (garageCars.length === 0) initGarage(); else populateDropdown();
             const activeName = document.getElementById('car-model-input').value; let idx = garageCars.findIndex(c => c.name === activeName);
             currentGarageIndex = idx !== -1 ? idx : 0; if(document.getElementById('garage-car-select')) document.getElementById('garage-car-select').value = currentGarageIndex;
             renderGarageCar(currentGarageIndex); toggleGarageEdit(false);
-            
-            const cloudIdInput = document.getElementById('garage-cloud-id');
-            if (cloudIdInput) cloudIdInput.value = cloudGarageId;
-
             document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10);
         });
         
@@ -1983,34 +1804,16 @@
                 setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300);
             }
         });
-        
-        const bottomCloseGarageBtn = document.getElementById('garage-bottom-close-btn');
-        if (bottomCloseGarageBtn) {
-            bottomCloseGarageBtn.addEventListener('click', () => {
-                if (isGarageEditing) {
-                    showSystemModal("Tienes cambios sin guardar. ¿Cerrar de todos modos?", true, () => {
-                        toggleGarageEdit(false); 
-                        document.getElementById('garageModal').classList.remove('open'); 
-                        setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300);
-                    });
-                } else {
-                    document.getElementById('garageModal').classList.remove('open'); 
-                    setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300);
-                }
-            });
-        }
 
         document.getElementById('garage-car-select').addEventListener('change', (e) => renderGarageCar(parseInt(e.target.value)));
         document.getElementById('garage-edit-btn').addEventListener('click', () => toggleGarageEdit(true));
         document.getElementById('garage-save-btn').addEventListener('click', saveGarageEdits);
         document.getElementById('garage-assign-btn').addEventListener('click', () => { 
-            if(garageCars.length === 0) return;
             const carSelect = document.getElementById('car-model-input');
             const carName = garageCars[currentGarageIndex].name;
             let exists = Array.from(carSelect.options).some(opt => opt.value === carName);
             if (!exists) { const newOpt = document.createElement('option'); newOpt.value = carName; newOpt.textContent = carName; carSelect.appendChild(newOpt); }
             carSelect.value = carName; 
-            localStorage.setItem('sectortime_car_model', carName);
             document.getElementById('close-garage-btn').click(); 
         });
 
@@ -2021,160 +1824,77 @@
         document.getElementById('garage-delete-btn').addEventListener('click', () => {
             if (garageCars.length === 0) return;
             showSystemModal("¿Seguro que quieres eliminar este coche del garaje?", true, () => {
-                const carId = garageCars[currentGarageIndex].imageId || garageCars[currentGarageIndex].id;
-                ImageDB.delete(carId); 
                 garageCars.splice(currentGarageIndex, 1); currentGarageIndex = Math.max(0, currentGarageIndex - 1); saveGarageToLocal(); populateDropdown(); renderGarageCar(currentGarageIndex); toggleGarageEdit(false); 
-                if (typeof updateConfigCarList === 'function') updateConfigCarList();
             });
         });
-
-        function processAndCompressImage(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 400; const MAX_HEIGHT = 400;
-                    let width = img.width; let height = img.height;
-                    if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
-                    else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
-                    
-                    canvas.width = width; canvas.height = height;
-                    const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
-                    const base64Str = canvas.toDataURL('image/jpeg', 0.70);
-                    
-                    if(garageCars[currentGarageIndex]) {
-                        const car = garageCars[currentGarageIndex];
-                        const imgId = "img_" + (car.id || Date.now()) + "_" + Date.now();
-                        car.imageId = imgId; car.image = ""; 
-                        
-                        ImageDB.save(imgId, base64Str);
-                        document.getElementById('garage-img').src = base64Str;
-                        
-                        saveGarageToLocal();
-                        syncImageToCloud(imgId, base64Str);
-                        if (typeof updateConfigCarList === 'function') updateConfigCarList();
-                    }
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
 
         document.getElementById('btn-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-galeria').click(); });
         document.getElementById('btn-camara').addEventListener('click', (e) => { e.stopPropagation(); if(isGarageEditing) document.getElementById('garage-img-input-camara').click(); });
-        document.getElementById('garage-img-input-galeria').addEventListener('change', (e) => processAndCompressImage(e.target.files[0])); 
-        document.getElementById('garage-img-input-camara').addEventListener('change', (e) => processAndCompressImage(e.target.files[0]));
+        function procImg(file) { if (!file) return; const reader = new FileReader(); reader.onload = (e) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width, h = img.height; if (w > h) { if (w > 400) { h *= 400 / w; w = 400; } } else { if (h > 400) { w *= 400 / h; h = 400; } } canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h); const b64 = canvas.toDataURL('image/jpeg', 0.7); const imgId = "img_" + Date.now(); garageCars[currentGarageIndex].imageId = imgId; garageCars[currentGarageIndex].image = ""; ImageDB.save(imgId, b64); syncImageToCloud(imgId, b64); document.getElementById('garage-img').src = b64; saveGarageToLocal(); }; img.src = e.target.result; }; reader.readAsDataURL(file); }
+        document.getElementById('garage-img-input-galeria').addEventListener('change', (e) => procImg(e.target.files[0])); document.getElementById('garage-img-input-camara').addEventListener('change', (e) => procImg(e.target.files[0]));
 
-        const btnBuscarWeb = document.getElementById('btn-buscar-web');
-        if (btnBuscarWeb) {
-            btnBuscarWeb.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (!isGarageEditing) return;
-                const car = garageCars[currentGarageIndex];
-                const query = encodeURIComponent(`${car.marca || ''} ${car.name || car.ref || ''} slot car 1 32`.trim());
-                window.open(`https://www.google.com/search?tbm=isch&q=${query}`, '_blank');
-                
-                setTimeout(() => {
-                    const url = prompt("1. Copia la dirección (URL) de la imagen en Google.\n2. Pégala aquí abajo:");
-                    if (url && url.startsWith('http')) {
-                        car.imageId = ""; car.image = url;
-                        document.getElementById('garage-img').src = url;
-                        saveGarageToLocal();
-                        if (typeof updateConfigCarList === 'function') updateConfigCarList();
-                    }
-                }, 500);
-            });
-        }
-
-        document.getElementById('garage-export-btn').addEventListener('click', () => {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(garageCars, null, 2));
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "garage_sector_time.json");
-            document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove();
-        });
-
-        document.getElementById('garage-import-btn').addEventListener('click', () => { document.getElementById('garage-import-input').click(); });
-        document.getElementById('garage-import-input').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = async (event) => {
-                try {
-                    let importedData = JSON.parse(event.target.result);
-                    if (!Array.isArray(importedData)) { throw new Error("El archivo JSON debe contener una lista de coches."); }
-                    
-                    showSystemModal(`Se detectaron ${importedData.length} coches.\n¿REEMPLAZAR tu garaje actual o AÑADIRLOS?`, true, async () => {
-                        garageCars = importedData;
-                        for (let car of garageCars) {
-                            if (car.image && car.image.length > 100) {
-                                if (!car.imageId) car.imageId = "img_" + car.id + "_" + Date.now();
-                                await ImageDB.save(car.imageId, car.image);
-                                syncImageToCloud(car.imageId, car.image);
-                            }
-                        }
-                        currentGarageIndex = 0;
-                        if (typeof updateConfigCarList === 'function') updateConfigCarList();
-                        populateDropdown(); renderGarageCar(currentGarageIndex);
-                        saveGarageToLocal();
-                        const btn = document.getElementById('garage-import-btn'); const orig = btn.innerHTML;
-                        btn.innerHTML = `<span class="text-green-500">¡Importado!</span>`;
-                        setTimeout(() => { btn.innerHTML = orig; }, 3000);
-                    });
-                } catch (error) { alert("Error al importar el archivo: " + error.message); }
-                e.target.value = ''; 
-            };
-            reader.readAsText(file);
-        });
-
-        const cloudSyncBtn = document.getElementById('garage-cloud-sync-btn');
-        if (cloudSyncBtn) {
-            cloudSyncBtn.addEventListener('click', () => {
-                const newId = document.getElementById('garage-cloud-id').value.trim().toUpperCase();
-                if (newId.length === 0) return;
-                
-                if (newId !== cloudGarageId) {
-                    showCustomConfirm(
-                        "VINCULAR NUBE",
-                        `Vas a vincular tu garaje al código [ ${newId} ].\n\n- Si la cuenta existe, descargarás esos coches aquí.\n- Si es una cuenta nueva, tus coches actuales se subirán.\n\n¿Continuar?`,
-                        () => {
-                            cloudGarageId = newId;
-                            localStorage.setItem('sectortime_cloud_id', cloudGarageId);
-                            cloudSyncBtn.textContent = "CONECTANDO...";
-                            listenToCloudGarage();
-                            setTimeout(() => { saveGarageToCloud(); }, 1000);
-                        }
-                    );
-                } else {
-                    listenToCloudGarage();
-                    cloudSyncBtn.textContent = "¡SINCRONIZADO!";
-                    cloudSyncBtn.classList.add('bg-green-600', 'shadow-[0_0_15px_#16a34a]');
-                    setTimeout(() => { cloudSyncBtn.textContent = "VINCULAR"; cloudSyncBtn.classList.remove('bg-green-600', 'shadow-[0_0_15px_#16a34a]'); }, 2000);
+        // LÓGICA DE TABS DEL RANKING
+        const rankTabs = {
+            general: document.getElementById('tab-rank-general'),
+            s1: document.getElementById('tab-rank-s1'),
+            s2: document.getElementById('tab-rank-s2'),
+            s3: document.getElementById('tab-rank-s3')
+        };
+        
+        function switchRankingTab(tabId) {
+            currentRankingTab = tabId;
+            Object.values(rankTabs).forEach(tab => {
+                if(tab) {
+                    tab.classList.remove('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
+                    tab.classList.add('bg-slate-800', 'text-slate-400');
                 }
             });
+            const activeTab = rankTabs[tabId];
+            if(activeTab) {
+                activeTab.classList.remove('bg-slate-800', 'text-slate-400');
+                activeTab.classList.add('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
+            }
+            openRanking(); 
         }
+
+        if(rankTabs.general) rankTabs.general.addEventListener('click', () => switchRankingTab('general'));
+        if(rankTabs.s1) rankTabs.s1.addEventListener('click', () => switchRankingTab('s1'));
+        if(rankTabs.s2) rankTabs.s2.addEventListener('click', () => switchRankingTab('s2'));
+        if(rankTabs.s3) rankTabs.s3.addEventListener('click', () => switchRankingTab('s3'));
 
         async function openRanking() {
             const container = document.getElementById('ranking-list-container');
-            container.innerHTML = '<div class="col-span-1 md:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-xl uppercase tracking-widest animate-pulse">CARGANDO PARRILLA F1...</div></div>';
+            container.innerHTML = '<div class="col-span-1 md:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-xl uppercase tracking-widest animate-pulse">CARGANDO PARRILLA...</div></div>';
             
             document.getElementById('rankingModal').classList.remove('hidden');
             setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10);
 
-            const validCars = garageCars.filter(c => c.bestLap && c.bestLap !== "-" && c.bestLap !== "Infinitys");
-            validCars.sort((a, b) => parseFloat(a.bestLap) - parseFloat(b.bestLap));
+            const validCars = garageCars.filter(c => {
+                if (currentRankingTab === 'general') return c.bestLap && c.bestLap !== "-" && c.bestLap !== "Infinitys";
+                if (currentRankingTab === 's1') return c.bestSectors && c.bestSectors[0] && c.bestSectors[0] !== Infinity && c.bestSectors[0] > 0;
+                if (currentRankingTab === 's2') return c.bestSectors && c.bestSectors[1] && c.bestSectors[1] !== Infinity && c.bestSectors[1] > 0;
+                if (currentRankingTab === 's3') return c.bestSectors && c.bestSectors[2] && c.bestSectors[2] !== Infinity && c.bestSectors[2] > 0;
+                return false;
+            });
+
+            validCars.sort((a, b) => {
+                if (currentRankingTab === 'general') return parseFloat(a.bestLap) - parseFloat(b.bestLap);
+                if (currentRankingTab === 's1') return a.bestSectors[0] - b.bestSectors[0];
+                if (currentRankingTab === 's2') return a.bestSectors[1] - b.bestSectors[1];
+                if (currentRankingTab === 's3') return a.bestSectors[2] - b.bestSectors[2];
+                return 0;
+            });
+
             const top25 = validCars.slice(0, 25);
 
             if (top25.length === 0) {
-                container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center text-slate-400 font-bold mt-20 text-lg uppercase">Parrilla vacía. ¡Realiza una carrera!</div>';
+                container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center text-slate-400 font-bold mt-20 text-lg uppercase">Parrilla vacía en esta categoría.</div>';
                 return;
             }
 
             const carsWithImages = await Promise.all(top25.map(async (car) => {
                 let imgSrc = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230f172a'/><text x='50' y='54' font-family='Arial' font-size='15' font-weight='900' fill='%2338bdf8' text-anchor='middle'>F1</text></svg>";
-                if (car.imageId) { const b = await ImageDB.get(car.imageId); if (b) imgSrc = b; else { const cb = await fetchImageFromCloud(car.imageId); if(cb) imgSrc = cb; } } 
+                if (car.imageId) { const b = await ImageDB.get(car.imageId); if (b) imgSrc = b; } 
                 else if (car.image && car.image.length > 5) { imgSrc = car.image; }
                 return { ...car, displayImage: imgSrc };
             }));
@@ -2189,60 +1909,59 @@
                                    pos === 3 ? 'text-amber-600 border-amber-600 shadow-[0_0_15px_rgba(217,119,6,0.6)]' : 
                                    'text-cyan-400 border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.4)]';
 
+                let recordTitle = "Record V.";
+                let recordValue = car.bestLap;
+                if (currentRankingTab === 's1') { recordTitle = "Sector 1"; recordValue = formatTime(car.bestSectors[0], false); }
+                else if (currentRankingTab === 's2') { recordTitle = "Sector 2"; recordValue = formatTime(car.bestSectors[1], false); }
+                else if (currentRankingTab === 's3') { recordTitle = "Sector 3"; recordValue = formatTime(car.bestSectors[2], false); }
+
                 html += `
                     <div class="relative w-full ${staggerClass} pt-6 pb-2 group">
-                        <!-- CAJÓN DE SALIDA TIPO F1 (U Invertida 90 grados) -->
                         <div class="absolute inset-0 border-t-[4px] border-l-[4px] border-r-[4px] border-yellow-400/80 z-0 pointer-events-none shadow-[0_0_10px_rgba(250,204,21,0.3)] mt-2"></div>
-                        
-                        <!-- BADGE DE POSICIÓN -->
                         <div class="absolute -top-1 left-1/2 -translate-x-1/2 bg-black border-[3px] px-5 py-0.5 rounded-sm z-20 ${badgeColor}">
                             <span class="font-black text-xl italic font-arial">P${pos}</span>
                         </div>
 
-                        <!-- FICHA DEL COCHE -->
                         <div class="overflow-hidden p-3 flex flex-col gap-2 relative z-10 bg-slate-900/85 border-b-2 border-cyan-500 shadow-[0_10px_20px_rgba(0,0,0,0.8)] backdrop-blur-md mx-1.5 mt-1">
-                            
                             <div class="absolute inset-0 z-0">
-                                <img src="${car.displayImage}" class="w-full h-full object-cover blur-[3px] opacity-20 group-hover:blur-[1px] group-hover:opacity-40 transition-all duration-500 grayscale group-hover:grayscale-0">
+                                <img src="${car.displayImage}" class="w-full h-full object-cover blur-[5px] opacity-20 group-hover:blur-[2px] group-hover:opacity-30 transition-all duration-500">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black via-slate-900/80 to-transparent"></div>
                             </div>
                             
-                            <div class="relative z-10 flex justify-between items-end border-b border-cyan-800/60 pb-2">
-                                <div class="flex-1 min-w-0 pr-2">
-                                    <h4 class="text-white font-black text-lg sm:text-xl uppercase truncate tracking-wide drop-shadow-md">${car.name}</h4>
-                                    <div class="text-[10px] text-cyan-400 uppercase tracking-widest truncate">${car.marca || 'S/M'} • ${car.cat || 'GT'}</div>
+                            <div class="relative z-10 flex items-center gap-3 border-b border-cyan-800/60 pb-2">
+                                <div class="w-16 h-12 sm:w-20 sm:h-14 shrink-0 rounded bg-black/60 border border-cyan-500/50 shadow-[0_0_10px_rgba(34,211,238,0.2)] flex items-center justify-center overflow-hidden relative">
+                                    <img src="${car.displayImage}" class="w-full h-full object-contain p-0.5 relative z-10">
                                 </div>
-                                <div class="flex flex-col items-end shrink-0 bg-emerald-950/50 p-1.5 rounded border border-emerald-800/50">
-                                    <span class="text-[9px] uppercase tracking-wider text-emerald-400 font-bold leading-none mb-1">Record V.</span>
-                                    <span class="text-emerald-300 font-mono font-black text-xl leading-none drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">${car.bestLap}</span>
+                                <div class="flex-1 min-w-0 pr-1">
+                                    <h4 class="text-white font-black text-base sm:text-lg uppercase truncate tracking-wide drop-shadow-md">${car.name}</h4>
+                                    <div class="text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest truncate">${car.marca || 'S/M'} • ${car.cat || 'GT'}</div>
+                                </div>
+                                <div class="flex flex-col items-end shrink-0 bg-emerald-950/50 p-1.5 rounded border border-emerald-800/50 min-w-[75px]">
+                                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-emerald-400 font-bold leading-none mb-1">${recordTitle}</span>
+                                    <span class="text-emerald-300 font-mono font-black text-lg sm:text-xl leading-none drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">${recordValue}</span>
                                 </div>
                             </div>
 
                             <div class="relative z-10 grid grid-cols-4 gap-1.5 text-center mt-1">
-                                
                                 <div class="bg-black/60 p-1.5 rounded border border-cyan-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-cyan-600 uppercase font-black tracking-wider mb-0.5">V. Media</span>
-                                    <span class="text-cyan-300 font-mono text-[11px] font-bold">${car.avgSpd ? car.avgSpd.replace(' km/h','') : '0.0'} <span class="text-[7px] text-cyan-600">km/h</span></span>
+                                    <span class="text-cyan-300 font-mono text-[10px] sm:text-[11px] font-bold">${car.avgSpd ? car.avgSpd.replace(' km/h','') : '0.0'} <span class="text-[7px] text-cyan-600">km/h</span></span>
                                 </div>
-                                
                                 <div class="bg-black/60 p-1.5 rounded border border-yellow-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-yellow-600 uppercase font-black tracking-wider mb-0.5">Constancia</span>
-                                    <span class="text-yellow-400 font-mono text-[11px] font-bold">${car.consistency || '0.0'}<span class="text-[7px] text-yellow-600">%</span></span>
+                                    <span class="text-yellow-400 font-mono text-[10px] sm:text-[11px] font-bold">${car.consistency || '0.0'}<span class="text-[7px] text-yellow-600">%</span></span>
                                 </div>
-                                
                                 <div class="bg-black/60 p-1.5 rounded border border-purple-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-purple-600 uppercase font-black tracking-wider mb-0.5">Distancia</span>
-                                    <span class="text-purple-300 font-mono text-[11px] font-bold">${car.totalDist ? car.totalDist.replace(' km','') : '0.0'} <span class="text-[7px] text-purple-600">km</span></span>
+                                    <span class="text-purple-300 font-mono text-[10px] sm:text-[11px] font-bold">${car.totalDist ? car.totalDist.replace(' km','') : '0.0'} <span class="text-[7px] text-purple-600">km</span></span>
                                 </div>
-                                
                                 <div class="bg-black/60 p-1.5 rounded border border-orange-900/40 flex flex-col justify-center">
                                     <span class="text-[7px] text-orange-600 uppercase font-black tracking-wider mb-0.5">Uso</span>
-                                    <span class="text-orange-300 font-mono text-[10px] font-bold truncate block w-full">${car.totalTime || '0m 0s'}</span>
+                                    <span class="text-orange-300 font-mono text-[9px] sm:text-[10px] font-bold truncate block w-full">${car.totalTime || '0m 0s'}</span>
                                 </div>
-
                                 <div class="bg-cyan-950/30 p-1 rounded border border-cyan-900/40 flex justify-between items-center col-span-4 px-2 mt-0.5">
                                     <span class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Setup</span>
-                                    <span class="text-cyan-200 text-[9px] font-bold truncate max-w-[75%]">${car.motor || 'Motor Serie'} | ${car.chasis || 'Chasis Estándar'} | ${car.neumaticoTras || 'Neumático Std'}</span>
+                                    <span class="text-cyan-200 text-[9px] font-bold truncate max-w-[75%]">${car.motor || 'Motor Serie'} | ${car.chasis || 'Chasis Estándar'}</span>
                                 </div>
                             </div>
                         </div>
@@ -2252,7 +1971,9 @@
             container.innerHTML = html;
         }
 
-        document.getElementById('ranking-btn').addEventListener('click', openRanking);
+        // EVENTOS BOTONES RANKING DIRECTOS
+        document.getElementById('ranking-btn').addEventListener('click', () => switchRankingTab('general'));
+        
         document.getElementById('close-ranking-btn').addEventListener('click', () => {
             document.getElementById('rankingModal').classList.remove('open');
             setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300);
@@ -2281,14 +2002,21 @@
 
         window.onload = () => { 
             updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); 
+            const carSelect = document.getElementById('car-model-input');
+            if(garageCars.length > 0) {
+                garageCars.forEach(c => { const o = document.createElement('option'); o.value=c.name; o.textContent=c.name; carSelect.appendChild(o); });
+                carSelect.value = garageCars[0].name;
+            }
+            
+            const cloudIdInput = document.getElementById('garage-cloud-id');
+            if (cloudIdInput && typeof cloudGarageId !== 'undefined') cloudIdInput.value = cloudGarageId;
+            
             const initGarageCloudInterval = setInterval(() => {
                 if (window.db && window.auth && window.auth.currentUser) {
                     clearInterval(initGarageCloudInterval);
-                    listenToCloudGarage();
                     if(garageCars.length > 0) saveGarageToCloud();
                 }
             }, 1000);
-            updateConfigCarList();
         };
     </script>
 </body>
