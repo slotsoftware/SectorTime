@@ -137,7 +137,7 @@
 
         .prometheus-title {
             position: absolute;
-            bottom: 43%; 
+            bottom: 48%; 
             font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
             font-size: 2.2rem;
             font-weight: 100;
@@ -156,7 +156,7 @@
             transform-origin: center bottom;
         }
         @media (min-width: 768px) {
-            .prometheus-title { font-size: 3rem; bottom: 45%; }
+            .prometheus-title { font-size: 3rem; bottom: 50%; }
         }
 
         .roi-box {
@@ -763,8 +763,8 @@
                 <div class="flex items-center space-x-2 bg-blue-950/40 border border-blue-500/50 px-3 py-1.5 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.2)] w-full md:w-auto justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-pulse shrink-0"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
                     <span class="text-blue-300 text-[10px] sm:text-xs uppercase font-bold tracking-widest shrink-0">ID Nube:</span>
-                    <input type="text" id="garage-cloud-id" class="bg-black/80 border border-blue-400/50 text-white text-xs sm:text-sm font-black text-center w-24 sm:w-28 py-1 rounded outline-none uppercase focus:border-blue-400 focus:shadow-[0_0_10px_rgba(59,130,246,0.5)] transition-all tracking-widest" maxlength="6" title="Código para sincronizar tu garaje entre dispositivos">
-                    <button id="garage-cloud-sync-btn" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-xs font-bold uppercase transition shadow-[0_0_10px_rgba(37,99,235,0.4)] hover:shadow-[0_0_15px_rgba(37,99,235,0.8)] shrink-0">Vincular</button>
+                    <input type="text" id="garage-cloud-id" class="bg-black/80 border border-blue-400/50 text-white text-xs sm:text-sm font-black text-center w-24 sm:w-28 py-1 rounded outline-none uppercase transition-all tracking-widest disabled:opacity-50 disabled:cursor-not-allowed" maxlength="6" title="Sincronización en la nube desactivada temporalmente" disabled>
+                    <button id="garage-cloud-sync-btn" class="bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold uppercase transition shrink-0 disabled:opacity-50 disabled:cursor-not-allowed" title="Sincronización en la nube desactivada temporalmente" disabled>Vincular</button>
                     <div class="w-px h-4 bg-blue-500/50 mx-1"></div>
                     <button id="garage-bottom-close-btn" class="bg-red-900/60 hover:bg-red-600 border border-red-500/50 text-white px-3 py-1 rounded text-xs font-bold uppercase transition shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_15px_rgba(239,68,68,0.8)] shrink-0" data-i18n="exitBtn">Salir</button>
                 </div>
@@ -2129,32 +2129,11 @@
             reader.readAsText(file);
         });
 
-        const cloudSyncBtn = document.getElementById('garage-cloud-sync-btn');
+        /* Sincronización desactivada temporalmente */
+        /* const cloudSyncBtn = document.getElementById('garage-cloud-sync-btn');
         if (cloudSyncBtn) {
-            cloudSyncBtn.addEventListener('click', () => {
-                const newId = document.getElementById('garage-cloud-id').value.trim().toUpperCase();
-                if (newId.length === 0) return;
-                
-                if (newId !== cloudGarageId) {
-                    showCustomConfirm(
-                        "VINCULAR NUBE",
-                        `Vas a vincular tu garaje al código [ ${newId} ].\n\n- Si la cuenta existe, descargarás esos coches aquí.\n- Si es una cuenta nueva, tus coches actuales se subirán.\n\n¿Continuar?`,
-                        () => {
-                            cloudGarageId = newId;
-                            localStorage.setItem('sectortime_cloud_id', cloudGarageId);
-                            cloudSyncBtn.textContent = "CONECTANDO...";
-                            listenToCloudGarage();
-                            setTimeout(() => { saveGarageToCloud(); }, 1000);
-                        }
-                    );
-                } else {
-                    listenToCloudGarage();
-                    cloudSyncBtn.textContent = "¡SINCRONIZADO!";
-                    cloudSyncBtn.classList.add('bg-green-600', 'shadow-[0_0_15px_#16a34a]');
-                    setTimeout(() => { cloudSyncBtn.textContent = "VINCULAR"; cloudSyncBtn.classList.remove('bg-green-600', 'shadow-[0_0_15px_#16a34a]'); }, 2000);
-                }
-            });
-        }
+            ...
+        } */
 
         async function openRanking() {
             const container = document.getElementById('ranking-list-container');
@@ -2284,8 +2263,9 @@
             const initGarageCloudInterval = setInterval(() => {
                 if (window.db && window.auth && window.auth.currentUser) {
                     clearInterval(initGarageCloudInterval);
-                    listenToCloudGarage();
-                    if(garageCars.length > 0) saveGarageToCloud();
+                    // Sincronización desactivada temporalmente
+                    // listenToCloudGarage();
+                    // if(garageCars.length > 0) saveGarageToCloud();
                 }
             }, 1000);
             updateConfigCarList();
