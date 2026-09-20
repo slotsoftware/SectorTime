@@ -811,13 +811,13 @@
                 <div class="grid grid-cols-2 gap-4 text-center pb-3 pt-4 px-4 bg-gradient-to-b from-transparent to-emerald-950/60 rounded-xl border border-emerald-500/30 shadow-inner flex-1">
                     <div class="flex flex-col justify-center bg-black/50 rounded-lg border border-emerald-900/50 p-3">
                         <span class="text-emerald-300/80 text-[11px] uppercase font-black tracking-widest mb-1">Longitud de Pista (m)</span>
-                        <span id="t-val-length" class="font-bold text-4xl text-white font-arial drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"></span>
-                        <input type="number" id="t-inp-length" step="0.5" class="g-inp mx-auto text-center w-2/3 text-lg font-bold py-1">
+                        <span id="t-val-length" class="g-val font-bold text-4xl text-white font-arial drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"></span>
+                        <input type="number" id="t-inp-length" step="0.5" class="g-inp mx-auto text-center w-2/3 text-lg font-bold py-1" style="height: auto;">
                     </div>
                     <div class="flex flex-col justify-center bg-black/50 rounded-lg border border-emerald-900/50 p-3">
                         <span class="text-emerald-300/80 text-[11px] uppercase font-black tracking-widest mb-1">Superficie</span>
-                        <span id="t-val-surface" class="font-bold text-3xl text-emerald-200 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
-                        <input type="text" id="t-inp-surface" class="g-inp mx-auto text-center w-5/6 text-base font-bold py-1" placeholder="Asfalto, Tierra, Nieve..." list="list-superficies">
+                        <span id="t-val-surface" class="g-val font-bold text-3xl text-emerald-200 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+                        <input type="text" id="t-inp-surface" class="g-inp mx-auto text-center w-5/6 text-base font-bold py-1" placeholder="Asfalto, Tierra, Nieve..." list="list-superficies" style="height: auto;">
                     </div>
                 </div>
             </div>
@@ -1683,7 +1683,7 @@
             const track = trackCircuits[index];
             
             const imgEl = document.getElementById('track-img');
-            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23020617'/><path d='M20 50 Q 50 20 80 50 T 20 50' stroke='%2334d399' stroke-width='4' fill='none' stroke-dasharray='4 2'/><text x='50' y='55' font-family='Arial' font-size='10' font-weight='900' fill='%2310b981' text-anchor='middle'>SIN FOTO</text></svg>";
+            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='54' font-family='Arial' font-size='8' font-weight='900' fill='%2334d399' text-anchor='middle' letter-spacing='1'>SIN IMAGEN</text></svg>";
 
             imgEl.src = "";
             imgEl.classList.add('opacity-50', 'animate-pulse');
@@ -2333,24 +2333,39 @@
                 }
             }
 
+            // FORZAR ACTUALIZACIÓN DE TODOS LOS COCHES AL NUEVO FORMATO
+            let needsSave = false;
+            garageCars.forEach(c => {
+                if (!c.trackRecords) {
+                    upgradeCarData(c);
+                    needsSave = true;
+                }
+            });
+            if (needsSave) saveGarageToLocal();
+
             const validCars = garageCars.filter(c => {
                 if (!c.trackRecords || !c.trackRecords[selectedTrack]) return false;
                 const tr = c.trackRecords[selectedTrack];
-                if (currentRankingTab === 'general') return tr.bestLap && tr.bestLap !== "-" && tr.bestLap !== "Infinitys";
-                if (currentRankingTab === 's1') return tr.bestSectors && tr.bestSectors[0] && tr.bestSectors[0] !== Infinity && tr.bestSectors[0] > 0;
-                if (currentRankingTab === 's2') return tr.bestSectors && tr.bestSectors[1] && tr.bestSectors[1] !== Infinity && tr.bestSectors[1] > 0;
-                if (currentRankingTab === 's3') return tr.bestSectors && tr.bestSectors[2] && tr.bestSectors[2] !== Infinity && tr.bestSectors[2] > 0;
-                return false;
+                
+                // Mostramos el coche en CUALQUIER pestaña siempre y cuando tenga un tiempo válido en este circuito.
+                // Ya no ocultamos los coches antiguos si no tienen tiempos de sector.
+                return tr.bestLap && tr.bestLap !== "-" && tr.bestLap !== "Infinitys";
             });
 
             validCars.sort((a, b) => {
                 const trA = a.trackRecords[selectedTrack];
                 const trB = b.trackRecords[selectedTrack];
-                if (currentRankingTab === 'general') return parseFloat(trA.bestLap) - parseFloat(trB.bestLap);
-                if (currentRankingTab === 's1') return trA.bestSectors[0] - trB.bestSectors[0];
-                if (currentRankingTab === 's2') return trA.bestSectors[1] - trB.bestSectors[1];
-                if (currentRankingTab === 's3') return trA.bestSectors[2] - trB.bestSectors[2];
-                return 0;
+                
+                // Función segura para obtener el valor numérico y mandar al fondo a los que no tienen récord
+                const getVal = (tr, tab) => {
+                    if (tab === 'general') return parseFloat(tr.bestLap) || Infinity;
+                    if (tab === 's1') return tr.bestSectors && tr.bestSectors[0] ? tr.bestSectors[0] : Infinity;
+                    if (tab === 's2') return tr.bestSectors && tr.bestSectors[1] ? tr.bestSectors[1] : Infinity;
+                    if (tab === 's3') return tr.bestSectors && tr.bestSectors[2] ? tr.bestSectors[2] : Infinity;
+                    return Infinity;
+                };
+
+                return getVal(trA, currentRankingTab) - getVal(trB, currentRankingTab);
             });
 
             const top25 = validCars.slice(0, 25);
@@ -2380,9 +2395,12 @@
 
                 let recordTitle = "Record V.";
                 let recordValue = tr.bestLap;
-                if (currentRankingTab === 's1') { recordTitle = "Sector 1"; recordValue = formatTime(tr.bestSectors[0], false); }
-                else if (currentRankingTab === 's2') { recordTitle = "Sector 2"; recordValue = formatTime(tr.bestSectors[1], false); }
-                else if (currentRankingTab === 's3') { recordTitle = "Sector 3"; recordValue = formatTime(tr.bestSectors[2], false); }
+                
+                const formatSectorVal = (val) => (val && val !== Infinity && val > 0) ? formatTime(val, false) : "--.---";
+                
+                if (currentRankingTab === 's1') { recordTitle = "Sector 1"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[0] : null); }
+                else if (currentRankingTab === 's2') { recordTitle = "Sector 2"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[1] : null); }
+                else if (currentRankingTab === 's3') { recordTitle = "Sector 3"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[2] : null); }
 
                 html += `
                     <div class="relative w-full ${staggerClass} pt-6 pb-2 group">
@@ -2482,6 +2500,16 @@
         document.addEventListener('webkitfullscreenchange', updateFsIcons);
 
         window.onload = () => { 
+            // ACTUALIZACIÓN MASIVA DE TODOS LOS COCHES EN EL MILISEGUNDO 1 DE CARGAR LA APP
+            let needsSave = false;
+            garageCars.forEach(c => {
+                if (!c.trackRecords) {
+                    upgradeCarData(c);
+                    needsSave = true;
+                }
+            });
+            if (needsSave) saveGarageToLocal();
+
             updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); initTracks();
             const carSelect = document.getElementById('car-model-input');
             if(garageCars.length > 0) {
