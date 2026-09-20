@@ -799,9 +799,11 @@
             <!-- Content Split: 2 Columns -->
             <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-4 min-h-0 relative z-10">
                 
-                <!-- Left Column: Photo (Col Span 7) -->
-                <div class="md:col-span-7 flex flex-col gap-3 min-h-0">
-                    <div class="w-full h-full border-2 border-emerald-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(16,185,129,0.2)]">
+                <!-- Left Column: Photo & Telemetry (Col Span 7) -->
+                <div class="md:col-span-7 flex flex-col gap-4 min-h-0">
+                    
+                    <!-- Photo (Achatada / Panorámica) -->
+                    <div class="w-full h-48 md:h-[45%] shrink-0 border-2 border-emerald-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(16,185,129,0.2)]">
                         <img id="track-img" src="" class="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-500">
                         <div id="track-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
                             <button id="btn-track-galeria" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Galería</button>
@@ -810,66 +812,66 @@
                             <input type="file" id="track-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
                     </div>
-                </div>
 
-                <!-- Right Column: Specs & Stats (Col Span 5) -->
-                <div class="md:col-span-5 flex flex-col gap-3 min-h-0">
-                    
-                    <!-- Title display (when not editing) -->
-                    <div id="t-val-name-display" class="t-val text-2xl md:text-3xl font-black text-emerald-300 uppercase tracking-widest border-b border-emerald-800 pb-2 shadow-sm text-center drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]"></div>
-
-                    <!-- Tech Specs Panel -->
-                    <div class="flex-1 bg-gradient-to-b from-slate-900 to-black rounded-lg border border-emerald-500/40 p-3 overflow-y-auto custom-tv-scroll shadow-[inset_0_0_20px_rgba(16,185,129,0.1)]">
-                        <h4 class="text-emerald-500 text-xs font-bold uppercase tracking-widest mb-3 border-b border-emerald-900 pb-1">Ficha Técnica</h4>
-                        
-                        <div class="space-y-3">
-                            <div class="flex flex-col">
-                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Longitud (m)</span>
-                                <span id="t-val-length" class="t-val font-bold text-2xl text-white font-mono"></span>
-                                <input type="number" id="t-inp-length" step="0.5" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+                    <!-- Global Telemetry Panel (Movido debajo de la foto) -->
+                    <div class="flex-1 bg-black/60 rounded-lg border border-emerald-600/50 p-3 shadow-[0_0_15px_rgba(16,185,129,0.2)] flex flex-col min-h-0">
+                        <h4 class="text-emerald-400 text-[10px] md:text-xs font-black uppercase tracking-widest text-center mb-3 shrink-0">Telemetría Global Acumulada</h4>
+                        <div class="grid grid-cols-2 gap-3 flex-1 min-h-0">
+                            <div class="bg-slate-900/80 p-2 rounded-lg flex flex-col justify-center items-center border border-fuchsia-900/50">
+                                <span class="text-[9px] text-fuchsia-500 uppercase font-bold tracking-wider text-center">Récord Absoluto</span>
+                                <span id="t-stat-record" class="text-fuchsia-300 font-mono font-black text-xl lg:text-3xl drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] mt-1">--.---</span>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Superficie</span>
-                                <span id="t-val-surface" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
-                                <input type="text" id="t-inp-surface" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" list="list-superficies">
+                            <div class="bg-slate-900/80 p-2 rounded-lg flex flex-col justify-center items-center border border-cyan-900/50">
+                                <span class="text-[9px] text-cyan-500 uppercase font-bold tracking-wider text-center">Velocidad Media</span>
+                                <span id="t-stat-speed" class="text-cyan-300 font-mono font-black text-xl lg:text-3xl drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] mt-1">--.-</span>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Tipo de Trazado</span>
-                                <span id="t-val-type" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
-                                <input type="text" id="t-inp-type" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" placeholder="Ej: Velocidad, Técnico, Rally...">
+                            <div class="bg-slate-900/80 p-2 rounded-lg flex flex-col justify-center items-center border border-emerald-900/50">
+                                <span class="text-[9px] text-emerald-500 uppercase font-bold tracking-wider text-center">Distancia Total</span>
+                                <span id="t-stat-dist" class="text-emerald-300 font-mono font-black text-xl lg:text-3xl drop-shadow-[0_0_8px_rgba(16,185,129,0.8)] mt-1">--.-</span>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Nivel de Grip</span>
-                                <span id="t-val-grip" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
-                                <input type="text" id="t-inp-grip" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" placeholder="Ej: Alto, Medio, Bajo">
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Voltaje Recomendado</span>
-                                <span id="t-val-voltage" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
-                                <input type="text" id="t-inp-voltage" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" placeholder="Ej: 12V, 14V...">
+                            <div class="bg-slate-900/80 p-2 rounded-lg flex flex-col justify-center items-center border border-orange-900/50">
+                                <span class="text-[9px] text-orange-500 uppercase font-bold tracking-wider text-center">Tiempo de Uso</span>
+                                <span id="t-stat-time" class="text-orange-300 font-mono font-black text-base lg:text-2xl drop-shadow-[0_0_8px_rgba(249,115,22,0.8)] mt-1">--h --m --s</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Global Telemetry Panel -->
-                    <div class="bg-black/60 rounded-lg border border-emerald-600/50 p-2 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                        <h4 class="text-emerald-400 text-[10px] font-black uppercase tracking-widest text-center mb-2">Telemetría Global Acumulada</h4>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-fuchsia-900/50">
-                                <span class="text-[8px] text-fuchsia-500 uppercase font-bold">Récord Absoluto</span>
-                                <span id="t-stat-record" class="text-fuchsia-300 font-mono font-bold text-base drop-shadow-[0_0_5px_rgba(217,70,239,0.8)]">--.---</span>
+                <!-- Right Column: Specs & Stats (Col Span 5) -->
+                <div class="md:col-span-5 flex flex-col gap-4 min-h-0">
+                    
+                    <!-- Title display (when not editing) -->
+                    <div id="t-val-name-display" class="t-val text-2xl md:text-3xl font-black text-emerald-300 uppercase tracking-widest border-b border-emerald-800 pb-2 shadow-sm text-center drop-shadow-[0_0_10px_rgba(52,211,153,0.5)] shrink-0"></div>
+
+                    <!-- Tech Specs Panel (Ahora ocupa toda la columna derecha) -->
+                    <div class="flex-1 bg-gradient-to-b from-slate-900 to-black rounded-lg border border-emerald-500/40 p-4 overflow-y-auto custom-tv-scroll shadow-[inset_0_0_20px_rgba(16,185,129,0.1)] flex flex-col">
+                        <h4 class="text-emerald-500 text-sm font-bold uppercase tracking-widest mb-4 border-b border-emerald-900 pb-2 shrink-0">Ficha Técnica</h4>
+                        
+                        <div class="space-y-3 flex-1">
+                            <div class="flex flex-col bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 shadow-inner">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest mb-1">Longitud (m)</span>
+                                <span id="t-val-length" class="t-val font-black text-2xl text-white font-mono drop-shadow-md"></span>
+                                <input type="number" id="t-inp-length" step="0.5" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white font-bold text-lg rounded px-3 py-1 outline-none focus:shadow-[0_0_15px_rgba(16,185,129,0.5)]">
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-cyan-900/50">
-                                <span class="text-[8px] text-cyan-500 uppercase font-bold">Velocidad Media</span>
-                                <span id="t-stat-speed" class="text-cyan-300 font-mono font-bold text-base drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]">--.-</span>
+                            <div class="flex flex-col bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 shadow-inner">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest mb-1">Superficie</span>
+                                <span id="t-val-surface" class="t-val font-black text-xl text-emerald-200 uppercase drop-shadow-md"></span>
+                                <input type="text" id="t-inp-surface" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white font-bold text-lg rounded px-3 py-1 outline-none focus:shadow-[0_0_15px_rgba(16,185,129,0.5)]" list="list-superficies">
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-emerald-900/50">
-                                <span class="text-[8px] text-emerald-500 uppercase font-bold">Distancia Total</span>
-                                <span id="t-stat-dist" class="text-emerald-300 font-mono font-bold text-base drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]">--.-</span>
+                            <div class="flex flex-col bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 shadow-inner">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest mb-1">Tipo de Trazado</span>
+                                <span id="t-val-type" class="t-val font-black text-xl text-emerald-200 uppercase drop-shadow-md"></span>
+                                <input type="text" id="t-inp-type" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white font-bold text-lg rounded px-3 py-1 outline-none focus:shadow-[0_0_15px_rgba(16,185,129,0.5)]" placeholder="Ej: Velocidad, Técnico, Rally...">
                             </div>
-                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-orange-900/50">
-                                <span class="text-[8px] text-orange-500 uppercase font-bold">Tiempo de Uso</span>
-                                <span id="t-stat-time" class="text-orange-300 font-mono font-bold text-sm drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]">--h --m --s</span>
+                            <div class="flex flex-col bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 shadow-inner">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest mb-1">Nivel de Grip</span>
+                                <span id="t-val-grip" class="t-val font-black text-xl text-emerald-200 uppercase drop-shadow-md"></span>
+                                <input type="text" id="t-inp-grip" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white font-bold text-lg rounded px-3 py-1 outline-none focus:shadow-[0_0_15px_rgba(16,185,129,0.5)]" placeholder="Ej: Alto, Medio, Bajo">
+                            </div>
+                            <div class="flex flex-col bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 shadow-inner">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest mb-1">Voltaje Recomendado</span>
+                                <span id="t-val-voltage" class="t-val font-black text-xl text-emerald-200 uppercase drop-shadow-md"></span>
+                                <input type="text" id="t-inp-voltage" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white font-bold text-lg rounded px-3 py-1 outline-none focus:shadow-[0_0_15px_rgba(16,185,129,0.5)]" placeholder="Ej: 12V, 14V...">
                             </div>
                         </div>
                     </div>
