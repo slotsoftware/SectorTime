@@ -808,6 +808,7 @@
                         <div id="track-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
                             <button id="btn-track-galeria" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Galería</button>
                             <button id="btn-track-camara" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Cámara</button>
+                            <button id="btn-track-rois" class="text-yellow-300 text-[11px] font-bold uppercase tracking-widest border border-yellow-400 px-4 py-2 rounded flex items-center hover:bg-yellow-400 hover:text-black transition-all w-36 justify-center">Capturar ROIs</button>
                             <input type="file" id="track-img-input-galeria" accept="image/*" class="hidden">
                             <input type="file" id="track-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
@@ -1933,7 +1934,78 @@
         if(document.getElementById('btn-track-camara')) {
             document.getElementById('btn-track-camara').addEventListener('click', (e) => { e.stopPropagation(); if(isTrackEditing) document.getElementById('track-img-input-camara').click(); });
         }
+        if(document.getElementById('btn-track-rois')) {
+            document.getElementById('btn-track-rois').addEventListener('click', (e) => { e.stopPropagation(); if(isTrackEditing) captureRoisForTrack(); });
+        }
         
+        function captureRoisForTrack() {
+            if (!cameraStream || !videoElement.videoWidth) {
+                showSystemModal("¡Enciende la cámara primero para poder capturar la pista!");
+                return;
+            }
+
+            // Calculamos una resolución óptima para no saturar la memoria
+            let origW = videoElement.videoWidth, origH = videoElement.videoHeight;
+            let w = origW, h = origH;
+            if (w > h) { if (w > 800) { h *= 800 / w; w = 800; } } else { if (h > 600) { w *= 600 / h; h = 600; } }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Dibujamos el fotograma del vídeo actual
+            ctx.drawImage(videoElement, 0, 0, w, h);
+
+            // 2. Dibujamos los recuadros de los sensores encima
+            const colors = ['#10b981', '#3b82f6', '#eab308', '#a855f7']; // Colores: Meta, S1, S2, S3
+            const labels = ['META', 'S1', 'S2', 'S3'];
+
+            for (let i = 0; i < activeRoisCount; i++) {
+                const data = roiData[i];
+                const leftPct = parseFloat(data.el.style.left) || 0;
+                const topPct = parseFloat(data.el.style.top) || 0;
+                const widthPct = parseFloat(data.el.style.width) || 0;
+                const heightPct = parseFloat(data.el.style.height) || 0;
+
+                const x = (leftPct / 100) * w;
+                const y = (topPct / 100) * h;
+                const boxW = (widthPct / 100) * w;
+                const boxH = (heightPct / 100) * h;
+
+                // Estilo del borde y sombra (Glow)
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = 10;
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = colors[i];
+                ctx.strokeRect(x, y, boxW, boxH);
+                ctx.shadowBlur = 0; // Resetear sombra
+                
+                // Relleno semitransparente igual que en la app
+                ctx.fillStyle = colors[i] + '33'; // ~20% opacidad
+                ctx.fillRect(x, y, boxW, boxH);
+
+                // Cartelito del nombre del sector
+                ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                ctx.fillRect(x, y, 50, 22);
+                ctx.fillStyle = colors[i];
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText(labels[i], x + 5, y + 16);
+            }
+
+            // Convertimos la obra de arte a imagen Base64
+            const b64 = canvas.toDataURL('image/jpeg', 0.7);
+
+            const track = trackCircuits[currentTrackIndex];
+            const imgId = "img_trk_" + Date.now(); 
+            track.imageId = imgId; track.image = ""; 
+            
+            // La guardamos en BBDD local y en la nube
+            ImageDB.save(imgId, b64); 
+            syncImageToCloud(imgId, b64); 
+            document.getElementById('track-img').src = b64; 
+            saveTracksToLocal(); 
+        }
+
         function procTrackImg(file) { 
             if (!file) return; 
             const reader = new FileReader(); 
