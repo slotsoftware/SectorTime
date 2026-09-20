@@ -2460,261 +2460,31 @@
         }
 
         // LÓGICA DE TABS DEL RANKING
-        const rankTabs = {
-            general: document.getElementById('tab-rank-general'),
-            s1: document.getElementById('tab-rank-s1'),
-            s2: document.getElementById('tab-rank-s2'),
-            s3: document.getElementById('tab-rank-s3')
-        };
-        
-        function switchRankingTab(tabId) {
-            currentRankingTab = tabId;
-            Object.values(rankTabs).forEach(tab => {
-                if(tab) {
-                    tab.classList.remove('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
-                    tab.classList.add('bg-slate-800', 'text-slate-400');
-                }
-            });
-            const activeTab = rankTabs[tabId];
-            if(activeTab) {
-                activeTab.classList.remove('bg-slate-800', 'text-slate-400');
-                activeTab.classList.add('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
-            }
-            openRanking(); 
-        }
-
-        if(rankTabs.general) rankTabs.general.addEventListener('click', () => switchRankingTab('general'));
-        if(rankTabs.s1) rankTabs.s1.addEventListener('click', () => switchRankingTab('s1'));
-        if(rankTabs.s2) rankTabs.s2.addEventListener('click', () => switchRankingTab('s2'));
-        if(rankTabs.s3) rankTabs.s3.addEventListener('click', () => switchRankingTab('s3'));
-
-        document.getElementById('ranking-track-select').addEventListener('change', openRanking);
-
-        async function openRanking() {
-            const container = document.getElementById('ranking-list-container');
-            container.innerHTML = '<div class="col-span-1 md:col-span-2 flex justify-center mt-20"><div class="text-amber-400 font-bold text-xl uppercase tracking-widest animate-pulse">CARGANDO PARRILLA...</div></div>';
-            
-            document.getElementById('rankingModal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10);
-
-            const trackSelect = document.getElementById('ranking-track-select');
-            let selectedTrack = trackSelect.value || document.getElementById('track-name-select').value || "Circuito 1";
-
-            // Buscar la imagen del circuito seleccionado para ponerla de fondo
-            const rankingModalWindow = document.getElementById('rankingModal').querySelector('.worn-asphalt-bg');
-            const trackData = trackCircuits.find(t => t.name === selectedTrack);
-            if (trackData && rankingModalWindow) {
-                if (trackData.imageId) {
-                    ImageDB.get(trackData.imageId).then(b => {
-                        if (b && trackSelect.value === selectedTrack) { // doble check por si el usuario cambió rápido
-                            rankingModalWindow.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url(${b})`;
-                            rankingModalWindow.style.backgroundSize = 'cover';
-                            rankingModalWindow.style.backgroundPosition = 'center';
+        const rankingTabs = ['general', 's1', 's2', 's3'];
+        rankingTabs.forEach(tab => {
+            const btn = document.getElementById(`tab-rank-${tab}`);
+            if(btn) {
+                btn.addEventListener('click', () => {
+                    currentRankingTab = tab;
+                    rankingTabs.forEach(t => {
+                        const b = document.getElementById(`tab-rank-${t}`);
+                        if(b) {
+                            if(t === tab) {
+                                b.classList.replace('bg-slate-800', 'bg-cyan-600');
+                                b.classList.replace('text-slate-400', 'text-white');
+                                b.classList.add('shadow-[0_0_10px_rgba(34,211,238,0.5)]');
+                            } else {
+                                b.classList.replace('bg-cyan-600', 'bg-slate-800');
+                                b.classList.replace('text-white', 'text-slate-400');
+                                b.classList.remove('shadow-[0_0_10px_rgba(34,211,238,0.5)]');
+                            }
                         }
                     });
-                } else if (trackData.image && trackData.image.length > 5) {
-                    rankingModalWindow.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url(${trackData.image})`;
-                    rankingModalWindow.style.backgroundSize = 'cover';
-                    rankingModalWindow.style.backgroundPosition = 'center';
-                } else {
-                    rankingModalWindow.style.backgroundImage = ''; // vuelve al asfalto desgastado por defecto
-                }
+                    if (typeof renderRanking === 'function') renderRanking();
+                });
             }
-
-            // FORZAR ACTUALIZACIÓN DE TODOS LOS COCHES AL NUEVO FORMATO
-            let needsSave = false;
-            garageCars.forEach(c => {
-                if (!c.trackRecords) {
-                    upgradeCarData(c);
-                    needsSave = true;
-                }
-            });
-            if (needsSave) saveGarageToLocal();
-
-            const validCars = garageCars.filter(c => {
-                if (!c.trackRecords || !c.trackRecords[selectedTrack]) return false;
-                const tr = c.trackRecords[selectedTrack];
-                
-                // Mostramos el coche en CUALQUIER pestaña siempre y cuando tenga un tiempo válido en este circuito.
-                // Ya no ocultamos los coches antiguos si no tienen tiempos de sector.
-                return tr.bestLap && tr.bestLap !== "-" && tr.bestLap !== "Infinitys";
-            });
-
-            validCars.sort((a, b) => {
-                const trA = a.trackRecords[selectedTrack];
-                const trB = b.trackRecords[selectedTrack];
-                
-                // Función segura para obtener el valor numérico y mandar al fondo a los que no tienen récord
-                const getVal = (tr, tab) => {
-                    if (tab === 'general') return parseFloat(tr.bestLap) || Infinity;
-                    if (tab === 's1') return tr.bestSectors && tr.bestSectors[0] ? tr.bestSectors[0] : Infinity;
-                    if (tab === 's2') return tr.bestSectors && tr.bestSectors[1] ? tr.bestSectors[1] : Infinity;
-                    if (tab === 's3') return tr.bestSectors && tr.bestSectors[2] ? tr.bestSectors[2] : Infinity;
-                    return Infinity;
-                };
-
-                return getVal(trA, currentRankingTab) - getVal(trB, currentRankingTab);
-            });
-
-            const top25 = validCars.slice(0, 25);
-
-            if (top25.length === 0) {
-                container.innerHTML = '<div class="col-span-1 md:col-span-2 text-center text-slate-400 font-bold mt-20 text-lg uppercase">Parrilla vacía en este circuito y categoría.</div>';
-                return;
-            }
-
-            const carsWithImages = await Promise.all(top25.map(async (car) => {
-                let imgSrc = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230f172a'/><text x='50' y='54' font-family='Arial' font-size='15' font-weight='900' fill='%2338bdf8' text-anchor='middle'>F1</text></svg>";
-                if (car.imageId) { const b = await ImageDB.get(car.imageId); if (b) imgSrc = b; } 
-                else if (car.image && car.image.length > 5) { imgSrc = car.image; }
-                return { ...car, displayImage: imgSrc };
-            }));
-
-            let html = '';
-            carsWithImages.forEach((car, index) => {
-                const tr = car.trackRecords[selectedTrack];
-                const pos = index + 1;
-                const isEven = pos % 2 === 0;
-                const staggerClass = isEven ? 'md:translate-y-12' : '';
-                const badgeColor = pos === 1 ? 'text-yellow-400 border-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.6)]' : 
-                                   pos === 2 ? 'text-slate-300 border-slate-300 shadow-[0_0_15px_rgba(203,213,225,0.6)]' : 
-                                   pos === 3 ? 'text-amber-600 border-amber-600 shadow-[0_0_15px_rgba(217,119,6,0.6)]' : 
-                                   'text-cyan-400 border-cyan-700 shadow-[0_0_10px_rgba(6,182,212,0.4)]';
-
-                let recordTitle = "Record V.";
-                let recordValue = tr.bestLap;
-                
-                const formatSectorVal = (val) => (val && val !== Infinity && val > 0) ? formatTime(val, false) : "--.---";
-                
-                if (currentRankingTab === 's1') { recordTitle = "Sector 1"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[0] : null); }
-                else if (currentRankingTab === 's2') { recordTitle = "Sector 2"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[1] : null); }
-                else if (currentRankingTab === 's3') { recordTitle = "Sector 3"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[2] : null); }
-
-                html += `
-                    <div class="relative w-full ${staggerClass} pt-6 pb-2 group">
-                        <div class="absolute inset-0 border-t-[4px] border-l-[4px] border-r-[4px] border-yellow-400/80 z-0 pointer-events-none shadow-[0_0_10px_rgba(250,204,21,0.3)] mt-2"></div>
-                        <div class="absolute -top-1 left-1/2 -translate-x-1/2 bg-black border-[3px] px-5 py-0.5 rounded-sm z-20 ${badgeColor}">
-                            <span class="font-black text-xl italic font-arial">P${pos}</span>
-                        </div>
-
-                        <div class="overflow-hidden p-3 flex flex-col gap-2 relative z-10 bg-slate-900/85 border-b-2 border-cyan-500 shadow-[0_10px_20px_rgba(0,0,0,0.8)] backdrop-blur-md mx-1.5 mt-1">
-                            <div class="absolute inset-0 z-0">
-                                <img src="${car.displayImage}" class="w-full h-full object-cover blur-[5px] opacity-20 group-hover:blur-[2px] group-hover:opacity-30 transition-all duration-500">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-slate-900/80 to-transparent"></div>
-                            </div>
-                            
-                            <div class="relative z-10 flex items-center gap-3 border-b border-cyan-800/60 pb-2">
-                                <div class="w-16 h-12 sm:w-20 sm:h-14 shrink-0 rounded bg-black/60 border border-cyan-500/50 shadow-[0_0_10px_rgba(34,211,238,0.2)] flex items-center justify-center overflow-hidden relative">
-                                    <img src="${car.displayImage}" class="w-full h-full object-contain p-0.5 relative z-10">
-                                </div>
-                                <div class="flex-1 min-w-0 pr-1">
-                                    <h4 class="text-white font-black text-base sm:text-lg uppercase truncate tracking-wide drop-shadow-md">${car.name}</h4>
-                                    <div class="text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest truncate">${car.marca || 'S/M'} • ${car.cat || 'GT'}</div>
-                                </div>
-                                <div class="flex flex-col items-end shrink-0 bg-emerald-950/50 p-1.5 rounded border border-emerald-800/50 min-w-[75px]">
-                                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-emerald-400 font-bold leading-none mb-1">${recordTitle}</span>
-                                    <span class="text-emerald-300 font-mono font-black text-lg sm:text-xl leading-none drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">${recordValue}</span>
-                                </div>
-                            </div>
-
-                            <div class="relative z-10 grid grid-cols-4 gap-1.5 text-center mt-1">
-                                <div class="bg-black/60 p-1.5 rounded border border-cyan-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-cyan-600 uppercase font-black tracking-wider mb-0.5">V. Media</span>
-                                    <span class="text-cyan-300 font-mono text-[10px] sm:text-[11px] font-bold">${tr.avgSpd ? tr.avgSpd.replace(' km/h','') : '0.0'} <span class="text-[7px] text-cyan-600">km/h</span></span>
-                                </div>
-                                <div class="bg-black/60 p-1.5 rounded border border-yellow-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-yellow-600 uppercase font-black tracking-wider mb-0.5">Constancia</span>
-                                    <span class="text-yellow-400 font-mono text-[10px] sm:text-[11px] font-bold">${tr.consistency || '0.0'}<span class="text-[7px] text-yellow-600">%</span></span>
-                                </div>
-                                <div class="bg-black/60 p-1.5 rounded border border-purple-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-purple-600 uppercase font-black tracking-wider mb-0.5">Distancia</span>
-                                    <span class="text-purple-300 font-mono text-[10px] sm:text-[11px] font-bold">${tr.totalDist ? tr.totalDist.replace(' km','') : '0.0'} <span class="text-[7px] text-purple-600">km</span></span>
-                                </div>
-                                <div class="bg-black/60 p-1.5 rounded border border-orange-900/40 flex flex-col justify-center">
-                                    <span class="text-[7px] text-orange-600 uppercase font-black tracking-wider mb-0.5">Uso</span>
-                                    <span class="text-orange-300 font-mono text-[9px] sm:text-[10px] font-bold truncate block w-full">${tr.totalTime || '0m 0s'}</span>
-                                </div>
-                                <div class="bg-cyan-950/30 p-1 rounded border border-cyan-900/40 flex justify-between items-center col-span-4 px-2 mt-0.5">
-                                    <span class="text-[8px] text-slate-400 uppercase font-bold tracking-widest">Setup</span>
-                                    <span class="text-cyan-200 text-[9px] font-bold truncate max-w-[75%]">${car.motor || 'Motor Serie'} | ${car.chasis || 'Chasis Estándar'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // EVENTOS BOTONES RANKING DIRECTOS
-        document.getElementById('ranking-btn').addEventListener('click', () => switchRankingTab('general'));
-        
-        document.getElementById('close-ranking-btn').addEventListener('click', () => {
-            document.getElementById('rankingModal').classList.remove('open');
-            setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300);
         });
-
-        function toggleFullScreen() {
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen(); } 
-                else if (document.documentElement.webkitRequestFullscreen) { document.documentElement.webkitRequestFullscreen(); }
-            } else {
-                if (document.exitFullscreen) { document.exitFullscreen(); } 
-                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-            }
-        }
-        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
         
-        const garageFullscreenBtn = document.getElementById('garage-fullscreen-btn');
-        if (garageFullscreenBtn) {
-            garageFullscreenBtn.addEventListener('click', toggleFullScreen);
-        }
-        
-        function updateFsIcons() {
-            const isFs = document.fullscreenElement || document.webkitFullscreenElement;
-            const enterIcon = document.getElementById('fs-icon-enter');
-            const exitIcon = document.getElementById('fs-icon-exit');
-            if (enterIcon) enterIcon.classList.toggle('hidden', !!isFs);
-            if (exitIcon) exitIcon.classList.toggle('hidden', !isFs);
-            
-            const gFsEnter = document.getElementById('g-fs-enter');
-            const gFsExit = document.getElementById('g-fs-exit');
-            if (gFsEnter && gFsExit) {
-                if (isFs) { gFsEnter.classList.add('hidden'); gFsExit.classList.remove('hidden'); } 
-                else { gFsEnter.classList.remove('hidden'); gFsExit.classList.add('hidden'); }
-            }
-        }
-        document.addEventListener('fullscreenchange', updateFsIcons);
-        document.addEventListener('webkitfullscreenchange', updateFsIcons);
-
-        window.onload = () => { 
-            // ACTUALIZACIÓN MASIVA DE TODOS LOS COCHES EN EL MILISEGUNDO 1 DE CARGAR LA APP
-            let needsSave = false;
-            garageCars.forEach(c => {
-                if (!c.trackRecords) {
-                    upgradeCarData(c);
-                    needsSave = true;
-                }
-            });
-            if (needsSave) saveGarageToLocal();
-
-            updateActiveRois(); updateLapDisplay(); stopRace(false); initGarage(); initTracks();
-            const carSelect = document.getElementById('car-model-input');
-            if(garageCars.length > 0) {
-                garageCars.forEach(c => { const o = document.createElement('option'); o.value=c.name; o.textContent=c.name; carSelect.appendChild(o); });
-                carSelect.value = garageCars[0].name;
-            }
-            
-            const cloudIdInput = document.getElementById('garage-cloud-id');
-            if (cloudIdInput && typeof cloudGarageId !== 'undefined') cloudIdInput.value = cloudGarageId;
-            
-            const initGarageCloudInterval = setInterval(() => {
-                if (window.db && window.auth && window.auth.currentUser) {
-                    clearInterval(initGarageCloudInterval);
-                    if(garageCars.length > 0) saveGarageToCloud();
-                }
-            }, 1000);
-        };
     </script>
 </body>
 </html>
