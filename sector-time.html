@@ -773,7 +773,7 @@
 
     <!-- TRACKS MODAL -->
     <div id="tracksModal" class="modal-overlay hidden" style="z-index: 310;">
-        <div class="bg-[#020617] text-white w-[96vw] md:w-[60vw] h-[85vh] md:h-[75vh] flex flex-col rounded-xl border-2 border-emerald-600 shadow-[0_0_50px_rgba(16,185,129,0.5),inset_0_0_30px_rgba(16,185,129,0.2)] p-4 font-rajdhani relative overflow-hidden" id="tracks-container">
+        <div class="bg-[#020617] text-white w-[96vw] md:w-[85vw] lg:w-[75vw] h-[90vh] md:h-[80vh] flex flex-col rounded-xl border-2 border-emerald-600 shadow-[0_0_50px_rgba(16,185,129,0.5),inset_0_0_30px_rgba(16,185,129,0.2)] p-4 relative overflow-hidden" id="tracks-container">
             <div class="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
             
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-2 mb-3 shrink-0 relative z-10">
@@ -796,31 +796,86 @@
                 <input type="text" id="t-inp-name" class="w-full bg-black/80 border-2 border-emerald-500 text-white px-3 py-2 rounded text-lg font-bold outline-none uppercase tracking-widest shadow-[0_0_15px_rgba(16,185,129,0.4)]" placeholder="Nombre de la pista...">
             </div>
 
-            <div class="flex-1 flex flex-col gap-4 min-h-0 relative z-10">
+            <!-- Content Split: 2 Columns -->
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-4 min-h-0 relative z-10">
                 
-                <div class="w-full aspect-video border-2 border-emerald-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(16,185,129,0.2)] shrink-0">
-                    <img id="track-img" src="" class="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-500">
-                    <div id="track-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
-                        <button id="btn-track-galeria" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Galería</button>
-                        <button id="btn-track-camara" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Cámara</button>
-                        <input type="file" id="track-img-input-galeria" accept="image/*" class="hidden">
-                        <input type="file" id="track-img-input-camara" accept="image/*" capture="environment" class="hidden">
+                <!-- Left Column: Photo (Col Span 7) -->
+                <div class="md:col-span-7 flex flex-col gap-3 min-h-0">
+                    <div class="w-full h-full border-2 border-emerald-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(16,185,129,0.2)]">
+                        <img id="track-img" src="" class="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-500">
+                        <div id="track-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
+                            <button id="btn-track-galeria" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Galería</button>
+                            <button id="btn-track-camara" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Cámara</button>
+                            <input type="file" id="track-img-input-galeria" accept="image/*" class="hidden">
+                            <input type="file" id="track-img-input-camara" accept="image/*" capture="environment" class="hidden">
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 text-center pb-3 pt-4 px-4 bg-gradient-to-b from-transparent to-emerald-950/60 rounded-xl border border-emerald-500/30 shadow-inner flex-1">
-                    <div class="flex flex-col justify-center bg-black/50 rounded-lg border border-emerald-900/50 p-3">
-                        <span class="text-emerald-300/80 text-[11px] uppercase font-black tracking-widest mb-1">Longitud de Pista (m)</span>
-                        <span id="t-val-length" class="g-val font-bold text-4xl text-white font-arial drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"></span>
-                        <input type="number" id="t-inp-length" step="0.5" class="g-inp mx-auto text-center w-2/3 text-lg font-bold py-1" style="height: auto;">
+                <!-- Right Column: Specs & Stats (Col Span 5) -->
+                <div class="md:col-span-5 flex flex-col gap-3 min-h-0">
+                    
+                    <!-- Title display (when not editing) -->
+                    <div id="t-val-name-display" class="t-val text-2xl md:text-3xl font-black text-emerald-300 uppercase tracking-widest border-b border-emerald-800 pb-2 shadow-sm text-center drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]"></div>
+
+                    <!-- Tech Specs Panel -->
+                    <div class="flex-1 bg-gradient-to-b from-slate-900 to-black rounded-lg border border-emerald-500/40 p-3 overflow-y-auto custom-tv-scroll shadow-[inset_0_0_20px_rgba(16,185,129,0.1)]">
+                        <h4 class="text-emerald-500 text-xs font-bold uppercase tracking-widest mb-3 border-b border-emerald-900 pb-1">Ficha Técnica</h4>
+                        
+                        <div class="space-y-3">
+                            <div class="flex flex-col">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Longitud (m)</span>
+                                <span id="t-val-length" class="t-val font-bold text-2xl text-white font-mono"></span>
+                                <input type="number" id="t-inp-length" step="0.5" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Superficie</span>
+                                <span id="t-val-surface" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
+                                <input type="text" id="t-inp-surface" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" list="list-superficies">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Tipo de Trazado</span>
+                                <span id="t-val-type" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
+                                <input type="text" id="t-inp-type" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" placeholder="Ej: Velocidad, Técnico, Rally...">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Nivel de Grip</span>
+                                <span id="t-val-grip" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
+                                <input type="text" id="t-inp-grip" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" placeholder="Ej: Alto, Medio, Bajo">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-emerald-300/60 text-[10px] uppercase font-bold tracking-widest">Voltaje Recomendado</span>
+                                <span id="t-val-voltage" class="t-val font-bold text-lg text-emerald-200 uppercase"></span>
+                                <input type="text" id="t-inp-voltage" class="t-inp hidden w-full bg-black border-2 border-emerald-500 text-white rounded px-2 py-1 outline-none focus:shadow-[0_0_10px_rgba(16,185,129,0.5)]" placeholder="Ej: 12V, 14V...">
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex flex-col justify-center bg-black/50 rounded-lg border border-emerald-900/50 p-3">
-                        <span class="text-emerald-300/80 text-[11px] uppercase font-black tracking-widest mb-1">Superficie</span>
-                        <span id="t-val-surface" class="g-val font-bold text-3xl text-emerald-200 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
-                        <input type="text" id="t-inp-surface" class="g-inp mx-auto text-center w-5/6 text-base font-bold py-1" placeholder="Asfalto, Tierra, Nieve..." list="list-superficies" style="height: auto;">
+
+                    <!-- Global Telemetry Panel -->
+                    <div class="bg-black/60 rounded-lg border border-emerald-600/50 p-2 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                        <h4 class="text-emerald-400 text-[10px] font-black uppercase tracking-widest text-center mb-2">Telemetría Global Acumulada</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-fuchsia-900/50">
+                                <span class="text-[8px] text-fuchsia-500 uppercase font-bold">Récord Absoluto</span>
+                                <span id="t-stat-record" class="text-fuchsia-300 font-mono font-bold text-base drop-shadow-[0_0_5px_rgba(217,70,239,0.8)]">--.---</span>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-cyan-900/50">
+                                <span class="text-[8px] text-cyan-500 uppercase font-bold">Velocidad Media</span>
+                                <span id="t-stat-speed" class="text-cyan-300 font-mono font-bold text-base drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]">--.-</span>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-emerald-900/50">
+                                <span class="text-[8px] text-emerald-500 uppercase font-bold">Distancia Total</span>
+                                <span id="t-stat-dist" class="text-emerald-300 font-mono font-bold text-base drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]">--.-</span>
+                            </div>
+                            <div class="bg-slate-900/80 p-2 rounded flex flex-col justify-center items-center border border-orange-900/50">
+                                <span class="text-[8px] text-orange-500 uppercase font-bold">Tiempo de Uso</span>
+                                <span id="t-stat-time" class="text-orange-300 font-mono font-bold text-sm drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]">--h --m --s</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
             <datalist id="list-superficies">
                 <option value="Asfalto"></option><option value="Tierra / Rally"></option><option value="Nieve / Hielo"></option><option value="Madera"></option><option value="Mixta"></option>
             </datalist>
@@ -1683,7 +1738,7 @@
             const track = trackCircuits[index];
             
             const imgEl = document.getElementById('track-img');
-            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23020617'/><circle cx='50' cy='40' r='15' fill='none' stroke='%2310b981' stroke-width='3'/><path d='M35 60 L65 60 L50 35 Z' fill='none' stroke='%2310b981' stroke-width='2'/><text x='50' y='75' font-family='Arial' font-size='8' font-weight='900' fill='%2334d399' text-anchor='middle' letter-spacing='1'>SIN IMAGEN DE CIRCUITO</text></svg>";
+            const defaultImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23020617'/><text x='50' y='54' font-family='Arial' font-size='8' font-weight='900' fill='%2310b981' text-anchor='middle' letter-spacing='1'>SIN IMAGEN DE CIRCUITO</text></svg>";
 
             imgEl.src = "";
             imgEl.classList.add('opacity-50', 'animate-pulse');
@@ -1709,6 +1764,7 @@
                 imgEl.classList.remove('opacity-50', 'animate-pulse');
             }
             
+            document.getElementById('t-val-name-display').textContent = track.name || "";
             document.getElementById('t-inp-name').value = track.name || "";
             
             document.getElementById('t-val-length').textContent = track.length || "15";
@@ -1716,6 +1772,15 @@
             
             document.getElementById('t-val-surface').textContent = track.surface || "Asfalto";
             document.getElementById('t-inp-surface').value = track.surface || "Asfalto";
+            
+            document.getElementById('t-val-type').textContent = track.type || "-";
+            document.getElementById('t-inp-type').value = track.type || "";
+            
+            document.getElementById('t-val-grip').textContent = track.grip || "-";
+            document.getElementById('t-inp-grip').value = track.grip || "";
+            
+            document.getElementById('t-val-voltage').textContent = track.voltage || "-";
+            document.getElementById('t-inp-voltage').value = track.voltage || "";
 
             // Cálculos dinámicos de Estadísticas del Circuito
             let bestTime = Infinity;
@@ -1759,15 +1824,23 @@
         function toggleTrackEdit(editing) {
             isTrackEditing = editing;
             const container = document.getElementById('tracks-container');
+            
+            const vals = container.querySelectorAll('.t-val');
+            const inps = container.querySelectorAll('.t-inp');
+            
             if (editing) { 
-                container.classList.add('g-editing'); 
+                vals.forEach(v => v.classList.add('hidden'));
+                inps.forEach(i => i.classList.remove('hidden'));
+                
                 document.getElementById('track-edit-btn').classList.add('hidden'); 
                 document.getElementById('track-save-btn').classList.remove('hidden'); 
                 document.getElementById('track-img-overlay').classList.remove('hidden'); 
                 document.getElementById('track-name-edit-container').classList.remove('hidden'); 
                 document.getElementById('track-select-modal').classList.add('hidden'); 
             } else { 
-                container.classList.remove('g-editing'); 
+                vals.forEach(v => v.classList.remove('hidden'));
+                inps.forEach(i => i.classList.add('hidden'));
+                
                 document.getElementById('track-edit-btn').classList.remove('hidden'); 
                 document.getElementById('track-save-btn').classList.add('hidden'); 
                 document.getElementById('track-img-overlay').classList.add('hidden'); 
@@ -1785,6 +1858,9 @@
             track.name = newName;
             track.length = parseFloat(document.getElementById('t-inp-length').value) || 15;
             track.surface = document.getElementById('t-inp-surface').value || "Asfalto";
+            track.type = document.getElementById('t-inp-type').value || "";
+            track.grip = document.getElementById('t-inp-grip').value || "";
+            track.voltage = document.getElementById('t-inp-voltage').value || "";
             
             // Renombrar en los récords de los coches si cambió el nombre
             if (oldName !== newName) {
@@ -1825,7 +1901,7 @@
         document.getElementById('track-add-btn').addEventListener('click', () => {
             const newTrack = { 
                 id: `TRK${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`, 
-                name: "Nuevo Circuito", length: 15, surface: "Asfalto", imageId: "", image: "" 
+                name: "Nuevo Circuito", length: 15, surface: "Asfalto", imageId: "", image: "", type: "", grip: "", voltage: ""
             };
             trackCircuits.push(newTrack);
             currentTrackIndex = trackCircuits.length - 1;
