@@ -323,6 +323,10 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-amber-400 group-hover:-translate-y-0.5 transition-transform"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14" fill="currentColor" fill-opacity="0.2"/><path d="M15 17H9"/></svg>
                             <span class="text-[11px] font-black uppercase tracking-widest hidden sm:inline" data-i18n="rankingBtn">Sectores</span>
                         </button>
+                        <button id="guide-btn" class="flex items-center text-pink-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-pink-950 border border-pink-700 shadow-[0_0_10px_rgba(236,72,153,0.2)] hover:shadow-[0_0_15px_rgba(236,72,153,0.6)] transition group" title="Guía Rápida">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-pink-400 group-hover:scale-110 transition-transform"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <span class="text-[11px] font-black uppercase tracking-widest hidden sm:inline" data-i18n="guideBtn">Guía</span>
+                        </button>
                     </div>
                 </div>
 
@@ -955,6 +959,52 @@
         </div>
     </div>
 
+    <!-- GUIDE MODAL -->
+    <div id="guideModal" class="modal-overlay hidden" style="z-index: 400;">
+        <div class="modal-content p-6 max-w-3xl w-[95%] bg-slate-900 border-2 border-pink-500 shadow-[0_0_30px_rgba(236,72,153,0.3)] rounded-xl flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center border-b border-pink-800 pb-3 mb-4 shrink-0">
+                <h2 class="text-2xl font-black text-pink-400 uppercase tracking-widest flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span data-i18n="guideTitle">Guía Rápida de Inicio</span>
+                </h2>
+                <button id="close-guide-btn" class="text-slate-400 hover:text-pink-400 font-bold text-xl px-2 transition-all">X</button>
+            </div>
+            <div class="overflow-y-auto custom-tv-scroll pr-2 space-y-4 flex-1">
+                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-pink-900/50 text-pink-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-pink-500 mt-1">1</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step1Title">1. Cámara y Sensores</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step1Desc">Enciende la cámara (CAM ON). Enfoca la pista fijamente y mueve los cuadrados de colores (ROIs) a las zonas donde pasará el coche (Meta, Sectores). Pasa el coche un par de veces para comprobar que los detecta correctamente.</p>
+                    </div>
+                </div>
+                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-emerald-900/50 text-emerald-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-emerald-500 mt-1">2</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step2Title">2. Guardar el Circuito</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step2Desc">Abre 'Circuitos'. Pulsa 'Añadir', ponle un nombre a tu pista y pulsa 'Editar'. Toca el botón 'Capturar ROIs' para guardar la foto de la pista con los sensores colocados. Luego pulsa 'Guardar' y 'Salir'.</p>
+                    </div>
+                </div>
+                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-cyan-900/50 text-cyan-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-cyan-500 mt-1">3</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step3Title">3. Preparar el Coche</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step3Desc">Abre 'Garaje'. Pulsa 'Añadir' para crear tu coche en el listado. A la derecha, asegúrate de tener seleccionado el circuito que creaste. Cuando estés listo, pulsa el botón 'Pilotar' (arriba a la derecha) para salir a pista.</p>
+                    </div>
+                </div>
+                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
+                    <div class="bg-yellow-900/50 text-yellow-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-yellow-500 mt-1">4</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step4Title">4. ¡A Correr!</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step4Desc">En la pantalla principal, revisa que tu coche y tu pista estén correctamente seleccionados. Elige el límite de vueltas, pulsa el botón verde 'INICIAR' y espera a que el semáforo te dé la salida. ¡Suerte!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 shrink-0 flex justify-center">
+                <button id="guide-ok-btn" class="bg-pink-700 hover:bg-pink-600 text-white font-bold py-2 px-8 rounded-lg shadow-md transition w-full sm:w-auto uppercase tracking-widest text-sm">¡Entendido!</button>
+            </div>
+        </div>
+    </div>
+
     <!-- DATALISTS (AUTO-HELP) -->
     <datalist id="list-marcas"><option value="Scalextric / SCX"></option><option value="Ninco"></option><option value="NSR"></option><option value="Slot.it"></option><option value="Scaleauto"></option><option value="Carrera"></option><option value="Avant Slot"></option><option value="Fly Car Model"></option><option value="Sideways"></option><option value="SRC"></option><option value="Policar"></option><option value="Revoslot"></option><option value="Thunderslot"></option></datalist>
     <datalist id="list-categorias"><option value="Rally"></option><option value="Resistencia"></option><option value="Fórmula 1"></option><option value="GT"></option><option value="DTM"></option><option value="WTCC / ETCR"></option><option value="LMP"></option><option value="Raid / Dakar"></option><option value="Clásicos"></option><option value="Monomarcas"></option></datalist>
@@ -966,11 +1016,11 @@
     <script>
         const translations = {
             es: { 
-                langLabel: "Idioma", trackName: "Circuito", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Long. (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Sectores", tracksBtn: "Circuitos", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING POR SECTORES", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
+                langLabel: "Idioma", trackName: "Circuito", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Long. (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Sectores", tracksBtn: "Circuitos", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING POR SECTORES", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector", guideBtn: "Guía", guideTitle: "Guía Rápida de Inicio", step1Title: "1. Cámara y Sensores", step1Desc: "Enciende la cámara (CAM ON). Enfoca la pista fijamente y mueve los cuadrados de colores (ROIs) a las zonas donde pasará el coche (Meta, Sectores). Pasa el coche un par de veces para comprobar que los detecta correctamente.", step2Title: "2. Guardar el Circuito", step2Desc: "Abre 'Circuitos'. Pulsa 'Añadir', ponle un nombre a tu pista y pulsa 'Editar'. Toca el botón 'Capturar ROIs' para guardar la foto de la pista con los sensores colocados. Luego pulsa 'Guardar' y 'Salir'.", step3Title: "3. Preparar el Coche", step3Desc: "Abre 'Garaje'. Pulsa 'Añadir' para crear tu coche en el listado. A la derecha, asegúrate de tener seleccionado el circuito que creaste. Cuando estés listo, pulsa el botón 'Pilotar' (arriba a la derecha) para salir a pista.", step4Title: "4. ¡A Correr!", step4Desc: "En la pantalla principal, revisa que tu coche y tu pista estén correctamente seleccionados. Elige el límite de vueltas, pulsa el botón verde 'INICIAR' y espera a que el semáforo te dé la salida. ¡Suerte!",
                 reqTitleEx: "Especificaciones Técnicas (Ref. Galaxy Tab S9)", reqSocTitle: "Procesador (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.", reqOpticTitle: "Sensor Óptico", reqOpticDesc: "60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.", reqRamTitle: "Memoria / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.", reqLightTitle: "Entorno Fotométrico", reqLightDesc: "> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).", reqMechTitle: "Estabilidad Mecánica", reqMechDesc: "Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.", reqDispTitle: "Pantalla / Refresco", reqDispDesc: "Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.", reqWebTitle: "Motor de Render", reqWebDesc: "Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.", reqNpuTitle: "Aceleración NPU", reqNpuDesc: "Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.", reqThermTitle: "Gestión Térmica", reqThermDesc: "Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).", reqNoteCrit: "NOTA CRÍTICA:", reqNoteEx: "El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas."
             },
             en: { 
-                langLabel: "Language", trackName: "Track Name", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Sectors", tracksBtn: "Tracks", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "SECTORS RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
+                langLabel: "Language", trackName: "Track Name", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Sectors", tracksBtn: "Tracks", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "SECTORS RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times", guideBtn: "Guide", guideTitle: "Quick Start Guide", step1Title: "1. Camera & Sensors", step1Desc: "Turn on the camera (CAM ON). Keep the device completely still and move the colored boxes (ROIs) to where the car will pass. Run the car a few times to test detection.", step2Title: "2. Save the Track", step2Desc: "Open 'Tracks'. Click 'Add', name your track and click 'Edit'. Click 'Capture ROIs' to save a photo of the track with sensor positions. Click 'Save' and 'Exit'.", step3Title: "3. Prepare your Car", step3Desc: "Open 'Garage'. Click 'Add' to create your car. On the right, select the track you just created. Click 'Drive' (top right) to load it into the main screen.", step4Title: "4. Let's Race!", step4Desc: "On the main screen, check that your car and track are selected in the 'Pilot & Track Data' panel. Set the lap limit, click 'START' and wait for the green lights.",
                 reqTitleEx: "Technical Specifications (Ref. Galaxy Tab S9)", reqSocTitle: "Processor (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capable of processing 60 RGB matrices/s without thermal throttling.", reqOpticTitle: "Optical Sensor", reqOpticDesc: "Locked 60 FPS at 1080p. Requires Auto-Focus lock (AF-Lock) and fixed white balance.", reqRamTitle: "Memory / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) for continuous video buffering with internal latency < 15ms.", reqLightTitle: "Photometric Env.", reqLightDesc: "> 500 LUX continuous LED light. Avoid fluorescent tubes (prevents 50/60Hz flickering).", reqMechTitle: "Mechanical Stability", reqMechDesc: "Industrial tripod or VESA arm. Movement tolerance < 1mm. Zero micro-vibrations on the table.", reqDispTitle: "Display / Refresh", reqDispDesc: "120Hz AMOLED panel for pure visual telemetry synchronization without screen tearing.", reqWebTitle: "Render Engine", reqWebDesc: "Chrome v115+ / Safari 16+. HW acceleration and GPU Rasterization strictly forced.", reqNpuTitle: "NPU Acceleration", reqNpuDesc: "Dedicated AI unit for massive color matrix calculations without saturating CPU cores.", reqThermTitle: "Thermal Mngmt.", reqThermDesc: "Passive Vapor Chamber to guarantee performance in endurance racing (+1h).", reqNoteCrit: "CRITICAL NOTE:", reqNoteEx: "The optical engine is a high-frequency scanner. Inferior devices will generate latency, time skips, and false readings."
             }
         };
@@ -1893,6 +1943,15 @@
         });
 
         document.getElementById('close-tracks-btn').addEventListener('click', () => {
+            // Sincronizar el circuito recién gestionado/visto al panel principal
+            const currentTrack = trackCircuits[currentTrackIndex];
+            if (currentTrack) {
+                const mainSelect = document.getElementById('track-name-select');
+                if (mainSelect) {
+                    mainSelect.value = currentTrack.name;
+                    mainSelect.dispatchEvent(new Event('change'));
+                }
+            }
             document.getElementById('tracksModal').classList.remove('open');
             setTimeout(() => document.getElementById('tracksModal').classList.add('hidden'), 300);
         });
@@ -2202,6 +2261,7 @@
                         totalTime: "0h 0m 0s", totalDist: "0.000 km", avgSpd: "0.0 km/h", consistency: "0",
                         _rawTotalTime: 0, _rawTotalDist: 0, recentLaps: [], recentSpeeds: []
                     };
+                    saveGarageToLocal(); // Guardar para que persista el nuevo circuito en el coche
                 }
 
                 renderGarageCarStats(car, selectedTrack);
@@ -2394,6 +2454,15 @@
             if (garageCars.length === 0) initGarage(); else populateDropdown();
             const activeName = document.getElementById('car-model-input').value; let idx = garageCars.findIndex(c => c.name === activeName);
             currentGarageIndex = idx !== -1 ? idx : 0; if(document.getElementById('garage-car-select')) document.getElementById('garage-car-select').value = currentGarageIndex;
+            
+            // SINCRONIZAR PISTA DEL GARAJE CON LA PRINCIPAL AL ABRIR
+            const mainTrack = document.getElementById('track-name-select').value;
+            const garageTrack = document.getElementById('garage-track-select');
+            if (mainTrack && garageTrack) {
+                const exists = Array.from(garageTrack.options).some(o => o.value === mainTrack);
+                if (exists) garageTrack.value = mainTrack;
+            }
+            
             renderGarageCar(currentGarageIndex); toggleGarageEdit(false);
             if(document.getElementById('garageModal')) {
                 document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10);
@@ -2426,6 +2495,15 @@
             let exists = Array.from(carSelect.options).some(opt => opt.value === carName);
             if (!exists) { const newOpt = document.createElement('option'); newOpt.value = carName; newOpt.textContent = carName; carSelect.appendChild(newOpt); }
             carSelect.value = carName; 
+            
+            // ACTUALIZAR TAMBIÉN EL CIRCUITO PRINCIPAL
+            const garageTrackSelect = document.getElementById('garage-track-select');
+            const mainTrackSelect = document.getElementById('track-name-select');
+            if (garageTrackSelect && mainTrackSelect && garageTrackSelect.value) {
+                mainTrackSelect.value = garageTrackSelect.value;
+                mainTrackSelect.dispatchEvent(new Event('change'));
+            }
+            
             document.getElementById('close-garage-btn').click(); 
         });
 
@@ -2644,11 +2722,36 @@
         }
 
         // EVENTOS BOTONES RANKING DIRECTOS
-        document.getElementById('ranking-btn').addEventListener('click', () => switchRankingTab('general'));
+        document.getElementById('ranking-btn').addEventListener('click', () => {
+            // SINCRONIZAR PISTA DEL RANKING CON LA PRINCIPAL AL ABRIR
+            const mainTrack = document.getElementById('track-name-select').value;
+            const rankSelect = document.getElementById('ranking-track-select');
+            if (mainTrack && rankSelect) {
+                const exists = Array.from(rankSelect.options).some(o => o.value === mainTrack);
+                if (exists) rankSelect.value = mainTrack;
+            }
+            switchRankingTab('general');
+        });
         
         document.getElementById('close-ranking-btn').addEventListener('click', () => {
             document.getElementById('rankingModal').classList.remove('open');
             setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300);
+        });
+
+        // EVENTOS BOTON GUIA
+        document.getElementById('guide-btn').addEventListener('click', () => {
+            document.getElementById('guideModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('guideModal').classList.add('open'), 10);
+        });
+
+        document.getElementById('close-guide-btn').addEventListener('click', () => {
+            document.getElementById('guideModal').classList.remove('open');
+            setTimeout(() => document.getElementById('guideModal').classList.add('hidden'), 300);
+        });
+
+        document.getElementById('guide-ok-btn').addEventListener('click', () => {
+            document.getElementById('guideModal').classList.remove('open');
+            setTimeout(() => document.getElementById('guideModal').classList.add('hidden'), 300);
         });
 
         function toggleFullScreen() {
