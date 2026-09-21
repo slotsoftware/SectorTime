@@ -806,6 +806,7 @@
                     <div class="w-full h-48 md:h-[45%] shrink-0 border-2 border-emerald-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(16,185,129,0.2)]">
                         <img id="track-img" src="" class="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-500">
                         <div id="track-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
+                            <button id="btn-track-snapshot" class="text-yellow-300 text-[11px] font-bold uppercase tracking-widest border border-yellow-400 px-4 py-2 rounded flex items-center hover:bg-yellow-400 hover:text-black hover:shadow-[0_0_20px_rgba(250,204,21,0.8)] transition-all w-36 justify-center">Capturar ROIs</button>
                             <button id="btn-track-galeria" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Galería</button>
                             <button id="btn-track-camara" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Cámara</button>
                             <input type="file" id="track-img-input-galeria" accept="image/*" class="hidden">
@@ -1927,6 +1928,65 @@
         });
 
         // Imágenes de pistas
+        if(document.getElementById('btn-track-snapshot')) {
+            document.getElementById('btn-track-snapshot').addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                if(!isTrackEditing) return; 
+                
+                const vid = document.getElementById('webcam-feed');
+                // Verificar si la cámara está activa midiendo si hay dimensiones de vídeo
+                if(!vid.videoWidth || vid.videoWidth === 0) {
+                    showSystemModal("Enciende la cámara en la pantalla principal para capturar la vista de los ROIs.");
+                    return;
+                }
+
+                // Crear un canvas temporal con la resolución del vídeo
+                const cvs = document.createElement('canvas');
+                cvs.width = vid.videoWidth;
+                cvs.height = vid.videoHeight;
+                const ctx = cvs.getContext('2d');
+                
+                // Dibujar el fotograma actual del vídeo
+                ctx.drawImage(vid, 0, 0, cvs.width, cvs.height);
+                
+                // Configuración para dibujar los ROIs virtuales encima
+                ctx.lineWidth = Math.max(3, cvs.width / 150);
+                const colors = ['#10b981', '#3b82f6', '#eab308', '#a855f7']; // Colores de Meta, S1, S2, S3
+                
+                for(let i=0; i<activeRoisCount; i++) {
+                    const data = roiData[i];
+                    // Convertir los porcentajes de pantalla a píxeles reales del vídeo
+                    const l = cvs.width * (parseFloat(data.el.style.left)/100);
+                    const t = cvs.height * (parseFloat(data.el.style.top)/100);
+                    const w = cvs.width * (parseFloat(data.el.style.width)/100);
+                    const h = cvs.height * (parseFloat(data.el.style.height)/100);
+                    
+                    // Dibujar rectángulo
+                    ctx.strokeStyle = colors[i];
+                    ctx.fillStyle = `rgba(${i===0?'16,185,129':i===1?'59,130,246':i===2?'234,179,8':'168,85,247'}, 0.2)`; 
+                    ctx.fillRect(l, t, w, h);
+                    ctx.strokeRect(l, t, w, h);
+                    
+                    // Etiqueta del sector
+                    ctx.fillStyle = colors[i];
+                    ctx.font = `900 ${Math.max(16, cvs.width / 35)}px Arial`;
+                    ctx.fillText(i === 0 ? 'META' : 'S'+i, l + 8, t + Math.max(16, cvs.width / 35) + 8);
+                }
+
+                // Generar la imagen y guardarla
+                const b64 = cvs.toDataURL('image/jpeg', 0.8); 
+                const track = trackCircuits[currentTrackIndex];
+                const imgId = "img_trk_" + Date.now(); 
+                track.imageId = imgId; 
+                track.image = ""; 
+                
+                ImageDB.save(imgId, b64); 
+                syncImageToCloud(imgId, b64); 
+                document.getElementById('track-img').src = b64; 
+                saveTracksToLocal(); 
+            });
+        }
+        
         if(document.getElementById('btn-track-galeria')) {
             document.getElementById('btn-track-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isTrackEditing) document.getElementById('track-img-input-galeria').click(); });
         }
