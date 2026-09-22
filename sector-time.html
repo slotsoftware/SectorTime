@@ -2745,6 +2745,44 @@
                 return tr.bestLap && tr.bestLap !== "-" && tr.bestLap !== "Infinitys";
             });
 
+            // --- NUEVA LÓGICA: Ocultar pestañas de sectores si nadie tiene tiempos ahí ---
+            let hasS1 = false, hasS2 = false, hasS3 = false;
+            validCars.forEach(c => {
+                const tr = c.trackRecords[selectedTrack];
+                if (tr.bestSectors) {
+                    if (tr.bestSectors[0] && tr.bestSectors[0] !== Infinity) hasS1 = true;
+                    if (tr.bestSectors[1] && tr.bestSectors[1] !== Infinity) hasS2 = true;
+                    if (tr.bestSectors[2] && tr.bestSectors[2] !== Infinity) hasS3 = true;
+                }
+            });
+
+            const tabS1 = document.getElementById('tab-rank-s1');
+            const tabS2 = document.getElementById('tab-rank-s2');
+            const tabS3 = document.getElementById('tab-rank-s3');
+            
+            if(tabS1) tabS1.style.display = hasS1 ? 'inline-block' : 'none';
+            if(tabS2) tabS2.style.display = hasS2 ? 'inline-block' : 'none';
+            if(tabS3) tabS3.style.display = hasS3 ? 'inline-block' : 'none';
+
+            // Si el usuario estaba en una pestaña que ahora está oculta, devolvemos la vista al "Global"
+            if ((currentRankingTab === 's1' && !hasS1) || 
+                (currentRankingTab === 's2' && !hasS2) || 
+                (currentRankingTab === 's3' && !hasS3)) {
+                
+                currentRankingTab = 'general';
+                Object.values(rankTabs).forEach(tab => {
+                    if(tab) {
+                        tab.classList.remove('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
+                        tab.classList.add('bg-slate-800', 'text-slate-400');
+                    }
+                });
+                if(rankTabs.general) {
+                    rankTabs.general.classList.remove('bg-slate-800', 'text-slate-400');
+                    rankTabs.general.classList.add('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
+                }
+            }
+            // -------------------------------------------------------------------------
+
             validCars.sort((a, b) => {
                 const trA = a.trackRecords[selectedTrack];
                 const trB = b.trackRecords[selectedTrack];
