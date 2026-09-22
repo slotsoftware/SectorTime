@@ -945,6 +945,7 @@
                     <button id="tab-rank-s1" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all shrink-0">Sector 1</button>
                     <button id="tab-rank-s2" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all shrink-0">Sector 2</button>
                     <button id="tab-rank-s3" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all shrink-0">Sector 3</button>
+                    <button id="tab-rank-s4" class="rank-tab px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all shrink-0" style="display: none;">Sector 4</button>
                 </div>
             </div>
 
@@ -1405,7 +1406,7 @@
             }
         }
 
-        function formatTime(ms, full) { if (ms === Infinity || ms <= 0) return full ? "00:00.000" : "--.---"; const m = Math.floor(ms/60000), s = Math.floor((ms%60000)/1000), ml = Math.floor(ms%1000); return full ? `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ml).padStart(3,'0')}` : `${String(s).padStart(2,'0')}.${String(ml).padStart(3,'0')}`; }
+        function formatTime(ms, full) { if (ms === Infinity || ms <= 0 || ms == null) return full ? "00:00.000" : "--.---"; const m = Math.floor(ms/60000), s = Math.floor((ms%60000)/1000), ml = Math.floor(ms%1000); return full ? `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ml).padStart(3,'0')}` : `${String(s).padStart(2,'0')}.${String(ml).padStart(3,'0')}`; }
 
         function appendToMatrixLog(idx, timeMs, diffMs, isRecord) {
             const logContainer = document.getElementById('sector-log-container'); if(!logContainer) return;
@@ -1538,7 +1539,7 @@
                 
                 const thead = document.getElementById('modal-table-head');
                 let headHTML = '<tr><th class="p-2 text-center w-12 border-b border-cyan-800">V.</th>';
-                for(let i=0; i<activeRoisCount-1; i++) headHTML += `<th class="p-2 text-right border-b border-cyan-800">S${i+1}</th>`;
+                for(let i=0; i<activeRoisCount; i++) headHTML += `<th class="p-2 text-right border-b border-cyan-800">S${i+1}</th>`;
                 headHTML += `<th class="p-2 text-right border-b border-cyan-800">Total</th><th class="p-2 text-right border-b border-cyan-800">Dif</th></tr>`;
                 thead.innerHTML = headHTML;
                 
@@ -1547,7 +1548,7 @@
                     const isBest = lap.time === bestLapTime;
                     const diff = isBest ? "BASE" : `+${((lap.time - bestLapTime)/1000).toFixed(3)}`;
                     let trHTML = `<tr class="hover:bg-cyan-900/20"><td class="p-2 text-center">${lap.lap}</td>`;
-                    for(let i=0; i<activeRoisCount-1; i++) {
+                    for(let i=0; i<activeRoisCount; i++) {
                         const isBestSector = lap.sectors[i] === bestSectorTimes[i] && lap.sectors[i] > 0;
                         const secClass = isBestSector ? 'text-fuchsia-400 font-black drop-shadow-[0_0_5px_rgba(232,121,249,0.8)]' : '';
                         trHTML += `<td class="p-2 text-right ${secClass}">${formatTime(lap.sectors[i], false)}</td>`;
@@ -1724,7 +1725,7 @@
             });
             
             const sectorColors = ['#3b82f6', '#eab308', '#a855f7', '#10b981'];
-            for(let i=0; i<activeRoisCount-1; i++) {
+            for(let i=0; i<activeRoisCount; i++) {
                 datasets.push({
                     label: `Sector ${i+1} (s)`, data: lapHistory.map(l => l.sectors[i] / 1000),
                     borderColor: sectorColors[i], borderDash: [5, 5], borderWidth: 2, tension: 0.3, hidden: false
@@ -2669,7 +2670,8 @@
             general: document.getElementById('tab-rank-general'),
             s1: document.getElementById('tab-rank-s1'),
             s2: document.getElementById('tab-rank-s2'),
-            s3: document.getElementById('tab-rank-s3')
+            s3: document.getElementById('tab-rank-s3'),
+            s4: document.getElementById('tab-rank-s4')
         };
         
         function switchRankingTab(tabId) {
@@ -2692,6 +2694,7 @@
         if(rankTabs.s1) rankTabs.s1.addEventListener('click', () => switchRankingTab('s1'));
         if(rankTabs.s2) rankTabs.s2.addEventListener('click', () => switchRankingTab('s2'));
         if(rankTabs.s3) rankTabs.s3.addEventListener('click', () => switchRankingTab('s3'));
+        if(rankTabs.s4) rankTabs.s4.addEventListener('click', () => switchRankingTab('s4'));
 
         document.getElementById('ranking-track-select').addEventListener('change', openRanking);
 
@@ -2745,29 +2748,24 @@
                 return tr.bestLap && tr.bestLap !== "-" && tr.bestLap !== "Infinitys";
             });
 
-            // --- NUEVA LÓGICA: Ocultar pestañas de sectores si nadie tiene tiempos ahí ---
-            let hasS1 = false, hasS2 = false, hasS3 = false;
-            validCars.forEach(c => {
-                const tr = c.trackRecords[selectedTrack];
-                if (tr.bestSectors) {
-                    if (tr.bestSectors[0] && tr.bestSectors[0] !== Infinity) hasS1 = true;
-                    if (tr.bestSectors[1] && tr.bestSectors[1] !== Infinity) hasS2 = true;
-                    if (tr.bestSectors[2] && tr.bestSectors[2] !== Infinity) hasS3 = true;
-                }
-            });
-
+            // --- NUEVA LÓGICA: Ocultar pestañas de sectores según la configuración de la pista ---
             const tabS1 = document.getElementById('tab-rank-s1');
             const tabS2 = document.getElementById('tab-rank-s2');
             const tabS3 = document.getElementById('tab-rank-s3');
+            const tabS4 = document.getElementById('tab-rank-s4');
             
-            if(tabS1) tabS1.style.display = hasS1 ? 'inline-block' : 'none';
-            if(tabS2) tabS2.style.display = hasS2 ? 'inline-block' : 'none';
-            if(tabS3) tabS3.style.display = hasS3 ? 'inline-block' : 'none';
+            const numRois = parseInt(document.getElementById('roi-count-select').value);
+            
+            if(tabS1) tabS1.style.display = numRois >= 2 ? 'inline-block' : 'none'; // S1 existe si hay >= 2 ROIs
+            if(tabS2) tabS2.style.display = numRois >= 2 ? 'inline-block' : 'none'; // S2 existe si hay >= 2 ROIs (tramo S1-Meta)
+            if(tabS3) tabS3.style.display = numRois >= 3 ? 'inline-block' : 'none'; // S3 existe si hay >= 3 ROIs
+            if(tabS4) tabS4.style.display = numRois >= 4 ? 'inline-block' : 'none'; // S4 existe si hay 4 ROIs
 
             // Si el usuario estaba en una pestaña que ahora está oculta, devolvemos la vista al "Global"
-            if ((currentRankingTab === 's1' && !hasS1) || 
-                (currentRankingTab === 's2' && !hasS2) || 
-                (currentRankingTab === 's3' && !hasS3)) {
+            if ((currentRankingTab === 's1' && numRois < 2) || 
+                (currentRankingTab === 's2' && numRois < 2) || 
+                (currentRankingTab === 's3' && numRois < 3) ||
+                (currentRankingTab === 's4' && numRois < 4)) {
                 
                 currentRankingTab = 'general';
                 Object.values(rankTabs).forEach(tab => {
@@ -2790,9 +2788,10 @@
                 // Función segura para obtener el valor numérico y mandar al fondo a los que no tienen récord
                 const getVal = (tr, tab) => {
                     if (tab === 'general') return parseFloat(tr.bestLap) || Infinity;
-                    if (tab === 's1') return tr.bestSectors && tr.bestSectors[0] ? tr.bestSectors[0] : Infinity;
-                    if (tab === 's2') return tr.bestSectors && tr.bestSectors[1] ? tr.bestSectors[1] : Infinity;
-                    if (tab === 's3') return tr.bestSectors && tr.bestSectors[2] ? tr.bestSectors[2] : Infinity;
+                    if (tab === 's1') return tr.bestSectors && tr.bestSectors[0] && tr.bestSectors[0] !== Infinity ? tr.bestSectors[0] : Infinity;
+                    if (tab === 's2') return tr.bestSectors && tr.bestSectors[1] && tr.bestSectors[1] !== Infinity ? tr.bestSectors[1] : Infinity;
+                    if (tab === 's3') return tr.bestSectors && tr.bestSectors[2] && tr.bestSectors[2] !== Infinity ? tr.bestSectors[2] : Infinity;
+                    if (tab === 's4') return tr.bestSectors && tr.bestSectors[3] && tr.bestSectors[3] !== Infinity ? tr.bestSectors[3] : Infinity;
                     return Infinity;
                 };
 
