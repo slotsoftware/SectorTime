@@ -157,32 +157,37 @@
         }
         @media (min-width: 768px) {
             .prometheus-title { font-size: 3rem; bottom: 48%; }
-    }
+        }
 
-    /* NUEVOS ESTILOS PARA LOS ROIS EN PERSPECTIVA (SVG) */
-    .roi-shape { transition: fill 0.1s ease, filter 0.2s ease, stroke 0.2s ease; cursor: move; }
-    .corner-handle { cursor: grab; transition: r 0.1s ease, fill 0.1s ease; }
-    .corner-handle:active { cursor: grabbing; r: 16; fill: currentColor; }
-    .corner-handle:hover { r: 14; }
-    
-    .roi-g-0 { color: #10b981; }
-    .roi-g-1 { color: #3b82f6; }
-    .roi-g-2 { color: #eab308; }
-    .roi-g-3 { color: #a855f7; }
+        .roi-box {
+            position: absolute; cursor: move; border: 3px solid rgba(255, 255, 255, 0.8); background-color: rgba(34, 211, 238, 0.15);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5), inset 0 0 15px rgba(34, 211, 238, 0.3);
+            transition: background-color 0.1s ease, box-shadow 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; 
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        #roi-0 { border-color: #10b981; color: #10b981; } 
+        #roi-1 { border-color: #3b82f6; color: #3b82f6; } 
+        #roi-2 { border-color: #eab308; color: #eab308; } 
+        #roi-3 { border-color: #a855f7; color: #a855f7; }
 
-    @keyframes pulse-expected-svg { 
-        0% { filter: drop-shadow(0 0 5px currentColor); fill: rgba(255,255,255,0.1); } 
-        50% { filter: drop-shadow(0 0 25px currentColor); fill: rgba(255,255,255,0.25); } 
-        100% { filter: drop-shadow(0 0 5px currentColor); fill: rgba(255,255,255,0.1); } 
-    }
-    .roi-expected .roi-shape { animation: pulse-expected-svg 1.5s infinite ease-in-out !important; }
-    .roi-disabled .roi-shape { opacity: 0.35 !important; stroke-dasharray: 6,6; fill: transparent !important; filter: grayscale(0.5); }
-    .roi-detected .roi-shape { fill: rgba(255, 255, 255, 0.5) !important; filter: drop-shadow(0 0 30px #fff); stroke: #fff; }
-    .roi-locked .roi-shape { stroke: #475569 !important; fill: rgba(0, 0, 0, 0.4) !important; opacity: 0.6; filter: none !important; }
+        @keyframes pulse-expected { 0% { box-shadow: 0 0 5px currentColor, inset 0 0 2px currentColor; } 50% { box-shadow: 0 0 30px currentColor, inset 0 0 15px currentColor; } 100% { box-shadow: 0 0 5px currentColor, inset 0 0 2px currentColor; } }
+        .roi-expected { animation: pulse-expected 1.5s infinite ease-in-out !important; background-color: rgba(255, 255, 255, 0.1) !important; z-index: 15; }
+        .roi-disabled { opacity: 0.35 !important; border-style: dashed !important; background-color: transparent !important; box-shadow: none !important; filter: grayscale(0.5); }
+        .roi-box.active-roi { display: flex; }
+        .roi-detected { background-color: rgba(255, 255, 255, 0.5) !important; box-shadow: 0 0 40px rgba(255, 255, 255, 0.8) !important; }
+        .roi-locked { border-color: #475569 !important; background-color: rgba(0, 0, 0, 0.3) !important; opacity: 0.5; box-shadow: none !important; }
 
-    #video-canvas { display: none; }
+        .roi-label { font-size: 14px; font-weight: 900; font-family: Arial, sans-serif; text-transform: uppercase; text-shadow: 0 0 6px #000; pointer-events: none; }
+        .detection-val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(0,0,0,0.8); color: #fff; border: 1px solid currentColor; font-size: 9px; font-weight: 600; font-family: 'Arial', sans-serif; padding: 2px 6px; border-radius: 4px; pointer-events: none; }
+        
+        .resize-handle { position: absolute; width: 44px; height: 44px; background: transparent; z-index: 20; touch-action: none; display: flex; align-items: center; justify-content: center; }
+        .resize-handle::after { content: ''; width: 14px; height: 14px; background-color: #0f172a; border: 2px solid currentColor; box-shadow: 0 0 8px currentColor; border-radius: 2px; transition: transform 0.1s ease; }
+        .resize-handle:active::after { transform: scale(1.4); background-color: currentColor; }
+        .tl { top: -22px; left: -22px; cursor: nwse-resize; } .br { bottom: -22px; right: -22px; cursor: nwse-resize; } 
+        .dragging { cursor: grabbing !important; opacity: 0.8; z-index: 30; } .resizing-nwse { cursor: nwse-resize !important; }
+        #video-canvas { display: none; }
 
-    #sector-log-container {
+        #sector-log-container {
             position: absolute; bottom: 10px; left: 10px; width: 40%; max-width: 250px;
             z-index: 40; pointer-events: none; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
         }
@@ -317,10 +322,6 @@
                         <button id="ranking-btn" class="flex items-center text-amber-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-amber-950 border border-amber-700 shadow-[0_0_10px_rgba(217,119,6,0.2)] hover:shadow-[0_0_15px_rgba(217,119,6,0.6)] transition group" title="Ranking por Sectores">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-amber-400 group-hover:-translate-y-0.5 transition-transform"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14" fill="currentColor" fill-opacity="0.2"/><path d="M15 17H9"/></svg>
                             <span class="text-[11px] font-black uppercase tracking-widest hidden sm:inline" data-i18n="rankingBtn">Sectores</span>
-                        </button>
-                        <button id="guide-btn" class="flex items-center text-pink-300 hover:text-white px-3 py-1.5 rounded-lg bg-gradient-to-b from-slate-800 to-pink-950 border border-pink-700 shadow-[0_0_10px_rgba(236,72,153,0.2)] hover:shadow-[0_0_15px_rgba(236,72,153,0.6)] transition group" title="Guía Rápida">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5 text-pink-400 group-hover:scale-110 transition-transform"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                            <span class="text-[11px] font-black uppercase tracking-widest hidden sm:inline" data-i18n="guideBtn">Guía</span>
                         </button>
                     </div>
                 </div>
@@ -495,64 +496,25 @@
                     <div id="yellow-flag-overlay"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor" class="yellow-flag-icon"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg><h3 class="text-3xl font-black text-yellow-400 uppercase tracking-widest mt-2" data-i18n="yellowFlag">BANDERA AMARILLA</h3></div>
                     <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
 
-                    <!-- NUEVO SISTEMA DE ROIs EN PERSPECTIVA 3D (SVG) -->
-                    <svg id="roi-interactive-svg" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; touch-action: none; pointer-events: none;">
+                    <svg id="roi-mask-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;">
                         <defs>
                             <mask id="hole-mask">
                                 <rect width="100%" height="100%" fill="white"/>
-                                <polygon id="mask-poly-0" fill="black" />
-                                <polygon id="mask-poly-1" fill="black" />
-                                <polygon id="mask-poly-2" fill="black" />
-                                <polygon id="mask-poly-3" fill="black" />
+                                <rect id="mask-hole-0" fill="black" x="20%" y="20%" width="30%" height="30%" /><rect id="mask-hole-1" fill="black" x="55%" y="20%" width="20%" height="20%" /><rect id="mask-hole-2" fill="black" x="20%" y="55%" width="20%" height="20%" /><rect id="mask-hole-3" fill="black" x="55%" y="55%" width="20%" height="20%" />
                             </mask>
-                            <filter id="shadow"><feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#000" flood-opacity="0.8"/></filter>
                         </defs>
-                        <rect width="100%" height="100%" fill="rgba(2, 6, 23, 0.5)" mask="url(#hole-mask)" pointer-events="none" />
-
-                        <!-- META -->
-                        <g id="roi-g-0" class="roi-group roi-g-0" data-index="0">
-                            <polygon id="poly-visual-0" class="roi-shape pointer-events-auto" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="3" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="0" data-corner="0" r="10" stroke="#10b981" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="0" data-corner="1" r="10" stroke="#10b981" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="0" data-corner="2" r="10" stroke="#10b981" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="0" data-corner="3" r="10" stroke="#10b981" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <text id="label-txt-0" font-family="Arial" font-size="16" font-weight="900" fill="#10b981" text-anchor="middle" pointer-events="none" filter="url(#shadow)" data-i18n="roiMeta">META</text>
-                            <text id="det-txt-0" font-family="Arial" font-size="10" font-weight="900" fill="#fff" text-anchor="middle" pointer-events="none" filter="url(#shadow)">RGB: 0</text>
-                        </g>
-                        <!-- S1 -->
-                        <g id="roi-g-1" class="roi-group roi-g-1" data-index="1">
-                            <polygon id="poly-visual-1" class="roi-shape pointer-events-auto" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="3" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="1" data-corner="0" r="10" stroke="#3b82f6" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="1" data-corner="1" r="10" stroke="#3b82f6" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="1" data-corner="2" r="10" stroke="#3b82f6" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="1" data-corner="3" r="10" stroke="#3b82f6" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <text id="label-txt-1" font-family="Arial" font-size="16" font-weight="900" fill="#3b82f6" text-anchor="middle" pointer-events="none" filter="url(#shadow)">S1</text>
-                            <text id="det-txt-1" font-family="Arial" font-size="10" font-weight="900" fill="#fff" text-anchor="middle" pointer-events="none" filter="url(#shadow)">RGB: 0</text>
-                        </g>
-                        <!-- S2 -->
-                        <g id="roi-g-2" class="roi-group roi-g-2" data-index="2">
-                            <polygon id="poly-visual-2" class="roi-shape pointer-events-auto" fill="rgba(234,179,8,0.15)" stroke="#eab308" stroke-width="3" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="2" data-corner="0" r="10" stroke="#eab308" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="2" data-corner="1" r="10" stroke="#eab308" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="2" data-corner="2" r="10" stroke="#eab308" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="2" data-corner="3" r="10" stroke="#eab308" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <text id="label-txt-2" font-family="Arial" font-size="16" font-weight="900" fill="#eab308" text-anchor="middle" pointer-events="none" filter="url(#shadow)">S2</text>
-                            <text id="det-txt-2" font-family="Arial" font-size="10" font-weight="900" fill="#fff" text-anchor="middle" pointer-events="none" filter="url(#shadow)">RGB: 0</text>
-                        </g>
-                        <!-- S3 -->
-                        <g id="roi-g-3" class="roi-group roi-g-3" data-index="3">
-                            <polygon id="poly-visual-3" class="roi-shape pointer-events-auto" fill="rgba(168,85,247,0.15)" stroke="#a855f7" stroke-width="3" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="3" data-corner="0" r="10" stroke="#a855f7" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="3" data-corner="1" r="10" stroke="#a855f7" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="3" data-corner="2" r="10" stroke="#a855f7" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <circle class="corner-handle pointer-events-auto" data-roi="3" data-corner="3" r="10" stroke="#a855f7" fill="rgba(15,23,42,0.8)" stroke-width="2.5" />
-                            <text id="label-txt-3" font-family="Arial" font-size="16" font-weight="900" fill="#a855f7" text-anchor="middle" pointer-events="none" filter="url(#shadow)">S3</text>
-                            <text id="det-txt-3" font-family="Arial" font-size="10" font-weight="900" fill="#fff" text-anchor="middle" pointer-events="none" filter="url(#shadow)">RGB: 0</text>
-                        </g>
+                        <rect width="100%" height="100%" fill="rgba(2, 6, 23, 0.5)" mask="url(#hole-mask)" />
                     </svg>
 
-                    <svg id="roi-mask-svg" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;"></svg>
                     <div id="sector-log-container"></div>
+
+                    <!-- ROIs (Ocultos por defecto) -->
+                    <div id="roi-container" class="hidden">
+                        <div id="roi-0" class="roi-box active-roi" style="left:20%; top:20%; width:30%; height:30%;" data-index="0"><div class="roi-label" data-i18n="roiMeta">META</div><div class="detection-val-indicator" id="det-val-0">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
+                        <div id="roi-1" class="roi-box" style="left:55%; top:20%; width:20%; height:20%;" data-index="1"><div class="roi-label">S1</div><div class="detection-val-indicator" id="det-val-1">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
+                        <div id="roi-2" class="roi-box" style="left:20%; top:55%; width:20%; height:20%;" data-index="2"><div class="roi-label">S2</div><div class="detection-val-indicator" id="det-val-2">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
+                        <div id="roi-3" class="roi-box" style="left:55%; top:55%; width:20%; height:20%;" data-index="3"><div class="roi-label">S3</div><div class="detection-val-indicator" id="det-val-3">RGB: 0</div><div class="resize-handle tl"></div><div class="resize-handle br"></div></div>
+                    </div>
                 </div>
                 <canvas id="video-canvas"></canvas>
                 <div id="video-status" class="text-center text-[10px] mt-2 text-cyan-600 font-bold uppercase tracking-wide" data-i18n="camLoading">Sensor Inactivo</div>
@@ -844,9 +806,9 @@
                     <div class="w-full h-48 md:h-[45%] shrink-0 border-2 border-emerald-400 rounded-lg overflow-hidden bg-black relative flex items-center justify-center group shadow-[0_0_25px_rgba(16,185,129,0.2)]">
                         <img id="track-img" src="" class="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-500">
                         <div id="track-img-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity hidden z-10 gap-3 backdrop-blur-sm">
-                            <button id="btn-track-snapshot" class="text-yellow-300 text-[11px] font-bold uppercase tracking-widest border border-yellow-400 px-4 py-2 rounded flex items-center hover:bg-yellow-400 hover:text-black hover:shadow-[0_0_20px_rgba(250,204,21,0.8)] transition-all w-36 justify-center">Capturar ROIs</button>
                             <button id="btn-track-galeria" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Galería</button>
                             <button id="btn-track-camara" class="text-emerald-300 text-[11px] font-bold uppercase tracking-widest border border-emerald-400 px-4 py-2 rounded flex items-center hover:bg-emerald-400 hover:text-black transition-all w-36 justify-center">Cámara</button>
+                            <button id="btn-track-rois" class="text-yellow-300 text-[11px] font-bold uppercase tracking-widest border border-yellow-400 px-4 py-2 rounded flex items-center hover:bg-yellow-400 hover:text-black transition-all w-36 justify-center">Capturar ROIs</button>
                             <input type="file" id="track-img-input-galeria" accept="image/*" class="hidden">
                             <input type="file" id="track-img-input-camara" accept="image/*" capture="environment" class="hidden">
                         </div>
@@ -993,52 +955,6 @@
         </div>
     </div>
 
-    <!-- GUIDE MODAL -->
-    <div id="guideModal" class="modal-overlay hidden" style="z-index: 400;">
-        <div class="modal-content p-6 max-w-3xl w-[95%] bg-slate-900 border-2 border-pink-500 shadow-[0_0_30px_rgba(236,72,153,0.3)] rounded-xl flex flex-col max-h-[85vh]">
-            <div class="flex justify-between items-center border-b border-pink-800 pb-3 mb-4 shrink-0">
-                <h2 class="text-2xl font-black text-pink-400 uppercase tracking-widest flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    <span data-i18n="guideTitle">Guía Rápida de Inicio</span>
-                </h2>
-                <button id="close-guide-btn" class="text-slate-400 hover:text-pink-400 font-bold text-xl px-2 transition-all">X</button>
-            </div>
-            <div class="overflow-y-auto custom-tv-scroll pr-2 space-y-4 flex-1">
-                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
-                    <div class="bg-pink-900/50 text-pink-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-pink-500 mt-1">1</div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step1Title">1. Cámara y Sensores</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step1Desc">Enciende la cámara (CAM ON). Enfoca la pista fijamente y mueve los cuadrados de colores (ROIs) a las zonas donde pasará el coche (Meta, Sectores). Pasa el coche un par de veces para comprobar que los detecta correctamente.</p>
-                    </div>
-                </div>
-                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
-                    <div class="bg-emerald-900/50 text-emerald-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-emerald-500 mt-1">2</div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step2Title">2. Guardar el Circuito</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step2Desc">Abre 'Circuitos'. Pulsa 'Añadir', ponle un nombre a tu pista y pulsa 'Editar'. Toca el botón 'Capturar ROIs' para guardar la foto de la pista con los sensores colocados. Luego pulsa 'Guardar' y 'Salir'.</p>
-                    </div>
-                </div>
-                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
-                    <div class="bg-cyan-900/50 text-cyan-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-cyan-500 mt-1">3</div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step3Title">3. Preparar el Coche</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step3Desc">Abre 'Garaje'. Pulsa 'Añadir' para crear tu coche en el listado. A la derecha, asegúrate de tener seleccionado el circuito que creaste. Cuando estés listo, pulsa el botón 'Pilotar' (arriba a la derecha) para salir a pista.</p>
-                    </div>
-                </div>
-                <div class="bg-black/50 border border-slate-700 p-4 rounded-lg flex items-start gap-4">
-                    <div class="bg-yellow-900/50 text-yellow-300 font-black text-2xl w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-yellow-500 mt-1">4</div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white mb-1" data-i18n="step4Title">4. ¡A Correr!</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed" data-i18n="step4Desc">En la pantalla principal, revisa que tu coche y tu pista estén correctamente seleccionados. Elige el límite de vueltas, pulsa el botón verde 'INICIAR' y espera a que el semáforo te dé la salida. ¡Suerte!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-4 shrink-0 flex justify-center">
-                <button id="guide-ok-btn" class="bg-pink-700 hover:bg-pink-600 text-white font-bold py-2 px-8 rounded-lg shadow-md transition w-full sm:w-auto uppercase tracking-widest text-sm">¡Entendido!</button>
-            </div>
-        </div>
-    </div>
-
     <!-- DATALISTS (AUTO-HELP) -->
     <datalist id="list-marcas"><option value="Scalextric / SCX"></option><option value="Ninco"></option><option value="NSR"></option><option value="Slot.it"></option><option value="Scaleauto"></option><option value="Carrera"></option><option value="Avant Slot"></option><option value="Fly Car Model"></option><option value="Sideways"></option><option value="SRC"></option><option value="Policar"></option><option value="Revoslot"></option><option value="Thunderslot"></option></datalist>
     <datalist id="list-categorias"><option value="Rally"></option><option value="Resistencia"></option><option value="Fórmula 1"></option><option value="GT"></option><option value="DTM"></option><option value="WTCC / ETCR"></option><option value="LMP"></option><option value="Raid / Dakar"></option><option value="Clásicos"></option><option value="Monomarcas"></option></datalist>
@@ -1050,11 +966,11 @@
     <script>
         const translations = {
             es: { 
-                langLabel: "Idioma", trackName: "Circuito", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Long. (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Sectores", tracksBtn: "Circuitos", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING POR SECTORES", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector", guideBtn: "Guía", guideTitle: "Guía Rápida de Inicio", step1Title: "1. Cámara y Sensores", step1Desc: "Enciende la cámara (CAM ON). Enfoca la pista fijamente y mueve los cuadrados de colores (ROIs) a las zonas donde pasará el coche (Meta, Sectores). Pasa el coche un par de veces para comprobar que los detecta correctamente.", step2Title: "2. Guardar el Circuito", step2Desc: "Abre 'Circuitos'. Pulsa 'Añadir', ponle un nombre a tu pista y pulsa 'Editar'. Toca el botón 'Capturar ROIs' para guardar la foto de la pista con los sensores colocados. Luego pulsa 'Guardar' y 'Salir'.", step3Title: "3. Preparar el Coche", step3Desc: "Abre 'Garaje'. Pulsa 'Añadir' para crear tu coche en el listado. A la derecha, asegúrate de tener seleccionado el circuito que creaste. Cuando estés listo, pulsa el botón 'Pilotar' (arriba a la derecha) para salir a pista.", step4Title: "4. ¡A Correr!", step4Desc: "En la pantalla principal, revisa que tu coche y tu pista estén correctamente seleccionados. Elige el límite de vueltas, pulsa el botón verde 'INICIAR' y espera a que el semáforo te dé la salida. ¡Suerte!",
+                langLabel: "Idioma", trackName: "Circuito", pilotDataTitle: "Datos Piloto y Pista", pilotName: "Nombre Piloto", carModel: "Modelo Coche", trackLength: "Long. (m)", raceMode: "Modo Carrera", modeLaps: "Por Vueltas", modeTime: "Por Tiempo", lapLimit: "Límite Vueltas", timeLimit: "Tiempo Límite", numSectors: "Puntos Control", sect1: "1 (Solo Meta)", sect2: "2 (S1 + Meta)", sect3: "3 (S1, S2 + Meta)", sect4: "4 (S1, S2, S3 + Meta)", safetyTime: "Anti-Rebote", "1sec": "1 Segundo", "3sec": "3 Segundos", "5sec": "5 Segundos", "10sec": "10 Segundos", engineerVoice: "Voz Ingeniero:", aiSens: "Sensibilidad IA (RGB)", raceTime: "TIEMPO CARRERA", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR", pause: "PAUSA", resume: "REANUDAR", autoCalib: "Auto IA", newRecord: "¡NUEVO RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista", falseStart: "¡SALIDA NULA!", penalty: "Penalización", camLoading: "Sensor Inactivo", telemetry: "Telemetría", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "TIEMPO MEDIO", avgSpeed: "V. MED (Km/h)", maxSpeed: "V. MÁX (Km/h)", raceFinished: "¡Carrera Finalizada!", totalTime: "Tiempo Total", restartFull: "VOLVER A EMPEZAR", exportExcel: "Exportar (.csv)", yellowFlag: "BANDERA AMARILLA", voiceCalibrating: "Calibrando sistema", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera finalizada.", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceLastLap: "¡Última vuelta!", camActive: "Cámara Activa", camError: "Error Cámara", infinite: "Infinito", beepClassic: "Beep Clásico", toneLow: "Tono Grave", beepHigh: "Beep Agudo", garageBtn: "Garaje", rankingBtn: "Sectores", tracksBtn: "Circuitos", demoBtn: "Ver Vídeo Demostración", roiMeta: "META", sensMeta: "META (Verde)", sensS1: "S1 (Azul)", sensS2: "S2 (Amarillo)", sensS3: "S3 (Morado)", garageRankingTitle: "RANKING POR SECTORES", exit: "SALIR", perfCurve: "Curva de Rendimiento", selectCar: "Seleccionar Coche", add: "Añadir", edit: "Editar", save: "Guardar", delete: "Eliminar", exitBtn: "SALIR", galleryBtn: "Galería", cameraBtn: "Cámara", driveCar: "🏁 Pilotar Este Vehículo", carIdentity: "Identidad del Vehículo", brand: "Marca", ref: "Referencia", year: "Año", category: "Categoría", system: "Sistema", techSpecs: "Especificaciones Técnicas", autoHelp: "Autoayuda Activa", motor: "Motor", position: "Posición", ratio: "Piñón/Cor.", chassis: "Chasis", frontTire: "Neum. Del.", rearTire: "Neum. Tras.", weight: "Peso", lights: "Luces", absRecord: "Récord Absoluto", avgSpeedHist: "Vel. Media Histórica", totalTimeHist: "T. Pista Acumulado", totalDist: "Distancia Total", advAnalysis: "ANÁLISIS DE TELEMETRÍA AVANZADA", lapTimes: "Tiempos por Vuelta (s)", speedEvol: "Evolución Vel. (Km/h)", sectorRecords: "Récords por Sector", sectorDist: "Balance de Tiempos", deltaDeviation: "Desviación Delta (s)", trendAnalysis: "Tendencia Vueltas", perfFootprint: "Tiempos por Sector",
                 reqTitleEx: "Especificaciones Técnicas (Ref. Galaxy Tab S9)", reqSocTitle: "Procesador (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.", reqOpticTitle: "Sensor Óptico", reqOpticDesc: "60 FPS bloqueados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.", reqRamTitle: "Memoria / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) para buffer de video continuo con latencia interna < 15ms.", reqLightTitle: "Entorno Fotométrico", reqLightDesc: "> 500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).", reqMechTitle: "Estabilidad Mecánica", reqMechDesc: "Trípode industrial o brazo VESA. Tolerancia de mov. < 1mm. Cero micro-vibraciones en la mesa.", reqDispTitle: "Pantalla / Refresco", reqDispDesc: "Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.", reqWebTitle: "Motor de Render", reqWebDesc: "Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.", reqNpuTitle: "Aceleración NPU", reqNpuDesc: "Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.", reqThermTitle: "Gestión Térmica", reqThermDesc: "Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (+1h).", reqNoteCrit: "NOTA CRÍTICA:", reqNoteEx: "El motor óptico es un escáner de alta frecuencia. Dispositivos inferiores generarán latencia, saltos temporales y falsas lecturas."
             },
             en: { 
-                langLabel: "Language", trackName: "Track Name", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Sectors", tracksBtn: "Tracks", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "SECTORS RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times", guideBtn: "Guide", guideTitle: "Quick Start Guide", step1Title: "1. Camera & Sensors", step1Desc: "Turn on the camera (CAM ON). Keep the device completely still and move the colored boxes (ROIs) to where the car will pass. Run the car a few times to test detection.", step2Title: "2. Save the Track", step2Desc: "Open 'Tracks'. Click 'Add', name your track and click 'Edit'. Click 'Capture ROIs' to save a photo of the track with sensor positions. Click 'Save' and 'Exit'.", step3Title: "3. Prepare your Car", step3Desc: "Open 'Garage'. Click 'Add' to create your car. On the right, select the track you just created. Click 'Drive' (top right) to load it into the main screen.", step4Title: "4. Let's Race!", step4Desc: "On the main screen, check that your car and track are selected in the 'Pilot & Track Data' panel. Set the lap limit, click 'START' and wait for the green lights.",
+                langLabel: "Language", trackName: "Track Name", pilotDataTitle: "Pilot & Track Data", pilotName: "Driver Name", carModel: "Car Model", trackLength: "Length (m)", raceMode: "Race Mode", modeLaps: "By Laps", modeTime: "By Time", lapLimit: "Lap Limit", timeLimit: "Time Limit", numSectors: "Checkpoints", sect1: "1 (Finish Only)", sect2: "2 (S1 + Finish)", sect3: "3 (S1, S2 + Finish)", sect4: "4 (S1, S2, S3 + Finish)", safetyTime: "Debounce Time", "1sec": "1 Second", "3sec": "3 Seconds", "5sec": "5 Seconds", "10sec": "10 Seconds", engineerVoice: "Engineer Voice:", aiSens: "AI Sensitivity (RGB)", raceTime: "RACE TIME", laps: "LAPS", start: "START", reset: "RESET", pause: "PAUSE", resume: "RESUME", autoCalib: "Auto AI", newRecord: "NEW RECORD!", calibrating: "Calibrating...", clearTrack: "Clear the track", falseStart: "FALSE START!", penalty: "Penalty applied", camLoading: "Sensor Inactive", telemetry: "Telemetry", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME", avgSpeed: "AVG SPD (Km/h)", maxSpeed: "MAX SPD (Km/h)", raceFinished: "Race Finished!", totalTime: "Total Time", restartFull: "RESTART RACE", exportExcel: "Export CSV", yellowFlag: "YELLOW FLAG", voiceCalibrating: "Calibrating system", voiceFalseStart: "False start!", voiceFinished: "Race finished.", voicePoint: "point", voiceFastest: "Fastest lap!", voiceLastLap: "Final lap!", camActive: "Camera Active", camError: "Camera Error", infinite: "Infinite", beepClassic: "Classic Beep", toneLow: "Low Tone", beepHigh: "High Beep", garageBtn: "Garage", rankingBtn: "Sectors", tracksBtn: "Tracks", demoBtn: "Watch Demo Video", roiMeta: "FINISH", sensMeta: "FINISH (Green)", sensS1: "S1 (Blue)", sensS2: "S2 (Yellow)", sensS3: "S3 (Purple)", garageRankingTitle: "SECTORS RANKING", exit: "EXIT", perfCurve: "Performance Curve", selectCar: "Select Car", add: "Add", edit: "Edit", save: "Save", delete: "Delete", exitBtn: "EXIT", galleryBtn: "Gallery", cameraBtn: "Camera", driveCar: "🏁 Drive This Vehicle", carIdentity: "Vehicle Identity", brand: "Brand", ref: "Reference", year: "Year", category: "Category", system: "System", techSpecs: "Technical Specs", autoHelp: "Auto-Help Active", motor: "Motor", position: "Position", ratio: "Ratio", chassis: "Chassis", frontTire: "Front Tire", rearTire: "Rear Tire", weight: "Weight", lights: "Lights", absRecord: "Absolute Record", avgSpeedHist: "Historical Avg Speed", totalTimeHist: "Total Track Time", totalDist: "Total Distance", advAnalysis: "ADVANCED TELEMETRY ANALYSIS", lapTimes: "Lap Times (s)", speedEvol: "Speed Evolution (Km/h)", sectorRecords: "Sector Records", sectorDist: "Sector Distribution", deltaDeviation: "Delta Deviation (s)", trendAnalysis: "Lap Trend", perfFootprint: "Sector Times",
                 reqTitleEx: "Technical Specifications (Ref. Galaxy Tab S9)", reqSocTitle: "Processor (SoC)", reqSocDesc: "Snapdragon 8 Gen 2 / Apple M2+. Capable of processing 60 RGB matrices/s without thermal throttling.", reqOpticTitle: "Optical Sensor", reqOpticDesc: "Locked 60 FPS at 1080p. Requires Auto-Focus lock (AF-Lock) and fixed white balance.", reqRamTitle: "Memory / B.W.", reqRamDesc: "8GB-12GB LPDDR5X (> 60 GB/s) for continuous video buffering with internal latency < 15ms.", reqLightTitle: "Photometric Env.", reqLightDesc: "> 500 LUX continuous LED light. Avoid fluorescent tubes (prevents 50/60Hz flickering).", reqMechTitle: "Mechanical Stability", reqMechDesc: "Industrial tripod or VESA arm. Movement tolerance < 1mm. Zero micro-vibrations on the table.", reqDispTitle: "Display / Refresh", reqDispDesc: "120Hz AMOLED panel for pure visual telemetry synchronization without screen tearing.", reqWebTitle: "Render Engine", reqWebDesc: "Chrome v115+ / Safari 16+. HW acceleration and GPU Rasterization strictly forced.", reqNpuTitle: "NPU Acceleration", reqNpuDesc: "Dedicated AI unit for massive color matrix calculations without saturating CPU cores.", reqThermTitle: "Thermal Mngmt.", reqThermDesc: "Passive Vapor Chamber to guarantee performance in endurance racing (+1h).", reqNoteCrit: "CRITICAL NOTE:", reqNoteEx: "The optical engine is a high-frequency scanner. Inferior devices will generate latency, time skips, and false readings."
             }
         };
@@ -1081,7 +997,7 @@
         const canvas = document.getElementById('video-canvas');
         const calibOverlay = document.getElementById('calib-overlay');
         const opticalIdleScreen = document.getElementById('optical-idle-screen');
-        const interactiveSvg = document.getElementById('roi-interactive-svg');
+        const roiContainer = document.getElementById('roi-container');
         const cameraOnBtn = document.getElementById('camera-on-btn');
         const cameraOffBtn = document.getElementById('camera-off-btn');
         const calibrateBtn = document.getElementById('calibrate-btn');
@@ -1112,12 +1028,11 @@
         let isRaceActive = false, isCountdown = false, raceAborted = false, isCalibrating = false, isPaused = false;
         
         let activeRoisCount = 1;
-        // NUEVA ESTRUCTURA DE PUNTOS PARA LOS ROIs (Perspectiva Quad)
         const roiData = [
-            { el: document.getElementById('roi-g-0'), points: [{x:20,y:20}, {x:40,y:20}, {x:45,y:40}, {x:15,y:40}], baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Meta" },
-            { el: document.getElementById('roi-g-1'), points: [{x:55,y:20}, {x:75,y:20}, {x:80,y:40}, {x:50,y:40}], baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 1" },
-            { el: document.getElementById('roi-g-2'), points: [{x:20,y:55}, {x:40,y:55}, {x:45,y:75}, {x:15,y:75}], baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 2" },
-            { el: document.getElementById('roi-g-3'), points: [{x:55,y:55}, {x:75,y:55}, {x:80,y:75}, {x:50,y:75}], baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 3" }
+            { el: document.getElementById('roi-0'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Meta" },
+            { el: document.getElementById('roi-1'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 1" },
+            { el: document.getElementById('roi-2'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 2" },
+            { el: document.getElementById('roi-3'), baseRGB: null, sens: 20, blocked: false, lastTime: 0, stuckCount: 0, nameKey: "Sector 3" }
         ];
         
         let trafficLightSession = 0, blindTimeMs = 3000, expectedRoiIndex = 0, hasCrossedStart = false;
@@ -1129,125 +1044,59 @@
 
         const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
 
-        // LÓGICA DE ARRASTRE Y PERSPECTIVA EN SVG
-        let activeActionRoiIdx = -1;
-        let activeCornerIdx = -1; // -1 significa arrastrar el cuerpo entero
-        let startX, startY, startPoints = [];
+        let isDragging = false, isResizing = false, resizeDirection = '', activeActionRoi = null;
+        let startX, startY, startLeftPct, startTopPct, startWidthPct, startHeightPct;
 
-        interactiveSvg.addEventListener('pointerdown', (e) => {
+        function getClientCoords(e) { return { x: e.touches ? e.touches[0].clientX : e.clientX, y: e.touches ? e.touches[0].clientY : e.clientY }; }
+        function getRoiPercentage(roiEl, prop) { return parseFloat(roiEl.style[prop].replace('%', '')) || 0; }
+
+        videoContainer.addEventListener('pointerdown', (e) => {
             if (isRaceActive || isCalibrating) return;
-            const target = e.target;
-            
-            if (target.classList.contains('corner-handle')) {
-                e.preventDefault();
-                activeActionRoiIdx = parseInt(target.getAttribute('data-roi'));
-                activeCornerIdx = parseInt(target.getAttribute('data-corner'));
-                setupSvgDrag(e);
-            } else if (target.classList.contains('roi-shape')) {
-                e.preventDefault();
-                activeActionRoiIdx = parseInt(target.parentElement.getAttribute('data-index'));
-                activeCornerIdx = -1;
-                setupSvgDrag(e);
-            }
+            const handle = e.target.closest('.resize-handle'); const roiEl = e.target.closest('.roi-box');
+            if (handle && roiEl) { e.preventDefault(); activeActionRoi = roiEl; setupDrag(e, 'resize', handle.classList.contains('tl') ? 'tl' : 'br'); } 
+            else if (roiEl) { e.preventDefault(); activeActionRoi = roiEl; setupDrag(e, 'drag', ''); }
         });
 
-        function setupSvgDrag(e) {
-            startX = e.clientX;
-            startY = e.clientY;
-            // Copia profunda de los puntos de origen
-            startPoints = roiData[activeActionRoiIdx].points.map(p => ({...p}));
-            if (e.pointerId !== undefined) interactiveSvg.setPointerCapture(e.pointerId);
-            document.addEventListener('pointermove', moveSvgAction);
-            document.addEventListener('pointerup', endSvgAction);
+        function setupDrag(e, type, dir) {
+            const coords = getClientCoords(e); startX = coords.x; startY = coords.y;
+            startLeftPct = getRoiPercentage(activeActionRoi, 'left'); startTopPct = getRoiPercentage(activeActionRoi, 'top');
+            startWidthPct = getRoiPercentage(activeActionRoi, 'width'); startHeightPct = getRoiPercentage(activeActionRoi, 'height');
+            activeActionRoi.style.transition = 'none';
+            if (e.pointerId !== undefined) e.target.setPointerCapture(e.pointerId);
+            if (type === 'drag') { isDragging = true; activeActionRoi.classList.add('dragging'); } 
+            else { isResizing = true; resizeDirection = dir; document.body.classList.add('resizing-nwse'); }
+            document.addEventListener('pointermove', moveAction); document.addEventListener('pointerup', endAction);
         }
 
-        function moveSvgAction(e) {
-            if (activeActionRoiIdx === -1) return;
-            e.preventDefault();
-            const bounds = interactiveSvg.getBoundingClientRect();
-            const dxPct = ((e.clientX - startX) / bounds.width) * 100;
-            const dyPct = ((e.clientY - startY) / bounds.height) * 100;
-
-            const pts = roiData[activeActionRoiIdx].points;
-
-            if (activeCornerIdx !== -1) {
-                // Arrastrando una esquina individual (Deformando)
-                pts[activeCornerIdx].x = Math.max(0, Math.min(100, startPoints[activeCornerIdx].x + dxPct));
-                pts[activeCornerIdx].y = Math.max(0, Math.min(100, startPoints[activeCornerIdx].y + dyPct));
-            } else {
-                // Arrastrando el polígono entero (Traslación)
-                for(let i=0; i<4; i++) {
-                    pts[i].x = Math.max(0, Math.min(100, startPoints[i].x + dxPct));
-                    pts[i].y = Math.max(0, Math.min(100, startPoints[i].y + dyPct));
+        function moveAction(e) {
+            if (!isDragging && !isResizing || !activeActionRoi) return; e.preventDefault();
+            const coords = getClientCoords(e); const dxPct = ((coords.x - startX) / videoContainer.clientWidth) * 100; const dyPct = ((coords.y - startY) / videoContainer.clientHeight) * 100;
+            if (isDragging) {
+                activeActionRoi.style.left = `${Math.max(0, Math.min(startLeftPct + dxPct, 100 - startWidthPct))}%`;
+                activeActionRoi.style.top = `${Math.max(0, Math.min(startTopPct + dyPct, 100 - startHeightPct))}%`;
+            } else if (isResizing) {
+                if (resizeDirection === 'tl') {
+                    let nw = startWidthPct - dxPct, nh = startHeightPct - dyPct, nl = startLeftPct + dxPct, nt = startTopPct + dyPct;
+                    if (nw >= 5 && nl >= 0) { activeActionRoi.style.left = `${nl}%`; activeActionRoi.style.width = `${nw}%`; }
+                    if (nh >= 5 && nt >= 0) { activeActionRoi.style.top = `${nt}%`; activeActionRoi.style.height = `${nh}%`; }
+                } else if (resizeDirection === 'br') {
+                    let nw = Math.max(5, startWidthPct + dxPct), nh = Math.max(5, startHeightPct + dyPct);
+                    if (startLeftPct + nw <= 100) activeActionRoi.style.width = `${nw}%`;
+                    if (startTopPct + nh <= 100) activeActionRoi.style.height = `${nh}%`;
                 }
             }
-            renderRois();
+            updateMasks();
         }
 
-        function endSvgAction(e) {
-            if (activeActionRoiIdx !== -1) {
-                if (e.target.hasPointerCapture && e.pointerId !== undefined) e.target.releasePointerCapture(e.pointerId);
-                roiData[activeActionRoiIdx].baseRGB = null; // Resetear base de color al mover
-                activeActionRoiIdx = -1;
-                document.removeEventListener('pointermove', moveSvgAction);
-                document.removeEventListener('pointerup', endSvgAction);
+        function endAction(e) {
+            if (isDragging || isResizing) {
+                if (e.target.hasPointerCapture(e.pointerId)) e.target.releasePointerCapture(e.pointerId);
+                if (activeActionRoi) { activeActionRoi.style.transition = 'all 0.1s ease'; activeActionRoi.classList.remove('dragging'); roiData[activeActionRoi.dataset.index].baseRGB = null; }
+                isDragging = false; isResizing = false; activeActionRoi = null; document.body.classList.remove('resizing-nwse');
+                document.removeEventListener('pointermove', moveAction); document.removeEventListener('pointerup', endAction);
             }
         }
 
-        // FUNCIÓN PRINCIPAL DE RENDERIZADO DE PERSPECTIVAS EN PANTALLA
-        function renderRois() {
-            // Calcular ancho y alto real del contenedor SVG en píxeles
-            const svgW = interactiveSvg.clientWidth || videoContainer.clientWidth || 100;
-            const svgH = interactiveSvg.clientHeight || videoContainer.clientHeight || 100;
-
-            for(let i=0; i<4; i++) {
-                const g = document.getElementById(`roi-g-${i}`);
-                const maskPoly = document.getElementById(`mask-poly-${i}`);
-                if (!g || !maskPoly) continue;
-
-                if (i < activeRoisCount && interactiveSvg.classList.contains('hidden') === false) {
-                    g.style.display = 'inline';
-                    maskPoly.style.display = 'inline';
-
-                    const pts = roiData[i].points;
-                    
-                    // CRÍTICO: SVG polygon no admite %, hay que convertirlo a píxeles absolutos
-                    const pointsStr = pts.map(p => `${(p.x * svgW) / 100},${(p.y * svgH) / 100}`).join(' ');
-
-                    document.getElementById(`poly-visual-${i}`).setAttribute('points', pointsStr);
-                    maskPoly.setAttribute('points', pointsStr);
-
-                    // Posicionar los tiradores (cx y cy de circle sí admiten %)
-                    pts.forEach((p, cIdx) => {
-                        const handle = g.querySelector(`[data-corner="${cIdx}"]`);
-                        handle.setAttribute('cx', `${p.x}%`);
-                        handle.setAttribute('cy', `${p.y}%`);
-                    });
-
-                    // Posicionar etiquetas en el centroide matemático de la figura
-                    const cx = (pts[0].x + pts[1].x + pts[2].x + pts[3].x) / 4;
-                    const cy = (pts[0].y + pts[1].y + pts[2].y + pts[3].y) / 4;
-
-                    const lbl = document.getElementById(`label-txt-${i}`);
-                    lbl.setAttribute('x', `${cx}%`);
-                    lbl.setAttribute('y', `${cy}%`);
-
-                    const det = document.getElementById(`det-txt-${i}`);
-                    det.setAttribute('x', `${cx}%`);
-                    det.setAttribute('y', `${cy + 6}%`); 
-                } else {
-                    g.style.display = 'none';
-                    maskPoly.style.display = 'none';
-                }
-            }
-        }
-
-        // Recalcular los puntos absolutos si se redimensiona la pantalla
-        window.addEventListener('resize', () => {
-            if (!interactiveSvg.classList.contains('hidden')) renderRois();
-        });
-
-        // MOTOR DE EXTRACCIÓN DE VÍDEO COMPATIBLE CON POLÍGONOS DEFORMADOS
         function processVideo() {
             if (!isProcessing) return;
             if (isPaused) { requestAnimationFrame(processVideo); return; }
@@ -1260,68 +1109,34 @@
 
             for (let i = 0; i < activeRoisCount; i++) {
                 const data = roiData[i];
+                const l = Math.floor(vw * (getRoiPercentage(data.el, 'left')/100)), t = Math.floor(vh * (getRoiPercentage(data.el, 'top')/100));
+                const w = Math.max(1, Math.ceil(vw * (getRoiPercentage(data.el, 'width')/100))), h = Math.max(1, Math.ceil(vh * (getRoiPercentage(data.el, 'height')/100)));
                 
-                // Calcular Bounding Box del polígono actual en píxeles de vídeo
-                let minX = vw, maxX = 0, minY = vh, maxY = 0;
-                const pxPts = data.points.map(p => {
-                    const x = (p.x / 100) * vw;
-                    const y = (p.y / 100) * vh;
-                    if(x < minX) minX = x; if(x > maxX) maxX = x;
-                    if(y < minY) minY = y; if(y > maxY) maxY = y;
-                    return {x, y};
-                });
-
-                const w = Math.max(1, maxX - minX);
-                const h = Math.max(1, maxY - minY);
-                
-                ctx.clearRect(0, 0, sampleSize, sampleSize);
-                ctx.save();
-                ctx.beginPath();
-                
-                // Escalar el polígono deformado al canvas final de 32x32 para aislar fondos
-                ctx.moveTo(((pxPts[0].x - minX) / w) * sampleSize, ((pxPts[0].y - minY) / h) * sampleSize);
-                for(let j=1; j<4; j++) {
-                    ctx.lineTo(((pxPts[j].x - minX) / w) * sampleSize, ((pxPts[j].y - minY) / h) * sampleSize);
-                }
-                ctx.closePath();
-                ctx.clip(); // El recorte mágico (solo analiza lo que esté DENTRO del trapecio)
-                
-                ctx.drawImage(videoElement, minX, minY, w, h, 0, 0, sampleSize, sampleSize);
-                ctx.restore();
-
+                ctx.drawImage(videoElement, l, t, w, h, 0, 0, sampleSize, sampleSize);
                 const imgData = ctx.getImageData(0, 0, sampleSize, sampleSize).data;
-                let validPixels = 0;
-                let diffSum = 0;
 
                 if (!data.baseRGB) {
                     data.baseRGB = new Float32Array(imgData.length);
-                    for(let j=0; j<imgData.length; j+=4) {
-                        if (imgData[j+3] > 0) { // Solo píxeles capturados dentro del polígono
-                            data.baseRGB[j] = imgData[j];
-                            data.baseRGB[j+1] = imgData[j+1];
-                            data.baseRGB[j+2] = imgData[j+2];
-                            data.baseRGB[j+3] = imgData[j+3];
-                        }
-                    }
+                    for(let j=0; j<imgData.length; j++) data.baseRGB[j] = imgData[j];
                 } else {
+                    let diffSum = 0;
                     for (let j = 0; j < imgData.length; j += 4) {
-                        if (imgData[j+3] > 0) {
-                            validPixels++;
-                            let r = imgData[j], g = imgData[j+1], b = imgData[j+2];
-                            let br = data.baseRGB[j], bg = data.baseRGB[j+1], bb = data.baseRGB[j+2];
-                            diffSum += (Math.abs(r-br) + Math.abs(g-bg) + Math.abs(b-bb)) / 3;
-                        }
+                        let r = imgData[j], g = imgData[j+1], b = imgData[j+2];
+                        let br = data.baseRGB[j], bg = data.baseRGB[j+1], bb = data.baseRGB[j+2];
+                        diffSum += (Math.abs(r-br) + Math.abs(g-bg) + Math.abs(b-bb)) / 3;
                     }
-                    if(validPixels === 0) validPixels = 1;
-                    const avgDiff = diffSum / validPixels;
+                    const avgDiff = diffSum / (imgData.length / 4);
                     const pct = (avgDiff / 255) * 100 * 2.5; 
                     
-                    document.getElementById(`det-txt-${i}`).textContent = `RGB: ${pct.toFixed(0)}`;
+                    document.getElementById(`det-val-${i}`).textContent = `RGB: ${pct.toFixed(0)}`;
                     const crossed = pct > data.sens;
 
                     if (crossed) {
                         data.stuckCount++;
-                        if (data.stuckCount > 45) { data.baseRGB = null; data.stuckCount = 0; }
+                        if (data.stuckCount > 45) {
+                            data.baseRGB = null;
+                            data.stuckCount = 0;
+                        }
                         data.el.classList.add('roi-detected');
                     } else {
                         data.stuckCount = 0;
@@ -1333,11 +1148,9 @@
                         else if (isCountdown && crossed && i === 0 && !raceAborted) handleFalseStart();
                         else if (!isRaceActive && !isCountdown && !crossed && !data.blocked) {
                             for(let j=0; j<imgData.length; j+=4) {
-                                if (imgData[j+3] > 0) {
-                                    data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
-                                    data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
-                                    data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
-                                }
+                                data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
+                                data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
+                                data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
                             }
                         }
                     }
@@ -1363,11 +1176,9 @@
             } else {
                 if (!crossed) {
                     for(let j=0; j<imgData.length; j+=4) {
-                        if (imgData[j+3] > 0) {
-                            data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
-                            data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
-                            data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
-                        }
+                        data.baseRGB[j] = data.baseRGB[j]*0.98 + imgData[j]*0.02;
+                        data.baseRGB[j+1] = data.baseRGB[j+1]*0.98 + imgData[j+1]*0.02;
+                        data.baseRGB[j+2] = data.baseRGB[j+2]*0.98 + imgData[j+2]*0.02;
                     }
                 }
                 if (crossed && index === expectedRoiIndex) {
@@ -1586,7 +1397,14 @@
                 document.getElementById('sector-box-2').classList.toggle('hidden', activeRoisCount < 2); document.getElementById('sector-box-3').classList.toggle('hidden', activeRoisCount < 3); document.getElementById('sector-box-4').classList.toggle('hidden', activeRoisCount < 4);
                 for(let i=1; i<=4; i++) { const lbl = document.getElementById(`label-box-${i}`); if(lbl) { lbl.classList.remove('text-cyan-500', 'text-emerald-400'); if (i === activeRoisCount) { lbl.textContent = "META"; lbl.classList.add('text-emerald-400'); } else { lbl.textContent = `S${i}`; lbl.classList.add('text-cyan-500'); } } }
             } else sectorsDisplayPanel.classList.add('hidden');
-            renderRois();
+            updateMasks();
+        }
+
+        function updateMasks() {
+            for (let i = 0; i < 4; i++) {
+                const hole = document.getElementById(`mask-hole-${i}`);
+                if (hole) { if (i < activeRoisCount) { const el = roiData[i].el; hole.setAttribute('x', el.style.left); hole.setAttribute('y', el.style.top); hole.setAttribute('width', el.style.width); hole.setAttribute('height', el.style.height); hole.style.display = 'block'; } else { hole.style.display = 'none'; } }
+            }
         }
 
         async function getCameras() { try { const devices = await navigator.mediaDevices.enumerateDevices(); const videoDevices = devices.filter(d => d.kind === 'videoinput'); camDeviceSelect.innerHTML = ''; videoDevices.forEach((dev, idx) => { const opt = document.createElement('option'); opt.value = dev.deviceId; opt.text = dev.label || `Cámara ${idx + 1}`; camDeviceSelect.appendChild(opt); }); if(videoDevices.length > 1) camDeviceSelect.classList.remove('hidden'); } catch (e) { console.warn("No cameras found"); } }
@@ -1603,7 +1421,7 @@
                 if (currentVideoTrack.getSettings().deviceId) camDeviceSelect.value = currentVideoTrack.getSettings().deviceId;
                 
                 opticalIdleScreen.classList.add('hidden');
-                interactiveSvg.classList.add('hidden');
+                roiContainer.classList.add('hidden');
                 cameraOnBtn.disabled = true;
                 cameraOffBtn.disabled = true;
                 calibrateBtn.disabled = true;
@@ -1618,7 +1436,7 @@
                     roiData.forEach(d => { d.baseRGB = null; });
                     
                     setTimeout(() => {
-                        interactiveSvg.classList.remove('hidden');
+                        roiContainer.classList.remove('hidden');
                         updateActiveRois();
                         calibrateBtn.disabled = false;
                         cameraOffBtn.disabled = false;
@@ -1635,7 +1453,7 @@
         cameraOffBtn.addEventListener('click', () => { 
             if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop()); 
             cameraStream=null; isProcessing=false; videoElement.srcObject=null; 
-            interactiveSvg.classList.add('hidden'); 
+            roiContainer.classList.add('hidden'); 
             opticalIdleScreen.classList.remove('hidden');
             cameraOnBtn.disabled=false; cameraOffBtn.disabled=true; calibrateBtn.disabled=true; 
             document.getElementById('video-status').textContent = translations[currentLang].camLoading; 
@@ -1666,7 +1484,7 @@
 
             setTimeout(() => { 
                 for(let i=0; i<activeRoisCount; i++){
-                    let currentValTxt = document.getElementById(`det-txt-${i}`).textContent;
+                    let currentValTxt = document.getElementById(`det-val-${i}`).textContent;
                     let currentNoise = parseInt(currentValTxt.replace('RGB: ', '')) || 0;
                     let newSens = Math.max(5, Math.min(100, currentNoise + 15));
                     roiData[i].sens = newSens;
@@ -1689,7 +1507,7 @@
                     speak(`${translations[currentLang]?.calibrating || "Calibrando"} ${roiData[i].nameKey}`);
                     
                     setTimeout(() => {
-                        let currentValTxt = document.getElementById(`det-txt-${i}`).textContent;
+                        let currentValTxt = document.getElementById(`det-val-${i}`).textContent;
                         let currentNoise = parseInt(currentValTxt.replace('RGB: ', '')) || 0;
                         let newSens = Math.max(5, Math.min(100, currentNoise + 15));
                         roiData[i].sens = newSens;
@@ -1739,13 +1557,13 @@
 
         document.getElementById('export-excel-btn').addEventListener('click', () => {
             let csv = "Piloto,Vuelta,Total (s)";
-            for(let i=1; i<=activeRoisCount; i++) csv += `,S${i} (s)`;
+            for(let i=1; i<activeRoisCount; i++) csv += `,S${i} (s)`;
             csv += ",Vel.Media (Km/h)\n";
             
             const pName = document.getElementById('pilot-name-input').value;
             lapHistory.forEach(l => {
                 let row = `"${pName}",${l.lap},${(l.time/1000).toFixed(3)}`;
-                for(let i=0; i<activeRoisCount; i++) row += `,${(l.sectors[i]/1000).toFixed(3)}`;
+                for(let i=0; i<activeRoisCount-1; i++) row += `,${(l.sectors[i]/1000).toFixed(3)}`;
                 row += `,${l.speed.toFixed(1)}\n`;
                 csv += row;
             });
@@ -2075,15 +1893,6 @@
         });
 
         document.getElementById('close-tracks-btn').addEventListener('click', () => {
-            // Sincronizar el circuito recién gestionado/visto al panel principal
-            const currentTrack = trackCircuits[currentTrackIndex];
-            if (currentTrack) {
-                const mainSelect = document.getElementById('track-name-select');
-                if (mainSelect) {
-                    mainSelect.value = currentTrack.name;
-                    mainSelect.dispatchEvent(new Event('change'));
-                }
-            }
             document.getElementById('tracksModal').classList.remove('open');
             setTimeout(() => document.getElementById('tracksModal').classList.add('hidden'), 300);
         });
@@ -2118,71 +1927,85 @@
             });
         });
 
-        // Imágenes de pistas y CAPTURA PERSPECTIVA (Snapshot)
-        if(document.getElementById('btn-track-snapshot')) {
-            document.getElementById('btn-track-snapshot').addEventListener('click', (e) => { 
-                e.stopPropagation(); 
-                if(!isTrackEditing) return; 
-                
-                const vid = document.getElementById('webcam-feed');
-                if(!vid.videoWidth || vid.videoWidth === 0) {
-                    showSystemModal("Enciende la cámara en la pantalla principal para capturar la vista de los ROIs.");
-                    return;
-                }
-
-                const cvs = document.createElement('canvas');
-                cvs.width = vid.videoWidth;
-                cvs.height = vid.videoHeight;
-                const ctx = cvs.getContext('2d');
-                
-                ctx.drawImage(vid, 0, 0, cvs.width, cvs.height);
-                
-                ctx.lineWidth = Math.max(3, cvs.width / 150);
-                const colors = ['#10b981', '#3b82f6', '#eab308', '#a855f7']; 
-                
-                for(let i=0; i<activeRoisCount; i++) {
-                    const pts = roiData[i].points;
-                    const pxPts = pts.map(p => ({ x: cvs.width * (p.x/100), y: cvs.height * (p.y/100) }));
-                    
-                    ctx.strokeStyle = colors[i];
-                    ctx.fillStyle = `rgba(${i===0?'16,185,129':i===1?'59,130,246':i===2?'234,179,8':'168,85,247'}, 0.2)`; 
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(pxPts[0].x, pxPts[0].y);
-                    pxPts.forEach((p, idx) => { if(idx>0) ctx.lineTo(p.x, p.y); });
-                    ctx.closePath();
-                    ctx.fill();
-                    ctx.stroke();
-                    
-                    const cx = pxPts.reduce((sum, p) => sum + p.x, 0) / 4;
-                    const cy = pxPts.reduce((sum, p) => sum + p.y, 0) / 4;
-
-                    ctx.fillStyle = colors[i];
-                    ctx.font = `900 ${Math.max(16, cvs.width / 35)}px Arial`;
-                    ctx.textAlign = "center";
-                    ctx.fillText(i === 0 ? 'META' : 'S'+i, cx, cy);
-                }
-
-                const b64 = cvs.toDataURL('image/jpeg', 0.8); 
-                const track = trackCircuits[currentTrackIndex];
-                const imgId = "img_trk_" + Date.now(); 
-                track.imageId = imgId; 
-                track.image = ""; 
-                
-                ImageDB.save(imgId, b64); 
-                syncImageToCloud(imgId, b64); 
-                document.getElementById('track-img').src = b64; 
-                saveTracksToLocal(); 
-            });
-        }
-
+        // Imágenes de pistas
         if(document.getElementById('btn-track-galeria')) {
             document.getElementById('btn-track-galeria').addEventListener('click', (e) => { e.stopPropagation(); if(isTrackEditing) document.getElementById('track-img-input-galeria').click(); });
         }
         if(document.getElementById('btn-track-camara')) {
             document.getElementById('btn-track-camara').addEventListener('click', (e) => { e.stopPropagation(); if(isTrackEditing) document.getElementById('track-img-input-camara').click(); });
         }
+        if(document.getElementById('btn-track-rois')) {
+            document.getElementById('btn-track-rois').addEventListener('click', (e) => { e.stopPropagation(); if(isTrackEditing) captureRoisForTrack(); });
+        }
         
+        function captureRoisForTrack() {
+            if (!cameraStream || !videoElement.videoWidth) {
+                showSystemModal("¡Enciende la cámara primero para poder capturar la pista!");
+                return;
+            }
+
+            // Calculamos una resolución óptima para no saturar la memoria
+            let origW = videoElement.videoWidth, origH = videoElement.videoHeight;
+            let w = origW, h = origH;
+            if (w > h) { if (w > 800) { h *= 800 / w; w = 800; } } else { if (h > 600) { w *= 600 / h; h = 600; } }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Dibujamos el fotograma del vídeo actual
+            ctx.drawImage(videoElement, 0, 0, w, h);
+
+            // 2. Dibujamos los recuadros de los sensores encima
+            const colors = ['#10b981', '#3b82f6', '#eab308', '#a855f7']; // Colores: Meta, S1, S2, S3
+            const labels = ['META', 'S1', 'S2', 'S3'];
+
+            for (let i = 0; i < activeRoisCount; i++) {
+                const data = roiData[i];
+                const leftPct = parseFloat(data.el.style.left) || 0;
+                const topPct = parseFloat(data.el.style.top) || 0;
+                const widthPct = parseFloat(data.el.style.width) || 0;
+                const heightPct = parseFloat(data.el.style.height) || 0;
+
+                const x = (leftPct / 100) * w;
+                const y = (topPct / 100) * h;
+                const boxW = (widthPct / 100) * w;
+                const boxH = (heightPct / 100) * h;
+
+                // Estilo del borde y sombra (Glow)
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = 10;
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = colors[i];
+                ctx.strokeRect(x, y, boxW, boxH);
+                ctx.shadowBlur = 0; // Resetear sombra
+                
+                // Relleno semitransparente igual que en la app
+                ctx.fillStyle = colors[i] + '33'; // ~20% opacidad
+                ctx.fillRect(x, y, boxW, boxH);
+
+                // Cartelito del nombre del sector
+                ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                ctx.fillRect(x, y, 50, 22);
+                ctx.fillStyle = colors[i];
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText(labels[i], x + 5, y + 16);
+            }
+
+            // Convertimos la obra de arte a imagen Base64
+            const b64 = canvas.toDataURL('image/jpeg', 0.7);
+
+            const track = trackCircuits[currentTrackIndex];
+            const imgId = "img_trk_" + Date.now(); 
+            track.imageId = imgId; track.image = ""; 
+            
+            // La guardamos en BBDD local y en la nube
+            ImageDB.save(imgId, b64); 
+            syncImageToCloud(imgId, b64); 
+            document.getElementById('track-img').src = b64; 
+            saveTracksToLocal(); 
+        }
+
         function procTrackImg(file) { 
             if (!file) return; 
             const reader = new FileReader(); 
@@ -2366,33 +2189,23 @@
             upgradeCarData(car);
             const trackSelect = document.getElementById('garage-track-select');
             if(trackSelect) {
-                let selectedTrack = trackSelect.value || document.getElementById('track-name-select').value.trim();
+                const allCarTracks = Object.keys(car.trackRecords);
                 
-                // Obtenemos TODAS las pistas creadas en el gestor, no solo en las que ha corrido
-                const allTracks = trackCircuits.map(t => t.name);
-                if (allTracks.length === 0) allTracks.push("Circuito 1");
-                
-                if (!allTracks.includes(selectedTrack)) {
-                    selectedTrack = allTracks[0];
+                let selectedTrack = trackSelect.value;
+                if (!allCarTracks.includes(selectedTrack)) {
+                    selectedTrack = document.getElementById('track-name-select').value.trim();
+                    if (!allCarTracks.includes(selectedTrack)) {
+                        selectedTrack = allCarTracks.length > 0 ? allCarTracks[0] : "Circuito 1";
+                    }
                 }
 
                 trackSelect.innerHTML = '';
-                allTracks.forEach(t => {
+                allCarTracks.forEach(t => {
                     const opt = document.createElement('option');
                     opt.value = t; opt.textContent = t;
                     if(t === selectedTrack) opt.selected = true;
                     trackSelect.appendChild(opt);
                 });
-
-                // Si el coche no tiene registros en esta pista aún, generamos un objeto vacío temporal para la UI
-                if (!car.trackRecords[selectedTrack]) {
-                    car.trackRecords[selectedTrack] = {
-                        bestLap: "-", bestSectors: [Infinity, Infinity, Infinity, Infinity],
-                        totalTime: "0h 0m 0s", totalDist: "0.000 km", avgSpd: "0.0 km/h", consistency: "0",
-                        _rawTotalTime: 0, _rawTotalDist: 0, recentLaps: [], recentSpeeds: []
-                    };
-                    saveGarageToLocal(); // Guardar para que persista el nuevo circuito en el coche
-                }
 
                 renderGarageCarStats(car, selectedTrack);
             }
@@ -2584,15 +2397,6 @@
             if (garageCars.length === 0) initGarage(); else populateDropdown();
             const activeName = document.getElementById('car-model-input').value; let idx = garageCars.findIndex(c => c.name === activeName);
             currentGarageIndex = idx !== -1 ? idx : 0; if(document.getElementById('garage-car-select')) document.getElementById('garage-car-select').value = currentGarageIndex;
-            
-            // SINCRONIZAR PISTA DEL GARAJE CON LA PRINCIPAL AL ABRIR
-            const mainTrack = document.getElementById('track-name-select').value;
-            const garageTrack = document.getElementById('garage-track-select');
-            if (mainTrack && garageTrack) {
-                const exists = Array.from(garageTrack.options).some(o => o.value === mainTrack);
-                if (exists) garageTrack.value = mainTrack;
-            }
-            
             renderGarageCar(currentGarageIndex); toggleGarageEdit(false);
             if(document.getElementById('garageModal')) {
                 document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10);
@@ -2625,15 +2429,6 @@
             let exists = Array.from(carSelect.options).some(opt => opt.value === carName);
             if (!exists) { const newOpt = document.createElement('option'); newOpt.value = carName; newOpt.textContent = carName; carSelect.appendChild(newOpt); }
             carSelect.value = carName; 
-            
-            // ACTUALIZAR TAMBIÉN EL CIRCUITO PRINCIPAL
-            const garageTrackSelect = document.getElementById('garage-track-select');
-            const mainTrackSelect = document.getElementById('track-name-select');
-            if (garageTrackSelect && mainTrackSelect && garageTrackSelect.value) {
-                mainTrackSelect.value = garageTrackSelect.value;
-                mainTrackSelect.dispatchEvent(new Event('change'));
-            }
-            
             document.getElementById('close-garage-btn').click(); 
         });
 
@@ -2745,44 +2540,6 @@
                 return tr.bestLap && tr.bestLap !== "-" && tr.bestLap !== "Infinitys";
             });
 
-            // --- NUEVA LÓGICA: Ocultar pestañas de sectores si nadie tiene tiempos ahí ---
-            let hasS1 = false, hasS2 = false, hasS3 = false;
-            validCars.forEach(c => {
-                const tr = c.trackRecords[selectedTrack];
-                if (tr.bestSectors) {
-                    if (tr.bestSectors[0] && tr.bestSectors[0] !== Infinity) hasS1 = true;
-                    if (tr.bestSectors[1] && tr.bestSectors[1] !== Infinity) hasS2 = true;
-                    if (tr.bestSectors[2] && tr.bestSectors[2] !== Infinity) hasS3 = true;
-                }
-            });
-
-            const tabS1 = document.getElementById('tab-rank-s1');
-            const tabS2 = document.getElementById('tab-rank-s2');
-            const tabS3 = document.getElementById('tab-rank-s3');
-            
-            if(tabS1) tabS1.style.display = hasS1 ? 'inline-block' : 'none';
-            if(tabS2) tabS2.style.display = hasS2 ? 'inline-block' : 'none';
-            if(tabS3) tabS3.style.display = hasS3 ? 'inline-block' : 'none';
-
-            // Si el usuario estaba en una pestaña que ahora está oculta, devolvemos la vista al "Global"
-            if ((currentRankingTab === 's1' && !hasS1) || 
-                (currentRankingTab === 's2' && !hasS2) || 
-                (currentRankingTab === 's3' && !hasS3)) {
-                
-                currentRankingTab = 'general';
-                Object.values(rankTabs).forEach(tab => {
-                    if(tab) {
-                        tab.classList.remove('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
-                        tab.classList.add('bg-slate-800', 'text-slate-400');
-                    }
-                });
-                if(rankTabs.general) {
-                    rankTabs.general.classList.remove('bg-slate-800', 'text-slate-400');
-                    rankTabs.general.classList.add('bg-cyan-600', 'text-white', 'shadow-[0_0_10px_rgba(34,211,238,0.5)]');
-                }
-            }
-            // -------------------------------------------------------------------------
-
             validCars.sort((a, b) => {
                 const trA = a.trackRecords[selectedTrack];
                 const trB = b.trackRecords[selectedTrack];
@@ -2832,7 +2589,6 @@
                 if (currentRankingTab === 's1') { recordTitle = "Sector 1"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[0] : null); }
                 else if (currentRankingTab === 's2') { recordTitle = "Sector 2"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[1] : null); }
                 else if (currentRankingTab === 's3') { recordTitle = "Sector 3"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[2] : null); }
-                else if (currentRankingTab === 's4') { recordTitle = "Sector 4"; recordValue = formatSectorVal(tr.bestSectors ? tr.bestSectors[3] : null); }
 
                 html += `
                     <div class="relative w-full ${staggerClass} pt-6 pb-2 group">
@@ -2891,36 +2647,11 @@
         }
 
         // EVENTOS BOTONES RANKING DIRECTOS
-        document.getElementById('ranking-btn').addEventListener('click', () => {
-            // SINCRONIZAR PISTA DEL RANKING CON LA PRINCIPAL AL ABRIR
-            const mainTrack = document.getElementById('track-name-select').value;
-            const rankSelect = document.getElementById('ranking-track-select');
-            if (mainTrack && rankSelect) {
-                const exists = Array.from(rankSelect.options).some(o => o.value === mainTrack);
-                if (exists) rankSelect.value = mainTrack;
-            }
-            switchRankingTab('general');
-        });
+        document.getElementById('ranking-btn').addEventListener('click', () => switchRankingTab('general'));
         
         document.getElementById('close-ranking-btn').addEventListener('click', () => {
             document.getElementById('rankingModal').classList.remove('open');
             setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300);
-        });
-
-        // EVENTOS BOTON GUIA
-        document.getElementById('guide-btn').addEventListener('click', () => {
-            document.getElementById('guideModal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('guideModal').classList.add('open'), 10);
-        });
-
-        document.getElementById('close-guide-btn').addEventListener('click', () => {
-            document.getElementById('guideModal').classList.remove('open');
-            setTimeout(() => document.getElementById('guideModal').classList.add('hidden'), 300);
-        });
-
-        document.getElementById('guide-ok-btn').addEventListener('click', () => {
-            document.getElementById('guideModal').classList.remove('open');
-            setTimeout(() => document.getElementById('guideModal').classList.add('hidden'), 300);
         });
 
         function toggleFullScreen() {
