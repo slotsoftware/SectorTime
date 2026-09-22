@@ -1739,13 +1739,13 @@
 
         document.getElementById('export-excel-btn').addEventListener('click', () => {
             let csv = "Piloto,Vuelta,Total (s)";
-            for(let i=1; i<activeRoisCount; i++) csv += `,S${i} (s)`;
+            for(let i=1; i<=activeRoisCount; i++) csv += `,S${i} (s)`;
             csv += ",Vel.Media (Km/h)\n";
             
             const pName = document.getElementById('pilot-name-input').value;
             lapHistory.forEach(l => {
                 let row = `"${pName}",${l.lap},${(l.time/1000).toFixed(3)}`;
-                for(let i=0; i<activeRoisCount-1; i++) row += `,${(l.sectors[i]/1000).toFixed(3)}`;
+                for(let i=0; i<activeRoisCount; i++) row += `,${(l.sectors[i]/1000).toFixed(3)}`;
                 row += `,${l.speed.toFixed(1)}\n`;
                 csv += row;
             });
