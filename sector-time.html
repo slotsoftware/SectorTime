@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KRONO V.4.0 - F1 Neon Blue</title>
+    <title>SECTOR TIME V.1.0 - Neon Blue</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="KRONO V.4">
-    <meta name="application-name" content="KRONO V.4">
+    <meta name="apple-mobile-web-app-title" content="SECTOR TIME V.1.0">
+    <meta name="application-name" content="SECTOR TIME V.1.0">
     <meta http-equiv="Permissions-Policy" content="camera=(self)">
     
     <!-- Fuentes Futuristas -->
@@ -303,8 +303,8 @@
             <div class="neon-panel flex justify-between items-center w-full py-2 px-5 shrink-0">
                 <div class="flex items-center space-x-5">
                     <div class="flex flex-col">
-                        <h1 class="text-xl neon-title font-orbitron tracking-wider leading-tight">KRONO V.4.0</h1>
-                        <span class="text-[10px] font-bold text-cyan-300 tracking-widest uppercase">Neon Blue Edition</span>
+                        <h1 class="text-xl neon-title font-orbitron tracking-wider leading-tight">SECTOR TIME V.1.0</h1>
+                        <span class="text-[10px] font-bold text-cyan-300 tracking-widest uppercase">By Albert Closa</span>
                     </div>
                     
                     <button id="history-btn" class="flex items-center text-cyan-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-cyan-900/50 border border-transparent hover:border-cyan-400" title="Ver Historial">
@@ -1489,7 +1489,7 @@
         function exportToExcel() {
             if(!lapHistory.length) return;
             const carSelect = document.getElementById('car-model-select'); const carName = carSelect.options[carSelect.selectedIndex]?.text || "N/A";
-            let csv = `\uFEFFKRONO NEON REPORTE\nFECHA;PILOTO;COCHE;TIEMPO TOTAL;MEJOR VUELTA\n`;
+            let csv = `\uFEFFSECTOR TIME REPORTE\nFECHA;PILOTO;COCHE;TIEMPO TOTAL;MEJOR VUELTA\n`;
             csv += `${new Date().toLocaleString()};${document.getElementById('pilot-name-input').value};${carName};${formatTime(finalRaceTimeMs,true)};${formatTime(bestLapTime,false)}\n\nVUELTA;`;
             for(let i=1; i<activeRoisCount; i++) csv += `S${i};`; csv += `TOTAL\n`;
             lapHistory.forEach(l => {
@@ -1498,7 +1498,7 @@
                 csv += `${(l.time/1000).toFixed(3).replace('.',',')}\n`;
             });
             const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'}); const url = URL.createObjectURL(blob);
-            const link = document.createElement("a"); link.href = url; link.download = `krono_neon_${Date.now()}.csv`;
+            const link = document.createElement("a"); link.href = url; link.download = `sector_time_${Date.now()}.csv`;
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
