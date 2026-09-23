@@ -58,7 +58,7 @@
                 await signInAnonymously(auth);
                 
             } catch (error) { 
-                console.error("Error inicializando Firebase:", error); 
+                console.error("ðŸ”¥ Error inicializando Firebase:", error); 
                 if (window.initLocalMode) window.initLocalMode();
             }
         };
@@ -349,13 +349,13 @@
             <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="22" y1="12" x2="22.01" y2="12"></line>
         </svg>
         <h2 class="text-xl font-black uppercase tracking-widest mb-2 text-white">Gira tu dispositivo</h2>
-        <p class="text-sm text-gray-400 mb-6">Esta aplicación está diseñada para formato horizontal (Landscape) en Tablets y PCs.</p>
+        <p class="text-sm text-gray-400 mb-6">Esta aplicaciÃ³n estÃ¡ diseÃ±ada para formato horizontal (Landscape) en Tablets y PCs.</p>
         <button onclick="document.getElementById('orientation-lock').style.display='none'" class="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-full font-bold text-white text-sm tracking-wider shadow-lg transition-colors border border-gray-500">Continuar de todos modos</button>
     </div>
 
     <div class="w-full h-full flex flex-row p-3 gap-3 overflow-hidden box-border">
         
-        <!-- COLUMNA IZQUIERDA: HEADER + CÁMARA MASIVA (70%) -->
+        <!-- COLUMNA IZQUIERDA: HEADER + CÃMARA MASIVA (70%) -->
         <div class="flex-1 flex flex-col h-full min-w-[60%] gap-3">
             
             <!-- HEADER -->
@@ -391,7 +391,7 @@
 
             <div id="video-feed-box" class="silver-panel p-3 w-full flex-1 flex flex-col relative overflow-hidden shadow-md">
                 <div class="flex justify-between items-center border-b border-gray-300 pb-2 mb-2 shrink-0">
-                    <h2 class="text-sm font-bold neon-silver-title" data-i18n="videoTitle">Cámara y Sectores</h2>
+                    <h2 class="text-sm font-bold neon-silver-title" data-i18n="videoTitle">CÃ¡mara y Sectores</h2>
                     <div class="flex space-x-2">
                         <button id="calibrate-btn" class="p-1.5 px-3 rounded-md bg-gray-200 text-gray-700 border border-gray-300 hover:bg-white hover:text-black text-xs font-bold uppercase transition shadow-sm disabled:opacity-50 flex items-center" data-i18n="autoCalib">
                             Calibrar IA
@@ -406,9 +406,9 @@
                     </div>
                 </div>
                 
-                <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
+                <div id="record-notification" data-i18n="newRecord">Â¡NUEVO RÃ‰CORD!</div>
 
-                <!-- ÁREA DE VIDEO (Toma todo el espacio restante) -->
+                <!-- ÃREA DE VIDEO (Toma todo el espacio restante) -->
                 <div id="video-container">
                     <video id="webcam-feed" autoplay playsinline></video>
                     
@@ -418,14 +418,14 @@
                         <p class="text-sm mt-2 font-bold bg-black/50 px-4 py-1 rounded-full" data-i18n="clearTrack">Despeja la pista</p>
                     </div>
                     <div id="false-start-alert">
-                        <h2 class="text-3xl font-black uppercase tracking-widest mb-2 text-white drop-shadow-md" data-i18n="falseStart">¡SALIDA NULA!</h2>
+                        <h2 class="text-3xl font-black uppercase tracking-widest mb-2 text-white drop-shadow-md" data-i18n="falseStart">Â¡SALIDA NULA!</h2>
                     </div>
                     <div id="yellow-flag-overlay">
                         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor" class="yellow-flag-icon"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
                         <h3 class="text-3xl font-black text-yellow-400 uppercase tracking-widest mt-2" data-i18n="yellowFlag">BANDERA AMARILLA</h3>
                     </div>
 
-                    <!-- ROIs dinámicos -->
+                    <!-- ROIs dinÃ¡micos -->
                     <div id="roi-0" class="roi-box roi-meta active" style="left:10%; top:25%; width:15%; height:50%;">
                         <div class="roi-label-tag">META</div>
                         <div class="val-indicator">Val: 0</div><div class="test-msg"></div>
@@ -462,7 +462,7 @@
             <!-- PANEL DE TIEMPO -->
             <div class="silver-panel w-full p-3 text-center shrink-0 shadow-md">
                 
-                <!-- SEMÁFORO DE CARRERA -->
+                <!-- SEMÃFORO DE CARRERA -->
                 <div class="flex justify-center w-full mb-3 pb-3 border-b border-gray-300">
                     <div id="traffic-light-module" class="traffic-light-container five-lights bg-gray-800 px-3 py-2 rounded-xl shadow-inner border border-gray-600">
                         <div id="light-1" class="light"></div><div id="light-2" class="light"></div><div id="light-3" class="light"></div>
@@ -503,14 +503,14 @@
 
             <!-- TELEMETRIA Y SECTORES -->
             <div class="silver-panel w-full p-3 shrink-0 shadow-md">
-                <h2 class="text-xs font-bold text-gray-500 mb-2 border-b border-gray-300 pb-1 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
+                <h2 class="text-xs font-bold text-gray-500 mb-2 border-b border-gray-300 pb-1 uppercase tracking-widest text-left" data-i18n="telemetry">TelemetrÃ­a</h2>
                 <div class="telemetry-grid">
                     <div class="telemetry-item">
                         <p class="telemetry-label" data-i18n="pilotCar">PILOTO / COCHE</p>
                         <p id="telemetry-pilot-car" class="telemetry-data truncate">N/A / N/A</p>
                     </div>
                     <div class="telemetry-item">
-                        <p class="telemetry-label" data-i18n="lastLap">ÚLTIMA VUELTA</p>
+                        <p class="telemetry-label" data-i18n="lastLap">ÃšLTIMA VUELTA</p>
                         <p id="telemetry-last-lap-time" class="telemetry-data yellow font-arial">--.---</p>
                     </div>
                     
@@ -530,7 +530,7 @@
                 </div>
                 
                 <div class="mt-3 border-t border-gray-300 pt-2">
-                    <h2 class="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest text-left" data-i18n="timeGraph">Evolución de Tiempos</h2>
+                    <h2 class="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest text-left" data-i18n="timeGraph">EvoluciÃ³n de Tiempos</h2>
                     <canvas id="lap-graph-canvas"></canvas>
                     <p id="graph-status" class="text-center text-[10px] text-gray-500 mt-1 italic" data-i18n="noData">Sin datos</p>
                 </div>
@@ -543,7 +543,7 @@
                             <span data-i18n="langLabel">Idioma / Language</span>
                          </label>
                          <select id="lang-select" class="silver-input p-1 rounded-md text-[10px] font-bold w-1/2">
-                             <option value="es">Español</option><option value="en">English</option><option value="fr">Français</option>
+                             <option value="es">EspaÃ±ol</option><option value="en">English</option><option value="fr">FranÃ§ais</option>
                          </select>
                      </div>
                 </div>
@@ -579,7 +579,7 @@
                         </div>
                         <div class="flex-1">
                             <div id="laps-config-container">
-                                <label for="lap-limit-select" class="block text-[9px] font-bold text-gray-500 mb-0.5 uppercase" data-i18n="lapLimit">Límite</label>
+                                <label for="lap-limit-select" class="block text-[9px] font-bold text-gray-500 mb-0.5 uppercase" data-i18n="lapLimit">LÃ­mite</label>
                                 <select id="lap-limit-select" class="silver-input w-full p-1 text-[11px] rounded-md">
                                     <option value="5" data-i18n="5laps">5 Vueltas</option><option value="10" selected data-i18n="10laps">10 Vueltas</option>
                                     <option value="25">25 Vueltas</option><option value="50">50 Vueltas</option><option value="Infinity" data-i18n="infinite">Infinito</option>
@@ -655,7 +655,7 @@
                 <div class="inline-block p-2 rounded-full bg-gray-100 mb-2 border border-gray-300 shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-yellow-500"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
                 </div>
-                <h3 class="text-xl font-extrabold text-gray-800 uppercase tracking-wider" data-i18n="raceFinished">¡Carrera Finalizada!</h3>
+                <h3 class="text-xl font-extrabold text-gray-800 uppercase tracking-wider" data-i18n="raceFinished">Â¡Carrera Finalizada!</h3>
             </div>
             
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
@@ -716,7 +716,7 @@
                     <thead><tr><th class="p-2 text-gray-700" data-i18n="date">FECHA</th><th class="p-2 text-gray-700" data-i18n="pilotCar">PILOTO/COCHE</th><th class="p-2 text-gray-700" data-i18n="bestLap">MEJOR VUELTA</th></tr></thead>
                     <tbody id="full-history-body" class="text-gray-800"></tbody>
                 </table>
-                <p id="no-history-msg" class="text-center text-gray-500 mt-4 hidden" data-i18n="noHistory">No hay carreras registradas aún.</p>
+                <p id="no-history-msg" class="text-center text-gray-500 mt-4 hidden" data-i18n="noHistory">No hay carreras registradas aÃºn.</p>
             </div>
             <div class="mt-4 flex justify-end">
                 <button id="open-confirm-btn" class="bg-gray-200 border border-gray-400 hover:bg-gray-300 text-gray-800 px-3 py-1.5 rounded shadow text-xs font-bold transition-colors" data-i18n="clearHistory">Borrar Historial</button>
@@ -727,11 +727,11 @@
     <!-- MODAL CONFIRMACION -->
     <div id="confirmModal" class="modal-overlay hidden" style="z-index: 200;">
         <div class="modal-content p-6 w-full max-w-xs text-center">
-            <h3 class="text-base font-bold text-gray-800" data-i18n="clearHistoryQ">¿Borrar Historial?</h3>
-            <p class="text-gray-600 text-xs mt-1 mb-4" data-i18n="cannotUndo">Esta acción no se puede deshacer.</p>
+            <h3 class="text-base font-bold text-gray-800" data-i18n="clearHistoryQ">Â¿Borrar Historial?</h3>
+            <p class="text-gray-600 text-xs mt-1 mb-4" data-i18n="cannotUndo">Esta acciÃ³n no se puede deshacer.</p>
             <div class="flex justify-center space-x-2">
                 <button id="cancel-clear-btn" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded font-bold text-xs border border-gray-400" data-i18n="cancel">Cancelar</button>
-                <button id="confirm-clear-btn" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded font-bold text-xs shadow-md" data-i18n="yesClear">Sí, Borrar</button>
+                <button id="confirm-clear-btn" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded font-bold text-xs shadow-md" data-i18n="yesClear">SÃ­, Borrar</button>
             </div>
         </div>
     </div>
@@ -753,7 +753,7 @@
                         <span class="text-[9px] text-emerald-600 font-bold mr-1">PISTA:</span>
                         <select id="garage-circuit-picker" class="bg-transparent text-xs font-bold outline-none cursor-pointer text-emerald-800 w-32"></select>
                     </div>
-                    <button id="garage-add-btn" class="bg-green-100 border border-green-400 text-green-700 hover:bg-green-200 px-3 py-1 rounded text-xs font-bold transition shadow-sm">+ Añadir</button>
+                    <button id="garage-add-btn" class="bg-green-100 border border-green-400 text-green-700 hover:bg-green-200 px-3 py-1 rounded text-xs font-bold transition shadow-sm">+ AÃ±adir</button>
                     <button id="close-garage-btn" class="text-gray-500 hover:text-black font-bold ml-3 text-lg">X</button>
                 </div>
             </div>
@@ -773,7 +773,7 @@
                         <div><label class="text-[9px] font-bold text-gray-500 uppercase">Nombre del Modelo</label><input type="text" id="g-input-name" class="silver-input w-full p-1.5 text-xs font-bold rounded" placeholder="Ej: Porsche 911 RSR"></div>
                         <div class="flex gap-2">
                             <div class="flex-1"><label class="text-[9px] font-bold text-gray-500 uppercase">Marca</label><input type="text" id="g-input-brand" class="silver-input w-full p-1.5 text-xs rounded" placeholder="Ej: Scalextric"></div>
-                            <div class="flex-1"><label class="text-[9px] font-bold text-gray-500 uppercase">Categoría</label><input type="text" id="g-input-cat" class="silver-input w-full p-1.5 text-xs rounded" placeholder="Ej: GT"></div>
+                            <div class="flex-1"><label class="text-[9px] font-bold text-gray-500 uppercase">CategorÃ­a</label><input type="text" id="g-input-cat" class="silver-input w-full p-1.5 text-xs rounded" placeholder="Ej: GT"></div>
                         </div>
                     </div>
                     
@@ -783,8 +783,8 @@
                     </div>
                     
                     <div class="mt-auto pt-3 flex flex-col gap-2">
-                        <!-- BOTÓN PILOTAR -->
-                        <button id="garage-drive-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest py-3 rounded-lg shadow-md transition transform hover:scale-[1.02]">🏁 Pilotar en pista actual</button>
+                        <!-- BOTÃ“N PILOTAR -->
+                        <button id="garage-drive-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest py-3 rounded-lg shadow-md transition transform hover:scale-[1.02]">ðŸ Pilotar en pista actual</button>
                         
                         <div class="flex gap-2">
                             <button id="garage-save-car-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded shadow-md transition">Guardar Cambios</button>
@@ -796,20 +796,20 @@
                 </div>
                 
                 <div class="w-full md:w-2/3 flex flex-col gap-3 overflow-y-auto pr-1">
-                    <h4 class="text-xs font-black text-gray-600 uppercase tracking-widest border-b border-gray-300 pb-1 shrink-0">Telemetría Avanzada (Histórico)</h4>
+                    <h4 class="text-xs font-black text-gray-600 uppercase tracking-widest border-b border-gray-300 pb-1 shrink-0">TelemetrÃ­a Avanzada (HistÃ³rico)</h4>
                     
                     <div class="bg-gray-50 border border-gray-200 p-2 rounded-lg shadow-inner h-48 flex flex-col shrink-0">
-                        <span class="text-[10px] font-bold text-gray-500 mb-1">Evolución de Tiempos (Últimas 50 vueltas)</span>
+                        <span class="text-[10px] font-bold text-gray-500 mb-1">EvoluciÃ³n de Tiempos (Ãšltimas 50 vueltas)</span>
                         <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
                     </div>
                     
                     <div class="flex gap-3 h-48 shrink-0">
                         <div class="flex-1 bg-gray-50 border border-gray-200 p-2 rounded-lg shadow-inner flex flex-col">
-                            <span class="text-[10px] font-bold text-gray-500 mb-1">Consistencia (Desviación vs Mejor Vuelta)</span>
+                            <span class="text-[10px] font-bold text-gray-500 mb-1">Consistencia (DesviaciÃ³n vs Mejor Vuelta)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartConsistency"></canvas></div>
                         </div>
                         <div class="flex-1 bg-gray-50 border border-gray-200 p-2 rounded-lg shadow-inner flex flex-col">
-                            <span class="text-[10px] font-bold text-gray-500 mb-1">Distribución de Sectores (Media Acumulada)</span>
+                            <span class="text-[10px] font-bold text-gray-500 mb-1">DistribuciÃ³n de Sectores (Media Acumulada)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
                         </div>
                     </div>
@@ -828,7 +828,7 @@
                 </h3>
                 <div class="flex items-center space-x-2">
                     <select id="circuit-picker" class="silver-input text-xs font-bold px-2 py-1 rounded w-48 border-gray-400 shadow-sm"></select>
-                    <button id="circuit-add-btn" class="bg-emerald-100 border border-emerald-400 text-emerald-700 hover:bg-emerald-200 px-3 py-1 rounded text-xs font-bold transition shadow-sm">+ Añadir</button>
+                    <button id="circuit-add-btn" class="bg-emerald-100 border border-emerald-400 text-emerald-700 hover:bg-emerald-200 px-3 py-1 rounded text-xs font-bold transition shadow-sm">+ AÃ±adir</button>
                     <button id="close-circuit-btn" class="text-gray-500 hover:text-black font-bold ml-3 text-lg">X</button>
                 </div>
             </div>
@@ -842,7 +842,7 @@
                     
                     <div class="bg-white border border-gray-300 p-2 rounded flex items-center justify-between shadow-sm">
                         <div class="flex flex-col">
-                            <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Estado Cámaras</span>
+                            <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Estado CÃ¡maras</span>
                             <span class="text-[10px] text-gray-500">Se guarda auto. al moverlas</span>
                         </div>
                         <span id="c-stat-rois" class="text-xs font-black text-gray-700 bg-gray-200 px-2 py-1 rounded">1 Sector Activo</span>
@@ -851,7 +851,7 @@
                     <div class="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-gray-300">
                         <div class="bg-white p-2 rounded shadow-sm border border-gray-200 text-center relative overflow-hidden">
                             <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
-                            <p class="text-[9px] text-gray-500 font-bold uppercase mt-1">Récord Absoluto</p>
+                            <p class="text-[9px] text-gray-500 font-bold uppercase mt-1">RÃ©cord Absoluto</p>
                             <p id="c-stat-best" class="text-emerald-600 font-arial font-black text-sm">--.---</p>
                             <p id="c-stat-pilot" class="text-[9px] text-gray-400 font-bold truncate mt-1">Piloto / Coche</p>
                         </div>
@@ -878,7 +878,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-2 opacity-50"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         <p class="text-xs font-bold">Sin foto del circuito</p>
                     </div>
-                    <!-- Botón para capturar (visible siempre al hacer hover o si no hay imagen) -->
+                    <!-- BotÃ³n para capturar (visible siempre al hacer hover o si no hay imagen) -->
                     <button id="circuit-capture-btn" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.8)] border border-blue-400 flex items-center transition z-10 opacity-90 hover:opacity-100">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
                         Capturar Pista + ROIs
@@ -892,24 +892,24 @@
         const translations = {
             es: {
                 langLabel: "Idioma", history: "Historial", circuits: "Circuitos", circuitName: "Pista / Circuito",
-                pilotDataTitle: "Configuración", pilotName: "Piloto", carModel: "Coche",
+                pilotDataTitle: "ConfiguraciÃ³n", pilotName: "Piloto", carModel: "Coche",
                 raceMode: "Modo", modeLaps: "Por Vueltas", modeTime: "Por Tiempo",
-                lapLimit: "Límite", timeLimit: "Tiempo", limitLabel: "Límite",
+                lapLimit: "LÃ­mite", timeLimit: "Tiempo", limitLabel: "LÃ­mite",
                 sectorsCount: "Sectores", sec0: "0 (Solo Meta)", sec1: "1 (+ Meta)", sec2: "2 (+ Meta)", sec3: "3 (+ Meta)", sec4: "4 (+ Meta)",
                 safetyTime: "Anti-Rebote", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
                 engineerVoice: "Voz Ing.", aiSens: "Sensibilidad IA", verySens: "Sensible", lessSens: "Inmune",
                 raceTime: "TIEMPO", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR",
-                videoTitle: "Cámara y Sectores", autoCalib: "Calibrar", newRecord: "¡RÉCORD!",
+                videoTitle: "CÃ¡mara y Sectores", autoCalib: "Calibrate", newRecord: "Â¡RÃ‰CORD!",
                 calibrating: "Calibrando...", clearTrack: "Despeja la pista",
-                falseStart: "¡SALIDA NULA!", camLoading: "Sensor Inactivo",
-                telemetry: "Telemetría", pilotCar: "PILOTO / COCHE", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
-                lastLapSectors: "TIEMPOS SECTOR", timeGraph: "Evolución de Tiempos", noData: "Sin datos",
-                raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
-                restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "Vacío.",
-                clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
+                falseStart: "Â¡SALIDA NULA!", camLoading: "Sensor Inactivo",
+                telemetry: "TelemetrÃ­a", pilotCar: "PILOTO / COCHE", lastLap: "ÃšLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
+                lastLapSectors: "TIEMPOS SECTOR", timeGraph: "EvoluciÃ³n de Tiempos", noData: "Sin datos",
+                raceFinished: "Â¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
+                restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "VacÃ­o.",
+                clearHistory: "Borrar", clearHistoryQ: "Â¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "SÃ­",
                 pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
                 "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "Inf",
-                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje"
+                voiceCalibrated: "CÃ¡maras listas.", voiceFalseStart: "Â¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "Â¡Vuelta rÃ¡pida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "Â¡Ãšltima vuelta!", testWait: "ESPERA", testGo: "Â¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje"
             },
             en: {
                 langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit",
@@ -994,8 +994,8 @@
                 return;
             }
             try {
-                // Cargar Circuitos
-                const circSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'circuits'));
+                // Cargar Circuitos usando la estructura app_sector_time > public > data
+                const circSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits'));
                 const cloudCircuits = [];
                 circSnap.forEach(d => cloudCircuits.push(d.data()));
                 if (cloudCircuits.length > 0) {
@@ -1004,7 +1004,7 @@
                 }
                 
                 // Cargar Garaje
-                const garSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'garage'));
+                const garSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage'));
                 const cloudCars = [];
                 garSnap.forEach(d => {
                     let c = d.data();
@@ -1018,7 +1018,7 @@
                 
                 window.initLocalMode();
             } catch(e) {
-                console.error("Error nube, usando fallback local:", e);
+                console.error("ðŸ”¥ Error nube, usando fallback local:", e);
                 window.initLocalMode();
             }
         };
@@ -1300,8 +1300,8 @@
         }
 
         function updateLapDisplay() { 
-            const maxLapsText = totalLaps === Infinity ? '∞' : totalLaps;
-            if (raceMode === 'time') { document.getElementById('lap-count').textContent = currentLap; document.getElementById('mode-target-display').textContent = `LÍMITE: ${document.getElementById('time-limit-select').value} min`; document.getElementById('mode-target-display').classList.remove('hidden'); } 
+            const maxLapsText = totalLaps === Infinity ? 'âˆž' : totalLaps;
+            if (raceMode === 'time') { document.getElementById('lap-count').textContent = currentLap; document.getElementById('mode-target-display').textContent = `LÃMITE: ${document.getElementById('time-limit-select').value} min`; document.getElementById('mode-target-display').classList.remove('hidden'); } 
             else { document.getElementById('lap-count').textContent = `${currentLap} / ${maxLapsText}`; document.getElementById('mode-target-display').classList.add('hidden'); }
         }
 
@@ -1522,8 +1522,8 @@
             
             if(!window.userId || !window.fs) return;
             try {
-                await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'history'), rec);
-            } catch (e) { console.warn("Cloud history save failed", e); }
+                await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history'), rec);
+            } catch (e) { console.warn("ðŸ”¥ Error guardando en Firebase:", e); }
         }
 
         async function loadHistory() {
@@ -1536,7 +1536,7 @@
             
             if(window.userId && window.fs) {
                 try {
-                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'history'));
+                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history'));
                     let cloudH = [];
                     hSnap.forEach(d => cloudH.push(d.data()));
                     if (cloudH.length > 0) {
@@ -1544,7 +1544,7 @@
                         h = cloudH;
                         localStorage.setItem('krono_history_v4', JSON.stringify(h.slice(0, 50)));
                     }
-                } catch(e) { console.warn("Cloud history load failed", e); }
+                } catch(e) { console.warn("ðŸ”¥ Error cargando historial desde Firebase:", e); }
             }
             
             tbody.innerHTML = '';
@@ -1663,18 +1663,18 @@
             localStorage.removeItem('krono_history_v4');
             if(window.userId && window.fs && window.db) {
                 try {
-                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'history'));
+                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history'));
                     for(const d of hSnap.docs) {
                         await window.fs.deleteDoc(d.ref);
                     }
-                } catch(e) { console.warn("Cloud clear failed", e); }
+                } catch(e) { console.warn("ðŸ”¥ Error borrando en Firebase:", e); }
             }
             loadHistory(); 
             document.getElementById('confirmModal').classList.remove('open'); 
             setTimeout(()=>document.getElementById('confirmModal').classList.add('hidden'),300); 
         });
 
-        // --- LÓGICA DEL GARAJE ---
+        // --- LÃ“GICA DEL GARAJE ---
         function initGarageLocal() {
             if(garageCars.length === 0) {
                 garageCars.push({
@@ -1693,9 +1693,9 @@
             if (!window.userId || !window.fs || !window.db) return;
             try {
                 for (const car of garageCars) {
-                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'garage', car.id), car);
+                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', car.id), car);
                 }
-            } catch(e) { console.warn("Firebase save failed", e); }
+            } catch(e) { console.warn("ðŸ”¥ Error guardando garaje en Firebase:", e); }
         }
 
         function updateCarSelects() {
@@ -1749,7 +1749,7 @@
         function drawGarageCharts(hist, bestLapForChart) {
             hist = hist || []; // PROTECCION ARRAY
 
-            // 1. Chart: Evolución de tiempos
+            // 1. Chart: EvoluciÃ³n de tiempos
             const ctxEvol = document.getElementById('garageChartEvolution').getContext('2d');
             if(garageChartEvol) garageChartEvol.destroy();
             garageChartEvol = new Chart(ctxEvol, {
@@ -1761,7 +1761,7 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { beginAtZero: false, ticks: {color: '#6b7280'} }, x: { ticks: {color: '#6b7280'} } } }
             });
 
-            // 2. Chart: Consistencia (Desviación vs Best Lap)
+            // 2. Chart: Consistencia (DesviaciÃ³n vs Best Lap)
             const ctxCons = document.getElementById('garageChartConsistency').getContext('2d');
             if(garageChartCons) garageChartCons.destroy();
             const devData = hist.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
@@ -1769,12 +1769,12 @@
                 type: 'bar',
                 data: {
                     labels: hist.map((_, i) => `V${i+1}`),
-                    datasets: [{ label: 'Desviación (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 2 }]
+                    datasets: [{ label: 'DesviaciÃ³n (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 2 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { ticks: {color: '#6b7280'} }, x: { ticks: {color: '#6b7280', display: false} } } }
             });
 
-            // 3. Chart: Distribución Sectores Media
+            // 3. Chart: DistribuciÃ³n Sectores Media
             const ctxSect = document.getElementById('garageChartSectors').getContext('2d');
             if(garageChartSect) garageChartSect.destroy();
             
@@ -1832,7 +1832,7 @@
                 car.cat = document.getElementById('g-input-cat').value;
                 saveGarage(); updateCarSelects();
                 const btn = document.getElementById('garage-save-car-btn');
-                btn.textContent = "¡Guardado!"; btn.classList.replace('bg-blue-600', 'bg-green-600');
+                btn.textContent = "Â¡Guardado!"; btn.classList.replace('bg-blue-600', 'bg-green-600');
                 setTimeout(() => { btn.textContent = "Guardar Cambios"; btn.classList.replace('bg-green-600', 'bg-blue-600'); }, 1500);
             }
         });
@@ -1846,7 +1846,9 @@
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => {
             if(garageCars.length > 1) {
                 if(window.userId && window.fs && window.db) {
-                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'garage', currentGarageCarId));
+                    try {
+                        await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));
+                    } catch (e) { console.warn("ðŸ”¥ Error borrando en Firebase:", e); }
                 }
                 garageCars = garageCars.filter(c => c.id !== currentGarageCarId);
                 saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id);
@@ -1914,9 +1916,9 @@
             if (!window.userId || !window.fs || !window.db) return;
             try {
                 for (const circ of circuits) {
-                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'circuits', circ.id), circ);
+                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', circ.id), circ);
                 }
-            } catch(e) { console.warn("Firebase save failed", e); }
+            } catch(e) { console.warn("ðŸ”¥ Error guardando circuitos en Firebase:", e); }
         }
 
         function updateCircuitSelects() {
@@ -1986,7 +1988,7 @@
 
         document.getElementById('circuit-capture-btn').addEventListener('click', () => {
             if (!videoElement.videoWidth) {
-                alert("Enciende la cámara primero para capturar la pista.");
+                alert("Enciende la cÃ¡mara primero para capturar la pista.");
                 return;
             }
             
@@ -2013,7 +2015,7 @@
                 if(i===3) { strokeColor='#a855f7'; labelText='S3'; }
                 if(i===4) { strokeColor='#06b6d4'; labelText='S4'; }
 
-                // Rectángulo
+                // RectÃ¡ngulo
                 ctx.lineWidth = 4;
                 ctx.strokeStyle = strokeColor;
                 ctx.strokeRect(l, t, w, h);
@@ -2097,7 +2099,7 @@
                 circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
                 saveCircuits(); updateCircuitSelects();
                 const btn = document.getElementById('circuit-save-btn');
-                btn.textContent = "¡Guardado!"; btn.classList.replace('bg-emerald-600', 'bg-green-600');
+                btn.textContent = "Â¡Guardado!"; btn.classList.replace('bg-emerald-600', 'bg-green-600');
                 setTimeout(() => { btn.textContent = "Guardar Cambios"; btn.classList.replace('bg-green-600', 'bg-emerald-600'); }, 1500);
             }
         });
@@ -2115,7 +2117,9 @@
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => {
             if(circuits.length > 1) {
                 if(window.userId && window.fs && window.db) {
-                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_krono', 'users', window.userId, 'circuits', currentCircuitId));
+                    try {
+                        await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId));
+                    } catch (e) { console.warn("ðŸ”¥ Error borrando en Firebase:", e); }
                 }
                 circuits = circuits.filter(c => c.id !== currentCircuitId);
                 saveCircuits(); updateCircuitSelects(); 
@@ -2151,7 +2155,7 @@
             sensitivity = 20; slider.value = 20; document.getElementById('current-threshold').textContent = 20;
             updateLapDisplay(); stopRace(false);
             
-            // Retraso de 0.5s para asegurar que el motor de render DOM y dependencias están listas
+            // Retraso de 0.5s para asegurar que el motor de render DOM y dependencias estÃ¡n listas
             setTimeout(() => {
                 if (window.initFirebase) {
                     window.initFirebase();
@@ -2159,7 +2163,7 @@
                     window.initLocalMode();
                 }
                 
-                // Fallback 100% garantizado: Si todo falla y a los 3s aún no hay circuitos
+                // Fallback 100% garantizado: Si todo falla y a los 3s aÃºn no hay circuitos
                 setTimeout(() => {
                     if (circuits.length === 0 && window.initLocalMode) window.initLocalMode();
                 }, 3000);
