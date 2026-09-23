@@ -18,8 +18,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, setLogLevel, collection, addDoc, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, setLogLevel, collection, addDoc, getDocs, doc, setDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDW-2Yc4kvZJYbNOVeesPZWdRThYe0noUI",
@@ -46,7 +46,7 @@
                 setLogLevel('error'); 
                 
                 window.db = db;
-                window.fs = { collection, addDoc, getDocs, doc, setDoc, deleteDoc };
+                window.fs = { collection, addDoc, getDocs, doc, setDoc, deleteDoc, query, where };
 
                 auth.onAuthStateChanged(async (user) => {
                     if (user) {
@@ -341,6 +341,20 @@
         #yellow-flag-overlay.active { display: flex; }
         .yellow-flag-icon { width: 64px; height: 64px; color: #facc15; animation: wave 1s infinite ease-in-out; }
         @keyframes wave { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+        
+        /* Estilos Tabs Ranking */
+        .tab-btn { flex: 1; padding: 0.5rem; font-weight: bold; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s ease; cursor: pointer; border: 1px solid transparent; }
+        .tab-btn.active { background-color: #f59e0b; color: white; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        .tab-btn.inactive { background-color: #e5e7eb; color: #4b5563; border-color: #d1d5db; }
+        .tab-btn.inactive:hover { background-color: #d1d5db; }
+        
+        .sector-card { background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.75rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .sector-card .bar { position: absolute; top: 0; left: 0; height: 4px; width: 100%; }
+        .sector-card.meta .bar { background-color: #374151; }
+        .sector-card.s1 .bar { background-color: #3b82f6; }
+        .sector-card.s2 .bar { background-color: #f59e0b; }
+        .sector-card.s3 .bar { background-color: #a855f7; }
+        .sector-card.s4 .bar { background-color: #06b6d4; }
     </style>
 </head>
 <body>
@@ -379,6 +393,11 @@
                     <button id="garage-open-btn" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors px-3 py-1 rounded-full hover:bg-blue-100 border border-transparent hover:border-blue-300 shadow-sm" title="Mi Garaje">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
                         <span class="text-xs font-bold uppercase tracking-wider" data-i18n="garage">Garaje</span>
+                    </button>
+                    
+                    <button id="ranking-open-btn" class="flex items-center text-amber-600 hover:text-amber-800 transition-colors px-3 py-1 rounded-full hover:bg-amber-100 border border-transparent hover:border-amber-300 shadow-sm" title="Ranking">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
+                        <span class="text-xs font-bold uppercase tracking-wider" data-i18n="ranking">Ranking</span>
                     </button>
                     
                     <button id="fullscreen-btn" class="flex items-center text-gray-500 hover:text-black transition-colors px-3 py-1 rounded-full hover:bg-gray-200 border border-transparent hover:border-gray-300" title="Pantalla Completa">
@@ -648,6 +667,62 @@
         </div>
     </div>
 
+    <!-- MODAL DE RANKING GLOBAL -->
+    <div id="rankingModal" class="modal-overlay hidden" style="z-index: 150;">
+        <div class="modal-content p-6 w-full max-w-4xl bg-gray-50">
+            <div class="flex justify-between items-center border-b border-gray-300 pb-3 mb-4">
+                <h3 class="text-lg font-black text-amber-600 flex items-center uppercase tracking-widest">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
+                    Ranking Global
+                </h3>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Circuito:</span>
+                    <select id="ranking-circuit-picker" class="silver-input text-xs font-bold px-2 py-1 rounded w-48 shadow-sm"></select>
+                    <button id="close-ranking-btn" class="text-gray-500 hover:text-black font-bold ml-2 text-lg">X</button>
+                </div>
+            </div>
+
+            <div class="flex space-x-2 mb-4">
+                <button id="tab-btn-top25" class="tab-btn active">Top 25 Tiempos</button>
+                <button id="tab-btn-sectors" class="tab-btn inactive">RÃ©cords por Sector</button>
+            </div>
+
+            <div id="ranking-loading" class="text-center py-10 hidden">
+                <div class="spinner mx-auto mb-2 !w-8 !h-8 !border-4"></div>
+                <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Cargando RÃ©cords...</p>
+            </div>
+
+            <!-- CONTENEDOR TOP 25 -->
+            <div id="ranking-view-top25" class="overflow-y-auto max-h-[50vh]">
+                <table class="w-full text-left text-xs bg-white rounded-lg shadow overflow-hidden">
+                    <thead class="bg-amber-100">
+                        <tr>
+                            <th class="p-2 text-amber-900 w-12 text-center">POS</th>
+                            <th class="p-2 text-amber-900">PILOTO / COCHE</th>
+                            <th class="p-2 text-amber-900 text-right">TIEMPO VUELTA</th>
+                            <th class="p-2 text-amber-900 text-right">FECHA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-top25-body" class="divide-y divide-gray-200">
+                        <!-- Generado por JS -->
+                    </tbody>
+                </table>
+                <p id="ranking-top25-empty" class="text-center text-gray-500 mt-4 hidden">AÃºn no hay rÃ©cords globales para este circuito.</p>
+            </div>
+
+            <!-- CONTENEDOR SECTORES -->
+            <div id="ranking-view-sectors" class="hidden overflow-y-auto max-h-[50vh]">
+                <div class="bg-white p-4 rounded-lg shadow mb-4">
+                    <p class="text-xs text-gray-500 mb-3 text-center">Tiempos teÃ³ricos mÃ¡s rÃ¡pidos conseguidos de forma individual en cada sector para esta pista.</p>
+                    <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <!-- Generado por JS -->
+                    </div>
+                    <p id="ranking-sectors-empty" class="text-center text-gray-500 mt-4 hidden">AÃºn no hay sectores registrados para este circuito.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL DE RESULTADOS FINALES -->
     <div id="resultsModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-3xl">
@@ -891,7 +966,7 @@
     <script>
         const translations = {
             es: {
-                langLabel: "Idioma", history: "Historial", circuits: "Circuitos", circuitName: "Pista / Circuito",
+                langLabel: "Idioma", history: "Historial", circuits: "Circuitos", circuitName: "Pista / Circuito", ranking: "Ranking",
                 pilotDataTitle: "ConfiguraciÃ³n", pilotName: "Piloto", carModel: "Coche",
                 raceMode: "Modo", modeLaps: "Por Vueltas", modeTime: "Por Tiempo",
                 lapLimit: "LÃ­mite", timeLimit: "Tiempo", limitLabel: "LÃ­mite",
@@ -899,7 +974,7 @@
                 safetyTime: "Anti-Rebote", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
                 engineerVoice: "Voz Ing.", aiSens: "Sensibilidad IA", verySens: "Sensible", lessSens: "Inmune",
                 raceTime: "TIEMPO", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR",
-                videoTitle: "CÃ¡mara y Sectores", autoCalib: "Calibrate", newRecord: "Â¡RÃ‰CORD!",
+                videoTitle: "CÃ¡mara y Sectores", autoCalib: "Calibrar", newRecord: "Â¡RÃ‰CORD!",
                 calibrating: "Calibrando...", clearTrack: "Despeja la pista",
                 falseStart: "Â¡SALIDA NULA!", camLoading: "Sensor Inactivo",
                 telemetry: "TelemetrÃ­a", pilotCar: "PILOTO / COCHE", lastLap: "ÃšLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
@@ -912,7 +987,7 @@
                 voiceCalibrated: "CÃ¡maras listas.", voiceFalseStart: "Â¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "Â¡Vuelta rÃ¡pida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "Â¡Ãšltima vuelta!", testWait: "ESPERA", testGo: "Â¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje"
             },
             en: {
-                langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit",
+                langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit", ranking: "Ranking",
                 pilotDataTitle: "Config", pilotName: "Driver", carModel: "Car",
                 raceMode: "Mode", modeLaps: "Laps", modeTime: "Time",
                 lapLimit: "Limit", timeLimit: "Time", limitLabel: "Limit",
@@ -961,7 +1036,7 @@
         let currentLapSectors = [], hasCrossedStart = false, currentLap = 0, totalLaps = 10;
         let raceMode = 'laps', raceTimeLimit = 0, finalRaceTimeMs = 0; 
         
-        let lapHistory = [], bestLapTime = Infinity, totalLapTime = 0, currentAverageTime = 0, lastCompletedLapTime = 0, lastCompletedSectors = [];
+        let lapHistory = [], bestLapTime = Infinity, bestLapSectors = [], totalLapTime = 0, currentAverageTime = 0, lastCompletedLapTime = 0, lastCompletedSectors = [];
 
         window.initLocalMode = () => {
             try {
@@ -994,7 +1069,7 @@
                 return;
             }
             try {
-                // Cargar Circuitos usando la estructura app_sector_time > public > data
+                // Cargar Circuitos
                 const circSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits'));
                 const cloudCircuits = [];
                 circSnap.forEach(d => cloudCircuits.push(d.data()));
@@ -1018,7 +1093,7 @@
                 
                 window.initLocalMode();
             } catch(e) {
-                console.error("ðŸ”¥ Error nube, usando fallback local:", e);
+                console.error("Error nube, usando fallback local:", e);
                 window.initLocalMode();
             }
         };
@@ -1222,7 +1297,12 @@
 
         function recordLap(lapTime, sectorsArray) {
             lastCompletedLapTime = lapTime;
-            const isBest = (lapTime < bestLapTime); if (isBest) bestLapTime = lapTime;
+            const isBest = (lapTime < bestLapTime); 
+            if (isBest) {
+                bestLapTime = lapTime;
+                bestLapSectors = [...sectorsArray];
+            }
+            
             totalLapTime += lapTime; currentAverageTime = totalLapTime / (lapHistory.length + 1);
             
             const lapData = { lap: currentLap + 1, time: lapTime, sectors: sectorsArray };
@@ -1386,10 +1466,13 @@
                     saveCircuits();
                 }
 
-                saveHistory(); speak(`${translations[currentLang].voiceFinished}`); populateModal();
+                saveHistory(); 
+                saveToLeaderboard(); // Guarda el rÃ©cord global si existe
+                
+                speak(`${translations[currentLang].voiceFinished}`); populateModal();
                 document.getElementById('resultsModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('resultsModal').classList.add('open'),10);
             } else {
-                currentLap = 0; lapHistory = []; bestLapTime = Infinity; totalLapTime = 0; currentAverageTime = 0; lastCompletedLapTime = 0;
+                currentLap = 0; lapHistory = []; bestLapTime = Infinity; bestLapSectors = []; totalLapTime = 0; currentAverageTime = 0; lastCompletedLapTime = 0;
                 document.getElementById('race-time').textContent = "00:00.000"; document.getElementById('lap-time').textContent = "00.000";
                 updateLapDisplay(); updateTelemetryDisplay();
                 const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
@@ -1510,6 +1593,144 @@
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
+        // --- SISTEMA DE RANKING GLOBAL ---
+        async function saveToLeaderboard() {
+            if (bestLapTime === Infinity) return;
+            
+            const carSelect = document.getElementById('car-model-select');
+            const carName = carSelect.options[carSelect.selectedIndex]?.text || "N/A";
+            const pilotName = document.getElementById('pilot-name-input').value || "Piloto";
+
+            const record = { 
+                circuitId: currentCircuitId, 
+                pilot: pilotName, 
+                car: carName, 
+                time: bestLapTime, 
+                sectors: bestLapSectors, // Guardamos los sectores de esta vuelta rÃ¡pida
+                date: new Date().toLocaleDateString(), 
+                timestamp: Date.now(),
+                userId: window.userId || 'local'
+            };
+
+            // Guardar copia local de rankings
+            try {
+                let localLB = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]');
+                localLB.push(record);
+                localStorage.setItem('krono_leaderboards_v4', JSON.stringify(localLB));
+            } catch(e) {}
+
+            // Guardar en la colecciÃ³n global de Firebase
+            if(!window.userId || !window.fs || !window.db) return;
+            try {
+                await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'leaderboards'), record);
+            } catch (e) { console.warn("Error guardando en Ranking Global", e); }
+        }
+
+        async function fetchAndRenderRankings(circuitId) {
+            document.getElementById('ranking-loading').classList.remove('hidden');
+            document.getElementById('ranking-top25-body').innerHTML = '';
+            document.getElementById('ranking-sectors-grid').innerHTML = '';
+            document.getElementById('ranking-top25-empty').classList.add('hidden');
+            document.getElementById('ranking-sectors-empty').classList.add('hidden');
+            
+            let records = [];
+
+            // Obtener de Firebase
+            if (window.userId && window.fs && window.db) {
+                try {
+                    const q = window.fs.query(
+                        window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'leaderboards'),
+                        window.fs.where('circuitId', '==', circuitId)
+                    );
+                    const snap = await window.fs.getDocs(q);
+                    snap.forEach(d => records.push(d.data()));
+                } catch(e) { console.warn("Error leyendo Ranking Global", e); }
+            } 
+            
+            // Fallback o suma local
+            if (records.length === 0) {
+                try {
+                    records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => r.circuitId === circuitId);
+                } catch(e) {}
+            }
+
+            // Ordenar por tiempo (el mÃ¡s bajo primero)
+            records.sort((a, b) => a.time - b.time);
+
+            // Filtrar Top 25 (evitando que el mismo piloto repita muchas veces con tiempos peores)
+            let uniquePilots = new Set();
+            let top25 = [];
+            for (let r of records) {
+                if(!uniquePilots.has(r.pilot)) {
+                    uniquePilots.add(r.pilot);
+                    top25.push(r);
+                    if(top25.length >= 25) break;
+                }
+            }
+
+            // Renderizar TOP 25
+            if (top25.length === 0) {
+                document.getElementById('ranking-top25-empty').classList.remove('hidden');
+            } else {
+                const tbody = document.getElementById('ranking-top25-body');
+                top25.forEach((r, index) => {
+                    const tr = document.createElement('tr');
+                    // Estilo especial para los 3 primeros
+                    if(index === 0) tr.classList.add('bg-yellow-100', 'font-black');
+                    else if (index === 1) tr.classList.add('bg-gray-100', 'font-bold');
+                    else if (index === 2) tr.classList.add('bg-orange-50', 'font-bold');
+
+                    tr.innerHTML = `
+                        <td class="p-2 text-center text-amber-600">${index + 1}</td>
+                        <td class="p-2"><span class="block text-gray-800">${r.pilot}</span><span class="text-[10px] text-gray-500 font-normal">${r.car}</span></td>
+                        <td class="p-2 text-right text-emerald-600 font-arial">${formatTime(r.time, false)}</td>
+                        <td class="p-2 text-right text-gray-400 text-[10px]">${r.date}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Renderizar MEJORES SECTORES ABSOLUTOS
+            let bestSectors = [];
+            records.forEach(r => {
+                if(r.sectors && r.sectors.length > 0) {
+                    r.sectors.forEach((secTime, idx) => {
+                        if (secTime > 0) {
+                            if(!bestSectors[idx] || secTime < bestSectors[idx].time) {
+                                bestSectors[idx] = { time: secTime, pilot: r.pilot, car: r.car };
+                            }
+                        }
+                    });
+                }
+            });
+
+            if (bestSectors.length === 0) {
+                document.getElementById('ranking-sectors-empty').classList.remove('hidden');
+            } else {
+                const grid = document.getElementById('ranking-sectors-grid');
+                bestSectors.forEach((sec, idx) => {
+                    if (sec) {
+                        const isMeta = (idx === bestSectors.length - 1);
+                        const secLabel = isMeta ? 'META' : `SEC ${idx + 1}`;
+                        const secClass = isMeta ? 'meta' : (idx===0?'s1':(idx===1?'s2':(idx===2?'s3':'s4')));
+                        
+                        grid.innerHTML += `
+                            <div class="sector-card ${secClass}">
+                                <div class="bar"></div>
+                                <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">${secLabel}</h4>
+                                <p class="text-xl font-black font-arial text-gray-800 my-1">${formatTime(sec.time, false)}</p>
+                                <p class="text-[10px] font-bold text-emerald-600 truncate">${sec.pilot}</p>
+                                <p class="text-[9px] text-gray-400 truncate">${sec.car}</p>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            
+            document.getElementById('ranking-loading').classList.add('hidden');
+        }
+
+        // --- HISTORIAL CLÃSICO ---
         async function saveHistory() {
             const carSelect = document.getElementById('car-model-select');
             const carName = carSelect.options[carSelect.selectedIndex]?.text || "N/A";
@@ -1523,7 +1744,7 @@
             if(!window.userId || !window.fs) return;
             try {
                 await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history'), rec);
-            } catch (e) { console.warn("ðŸ”¥ Error guardando en Firebase:", e); }
+            } catch (e) { console.warn("Cloud history save failed", e); }
         }
 
         async function loadHistory() {
@@ -1544,7 +1765,7 @@
                         h = cloudH;
                         localStorage.setItem('krono_history_v4', JSON.stringify(h.slice(0, 50)));
                     }
-                } catch(e) { console.warn("ðŸ”¥ Error cargando historial desde Firebase:", e); }
+                } catch(e) { console.warn("Cloud history load failed", e); }
             }
             
             tbody.innerHTML = '';
@@ -1667,11 +1888,51 @@
                     for(const d of hSnap.docs) {
                         await window.fs.deleteDoc(d.ref);
                     }
-                } catch(e) { console.warn("ðŸ”¥ Error borrando en Firebase:", e); }
+                } catch(e) { console.warn("Cloud clear failed", e); }
             }
             loadHistory(); 
             document.getElementById('confirmModal').classList.remove('open'); 
             setTimeout(()=>document.getElementById('confirmModal').classList.add('hidden'),300); 
+        });
+
+        // --- GESTION RANKING GLOBAL MODAL ---
+        document.getElementById('ranking-open-btn').addEventListener('click', () => {
+            document.getElementById('rankingModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10);
+            
+            // Llenar el selector de circuitos del ranking
+            const rankingCircSelect = document.getElementById('ranking-circuit-picker');
+            rankingCircSelect.innerHTML = '';
+            circuits.forEach(c => {
+                const opt = document.createElement('option'); opt.value = c.id; opt.textContent = c.name;
+                rankingCircSelect.appendChild(opt);
+            });
+            rankingCircSelect.value = currentCircuitId || (circuits.length > 0 ? circuits[0].id : null);
+            
+            if (rankingCircSelect.value) fetchAndRenderRankings(rankingCircSelect.value);
+        });
+
+        document.getElementById('close-ranking-btn').addEventListener('click', () => {
+            document.getElementById('rankingModal').classList.remove('open');
+            setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300);
+        });
+
+        document.getElementById('ranking-circuit-picker').addEventListener('change', (e) => {
+            fetchAndRenderRankings(e.target.value);
+        });
+
+        document.getElementById('tab-btn-top25').addEventListener('click', (e) => {
+            e.target.classList.replace('inactive', 'active');
+            document.getElementById('tab-btn-sectors').classList.replace('active', 'inactive');
+            document.getElementById('ranking-view-top25').classList.remove('hidden');
+            document.getElementById('ranking-view-sectors').classList.add('hidden');
+        });
+
+        document.getElementById('tab-btn-sectors').addEventListener('click', (e) => {
+            e.target.classList.replace('inactive', 'active');
+            document.getElementById('tab-btn-top25').classList.replace('active', 'inactive');
+            document.getElementById('ranking-view-sectors').classList.remove('hidden');
+            document.getElementById('ranking-view-top25').classList.add('hidden');
         });
 
         // --- LÃ“GICA DEL GARAJE ---
@@ -1695,7 +1956,7 @@
                 for (const car of garageCars) {
                     await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', car.id), car);
                 }
-            } catch(e) { console.warn("ðŸ”¥ Error guardando garaje en Firebase:", e); }
+            } catch(e) { console.warn("Firebase save failed", e); }
         }
 
         function updateCarSelects() {
@@ -1846,9 +2107,7 @@
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => {
             if(garageCars.length > 1) {
                 if(window.userId && window.fs && window.db) {
-                    try {
-                        await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));
-                    } catch (e) { console.warn("ðŸ”¥ Error borrando en Firebase:", e); }
+                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));
                 }
                 garageCars = garageCars.filter(c => c.id !== currentGarageCarId);
                 saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id);
@@ -1918,7 +2177,7 @@
                 for (const circ of circuits) {
                     await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', circ.id), circ);
                 }
-            } catch(e) { console.warn("ðŸ”¥ Error guardando circuitos en Firebase:", e); }
+            } catch(e) { console.warn("Firebase save failed", e); }
         }
 
         function updateCircuitSelects() {
@@ -2117,9 +2376,7 @@
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => {
             if(circuits.length > 1) {
                 if(window.userId && window.fs && window.db) {
-                    try {
-                        await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId));
-                    } catch (e) { console.warn("ðŸ”¥ Error borrando en Firebase:", e); }
+                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId));
                 }
                 circuits = circuits.filter(c => c.id !== currentCircuitId);
                 saveCircuits(); updateCircuitSelects(); 
