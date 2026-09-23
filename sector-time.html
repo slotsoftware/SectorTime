@@ -19,6 +19,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // CORRECCIÃ“N: Se importan query y where para que el Ranking funcione
         import { getFirestore, setLogLevel, collection, addDoc, getDocs, doc, setDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -46,6 +47,7 @@
                 setLogLevel('error'); 
                 
                 window.db = db;
+                // CORRECCIÃ“N: Se aÃ±aden query y where a window.fs
                 window.fs = { collection, addDoc, getDocs, doc, setDoc, deleteDoc, query, where };
 
                 auth.onAuthStateChanged(async (user) => {
