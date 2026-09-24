@@ -72,7 +72,6 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* Fondo azul tecnológico luminoso y vibrante */
             background: radial-gradient(circle at 50% 0%, #0369a1 0%, #0f172a 70%, #020617 100%);
             margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
@@ -104,9 +103,11 @@
         ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.5); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.8); }
 
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
         .font-orbitron { font-family: 'Orbitron', sans-serif !important; letter-spacing: 0.05em; }
 
-        /* Paneles rellenos de Azul Neón Translúcido */
         .neon-panel {
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(30, 58, 138, 0.4));
             border: 1px solid rgba(56, 189, 248, 0.4);
@@ -153,19 +154,21 @@
         .roi-box {
             position: absolute; cursor: move; border: 2px solid rgba(56, 189, 248, 0.6);
             background-color: rgba(56, 189, 248, 0.05);
-            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
             transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; 
         }
         .roi-box.active { display: block; }
-        .roi-box.roi-meta { border-color: #ffffff; }
-        .roi-box.roi-s1 { border-color: #60a5fa; } .roi-box.roi-s2 { border-color: #fbbf24; } 
-        .roi-box.roi-s3 { border-color: #c084fc; } .roi-box.roi-s4 { border-color: #22d3ee; } 
+        .roi-box.roi-meta { border-color: #ffffff; box-shadow: inset 0 0 20px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.4); }
+        .roi-box.roi-s1 { border-color: #60a5fa; box-shadow: inset 0 0 20px rgba(96,165,250,0.4), 0 0 20px rgba(96,165,250,0.4); } 
+        .roi-box.roi-s2 { border-color: #fbbf24; box-shadow: inset 0 0 20px rgba(251,191,36,0.4), 0 0 20px rgba(251,191,36,0.4); } 
+        .roi-box.roi-s3 { border-color: #c084fc; box-shadow: inset 0 0 20px rgba(192,132,252,0.4), 0 0 20px rgba(192,132,252,0.4); } 
+        .roi-box.roi-s4 { border-color: #22d3ee; box-shadow: inset 0 0 20px rgba(34,211,238,0.4), 0 0 20px rgba(34,211,238,0.4); } 
 
         .roi-label-tag {
-            position: absolute; top: -24px; left: -2px; color: #fff; font-size: 11px; padding: 2px 8px; 
-            border-radius: 4px 4px 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
+            position: absolute; top: -26px; left: 15px; color: #fff; font-size: 11px; padding: 2px 10px; 
+            border-radius: 12px 12px 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
             background: rgba(15, 23, 42, 0.9); border-top: 2px solid; border-left: 2px solid; border-right: 2px solid;
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            text-shadow: 0 0 5px rgba(255,255,255,0.8);
         }
         
         .roi-box.roi-meta .roi-label-tag { border-color: #ffffff; color: #ffffff; }
@@ -179,6 +182,36 @@
         .roi-target { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), inset 0 0 15px rgba(16, 185, 129, 0.3) !important; border-color: #34d399 !important; opacity: 1 !important; z-index: 15 !important; }
         .roi-target .roi-label-tag { border-color: #34d399; color: #34d399; }
         .roi-inactive { opacity: 0.15 !important; border-style: dashed !important; box-shadow: none !important; z-index: 5 !important; filter: grayscale(1); }
+
+        /* NUEVO: Botones de calibración individual de ROI */
+        .roi-calib-btns {
+            position: absolute;
+            top: -26px;
+            right: 0px;
+            display: flex;
+            gap: 2px;
+            z-index: 25;
+        }
+        .btn-calib-roi {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+            font-size: 8px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.2s ease;
+        }
+        .btn-calib-roi:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: #fff;
+        }
+        .btn-calib-roi:active {
+            transform: scale(0.9);
+        }
 
         .test-msg {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -267,6 +300,113 @@
         #yellow-flag-overlay.active { display: flex; } .yellow-flag-icon { width: 80px; height: 80px; color: #fbbf24; animation: wave 1s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(251,191,36,0.8)); }
         @keyframes wave { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
         
+        #perspective-guide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            z-index: 5; opacity: 1; transition: opacity 0.5s ease;
+            background: radial-gradient(circle at center, rgba(2,6,23,0.8) 0%, rgba(2,6,23,0.98) 100%);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            overflow: hidden; padding-top: 2rem; box-sizing: border-box;
+        }
+        #perspective-guide.hidden { opacity: 0; pointer-events: none; }
+        
+        /* Isometric 3D Scene Overlay - Flash Style */
+        .iso-scene {
+            position: relative; width: 380px; height: 380px;
+            transform-style: preserve-3d;
+            transform: rotateX(60deg) rotateZ(45deg);
+            animation: floatScene 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+        }
+        @keyframes floatScene {
+            0% { transform: rotateX(55deg) rotateZ(40deg) translateZ(-10px); }
+            100% { transform: rotateX(65deg) rotateZ(50deg) translateZ(10px); }
+        }
+        .iso-svg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: visible; transform: translateZ(-2px);
+        }
+        .iso-block {
+            position: absolute; width: 80px; height: 80px; border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 15px; color: #fff;
+            transform-style: preserve-3d;
+            overflow: hidden; /* Necesario para el efecto escáner */
+            text-shadow: 0 0 8px rgba(255,255,255,0.9);
+        }
+        
+        /* Efecto Flash: Haz de luz barriendo el bloque */
+        .iso-block::after {
+            content: ''; position: absolute; top: -100%; left: -100%; width: 300%; height: 50%;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.9), transparent);
+            transform: rotate(45deg);
+            animation: sciFiScan 2.5s ease-in-out infinite;
+            z-index: 10; pointer-events: none;
+        }
+        @keyframes sciFiScan {
+            0% { transform: translateY(-100px) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(250px) rotate(45deg); opacity: 0; }
+        }
+        
+        /* Deshacer la rotación Z en el texto para que mire de frente a la pantalla */
+        .iso-block span { transform: rotateZ(-45deg); display: block; z-index: 20; position: relative; }
+
+        /* Extrusión 3D simulada y dinámica con Bounce */
+        .iso-meta {
+            top: 10%; left: 10%; background: rgba(16, 185, 129, 0.85); border: 2px solid #6ee7b7;
+            animation: blockPulseMeta 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate; animation-delay: 0s;
+        }
+        .iso-s1 {
+            top: 10%; right: 10%; background: rgba(59, 130, 246, 0.85); border: 2px solid #93c5fd;
+            animation: blockPulseS1 3.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate; animation-delay: -0.5s;
+        }
+        .iso-s3 {
+            bottom: 10%; right: 10%; background: rgba(168, 85, 247, 0.85); border: 2px solid #d8b4fe;
+            animation: blockPulseS3 2.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate; animation-delay: -1s;
+        }
+        .iso-s2 {
+            bottom: 10%; left: 10%; background: rgba(245, 158, 11, 0.85); border: 2px solid #fcd34d;
+            animation: blockPulseS2 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate; animation-delay: -1.5s;
+        }
+
+        /* Keyframes de pulsación (Scale Elástico + Extrusión Extrema + Glow) */
+        @keyframes blockPulseMeta {
+            0% { transform: translateZ(10px) scale(0.9); box-shadow: 1px 1px 0 #059669, 2px 2px 0 #059669, 3px 3px 0 #059669, 0 0 10px rgba(16,185,129,0.5); }
+            100% { transform: translateZ(50px) scale(1.1); box-shadow: 1px 1px 0 #059669, 2px 2px 0 #059669, 3px 3px 0 #059669, 4px 4px 0 #059669, 5px 5px 0 #059669, 6px 6px 0 #059669, 8px 8px 0 #059669, 10px 10px 0 #059669, 15px 15px 30px rgba(16,185,129,0.9), inset 0 0 15px rgba(255,255,255,0.5); }
+        }
+        @keyframes blockPulseS1 {
+            0% { transform: translateZ(15px) scale(0.9); box-shadow: 1px 1px 0 #2563eb, 2px 2px 0 #2563eb, 3px 3px 0 #2563eb, 0 0 10px rgba(59,130,246,0.5); }
+            100% { transform: translateZ(45px) scale(1.15); box-shadow: 1px 1px 0 #2563eb, 2px 2px 0 #2563eb, 3px 3px 0 #2563eb, 4px 4px 0 #2563eb, 5px 5px 0 #2563eb, 6px 6px 0 #2563eb, 8px 8px 0 #2563eb, 10px 10px 0 #2563eb, 15px 15px 30px rgba(59,130,246,0.9), inset 0 0 15px rgba(255,255,255,0.5); }
+        }
+        @keyframes blockPulseS2 {
+            0% { transform: translateZ(12px) scale(0.95); box-shadow: 1px 1px 0 #d97706, 2px 2px 0 #d97706, 3px 3px 0 #d97706, 0 0 10px rgba(245,158,11,0.5); }
+            100% { transform: translateZ(55px) scale(1.08); box-shadow: 1px 1px 0 #d97706, 2px 2px 0 #d97706, 3px 3px 0 #d97706, 4px 4px 0 #d97706, 5px 5px 0 #d97706, 6px 6px 0 #d97706, 8px 8px 0 #d97706, 10px 10px 0 #d97706, 15px 15px 30px rgba(245,158,11,0.9), inset 0 0 15px rgba(255,255,255,0.5); }
+        }
+        @keyframes blockPulseS3 {
+            0% { transform: translateZ(8px) scale(0.85); box-shadow: 1px 1px 0 #9333ea, 2px 2px 0 #9333ea, 3px 3px 0 #9333ea, 0 0 10px rgba(168,85,247,0.5); }
+            100% { transform: translateZ(48px) scale(1.12); box-shadow: 1px 1px 0 #9333ea, 2px 2px 0 #9333ea, 3px 3px 0 #9333ea, 4px 4px 0 #9333ea, 5px 5px 0 #9333ea, 6px 6px 0 #9333ea, 8px 8px 0 #9333ea, 10px 10px 0 #9333ea, 15px 15px 30px rgba(168,85,247,0.9), inset 0 0 15px rgba(255,255,255,0.5); }
+        }
+
+        .watermark-title {
+            position: absolute; top: 75%; left: 0; width: 100%; text-align: center;
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; letter-spacing: 0.8em;
+            color: rgba(255,255,255,0.4); text-shadow: 0 0 10px rgba(255,255,255,0.1);
+            z-index: 5; pointer-events: none; padding-left: 0.8em;
+        }
+
+        .specs-grid-container {
+            width: 95%; max-width: 900px; margin: auto; margin-bottom: 2%;
+            background: rgba(2, 6, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px; padding: 12px; box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+        .spec-item {
+            background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 8px;
+            border-top: 2px solid; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .spec-title { font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+        .spec-desc { font-size: 8px; color: #cbd5e1; line-height: 1.35; font-weight: 600;}
+
         .tab-btn { flex: 1; padding: 0.75rem; font-weight: 700; border-radius: 0.5rem; text-align: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.2s ease; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.3); background: transparent; color: #7dd3fc; font-family: 'Orbitron', sans-serif; }
         .tab-btn.active { background-color: rgba(56, 189, 248, 0.2); color: #fff; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
         .tab-btn.inactive:hover { background-color: rgba(56, 189, 248, 0.1); }
@@ -279,7 +419,6 @@
         .sector-card.s3 .bar { background-color: #c084fc; box-shadow: 0 0 8px #c084fc; }
         .sector-card.s4 .bar { background-color: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
 
-        /* F1 Grid Enhancements */
         .f1-gap { color: #f87171; font-weight: bold; }
         .f1-leader { color: #34d399; font-weight: bold; }
     </style>
@@ -371,25 +510,116 @@
                         <h3 class="text-3xl font-orbitron font-bold text-yellow-400 uppercase tracking-widest mt-4 drop-shadow-lg" data-i18n="yellowFlag">BANDERA AMARILLA</h3>
                     </div>
 
+                    <div id="perspective-guide">
+                        <div class="flex-1 flex flex-col justify-center items-center w-full relative h-[55%]">
+                            <!-- Isometric 3D Space -->
+                            <div class="iso-scene">
+                                <svg class="iso-svg" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="15" stroke="rgba(255,255,255,0.15)" stroke-width="0.3" fill="none" />
+                                    <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.3" fill="none" />
+                                    <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.05)" stroke-width="0.3" fill="none" />
+                                </svg>
+
+                                <div class="iso-block iso-meta"><span>META</span></div>
+                                <div class="iso-block iso-s1"><span>SEC 1</span></div>
+                                <div class="iso-block iso-s2"><span>SEC 2</span></div>
+                                <div class="iso-block iso-s3"><span>SEC 3</span></div>
+                            </div>
+                            
+                            <div class="watermark-title">S E C T O R &nbsp;&nbsp; T I M E</div>
+                        </div>
+
+                        <!-- Technical Specs Grid -->
+                        <div class="specs-grid-container flex flex-col shrink-0">
+                            <div class="flex items-center text-cyan-400 text-[10px] font-bold tracking-widest uppercase mb-3 border-b border-cyan-800/50 pb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                ESPECIFICACIONES TÉCNICAS (REF. GALAXY TAB S9)
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="spec-item" style="border-color: #facc15;">
+                                    <h4 class="spec-title text-yellow-400">PROCESADOR (SOC)</h4>
+                                    <p class="spec-desc">Snapdragon 8 Gen 2 / Apple M2+. Capaz de procesar 60 matrices RGB/s sin thermal throttling.</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #4ade80;">
+                                    <h4 class="spec-title text-green-400">SENSOR ÓPTICO</h4>
+                                    <p class="spec-desc">60 FPS Mapeados a 1080p. Requiere anulación de Auto-Focus (AF-Lock) y balance de blancos.</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #c084fc;">
+                                    <h4 class="spec-title text-purple-400">MEMORIA / B.W.</h4>
+                                    <p class="spec-desc">8GB-12GB LPDDR5X (>50GB/s) para buffer de video continuo con latencia interna &lt; 15ms.</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #facc15;">
+                                    <h4 class="spec-title text-yellow-400">ENTORNO FOTOMÉTRICO</h4>
+                                    <p class="spec-desc">&gt;500 LUX Luz LED continua. Prohibido usar tubos fluorescentes (evita parpadeo a 50/60Hz).</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #fb923c;">
+                                    <h4 class="spec-title text-orange-400">ESTABILIDAD MECÁNICA</h4>
+                                    <p class="spec-desc">Trípode industrial o brazo VESA. Tolerancia de mov. &lt;1mm. Cero micro-vibraciones en la mesa.</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #f87171;">
+                                    <h4 class="spec-title text-red-400">PANTALLA / REFRESCO</h4>
+                                    <p class="spec-desc">Panel AMOLED a 120Hz para sincronización visual de telemetría pura sin efecto tearing.</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #60a5fa;">
+                                    <h4 class="spec-title text-blue-400">MOTOR DE RENDER</h4>
+                                    <p class="spec-desc">Chrome v115+ / Safari 16+. Aceleración HW y GPU Rasterization forzadas obligatoriamente.</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #f87171;">
+                                    <h4 class="spec-title text-red-400">ACELERACIÓN NPU</h4>
+                                    <p class="spec-desc">Unidad de IA dedicada para cálculo masivo de matrices de color sin saturar núcleos CPU.</p>
+                                </div>
+                                <div class="spec-item" style="border-color: #4ade80;">
+                                    <h4 class="spec-title text-green-400">GESTIÓN TÉRMICA</h4>
+                                    <p class="spec-desc">Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (>1h).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- ROIs -->
-                    <div id="roi-0" class="roi-box roi-meta active" style="left:10%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">META</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                    <div id="roi-0" class="roi-box roi-meta" style="left:10%; top:25%; width:15%; height:20%;">
+                        <div class="roi-label-tag">META</div>
+                        <div class="roi-calib-btns">
+                            <button class="btn-calib-roi calib-auto" data-roi="0" title="Auto Calibración">AUTO</button>
+                            <button class="btn-calib-roi calib-man" data-roi="0" title="Calibración Manual">MAN</button>
+                        </div>
+                        <div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-1" class="roi-box roi-s1" style="left:30%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">SEC 1</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                    <div id="roi-1" class="roi-box roi-s1" style="left:30%; top:25%; width:15%; height:20%;">
+                        <div class="roi-label-tag">SEC 1</div>
+                        <div class="roi-calib-btns">
+                            <button class="btn-calib-roi calib-auto" data-roi="1" title="Auto Calibración">AUTO</button>
+                            <button class="btn-calib-roi calib-man" data-roi="1" title="Calibración Manual">MAN</button>
+                        </div>
+                        <div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-2" class="roi-box roi-s2" style="left:50%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">SEC 2</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                    <div id="roi-2" class="roi-box roi-s2" style="left:50%; top:25%; width:15%; height:20%;">
+                        <div class="roi-label-tag">SEC 2</div>
+                        <div class="roi-calib-btns">
+                            <button class="btn-calib-roi calib-auto" data-roi="2" title="Auto Calibración">AUTO</button>
+                            <button class="btn-calib-roi calib-man" data-roi="2" title="Calibración Manual">MAN</button>
+                        </div>
+                        <div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-3" class="roi-box roi-s3" style="left:70%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">SEC 3</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                    <div id="roi-3" class="roi-box roi-s3" style="left:70%; top:25%; width:15%; height:20%;">
+                        <div class="roi-label-tag">SEC 3</div>
+                        <div class="roi-calib-btns">
+                            <button class="btn-calib-roi calib-auto" data-roi="3" title="Auto Calibración">AUTO</button>
+                            <button class="btn-calib-roi calib-man" data-roi="3" title="Calibración Manual">MAN</button>
+                        </div>
+                        <div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-4" class="roi-box roi-s4" style="left:40%; top:10%; width:20%; height:40%;">
-                        <div class="roi-label-tag">SEC 4</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                    <div id="roi-4" class="roi-box roi-s4" style="left:40%; top:10%; width:20%; height:20%;">
+                        <div class="roi-label-tag">SEC 4</div>
+                        <div class="roi-calib-btns">
+                            <button class="btn-calib-roi calib-auto" data-roi="4" title="Auto Calibración">AUTO</button>
+                            <button class="btn-calib-roi calib-man" data-roi="4" title="Calibración Manual">MAN</button>
+                        </div>
+                        <div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                 </div>
@@ -398,6 +628,7 @@
             </div>
         </div>
 
+        <!-- COLUMNA DERECHA -->
         <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-3 h-full overflow-y-auto pr-1 pb-2">
             
             <div class="neon-panel w-full p-4 text-center shrink-0">
@@ -612,7 +843,7 @@
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
                 
                 <!-- Pódium F1 Style -->
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 h-48">
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-10 px-4 min-h-[280px]">
                     <!-- Generado por JS -->
                 </div>
 
@@ -1102,10 +1333,11 @@
         
         const synth = new Tone.Synth().toDestination(); const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
 
+        /* NUEVO: ALMACENAMIENTO DE PIXELES DE REFERENCIA (BASELINE) */
         for (let i = 0; i < MAX_ROIS; i++) {
             const el = document.getElementById(`roi-${i}`);
             let tag = 'meta'; if(i===1) tag='s1'; else if(i===2) tag='s2'; else if(i===3) tag='s3'; else if(i===4) tag='s4';
-            roisState.push({ id: i, el: el, baseBri: null, blocked: false, lastRec: 0, tag: tag, needsSilentCalib: false });
+            roisState.push({ id: i, el: el, baselineData: null, blocked: false, lastRec: 0, tag: tag, needsSilentCalib: false });
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
@@ -1155,14 +1387,56 @@
         }
 
         document.querySelectorAll('.roi-box').forEach(box => {
-            box.addEventListener('pointerdown', e => { if (!e.target.classList.contains('resize-handle')) startAction(e, 'drag'); });
-            box.querySelector('.handle-tl').addEventListener('pointerdown', e => startAction(e, 'resize', 'tl'));
-            box.querySelector('.handle-br').addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
+            box.addEventListener('pointerdown', e => { 
+                // Evitar drag si se hace clic en botones de calibración o handles de resize
+                if (!e.target.classList.contains('resize-handle') && !e.target.classList.contains('btn-calib-roi')) {
+                    startAction(e, 'drag'); 
+                }
+            });
+            const htl = box.querySelector('.handle-tl');
+            const hbr = box.querySelector('.handle-br');
+            if(htl) htl.addEventListener('pointerdown', e => startAction(e, 'resize', 'tl'));
+            if(hbr) hbr.addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
         });
 
-        function getROIBrightness(boxEl) {
+        /* NUEVO: Lógica de botones de calibración individual */
+        document.querySelectorAll('.calib-auto').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Evitar drag
+                const roiIdx = parseInt(e.target.getAttribute('data-roi'));
+                if (roisState[roiIdx]) {
+                    roisState[roiIdx].needsSilentCalib = true;
+                    // Efecto visual rápido
+                    const originalBg = e.target.style.background;
+                    e.target.style.background = '#10b981'; // Verde success
+                    setTimeout(() => e.target.style.background = originalBg, 300);
+                }
+            });
+        });
+
+        document.querySelectorAll('.calib-man').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Evitar drag
+                const roiIdx = parseInt(e.target.getAttribute('data-roi'));
+                if (roisState[roiIdx] && roisState[roiIdx].el) {
+                    const currentData = getROIPixelData(roisState[roiIdx].el);
+                    if (currentData) {
+                        roisState[roiIdx].baselineData = new Uint8ClampedArray(currentData);
+                        roisState[roiIdx].needsSilentCalib = false; // Resetear auto si se fuerza manual
+                        
+                        // Efecto visual rápido
+                        const originalBg = e.target.style.background;
+                        e.target.style.background = '#3b82f6'; // Azul success
+                        setTimeout(() => e.target.style.background = originalBg, 300);
+                    }
+                }
+            });
+        });
+
+        /* NUEVO ALGORITMO: EXTRAER DATOS PIXEL A PIXEL DEL ROI */
+        function getROIPixelData(boxEl) {
             const vw = videoElement.videoWidth; const vh = videoElement.videoHeight;
-            if(!vw || !vh) return 0;
+            if(!vw || !vh) return null;
             const leftPct = getPct(boxEl,'left')/100; const topPct = getPct(boxEl,'top')/100;
             const widthPct = getPct(boxEl,'width')/100; const heightPct = getPct(boxEl,'height')/100;
             const l = Math.max(0, Math.min(vw - 1, Math.floor(vw * leftPct))); 
@@ -1173,12 +1447,31 @@
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             try {
                 ctx.drawImage(videoElement, l, t, w, h, 0, 0, w, h); 
-                const data = ctx.getImageData(0, 0, w, h).data; let sum = 0;
-                for (let i = 0; i < data.length; i += 16) sum += (data[i] + data[i+1] + data[i+2]); 
-                return (sum / 3) / (data.length / 16);
-            } catch(e) { return 0; }
+                return ctx.getImageData(0, 0, w, h).data;
+            } catch(e) { return null; }
         }
 
+        /* NUEVO ALGORITMO: COMPARAR FOTOGRAMA CON BASELINE Y DEVOLVER % DE CAMBIO */
+        function calculateDiffPercentage(currentData, baselineData) {
+            if (!currentData || !baselineData || currentData.length !== baselineData.length) return 0;
+            let changedPixels = 0;
+            const totalPixels = currentData.length / 4;
+            const diffThreshold = 40; // Sensibilidad base de color por píxel (constante)
+
+            for (let i = 0; i < currentData.length; i += 4) {
+                const rDiff = Math.abs(currentData[i] - baselineData[i]);
+                const gDiff = Math.abs(currentData[i+1] - baselineData[i+1]);
+                const bDiff = Math.abs(currentData[i+2] - baselineData[i+2]);
+                
+                // Si la diferencia en cualquier canal de color supera el umbral, el pixel ha cambiado
+                if (rDiff > diffThreshold || gDiff > diffThreshold || bDiff > diffThreshold) {
+                    changedPixels++;
+                }
+            }
+            return (changedPixels / totalPixels) * 100; // Devuelve porcentaje 0-100%
+        }
+
+        /* MODIFICADO: BUCLE DE PROCESAMIENTO USANDO PIXEL DIFFING Y AUTO-CALIBRACIÓN SILENCIOSA */
         function processVideo() {
             if (!isProcessing) return;
             if (isPaused) { requestAnimationFrame(processVideo); return; }
@@ -1186,18 +1479,28 @@
 
             for (let i = 0; i < activeRoisCount; i++) {
                 const rState = roisState[i]; const box = rState.el;
-                const currentBri = getROIBrightness(box);
+                if (!box) continue; 
                 
-                box.querySelector('.val-indicator').textContent = `Val: ${currentBri.toFixed(0)}`;
+                const currentData = getROIPixelData(box);
+                if (!currentData) continue;
+
                 const isTarget = (!isCalibrating && isRaceActive && currentTargetRoi === i);
 
+                // Auto-Calibración Silenciosa al convertirse en objetivo tras un hit previo
                 if (isRaceActive && isTarget && rState.needsSilentCalib) {
-                    rState.baseBri = currentBri; rState.needsSilentCalib = false;
-                } else if (rState.baseBri === null) {
-                    rState.baseBri = currentBri;
+                    rState.baselineData = new Uint8ClampedArray(currentData);
+                    rState.needsSilentCalib = false;
+                } else if (!rState.baselineData) {
+                    rState.baselineData = new Uint8ClampedArray(currentData);
                 }
                 
-                const diff = Math.abs(currentBri - rState.baseBri); const crossed = diff > sensitivity;
+                // Calcular el % de cambio respecto a la baseline
+                const diffPct = calculateDiffPercentage(currentData, rState.baselineData);
+                
+                // Sensibilidad invertida: Slider 5 (Sensible = requiere 5% de cambio), Slider 100 (Inmune = requiere 100% de cambio)
+                const crossed = diffPct > sensitivity;
+                
+                box.querySelector('.val-indicator').textContent = `Diff: ${diffPct.toFixed(1)}%`;
 
                 if (isRaceActive && !isCalibrating) {
                     if (isTarget) { box.classList.remove('roi-inactive'); box.classList.add('roi-target'); } 
@@ -1209,7 +1512,12 @@
                 if (crossed && canDetect) box.classList.add('roi-detected');
                 else { 
                     box.classList.remove('roi-detected'); 
-                    if (!isCalibrating && !rState.blocked && canDetect) { rState.baseBri = (rState.baseBri * 0.95) + (currentBri * 0.05); } 
+                    // ACTUALIZACIÓN DE BUFFER SILENCIOSO: Si no hay impacto, aprender gradualmente el fondo para evitar falsos positivos por sombras lentas.
+                    if (!isCalibrating && !rState.blocked && canDetect) { 
+                        for(let j=0; j<rState.baselineData.length; j++) {
+                            rState.baselineData[j] = Math.round((rState.baselineData[j] * 0.9) + (currentData[j] * 0.1));
+                        }
+                    } 
                 }
 
                 const msgEl = box.querySelector('.test-msg');
@@ -1223,8 +1531,13 @@
                         if (now - rState.lastRec < blindTimeMs) { 
                             box.classList.add('roi-locked'); box.classList.remove('roi-detected'); msgEl.style.display = "block"; msgEl.textContent = translations[currentLang].testWait; 
                         } else {
-                            if (crossed && isTarget) { box.classList.add('roi-locked'); rState.baseBri = (rState.baseBri * 0.9) + (currentBri * 0.1); } 
-                            else { rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none"; }
+                            if (crossed && isTarget) { 
+                                box.classList.add('roi-locked'); 
+                            } else { 
+                                rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none";
+                                // AL DESBLOQUEAR, FORZAR ACTUALIZACIÓN DEL FONDO (El coche acaba de salir)
+                                rState.baselineData = new Uint8ClampedArray(currentData);
+                            }
                         }
                     } else {
                         if (crossed && isTarget) {
@@ -1361,8 +1674,10 @@
             document.getElementById('false-start-alert').classList.remove('show'); document.getElementById('sectors-telemetry-container').classList.add('hidden');
             
             for(let i=0; i<MAX_ROIS; i++) { 
-                if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; roisState[i].blocked = false; roisState[i].needsSilentCalib = true; } 
-                else { roisState[i].el.classList.remove('active'); } 
+                if (roisState[i] && roisState[i].el) {
+                    if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baselineData = null; roisState[i].blocked = false; roisState[i].needsSilentCalib = true; } 
+                    else { roisState[i].el.classList.remove('active'); } 
+                }
             }
             const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
 
@@ -1414,7 +1729,7 @@
                 document.getElementById('race-time').textContent = "00:00.000"; document.getElementById('lap-time').textContent = "00.000";
                 updateLapDisplay(); updateTelemetryDisplay();
                 const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
-                for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('roi-target');
+                for(let i=0; i<MAX_ROIS; i++) { if (roisState[i] && roisState[i].el) roisState[i].el.classList.remove('roi-target'); }
             }
             document.getElementById('start-race-btn').disabled = false; document.getElementById('reset-race-btn').disabled = true;
         }
@@ -1551,7 +1866,7 @@
             let imgHtml = r.carImage ? `<img src="${r.carImage}" class="w-14 h-14 object-cover rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(56,189,248,0.6)] mb-2 z-20 bg-slate-900" />` : `<div class="w-14 h-14 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center mb-2 z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
 
             return `
-                <div class="flex flex-col items-center justify-end w-[30%] max-w-[200px] transform ${pos===1?'scale-110 z-10':''}">
+                <div class="flex flex-col items-center justify-end w-[30%] max-w-[200px] transform ${pos===1?'scale-110 z-10 origin-bottom':''}">
                     ${imgHtml}
                     <div class="font-orbitron font-black text-xl ${textColor} mb-1">${formatTime(r.time, false)}</div>
                     <div class="font-bold text-[9px] text-white/50 uppercase tracking-widest mb-1">${gapStr}</div>
@@ -1583,7 +1898,6 @@
             } 
             if (records.length === 0) { try { records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => r.circuitId === circuitId); } catch(e) {} }
 
-            // Vinculador Retroactivo: Busca fotos de coches en el garaje para récords antiguos
             records.forEach(r => {
                 if (!r.carImage || r.carImage === "") {
                     const garageCar = garageCars.find(c => c.name === r.car);
@@ -1593,7 +1907,6 @@
 
             records.sort((a, b) => a.time - b.time);
             
-            // F1 Grid: Best unique Pilot+Car combo
             let uniqueEntries = new Set(); let top25 = [];
             for (let r of records) {
                 let key = r.pilot + "_" + r.car;
@@ -1635,7 +1948,6 @@
                 }
             }
 
-            // F1 Ultimate Lap (Sectores)
             let bestSectors = [];
             const activeCircuit = circuits.find(c => c.id === circuitId);
             const numSectorsCircuit = activeCircuit ? parseInt(activeCircuit.activeSectorsSelectValue || "0") + 1 : null;
@@ -1714,26 +2026,24 @@
             }
         }
 
+        /* MODIFICADA LA CALIBRACIÓN PARA EL NUEVO ALGORITMO PIXEL DIFFING */
         async function runCalibration() {
             if (!isProcessing) return;
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
-            let samples = 0; const frames = 60; const data = Array(activeRoisCount).fill(null).map(()=>({sum:0, min:255, max:0}));
-            function sample() {
-                for (let i = 0; i < activeRoisCount; i++) { const b = getROIBrightness(roisState[i].el); data[i].sum += b; if(b < data[i].min) data[i].min = b; if(b > data[i].max) data[i].max = b; }
-                samples++;
-                if (samples < frames) requestAnimationFrame(sample);
-                else {
-                    let globalMaxNoise = 0;
-                    for (let i = 0; i < activeRoisCount; i++) {
-                        const avg = data[i].sum / frames; roisState[i].baseBri = avg;
-                        const noise = Math.max(data[i].max - avg, avg - data[i].min); if(noise > globalMaxNoise) globalMaxNoise = noise;
+            
+            setTimeout(() => {
+                // Al finalizar la pausa, capturar un fotograma limpio como baseline para cada ROI
+                for (let i = 0; i < activeRoisCount; i++) {
+                    const data = getROIPixelData(roisState[i].el);
+                    if (data) {
+                        roisState[i].baselineData = new Uint8ClampedArray(data);
                     }
-                    sensitivity = Math.max(15, Math.ceil(globalMaxNoise * 1.5));
-                    document.getElementById('threshold-slider').value = sensitivity; document.getElementById('current-threshold').textContent = sensitivity;
-                    isCalibrating = false; calibOverlay.classList.remove('active'); document.getElementById('calibrate-btn').disabled = false; speak(translations[currentLang].voiceCalibrated);
                 }
-            }
-            sample();
+                isCalibrating = false; 
+                calibOverlay.classList.remove('active'); 
+                document.getElementById('calibrate-btn').disabled = false; 
+                speak(translations[currentLang].voiceCalibrated);
+            }, 2500); // 2.5 segundos de espera para que se quiten de la pista
         }
 
         document.getElementById('start-race-btn').addEventListener('click', startTrafficLight);
@@ -1749,7 +2059,8 @@
                 for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
                 isProcessing=true; processVideo(); document.getElementById('calibrate-btn').disabled=false;
                 document.getElementById('camera-on-btn').disabled=true; document.getElementById('camera-off-btn').disabled=false;
-                document.getElementById('video-status').textContent = translations[currentLang].sensorActive; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
+                document.getElementById('video-status').textContent = translations[currentLang].sensorActive || "Sensor Activo"; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
+                document.getElementById('perspective-guide').classList.add('hidden');
             } catch(e) {}
         });
         document.getElementById('camera-off-btn').addEventListener('click', () => {
@@ -1757,7 +2068,8 @@
             cameraStream=null; isProcessing=false; videoElement.srcObject=null;
             for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active');
             document.getElementById('camera-on-btn').disabled=false; document.getElementById('camera-off-btn').disabled=true; document.getElementById('calibrate-btn').disabled=true;
-            document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
+            document.getElementById('video-status').textContent = translations[currentLang].sensorInactive || "Sensor Inactivo"; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
+            document.getElementById('perspective-guide').classList.remove('hidden');
         });
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
@@ -1781,7 +2093,7 @@
             const count = parseInt(e.target.value) + 1;
             if(!isRaceActive) {
                 activeRoisCount = count;
-                if(isProcessing) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); } }
+                if(isProcessing) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baselineData = null; } else roisState[i].el.classList.remove('active'); } }
                 autoSaveROIsToCircuit();
             }
         });
@@ -1790,11 +2102,9 @@
             currentLang = e.target.value;
             document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
             
-            // Forzar actualización de textos dinámicos si la cámara está activa
-            if(cameraStream) { document.getElementById('video-status').textContent = translations[currentLang].sensorActive; } 
-            else { document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; }
+            if(cameraStream) { document.getElementById('video-status').textContent = translations[currentLang].sensorActive || "Sensor Activo"; } 
+            else { document.getElementById('video-status').textContent = translations[currentLang].sensorInactive || "Sensor Inactivo"; }
             
-            // Refrescar paneles abiertos
             if(document.getElementById('rankingModal').classList.contains('open') && document.getElementById('ranking-circuit-picker').value) { fetchAndRenderRankings(document.getElementById('ranking-circuit-picker').value); }
             if(document.getElementById('garageModal').classList.contains('open')) { renderGarage(currentGarageCarId); }
             if(document.getElementById('circuitModal').classList.contains('open')) { renderCircuit(currentCircuitId); }
@@ -1902,7 +2212,6 @@
                 });
             } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
-            // NUEVOS GRÁFICOS: RENDIMIENTO POR CIRCUITO Y KILOMETRAJE
             const ctxCirc = document.getElementById('garageChartCircuits').getContext('2d'); if(garageChartCircuits) garageChartCircuits.destroy();
             let bestPerCircuit = {};
             hist.forEach(h => {
@@ -1936,13 +2245,16 @@
             });
             let usageArr = Object.keys(lapsPerCircuit).map(k => ({name: k, laps: lapsPerCircuit[k]}));
             usageArr.sort((a,b) => b.laps - a.laps);
+            usageArr = usageArr.slice(0, 5); 
 
             if(usageArr.length > 0) {
-                const bgColors = ['#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef', '#f43f5e'].slice(0, usageArr.length);
+                const bgColors = ['rgba(6, 182, 212, 0.4)', 'rgba(59, 130, 246, 0.4)', 'rgba(139, 92, 246, 0.4)', 'rgba(217, 70, 239, 0.4)', 'rgba(244, 63, 94, 0.4)'].slice(0, usageArr.length);
+                const borderColors = ['#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef', '#f43f5e'].slice(0, usageArr.length);
+                
                 garageChartUsage = new Chart(ctxUsage, {
-                    type: 'doughnut',
-                    data: { labels: usageArr.map(u => u.name), datasets: [{ data: usageArr.map(u => u.laps), backgroundColor: bgColors.map(c => c+'80'), borderColor: bgColors, borderWidth: 2, hoverOffset: 4 }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { color: '#67e8f9', font: {size: 9, family: 'Orbitron'} } } } }
+                    type: 'bar',
+                    data: { labels: usageArr.map(u => u.name), datasets: [{ label: 'Vueltas', data: usageArr.map(u => u.laps), backgroundColor: bgColors, borderColor: borderColors, borderWidth: 1, borderRadius: 4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#67e8f9', font: {size: 9}}, grid: {color: 'rgba(6,182,212,0.1)'} }, x: { display: true, ticks: {color: '#22d3ee', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } }
                 });
             } else { ctxUsage.clearRect(0,0,ctxUsage.canvas.width, ctxUsage.canvas.height); }
         }
@@ -1977,16 +2289,16 @@
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
             const car = garageCars.find(c => c.id === currentGarageCarId);
             if(car) {
-                car.name = document.getElementById('g-input-name').value || translations[currentLang].noName; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value;
+                car.name = document.getElementById('g-input-name').value || translations[currentLang].noName || "Coche"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value;
                 car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked;
                 saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400');
+                btn.innerHTML = translations[currentLang].saved || "Guardado"; btn.classList.add('text-green-400');
                 setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
             }
         });
 
-        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].noName, brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].noName || "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
             if(garageCars.length > 1) { 
                 if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId)); } 
@@ -2047,12 +2359,12 @@
 
             document.getElementById('c-stat-laps').textContent = totalLaps;
             document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
-            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : translations[currentLang].noRecords;
+            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : translations[currentLang].noRecords || "Sin datos";
             document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
             document.getElementById('c-stat-time').textContent = timeStr;
             document.getElementById('c-stat-speed').textContent = avgSpeedStr;
             
-            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} ${translations[currentLang].sectorsSaved}`;
+            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} ${translations[currentLang].sectorsSaved || "Sectores guardados"}`;
 
             const imgEl = document.getElementById('circuit-captured-img'); const placeholder = document.getElementById('circuit-img-placeholder');
             if(circ.image) { imgEl.src = circ.image; imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); } else { imgEl.src = ""; imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
@@ -2082,7 +2394,6 @@
                 });
             } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
-            // GRÁFICO 3: TOP 5 COCHES (BARRAS HORIZONTALES)
             const ctxTop = document.getElementById('circuitChartTopCars').getContext('2d'); if(circuitChartTopCars) circuitChartTopCars.destroy();
             let bestPerCar = {};
             laps.forEach(l => {
@@ -2091,7 +2402,7 @@
                 }
             });
             let topCarsArr = Object.keys(bestPerCar).map(k => ({name: k, time: bestPerCar[k]}));
-            topCarsArr.sort((a,b) => a.time - b.time); topCarsArr = topCarsArr.slice(0, 5); // Solo los 5 mejores
+            topCarsArr.sort((a,b) => a.time - b.time); topCarsArr = topCarsArr.slice(0, 5);
 
             if(topCarsArr.length > 0) {
                 circuitChartTopCars = new Chart(ctxTop, {
@@ -2107,7 +2418,6 @@
                 });
             } else { ctxTop.clearRect(0, 0, ctxTop.canvas.width, ctxTop.canvas.height); }
 
-            // GRÁFICO 4: DISTRIBUCIÓN DE TIEMPO POR SECTORES (DONUT)
             const ctxDist = document.getElementById('circuitChartTimeDist').getContext('2d'); if(circuitChartTimeDist) circuitChartTimeDist.destroy();
             let bestLapWithSectors = null;
             laps.forEach(l => { if(l.sectors && l.sectors.length > 0) { if(!bestLapWithSectors || l.lapTime < bestLapWithSectors.lapTime) { bestLapWithSectors = l; } } });
@@ -2115,17 +2425,22 @@
             if(bestLapWithSectors && bestLapWithSectors.sectors) {
                 const activeSectors = bestLapWithSectors.sectors.filter(s => s > 0);
                 const distLabels = activeSectors.map((_, i) => i === activeSectors.length - 1 ? 'Meta' : `S${i+1}`);
-                const bgColors = ['#60a5fa', '#fbbf24', '#c084fc', '#22d3ee', '#34d399'].slice(0, activeSectors.length);
+                const bgColors = ['rgba(96, 165, 250, 0.4)', 'rgba(251, 191, 36, 0.4)', 'rgba(192, 132, 252, 0.4)', 'rgba(34, 211, 238, 0.4)', 'rgba(52, 211, 153, 0.4)'].slice(0, activeSectors.length);
+                const borderColors = ['#60a5fa', '#fbbf24', '#c084fc', '#22d3ee', '#34d399'].slice(0, activeSectors.length);
+                
+                const totalTime = activeSectors.reduce((a, b) => a + b, 0);
+                const percentages = activeSectors.map(s => ((s / totalTime) * 100));
 
                 circuitChartTimeDist = new Chart(ctxDist, {
-                    type: 'doughnut',
+                    type: 'bar',
                     data: {
                         labels: distLabels,
-                        datasets: [{ data: activeSectors.map(s => s / 1000), backgroundColor: bgColors.map(c => c + '80'), borderColor: bgColors, borderWidth: 2, hoverOffset: 4 }]
+                        datasets: [{ label: '% del Total', data: percentages, backgroundColor: bgColors, borderColor: borderColors, borderWidth: 1, borderRadius: 4 }]
                     },
                     options: {
-                        responsive: true, maintainAspectRatio: false, cutout: '70%',
-                        plugins: { legend: { position: 'right', labels: { color: '#fbbf24', font: {size: 9, family: 'Orbitron'} } }, tooltip: { callbacks: { label: function(context) { return ' ' + context.raw.toFixed(3) + 's'; } } } }
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return ' ' + context.raw.toFixed(1) + '%'; } } } },
+                        scales: { y: { display: true, max: 100, ticks: {color: '#fbbf24', font: {size: 9}, callback: function(value) { return value + "%" }}, grid: {color: 'rgba(251,191,36,0.1)'} }, x: { display: true, ticks: {color: '#fcd34d', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } }
                     }
                 });
             } else { ctxDist.clearRect(0, 0, ctxDist.canvas.width, ctxDist.canvas.height); }
@@ -2135,7 +2450,7 @@
             if (!videoElement.videoWidth) { 
                 const btn = document.getElementById('circuit-capture-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10">${translations[currentLang].turnCamOn}</span>`;
+                btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10">${translations[currentLang].turnCamOn || "¡Activa cámara!"}</span>`;
                 setTimeout(()=>btn.innerHTML=orig, 2000);
                 return; 
             }
@@ -2147,8 +2462,16 @@
                 const w = Math.ceil(canvas.width * (getPct(box, 'width')/100)); const h = Math.ceil(canvas.height * (getPct(box, 'height')/100));
                 let strokeColor = '#ffffff'; let labelText = 'META';
                 if(i===1) { strokeColor='#3b82f6'; labelText='S1'; } if(i===2) { strokeColor='#f59e0b'; labelText='S2'; } if(i===3) { strokeColor='#a855f7'; labelText='S3'; } if(i===4) { strokeColor='#06b6d4'; labelText='S4'; }
-                ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.strokeRect(l, t, w, h); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(l, t, w, h);
-                ctx.fillStyle = strokeColor; ctx.fillRect(l, t - 25, 60, 25); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 5, t - 6);
+                
+                ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(l, t, w, h, 25); ctx.stroke(); ctx.fill(); } 
+                else { ctx.strokeRect(l, t, w, h); ctx.fillRect(l, t, w, h); }
+                
+                ctx.fillStyle = strokeColor; 
+                if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(l + 10, t - 25, 60, 25, [10, 10, 0, 0]); ctx.fill(); }
+                else { ctx.fillRect(l + 10, t - 25, 60, 25); }
+                
+                ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 15, t - 6);
             }
             const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 500; const scale = maxW / canvas.width;
             destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
@@ -2158,7 +2481,7 @@
                 circ.image = b64; autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); 
                 const btn = document.getElementById('circuit-capture-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">${translations[currentLang].captured}</span>`;
+                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">${translations[currentLang].captured || "Capturado"}</span>`;
                 setTimeout(()=>btn.innerHTML=orig, 2000);
             }
         });
@@ -2176,21 +2499,21 @@
             for (let i = 0; i < MAX_ROIS; i++) {
                 const box = document.getElementById(`roi-${i}`);
                 if (circ.rois[i]) { box.style.left = circ.rois[i].left || box.style.left; box.style.top = circ.rois[i].top || box.style.top; box.style.width = circ.rois[i].width || box.style.width; box.style.height = circ.rois[i].height || box.style.height; }
-                if (isProcessing) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baseBri = null; } else { box.classList.remove('active'); } }
+                if (isProcessing) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baselineData = null; } else { box.classList.remove('active'); } }
             }
         }
 
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
             const circ = circuits.find(c => c.id === currentCircuitId);
             if(circ) {
-                circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
+                circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName || "Pista"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
                 saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
+                btn.innerHTML = translations[currentLang].saved || "Guardado"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
             }
         });
 
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].noName, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].noName || "Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
             if(circuits.length > 1) { 
                 if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } 
