@@ -151,21 +151,24 @@
         #webcam-feed { height: 100%; width: 100%; object-fit: cover; display: block; filter: contrast(1.1) saturate(1.2); }
 
         .roi-box {
-            position: absolute; cursor: move; border: 2px solid rgba(56, 189, 248, 0.6);
+            position: absolute; cursor: move; border: 3px solid rgba(56, 189, 248, 0.6);
             background-color: rgba(56, 189, 248, 0.05);
-            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2);
+            border-radius: 25px;
+            box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.3), 0 0 20px rgba(56, 189, 248, 0.3);
             transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; 
         }
         .roi-box.active { display: block; }
-        .roi-box.roi-meta { border-color: #ffffff; }
-        .roi-box.roi-s1 { border-color: #60a5fa; } .roi-box.roi-s2 { border-color: #fbbf24; } 
-        .roi-box.roi-s3 { border-color: #c084fc; } .roi-box.roi-s4 { border-color: #22d3ee; } 
+        .roi-box.roi-meta { border-color: #ffffff; box-shadow: inset 0 0 30px rgba(255,255,255,0.4), 0 0 30px rgba(255,255,255,0.6); }
+        .roi-box.roi-s1 { border-color: #60a5fa; box-shadow: inset 0 0 30px rgba(96,165,250,0.4), 0 0 30px rgba(96,165,250,0.6); } 
+        .roi-box.roi-s2 { border-color: #fbbf24; box-shadow: inset 0 0 30px rgba(251,191,36,0.4), 0 0 30px rgba(251,191,36,0.6); } 
+        .roi-box.roi-s3 { border-color: #c084fc; box-shadow: inset 0 0 30px rgba(192,132,252,0.4), 0 0 30px rgba(192,132,252,0.6); } 
+        .roi-box.roi-s4 { border-color: #22d3ee; box-shadow: inset 0 0 30px rgba(34,211,238,0.4), 0 0 30px rgba(34,211,238,0.6); } 
 
         .roi-label-tag {
-            position: absolute; top: -24px; left: -2px; color: #fff; font-size: 11px; padding: 2px 8px; 
-            border-radius: 4px 4px 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
+            position: absolute; top: -26px; left: 15px; color: #fff; font-size: 11px; padding: 2px 10px; 
+            border-radius: 12px 12px 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
             background: rgba(15, 23, 42, 0.9); border-top: 2px solid; border-left: 2px solid; border-right: 2px solid;
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            text-shadow: 0 0 5px rgba(255,255,255,0.8);
         }
         
         .roi-box.roi-meta .roi-label-tag { border-color: #ffffff; color: #ffffff; }
@@ -267,6 +270,153 @@
         #yellow-flag-overlay.active { display: flex; } .yellow-flag-icon { width: 80px; height: 80px; color: #fbbf24; animation: wave 1s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(251,191,36,0.8)); }
         @keyframes wave { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
         
+        #perspective-guide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 5; opacity: 1; transition: opacity 0.5s ease;
+            background: radial-gradient(circle at center, rgba(2,6,23,0.8) 0%, rgba(2,6,23,0.98) 100%);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            overflow: hidden;
+        }
+        #perspective-guide.hidden { opacity: 0; pointer-events: none; }
+        
+        /* Central Neural Core (Brain) */
+        .neural-core {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
+            z-index: 10; perspective: 1000px;
+        }
+
+        .core-pulse {
+            position: absolute; inset: -40px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(34,211,238,0.4) 0%, rgba(34,211,238,0) 70%);
+            animation: pulseCore 2s infinite alternate ease-in-out; z-index: 0;
+        }
+
+        .core-3d {
+            position: relative; width: 100%; height: 100%; z-index: 2;
+            transform-style: preserve-3d;
+            transform: rotateX(60deg) rotateZ(45deg);
+            animation: coreFloat 4s infinite alternate ease-in-out;
+        }
+        .core-3d .face { position: absolute; }
+        .core-3d .top {
+            width: 80px; height: 80px;
+            background: rgba(15,23,42,0.9);
+            border: 2px solid #22d3ee;
+            transform: translateZ(30px);
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: inset 0 0 20px rgba(34,211,238,0.5), 0 0 30px rgba(34,211,238,0.6);
+        }
+        .core-3d .left {
+            width: 80px; height: 30px;
+            background: rgba(34,211,238,0.2);
+            border-left: 2px solid #22d3ee;
+            transform-origin: top; transform: translateY(80px) translateZ(30px) rotateX(-90deg);
+        }
+        .core-3d .right {
+            width: 30px; height: 80px;
+            background: rgba(34,211,238,0.2);
+            border-top: 2px solid #22d3ee;
+            transform-origin: left; transform: translateX(80px) translateZ(30px) rotateY(90deg);
+        }
+
+        .core-icon {
+            width: 44px; height: 44px; color: #fff; 
+            filter: drop-shadow(0 0 10px #22d3ee);
+            transform: rotateZ(-45deg); /* Counter-rotate to face naturally */
+        }
+
+        @keyframes pulseCore { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.5); opacity: 1; } }
+        @keyframes coreFloat { 0% { transform: rotateX(60deg) rotateZ(45deg) translateZ(0px); } 100% { transform: rotateX(60deg) rotateZ(45deg) translateZ(20px); } }
+
+        /* Distributed ROI Nodes */
+        .roi-node {
+            position: absolute;
+            width: 60px; height: 60px;
+            z-index: 10; perspective: 800px;
+        }
+
+        .node-3d {
+            position: relative; width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            transform: rotateX(60deg) rotateZ(45deg);
+            animation: nodeFloat3D 3s infinite alternate ease-in-out;
+            animation-delay: var(--delay);
+        }
+        .node-3d .face { position: absolute; }
+        .node-3d .top {
+            width: 60px; height: 60px;
+            background: rgba(15,23,42,0.7); border: 3px solid var(--c);
+            border-radius: 25px;
+            transform: translateZ(5px);
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: inset 0 0 25px var(--c-bg), 0 0 50px var(--c), 0 0 20px var(--c);
+        }
+
+        .node-label {
+            color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 14px;
+            text-shadow: 0 0 5px var(--c), 0 0 10px var(--c);
+            text-transform: uppercase; letter-spacing: 0.1em;
+            transform: rotateZ(-45deg); /* Face normal to camera */
+        }
+
+        /* Positioning the Nodes */
+        .node-meta { top: 15%; left: 15%; --c: #ffffff; --c-bg: rgba(255,255,255,0.3); --delay: 0s; }
+        .node-s1   { top: 15%; right: 15%; --c: #60a5fa; --c-bg: rgba(96,165,250,0.3); --delay: 0.2s; }
+        .node-s2   { top: 50%; left: 10%; transform: translateY(-50%); --c: #fbbf24; --c-bg: rgba(251,191,36,0.3); --delay: 0.4s; }
+        .node-s3   { top: 50%; right: 10%; transform: translateY(-50%); --c: #c084fc; --c-bg: rgba(192,132,252,0.3); --delay: 0.6s; }
+        .node-s4   { bottom: 25%; left: 50%; transform: translateX(-50%); --c: #22d3ee; --c-bg: rgba(34,211,238,0.3); --delay: 0.8s; }
+
+        @keyframes nodeFloat3D { 0% { transform: rotateX(60deg) rotateZ(45deg) translateZ(0px); } 100% { transform: rotateX(60deg) rotateZ(45deg) translateZ(10px); } }
+
+        /* Data Cables (SVG) */
+        .data-cables {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5;
+        }
+        
+        .cable-path {
+            fill: none; stroke-width: 0.3; stroke-linecap: round;
+            stroke: rgba(255,255,255,0.3);
+        }
+
+        .cable-glow {
+            fill: none; stroke-width: 0.8; stroke-linecap: round;
+            stroke: var(--c); filter: drop-shadow(0 0 3px var(--c));
+            stroke-dasharray: 10 30;
+            animation: dataStream linear infinite;
+        }
+
+        /* SVG Paths approximate coordinates based on percentages */
+        @keyframes dataStream {
+            0% { stroke-dashoffset: 40; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .cable-meta { --c: #ffffff; animation-duration: 1.2s; }
+        .cable-s1   { --c: #60a5fa; animation-duration: 1.5s; }
+        .cable-s2   { --c: #fbbf24; animation-duration: 1s; }
+        .cable-s3   { --c: #c084fc; animation-duration: 1.8s; }
+        .cable-s4   { --c: #22d3ee; animation-duration: 1.3s; }
+
+
+        .scanner-beam {
+            position: absolute; left: -10%; right: -10%; height: 4px;
+            background: #fff; border-radius: 2px;
+            box-shadow: 0 0 40px 20px rgba(34,211,238,0.8), 0 0 20px 5px #fff;
+            transform-origin: bottom center;
+            transform: translateZ(60px);
+            animation: scanMove 3s ease-in-out infinite alternate;
+            z-index: 20;
+        }
+
+        @keyframes scanMove {
+            0% { bottom: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { bottom: 100%; opacity: 0; }
+        }
+
         .tab-btn { flex: 1; padding: 0.75rem; font-weight: 700; border-radius: 0.5rem; text-align: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.2s ease; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.3); background: transparent; color: #7dd3fc; font-family: 'Orbitron', sans-serif; }
         .tab-btn.active { background-color: rgba(56, 189, 248, 0.2); color: #fff; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
         .tab-btn.inactive:hover { background-color: rgba(56, 189, 248, 0.1); }
@@ -371,24 +521,94 @@
                         <h3 class="text-3xl font-orbitron font-bold text-yellow-400 uppercase tracking-widest mt-4 drop-shadow-lg" data-i18n="yellowFlag">BANDERA AMARILLA</h3>
                     </div>
 
+                    <div id="perspective-guide">
+                        <!-- Connecting Cables (SVG) -->
+                        <svg class="data-cables" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <!-- Base dim paths -->
+                            <path class="cable-path" d="M15,15 Q30,50 50,50" /> <!-- Meta to Center -->
+                            <path class="cable-path" d="M85,15 Q70,50 50,50" /> <!-- S1 to Center -->
+                            <path class="cable-path" d="M10,50 Q30,50 50,50" /> <!-- S2 to Center -->
+                            <path class="cable-path" d="M90,50 Q70,50 50,50" /> <!-- S3 to Center -->
+                            <path class="cable-path" d="M50,75 Q50,65 50,50" /> <!-- S4 to Center -->
+
+                            <!-- Animated Glowing Data Streams -->
+                            <path class="cable-glow cable-meta" d="M15,15 Q30,50 50,50" />
+                            <path class="cable-glow cable-s1" d="M85,15 Q70,50 50,50" />
+                            <path class="cable-glow cable-s2" d="M10,50 Q30,50 50,50" />
+                            <path class="cable-glow cable-s3" d="M90,50 Q70,50 50,50" />
+                            <path class="cable-glow cable-s4" d="M50,75 Q50,65 50,50" />
+                        </svg>
+
+                        <!-- Central AI Core -->
+                        <div class="neural-core">
+                            <div class="core-pulse"></div>
+                            <div class="core-3d">
+                                <div class="face left"></div><div class="face right"></div>
+                                <div class="face top">
+                                    <!-- Brain / AI Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="core-icon">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+                                        <circle cx="12" cy="4.5" r="1.5" fill="currentColor"/>
+                                        <circle cx="16" cy="8" r="1.5" fill="currentColor"/>
+                                        <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+                                        <circle cx="15" cy="12" r="1.5" fill="currentColor"/>
+                                        <circle cx="9" cy="12" r="1.5" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Distributed Nodes with 3D Depth -->
+                        <div class="roi-node node-meta">
+                            <div class="node-3d">
+                                <div class="face top"><span class="node-label">META</span></div>
+                            </div>
+                        </div>
+                        <div class="roi-node node-s1">
+                            <div class="node-3d">
+                                <div class="face top"><span class="node-label">S1</span></div>
+                            </div>
+                        </div>
+                        <div class="roi-node node-s2">
+                            <div class="node-3d">
+                                <div class="face top"><span class="node-label">S2</span></div>
+                            </div>
+                        </div>
+                        <div class="roi-node node-s3">
+                            <div class="node-3d">
+                                <div class="face top"><span class="node-label">S3</span></div>
+                            </div>
+                        </div>
+                        <div class="roi-node node-s4">
+                            <div class="node-3d">
+                                <div class="face top"><span class="node-label">S4</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute bottom-6 text-center px-4 w-full z-20">
+                            <h3 class="font-orbitron font-black text-cyan-300 text-xl tracking-[0.3em] uppercase drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]">NÚCLEO IA EN ESPERA</h3>
+                            <p class="text-[11px] text-cyan-100 font-bold uppercase tracking-widest mt-2 max-w-md mx-auto leading-relaxed border border-cyan-500/50 bg-cyan-900/80 shadow-[0_0_20px_rgba(34,211,238,0.2)] p-2 rounded-xl backdrop-blur-md">Enciende la cámara para desplegar la red neuronal sobre la pista real.</p>
+                        </div>
+                    </div>
+
                     <!-- ROIs -->
-                    <div id="roi-0" class="roi-box roi-meta active" style="left:10%; top:25%; width:15%; height:50%;">
+                    <div id="roi-0" class="roi-box roi-meta active" style="left:10%; top:40%; width:15%; height:20%;">
                         <div class="roi-label-tag">META</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-1" class="roi-box roi-s1" style="left:30%; top:25%; width:15%; height:50%;">
+                    <div id="roi-1" class="roi-box roi-s1" style="left:30%; top:40%; width:15%; height:20%;">
                         <div class="roi-label-tag">SEC 1</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-2" class="roi-box roi-s2" style="left:50%; top:25%; width:15%; height:50%;">
+                    <div id="roi-2" class="roi-box roi-s2" style="left:50%; top:40%; width:15%; height:20%;">
                         <div class="roi-label-tag">SEC 2</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-3" class="roi-box roi-s3" style="left:70%; top:25%; width:15%; height:50%;">
+                    <div id="roi-3" class="roi-box roi-s3" style="left:70%; top:40%; width:15%; height:20%;">
                         <div class="roi-label-tag">SEC 3</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-4" class="roi-box roi-s4" style="left:40%; top:10%; width:20%; height:40%;">
+                    <div id="roi-4" class="roi-box roi-s4" style="left:40%; top:15%; width:20%; height:20%;">
                         <div class="roi-label-tag">SEC 4</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
@@ -1750,6 +1970,7 @@
                 isProcessing=true; processVideo(); document.getElementById('calibrate-btn').disabled=false;
                 document.getElementById('camera-on-btn').disabled=true; document.getElementById('camera-off-btn').disabled=false;
                 document.getElementById('video-status').textContent = translations[currentLang].sensorActive; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
+                document.getElementById('perspective-guide').classList.add('hidden');
             } catch(e) {}
         });
         document.getElementById('camera-off-btn').addEventListener('click', () => {
@@ -1758,6 +1979,7 @@
             for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active');
             document.getElementById('camera-on-btn').disabled=false; document.getElementById('camera-off-btn').disabled=true; document.getElementById('calibrate-btn').disabled=true;
             document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
+            document.getElementById('perspective-guide').classList.remove('hidden');
         });
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
@@ -2156,8 +2378,16 @@
                 const w = Math.ceil(canvas.width * (getPct(box, 'width')/100)); const h = Math.ceil(canvas.height * (getPct(box, 'height')/100));
                 let strokeColor = '#ffffff'; let labelText = 'META';
                 if(i===1) { strokeColor='#3b82f6'; labelText='S1'; } if(i===2) { strokeColor='#f59e0b'; labelText='S2'; } if(i===3) { strokeColor='#a855f7'; labelText='S3'; } if(i===4) { strokeColor='#06b6d4'; labelText='S4'; }
-                ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.strokeRect(l, t, w, h); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(l, t, w, h);
-                ctx.fillStyle = strokeColor; ctx.fillRect(l, t - 25, 60, 25); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 5, t - 6);
+                
+                ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(l, t, w, h, 25); ctx.stroke(); ctx.fill(); } 
+                else { ctx.strokeRect(l, t, w, h); ctx.fillRect(l, t, w, h); }
+                
+                ctx.fillStyle = strokeColor; 
+                if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(l + 10, t - 25, 60, 25, [10, 10, 0, 0]); ctx.fill(); }
+                else { ctx.fillRect(l + 10, t - 25, 60, 25); }
+                
+                ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 15, t - 6);
             }
             const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 500; const scale = maxW / canvas.width;
             destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
