@@ -479,7 +479,7 @@
                             <span data-i18n="langLabel">Idioma / Language</span>
                          </label>
                          <select id="lang-select" class="neon-input p-1.5 rounded-lg text-xs w-1/2 font-bold">
-                             <option value="es">Español</option><option value="en">English</option><option value="fr">Français</option>
+                             <option value="es">Español</option><option value="en">English</option>
                          </select>
                      </div>
                 </div>
@@ -733,7 +733,7 @@
     </div>
 
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
-        <div class="modal-content p-5 w-full max-w-6xl flex flex-col h-[90vh]">
+        <div class="modal-content p-6 w-[96vw] max-w-[1800px] flex flex-col h-[96vh]">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-3 mb-4 shrink-0">
                 <h3 class="text-2xl font-orbitron font-black text-blue-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
@@ -754,10 +754,10 @@
             
             <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
                 <!-- COLUMNA IZQUIERDA -->
-                <div class="w-full lg:w-[35%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto">
+                <div class="w-full lg:w-[42%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto">
                     
                     <div class="flex flex-col gap-3">
-                        <div class="relative w-full aspect-video bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
+                        <div class="relative w-full aspect-[4/3] bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
                             <img id="garage-car-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-90 hover:opacity-100 transition-opacity">
                             <div class="text-center text-blue-500/50 z-10 flex flex-col items-center" id="garage-img-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
@@ -812,7 +812,7 @@
                 </div>
                 
                 <!-- COLUMNA DERECHA (DASHBOARD) -->
-                <div class="w-full lg:w-[65%] flex flex-col gap-5 overflow-y-auto pr-1">
+                <div class="w-full lg:w-[58%] flex flex-col gap-5 overflow-y-auto pr-1">
                     
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 shrink-0">
                         <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
@@ -855,6 +855,17 @@
                         <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5">Distribución Sectores</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0 mt-5 pb-5">
+                        <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Top Pistas (Mejor Tiempo)</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartCircuits"></canvas></div>
+                        </div>
+                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-cyan-400 mb-3 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Uso por Circuito (Vueltas)</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartUsage"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -972,6 +983,18 @@
                             <div class="flex-1 relative w-full"><canvas id="circuitChartSectors"></canvas></div>
                         </div>
                     </div>
+
+                    <!-- NUEVOS GRÁFICOS: TOP COCHES Y DISTRIBUCIÓN -->
+                    <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0 mt-5 pb-5">
+                        <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5" data-i18n="cChartTopCars">Top 5 Coches (Récords)</span>
+                            <div class="flex-1 relative w-full"><canvas id="circuitChartTopCars"></canvas></div>
+                        </div>
+                        <div class="flex-1 bg-slate-900/40 border border-amber-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-amber-500 mb-3 uppercase tracking-widest border-b border-amber-800/50 pb-1.5" data-i18n="cChartSectorTimeDist">Distribución de Vuelta (%)</span>
+                            <div class="flex-1 relative w-full"><canvas id="circuitChartTimeDist"></canvas></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1022,14 +1045,13 @@
                 voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage"
             }
         };
-        translations.fr = translations.en; 
         let currentLang = 'es';
 
         let garageCars = []; let currentGarageCarId = null;
-        let garageChartEvol = null; let garageChartCons = null; let garageChartSect = null;
+        let garageChartEvol = null; let garageChartCons = null; let garageChartSect = null; let garageChartCircuits = null; let garageChartUsage = null;
 
         let circuits = []; let currentCircuitId = null;
-        let circuitChartEvol = null; let circuitChartSect = null;
+        let circuitChartEvol = null; let circuitChartSect = null; let circuitChartTopCars = null; let circuitChartTimeDist = null;
 
         const MAX_ROIS = 5; let activeRoisCount = 1; let roisState = []; let currentTargetRoi = 0; let sensitivity = 20; let blindTimeMs = 3000;
         let cameraStream = null, isProcessing = false, isRaceActive = false, isCountdown = false, raceAborted = false;
@@ -1432,7 +1454,7 @@
         function speak(text) {
             if(document.getElementById('voice-toggle').checked) {
                 window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text);
-                let langCode = currentLang === 'en' ? 'en-US' : (currentLang === 'fr' ? 'fr-FR' : 'es-ES'); u.lang = langCode; 
+                let langCode = currentLang === 'en' ? 'en-US' : 'es-ES'; u.lang = langCode; 
                 const voices = window.speechSynthesis.getVoices(); let voice = voices.find(v => v.lang === langCode) || voices.find(v => v.lang.startsWith(langCode.substring(0, 2)));
                 if (voice) u.voice = voice; window.speechSynthesis.speak(u);
             }
@@ -1561,6 +1583,14 @@
             } 
             if (records.length === 0) { try { records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => r.circuitId === circuitId); } catch(e) {} }
 
+            // Vinculador Retroactivo: Busca fotos de coches en el garaje para récords antiguos
+            records.forEach(r => {
+                if (!r.carImage || r.carImage === "") {
+                    const garageCar = garageCars.find(c => c.name === r.car);
+                    if (garageCar && garageCar.image) r.carImage = garageCar.image;
+                }
+            });
+
             records.sort((a, b) => a.time - b.time);
             
             // F1 Grid: Best unique Pilot+Car combo
@@ -1615,7 +1645,7 @@
                     if (numSectorsCircuit === null || r.sectors.length === numSectorsCircuit) {
                         r.sectors.forEach((secTime, idx) => {
                             if (secTime > 0) {
-                                if(!bestSectors[idx] || secTime < bestSectors[idx].time) { bestSectors[idx] = { time: secTime, pilot: r.pilot, car: r.car }; }
+                                if(!bestSectors[idx] || secTime < bestSectors[idx].time) { bestSectors[idx] = { time: secTime, pilot: r.pilot, car: r.car, carImage: r.carImage }; }
                             }
                         });
                     }
@@ -1633,12 +1663,16 @@
                     if (sec) {
                         ultimateLapSum += sec.time;
                         const isMeta = (idx === bestSectors.length - 1); const secLabel = isMeta ? 'META' : `SEC ${idx + 1}`; const secClass = isMeta ? 'meta' : (idx===0?'s1':(idx===1?'s2':(idx===2?'s3':'s4')));
+                        
+                        let secImgHtml = sec.carImage ? `<img src="${sec.carImage}" class="w-12 h-12 mx-auto rounded-full object-cover border-2 border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.6)] my-2 z-20 bg-slate-900" />` : `<div class="w-12 h-12 mx-auto rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center my-2 z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
+
                         grid.innerHTML += `<div class="sector-card ${secClass} bg-slate-800/80 border-cyan-700/50">
                                             <div class="bar"></div>
                                             <h4 class="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mt-2">${secLabel}</h4>
-                                            <p class="text-2xl font-black font-orbitron text-white my-2 drop-shadow-md">${formatTime(sec.time, false)}</p>
-                                            <p class="text-[11px] font-bold text-emerald-400 truncate tracking-widest uppercase">${sec.pilot}</p>
-                                            <p class="text-[9px] text-slate-400 font-bold truncate tracking-widest uppercase">${sec.car}</p>
+                                            ${secImgHtml}
+                                            <p class="text-2xl font-black font-orbitron text-white my-1 drop-shadow-md">${formatTime(sec.time, false)}</p>
+                                            <p class="text-[10px] font-bold text-emerald-400 truncate tracking-widest uppercase">${sec.pilot}</p>
+                                            <p class="text-[8px] text-slate-400 font-bold truncate tracking-widest uppercase">${sec.car}</p>
                                         </div>`;
                     }
                 });
@@ -1715,7 +1749,7 @@
                 for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
                 isProcessing=true; processVideo(); document.getElementById('calibrate-btn').disabled=false;
                 document.getElementById('camera-on-btn').disabled=true; document.getElementById('camera-off-btn').disabled=false;
-                document.getElementById('video-status').textContent = "Sensor Activo"; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
+                document.getElementById('video-status').textContent = translations[currentLang].sensorActive; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
             } catch(e) {}
         });
         document.getElementById('camera-off-btn').addEventListener('click', () => {
@@ -1723,7 +1757,7 @@
             cameraStream=null; isProcessing=false; videoElement.srcObject=null;
             for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active');
             document.getElementById('camera-on-btn').disabled=false; document.getElementById('camera-off-btn').disabled=true; document.getElementById('calibrate-btn').disabled=true;
-            document.getElementById('video-status').textContent = "Sensor Inactivo"; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
+            document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
         });
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
@@ -1755,6 +1789,15 @@
         document.getElementById('lang-select').addEventListener('change', (e) => {
             currentLang = e.target.value;
             document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
+            
+            // Forzar actualización de textos dinámicos si la cámara está activa
+            if(cameraStream) { document.getElementById('video-status').textContent = translations[currentLang].sensorActive; } 
+            else { document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; }
+            
+            // Refrescar paneles abiertos
+            if(document.getElementById('rankingModal').classList.contains('open') && document.getElementById('ranking-circuit-picker').value) { fetchAndRenderRankings(document.getElementById('ranking-circuit-picker').value); }
+            if(document.getElementById('garageModal').classList.contains('open')) { renderGarage(currentGarageCarId); }
+            if(document.getElementById('circuitModal').classList.contains('open')) { renderCircuit(currentCircuitId); }
         });
 
         document.getElementById('history-btn').addEventListener('click', () => { loadHistory(); document.getElementById('historyModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('historyModal').classList.add('open'),10); });
@@ -1858,6 +1901,50 @@
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#a855f7', font: {size: 9}}, grid: {color: 'rgba(192,132,252,0.1)'} }, x: { display: true, ticks: {color: '#d8b4fe', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } 
                 });
             } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+
+            // NUEVOS GRÁFICOS: RENDIMIENTO POR CIRCUITO Y KILOMETRAJE
+            const ctxCirc = document.getElementById('garageChartCircuits').getContext('2d'); if(garageChartCircuits) garageChartCircuits.destroy();
+            let bestPerCircuit = {};
+            hist.forEach(h => {
+                const cId = h.circuitId;
+                if(cId) {
+                    const c = circuits.find(ci => ci.id === cId);
+                    const cName = c ? c.name : "Desconocido";
+                    if(!bestPerCircuit[cName] || h.lapTime < bestPerCircuit[cName]) bestPerCircuit[cName] = h.lapTime;
+                }
+            });
+            let circArr = Object.keys(bestPerCircuit).map(k => ({name: k, time: bestPerCircuit[k]}));
+            circArr.sort((a,b) => a.time - b.time); circArr = circArr.slice(0, 5);
+
+            if(circArr.length > 0) {
+                garageChartCircuits = new Chart(ctxCirc, {
+                    type: 'bar',
+                    data: { labels: circArr.map(c => c.name), datasets: [{ label: 'Mejor Tiempo (s)', data: circArr.map(c => c.time/1000), backgroundColor: 'rgba(16, 185, 129, 0.4)', borderColor: '#10b981', borderWidth: 1, borderRadius: 4 }] },
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { x: { display: true, ticks: {color: '#6ee7b7', font: {size: 9}}, grid: {color: 'rgba(16,185,129,0.1)'} }, y: { display: true, ticks: {color: '#10b981', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } }
+                });
+            } else { ctxCirc.clearRect(0,0,ctxCirc.canvas.width, ctxCirc.canvas.height); }
+
+            const ctxUsage = document.getElementById('garageChartUsage').getContext('2d'); if(garageChartUsage) garageChartUsage.destroy();
+            let lapsPerCircuit = {};
+            hist.forEach(h => {
+                const cId = h.circuitId;
+                if(cId) {
+                    const c = circuits.find(ci => ci.id === cId);
+                    const cName = c ? c.name : "Desconocido";
+                    lapsPerCircuit[cName] = (lapsPerCircuit[cName] || 0) + 1;
+                }
+            });
+            let usageArr = Object.keys(lapsPerCircuit).map(k => ({name: k, laps: lapsPerCircuit[k]}));
+            usageArr.sort((a,b) => b.laps - a.laps);
+
+            if(usageArr.length > 0) {
+                const bgColors = ['#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef', '#f43f5e'].slice(0, usageArr.length);
+                garageChartUsage = new Chart(ctxUsage, {
+                    type: 'doughnut',
+                    data: { labels: usageArr.map(u => u.name), datasets: [{ data: usageArr.map(u => u.laps), backgroundColor: bgColors.map(c => c+'80'), borderColor: bgColors, borderWidth: 2, hoverOffset: 4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { color: '#67e8f9', font: {size: 9, family: 'Orbitron'} } } } }
+                });
+            } else { ctxUsage.clearRect(0,0,ctxUsage.canvas.width, ctxUsage.canvas.height); }
         }
 
         document.getElementById('garage-capture-btn').addEventListener('click', () => {
@@ -1890,15 +1977,16 @@
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
             const car = garageCars.find(c => c.id === currentGarageCarId);
             if(car) {
-                car.name = document.getElementById('g-input-name').value || "Sin Nombre"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value;
+                car.name = document.getElementById('g-input-name').value || translations[currentLang].noName; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value;
                 car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked;
                 saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn');
-                btn.innerHTML = "¡Guardado!"; btn.classList.add('text-green-400');
-                setTimeout(() => { btn.innerHTML = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500);
+                const orig = btn.innerHTML;
+                btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400');
+                setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
             }
         });
 
-        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].noName, brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
             if(garageCars.length > 1) { 
                 if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId)); } 
@@ -1933,7 +2021,15 @@
 
         function renderCircuit(id) {
             currentCircuitId = id; const circ = circuits.find(c => c.id === id); if(!circ) return;
-            let allCircuitLaps = []; garageCars.forEach(car => { if(car.history) { allCircuitLaps = allCircuitLaps.concat(car.history.filter(h => h.circuitId === id)); } });
+            
+            let allCircuitLaps = []; 
+            garageCars.forEach(car => { 
+                if(car.history) { 
+                    car.history.filter(h => h.circuitId === id).forEach(h => {
+                        allCircuitLaps.push({ ...h, carName: car.name });
+                    });
+                } 
+            });
             
             document.getElementById('circuit-picker').value = id; document.getElementById('c-input-name').value = circ.name || ""; document.getElementById('c-input-length').value = circ.length || ""; 
             
@@ -1951,12 +2047,12 @@
 
             document.getElementById('c-stat-laps').textContent = totalLaps;
             document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
-            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : "Sin registros";
+            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : translations[currentLang].noRecords;
             document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
             document.getElementById('c-stat-time').textContent = timeStr;
             document.getElementById('c-stat-speed').textContent = avgSpeedStr;
             
-            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} Sector(es)`;
+            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} ${translations[currentLang].sectorsSaved}`;
 
             const imgEl = document.getElementById('circuit-captured-img'); const placeholder = document.getElementById('circuit-img-placeholder');
             if(circ.image) { imgEl.src = circ.image; imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); } else { imgEl.src = ""; imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
@@ -1985,13 +2081,61 @@
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } 
                 });
             } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+
+            // GRÁFICO 3: TOP 5 COCHES (BARRAS HORIZONTALES)
+            const ctxTop = document.getElementById('circuitChartTopCars').getContext('2d'); if(circuitChartTopCars) circuitChartTopCars.destroy();
+            let bestPerCar = {};
+            laps.forEach(l => {
+                if(l.carName) {
+                    if(!bestPerCar[l.carName] || l.lapTime < bestPerCar[l.carName]) { bestPerCar[l.carName] = l.lapTime; }
+                }
+            });
+            let topCarsArr = Object.keys(bestPerCar).map(k => ({name: k, time: bestPerCar[k]}));
+            topCarsArr.sort((a,b) => a.time - b.time); topCarsArr = topCarsArr.slice(0, 5); // Solo los 5 mejores
+
+            if(topCarsArr.length > 0) {
+                circuitChartTopCars = new Chart(ctxTop, {
+                    type: 'bar',
+                    data: {
+                        labels: topCarsArr.map(c => c.name),
+                        datasets: [{ label: 'Mejor Tiempo (s)', data: topCarsArr.map(c => c.time / 1000), backgroundColor: 'rgba(192, 132, 252, 0.4)', borderColor: '#c084fc', borderWidth: 1, borderRadius: 4 }]
+                    },
+                    options: {
+                        indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} },
+                        scales: { x: { display: true, ticks: {color: '#d8b4fe', font: {size: 9}}, grid: {color: 'rgba(192,132,252,0.1)'} }, y: { display: true, ticks: {color: '#c084fc', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } }
+                    }
+                });
+            } else { ctxTop.clearRect(0, 0, ctxTop.canvas.width, ctxTop.canvas.height); }
+
+            // GRÁFICO 4: DISTRIBUCIÓN DE TIEMPO POR SECTORES (DONUT)
+            const ctxDist = document.getElementById('circuitChartTimeDist').getContext('2d'); if(circuitChartTimeDist) circuitChartTimeDist.destroy();
+            let bestLapWithSectors = null;
+            laps.forEach(l => { if(l.sectors && l.sectors.length > 0) { if(!bestLapWithSectors || l.lapTime < bestLapWithSectors.lapTime) { bestLapWithSectors = l; } } });
+
+            if(bestLapWithSectors && bestLapWithSectors.sectors) {
+                const activeSectors = bestLapWithSectors.sectors.filter(s => s > 0);
+                const distLabels = activeSectors.map((_, i) => i === activeSectors.length - 1 ? 'Meta' : `S${i+1}`);
+                const bgColors = ['#60a5fa', '#fbbf24', '#c084fc', '#22d3ee', '#34d399'].slice(0, activeSectors.length);
+
+                circuitChartTimeDist = new Chart(ctxDist, {
+                    type: 'doughnut',
+                    data: {
+                        labels: distLabels,
+                        datasets: [{ data: activeSectors.map(s => s / 1000), backgroundColor: bgColors.map(c => c + '80'), borderColor: bgColors, borderWidth: 2, hoverOffset: 4 }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, cutout: '70%',
+                        plugins: { legend: { position: 'right', labels: { color: '#fbbf24', font: {size: 9, family: 'Orbitron'} } }, tooltip: { callbacks: { label: function(context) { return ' ' + context.raw.toFixed(3) + 's'; } } } }
+                    }
+                });
+            } else { ctxDist.clearRect(0, 0, ctxDist.canvas.width, ctxDist.canvas.height); }
         }
 
         document.getElementById('circuit-capture-btn').addEventListener('click', () => {
             if (!videoElement.videoWidth) { 
                 const btn = document.getElementById('circuit-capture-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10">¡Activa cámara!</span>`;
+                btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10">${translations[currentLang].turnCamOn}</span>`;
                 setTimeout(()=>btn.innerHTML=orig, 2000);
                 return; 
             }
@@ -2014,7 +2158,7 @@
                 circ.image = b64; autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); 
                 const btn = document.getElementById('circuit-capture-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡Capturado!</span>`;
+                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">${translations[currentLang].captured}</span>`;
                 setTimeout(()=>btn.innerHTML=orig, 2000);
             }
         });
@@ -2039,13 +2183,14 @@
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
             const circ = circuits.find(c => c.id === currentCircuitId);
             if(circ) {
-                circ.name = document.getElementById('c-input-name').value || "Sin Nombre"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
+                circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
                 saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn');
-                btn.textContent = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500);
+                const orig = btn.innerHTML;
+                btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
             }
         });
 
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].noName, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
             if(circuits.length > 1) { 
                 if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } 
