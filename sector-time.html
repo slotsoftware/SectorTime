@@ -72,7 +72,6 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* Fondo azul tecnológico luminoso y vibrante */
             background: radial-gradient(circle at 50% 0%, #0369a1 0%, #0f172a 70%, #020617 100%);
             margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
@@ -104,9 +103,11 @@
         ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.5); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.8); }
 
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
         .font-orbitron { font-family: 'Orbitron', sans-serif !important; letter-spacing: 0.05em; }
 
-        /* Paneles rellenos de Azul Neón Translúcido */
         .neon-panel {
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(30, 58, 138, 0.4));
             border: 1px solid rgba(56, 189, 248, 0.4);
@@ -279,8 +280,9 @@
         }
         #perspective-guide.hidden { opacity: 0; pointer-events: none; }
         
+        /* Isometric 3D Scene Overlay */
         .iso-scene {
-            position: relative; width: 380px; height: 380px;
+            position: relative; width: 340px; height: 340px;
             transform-style: preserve-3d;
             transform: rotateX(60deg) rotateZ(45deg);
             animation: floatScene 6s ease-in-out infinite alternate;
@@ -294,14 +296,16 @@
             overflow: visible; transform: translateZ(-1px);
         }
         .iso-block {
-            position: absolute; width: 90px; height: 90px; border-radius: 14px;
+            position: absolute; width: 90px; height: 90px; border-radius: 12px;
             display: flex; justify-content: center; align-items: center;
-            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 16px; color: #fff;
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 16px; color: #fff;
             transform: translateZ(25px); /* Elevación sobre el radar */
-            text-shadow: 0 0 8px rgba(255,255,255,0.9);
+            text-shadow: 0 0 5px rgba(255,255,255,0.8);
         }
+        /* Deshacer la rotación Z en el texto para que mire de frente a la pantalla */
         .iso-block span { transform: rotateZ(-45deg); display: block; }
 
+        /* Extrusión 3D simulada mediante múltiples proyecciones de sombra en eje (1,1) local que corresponde a "abajo" en pantalla */
         .iso-meta {
             top: 15%; left: 15%; background: rgba(16, 185, 129, 0.85); border: 1.5px solid #6ee7b7;
             box-shadow: 1px 1px 0 #059669, 2px 2px 0 #059669, 3px 3px 0 #059669, 4px 4px 0 #059669, 5px 5px 0 #059669, 6px 6px 0 #059669, 10px 10px 20px rgba(16, 185, 129, 0.5);
@@ -328,6 +332,7 @@
             100% { transform: translateZ(35px); }
         }
 
+        /* Animación del Cerebro AI Central y Flujo de Datos */
         .data-stream {
             stroke-dasharray: 2 4;
             animation: dataFlow 1s linear infinite;
@@ -362,6 +367,7 @@
             position: absolute; width: 16px; height: 16px;
             background: #fff; border-radius: 50%;
             box-shadow: 0 0 20px #fff, 0 0 40px #38bdf8, 0 0 60px #0284c7;
+            /* Contrarrestar la rotación isométrica para que la esfera mire al frente */
             transform: rotateX(-60deg) rotateZ(-45deg); 
             animation: throbCore 0.8s ease-in-out infinite alternate;
         }
@@ -379,7 +385,7 @@
 
         .watermark-title {
             position: absolute; top: 75%; left: 0; width: 100%; text-align: center;
-            font-family: 'Orbitron', sans-serif; font-size: 1.5rem; letter-spacing: 0.8em;
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; letter-spacing: 0.8em;
             color: rgba(255,255,255,0.4); text-shadow: 0 0 10px rgba(255,255,255,0.1);
             z-index: 5; pointer-events: none; padding-left: 0.8em;
         }
@@ -409,8 +415,10 @@
         .sector-card.s3 .bar { background-color: #c084fc; box-shadow: 0 0 8px #c084fc; }
         .sector-card.s4 .bar { background-color: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
 
+        /* F1 Grid Enhancements */
         .f1-gap { color: #f87171; font-weight: bold; }
         .f1-leader { color: #34d399; font-weight: bold; }
+
     </style>
 </head>
 <body>
@@ -425,8 +433,10 @@
 
     <div class="w-full h-full flex flex-row p-3 gap-3 overflow-hidden box-border">
         
+        <!-- COLUMNA IZQUIERDA -->
         <div class="flex-1 flex flex-col h-full min-w-[60%] gap-3">
             
+            <!-- HEADER -->
             <div class="neon-panel flex justify-between items-center w-full py-2 px-5 shrink-0">
                 <div class="flex items-center space-x-5">
                     <div class="flex flex-col">
@@ -481,13 +491,8 @@
                 
                 <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
 
+                <!-- ÁREA DE VIDEO -->
                 <div id="video-container">
-                    <!-- Contenedor del Vídeo Demo (Oculto por defecto) -->
-                    <div id="demo-video-wrapper" class="hidden absolute inset-0 z-[60] bg-black flex-col items-center justify-center">
-                        <button id="close-demo-btn" class="absolute top-4 right-4 z-[70] bg-red-600/80 border border-red-400 hover:bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-[0_0_15px_rgba(239,68,68,0.8)] transition-colors">X</button>
-                        <iframe id="demo-video-iframe" class="w-full h-full border-0 relative z-[60]" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-
                     <video id="webcam-feed" autoplay playsinline></video>
                     
                     <div id="calib-overlay" class="calib-overlay">
@@ -505,23 +510,28 @@
 
                     <div id="perspective-guide">
                         <div class="flex-1 flex flex-col justify-center items-center w-full relative h-[55%]">
+                            <!-- Isometric 3D Space -->
                             <div class="iso-scene">
                                 <svg class="iso-svg" viewBox="0 0 100 100">
                                     <circle cx="50" cy="50" r="15" stroke="rgba(255,255,255,0.15)" stroke-width="0.3" fill="none" />
                                     <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.3" fill="none" />
                                     <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.05)" stroke-width="0.3" fill="none" />
+                                    
+                                    <!-- Líneas de datos fluyendo hacia el cerebro (desde el exterior hacia el centro) -->
                                     <line class="data-stream" x1="20" y1="20" x2="50" y2="50" stroke="#10b981" stroke-width="0.4" />
                                     <line class="data-stream" x1="80" y1="20" x2="50" y2="50" stroke="#3b82f6" stroke-width="0.4" />
                                     <line class="data-stream" x1="20" y1="80" x2="50" y2="50" stroke="#f59e0b" stroke-width="0.4" />
                                     <line class="data-stream" x1="80" y1="80" x2="50" y2="50" stroke="#a855f7" stroke-width="0.4" />
                                 </svg>
                                 
+                                <!-- Cerebro AI Central -->
                                 <div class="iso-brain-container">
                                     <div class="iso-brain-ring"></div>
                                     <div class="iso-brain-ring ring-reverse"></div>
                                     <div class="iso-brain-core"></div>
                                 </div>
 
+                                <!-- Bloques agrandados a 90x90px -->
                                 <div class="iso-block iso-meta"><span>META</span></div>
                                 <div class="iso-block iso-s1"><span>SEC 1</span></div>
                                 <div class="iso-block iso-s2"><span>SEC 2</span></div>
@@ -575,14 +585,10 @@
                                     <p class="spec-desc">Cámara de vapor pasiva (Vapor Chamber) para garantizar rendimiento en resistencia (>1h).</p>
                                 </div>
                             </div>
-                            <div class="text-center mt-3 text-[7.5px] text-slate-500 font-bold uppercase tracking-widest">
+                            <div class="text-center mt-3 text-[7.5px] text-slate-500 font-bold uppercase tracking-widest pb-1">
                                 * NOTA CRÍTICA: El motor óptico es un escáner de alta frecuencia. Dispositivo y cámara generarán latencia, saltos temporales y fallos lectura.
                             </div>
-                            <div class="flex justify-center mt-2 pb-1">
-                                <button id="demo-video-btn" class="bg-cyan-900/40 border border-cyan-500/50 hover:bg-cyan-800 text-cyan-300 px-4 py-1.5 rounded-full text-[8.5px] font-bold tracking-widest flex items-center transition-colors shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                                    <svg fill="currentColor" viewBox="0 0 24 24" class="w-3 h-3 mr-1.5"><path d="M5 3l14 9-14 9V3z"/></svg> VER VIDEO DEMOSTRACIÓN
-                                </button>
-                            </div>
+                            <!-- Botón de video ELIMINADO -->
                         </div>
                     </div>
 
@@ -613,6 +619,7 @@
             </div>
         </div>
 
+        <!-- COLUMNA DERECHA -->
         <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-3 h-full overflow-y-auto pr-1 pb-2">
             
             <div class="neon-panel w-full p-4 text-center shrink-0">
@@ -823,8 +830,15 @@
                 <p class="text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] font-orbitron">Recuperando Telemetría...</p>
             </div>
 
+            <!-- TAB 1: PÓDIUM Y PARRILLA -->
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-10 px-4 min-h-[280px]"></div>
+                
+                <!-- Pódium F1 Style -->
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-10 px-4 min-h-[280px]">
+                    <!-- Generado por JS -->
+                </div>
+
+                <!-- Tabla del resto de la parrilla (P4 a P25) con GAP -->
                 <table id="f1-grid-table" class="w-full text-left text-sm bg-slate-900/60 rounded-xl border border-cyan-900/60 overflow-hidden shadow-lg hidden">
                     <thead class="bg-slate-800/80 border-b border-cyan-800">
                         <tr>
@@ -834,17 +848,23 @@
                             <th class="p-3 text-cyan-500 text-right w-24">GAP</th>
                         </tr>
                     </thead>
-                    <tbody id="ranking-top25-body" class="divide-y divide-slate-800"></tbody>
+                    <tbody id="ranking-top25-body" class="divide-y divide-slate-800">
+                        <!-- Generado por JS -->
+                    </tbody>
                 </table>
                 <p id="ranking-top25-empty" class="text-center text-cyan-600/60 mt-8 hidden font-bold tracking-widest text-xs uppercase">No hay registros de telemetría para este circuito.</p>
             </div>
 
+            <!-- TAB 2: VUELTA PERFECTA (ULTIMATE LAP) -->
             <div id="ranking-view-sectors" class="hidden overflow-y-auto max-h-[60vh] pr-2">
                 <div class="bg-slate-900/60 p-6 rounded-xl border border-cyan-800/60 mb-4 shadow-lg flex flex-col items-center">
                     <h4 class="text-xs text-cyan-500 mb-2 font-bold uppercase tracking-widest text-center">Límite Físico Teórico del Circuito</h4>
                     <p id="ultimate-lap-time" class="text-5xl font-orbitron font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] mb-2 tracking-wider">--.---</p>
                     <p class="text-[10px] text-cyan-600 font-bold text-center uppercase tracking-widest max-w-lg mb-6">Esta "Vuelta Perfecta" es la suma de los récords absolutos individuales de cada sector, demostrando el ritmo máximo posible si se unieran todos los tramos perfectos.</p>
-                    <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full"></div>
+                    
+                    <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
+                        <!-- Generado por JS -->
+                    </div>
                     <p id="ranking-sectors-empty" class="text-center text-cyan-600/60 mt-6 hidden font-bold tracking-widest text-xs uppercase">Aún no hay sectores registrados para construir la Vuelta Perfecta.</p>
                 </div>
             </div>
@@ -903,6 +923,7 @@
         </div>
     </div>
 
+    <!-- Rest of basic modals (History, Confirm) -->
     <div id="historyModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-2xl">
             <div class="flex justify-between items-center border-b border-cyan-800 pb-3 mb-4">
@@ -953,18 +974,19 @@
                 </div>
             </div>
             
-            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
-                <div class="w-full lg:w-[42%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto">
+            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden min-h-0">
+                <!-- COLUMNA IZQUIERDA -->
+                <div class="w-full lg:w-[42%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto no-scrollbar">
                     
                     <div class="flex flex-col gap-3">
-                        <div class="relative w-full aspect-[4/3] bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
+                        <div class="relative w-full aspect-video bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
                             <img id="garage-car-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-90 hover:opacity-100 transition-opacity">
                             <div class="text-center text-blue-500/50 z-10 flex flex-col items-center" id="garage-img-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
                                 <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin Foto</span>
                             </div>
                         </div>
-                        <div class="flex gap-2">
+                        <div class="flex gap-2 shrink-0">
                             <button id="garage-capture-btn" class="flex-1 bg-slate-800 border border-cyan-600/60 hover:bg-cyan-900/50 text-cyan-300 font-bold text-[9px] uppercase tracking-widest py-2.5 rounded-lg transition shadow-md flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Webcam
                             </button>
@@ -988,7 +1010,7 @@
                             <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Motor</label><input type="text" id="g-input-motor" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                             <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Grip/Neum.</label><input type="text" id="g-input-tires" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                         </div>
-                        <div class="flex gap-2 items-end">
+                        <div class="flex gap-2 items-end shrink-0">
                             <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Peso (g)</label><input type="text" id="g-input-weight" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                             <div class="flex-1 flex items-center justify-center p-2 bg-slate-900/60 rounded-lg border border-blue-500/40 h-[34px]">
                                 <label class="text-[10px] font-bold text-blue-300 uppercase tracking-widest flex items-center cursor-pointer">
@@ -998,7 +1020,7 @@
                         </div>
                     </div>
                     
-                    <div class="mt-auto pt-4 flex flex-col gap-2">
+                    <div class="mt-auto pt-4 flex flex-col gap-2 shrink-0">
                         <button id="garage-drive-btn" class="w-full bg-gradient-to-r from-emerald-700 to-emerald-900 hover:from-emerald-600 hover:to-emerald-800 text-white font-bold uppercase tracking-widest py-3 rounded-xl transition shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-500/50 text-xs">🏁 PILOTAR COCHE</button>
                         <button id="garage-save-car-btn" class="w-full bg-slate-800 border border-blue-500 text-blue-300 hover:bg-blue-900/60 hover:text-white text-xs font-bold tracking-widest uppercase py-2.5 rounded-xl transition mt-1 shadow-md">Guardar Cambios</button>
                         
@@ -1011,58 +1033,60 @@
                     </div>
                 </div>
                 
-                <div class="w-full lg:w-[58%] flex flex-col gap-5 overflow-y-auto pr-1">
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 shrink-0">
-                        <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
+                <!-- COLUMNA DERECHA (DASHBOARD) -->
+                <div class="w-full lg:w-[58%] flex flex-col gap-4 overflow-y-auto pr-1 no-scrollbar">
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 shrink-0">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-emerald-500 shadow-[0_0_15px_#10b981]"></div>
                             <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest mb-1.5">Mejor Vuelta</p>
                             <p id="g-stat-best" class="text-white font-orbitron font-black text-xl drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">--.---</p>
                         </div>
-                        <div class="bg-slate-900/60 p-4 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-blue-500 shadow-[0_0_15px_#3b82f6]"></div>
                             <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest mb-1.5">Vueltas Totales</p>
                             <p id="g-stat-laps" class="text-white font-orbitron font-bold text-xl">0</p>
                         </div>
-                        <div class="bg-slate-900/60 p-4 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-purple-500 shadow-[0_0_15px_#a855f7]"></div>
                             <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1.5">Distancia</p>
                             <p id="g-stat-distance" class="text-white font-orbitron font-bold text-lg">0.00 km</p>
                         </div>
-                        <div class="bg-slate-900/60 p-4 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-amber-500 shadow-[0_0_15px_#f59e0b]"></div>
                             <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1.5">Tiempo de Uso</p>
                             <p id="g-stat-time" class="text-white font-orbitron font-bold text-lg truncate">0h 0m 0s</p>
                         </div>
-                        <div class="col-span-2 bg-slate-900/60 p-4 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="col-span-2 bg-slate-900/60 p-3 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-cyan-500 shadow-[0_0_15px_#06b6d4]"></div>
                             <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1.5">Velocidad Media Real / Escala 1:32</p>
                             <p id="g-stat-speed" class="text-white font-orbitron font-bold text-base">-- m/s</p>
                         </div>
                     </div>
 
-                    <div class="flex-1 min-h-[180px] bg-slate-900/40 border border-blue-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                        <span class="text-[10px] font-bold text-blue-400 mb-3 uppercase tracking-widest border-b border-blue-800/50 pb-1.5">Desempeño Histórico (Últimas 50 vueltas)</span>
+                    <div class="flex-1 min-h-[140px] bg-slate-900/40 border border-blue-800/50 p-3 rounded-xl flex flex-col shadow-inner">
+                        <span class="text-[10px] font-bold text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-800/50 pb-1.5">Desempeño Histórico (Últimas 50 vueltas)</span>
                         <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
                     </div>
                     
-                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0">
-                        <div class="flex-1 bg-slate-900/40 border border-amber-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-amber-500 mb-3 uppercase tracking-widest border-b border-amber-800/50 pb-1.5">Consistencia (Gap)</span>
+                    <div class="flex flex-col lg:flex-row gap-4 flex-1 min-h-[140px] shrink-0">
+                        <div class="flex-1 bg-slate-900/40 border border-amber-800/50 p-3 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-amber-500 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1.5">Consistencia (Gap)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartConsistency"></canvas></div>
                         </div>
-                        <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5">Distribución Sectores</span>
+                        <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-3 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1.5">Distribución Sectores</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0 mt-5 pb-5">
-                        <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Top Pistas (Mejor Tiempo)</span>
+                    <div class="flex flex-col lg:flex-row gap-4 flex-1 min-h-[140px] shrink-0 pb-2">
+                        <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Top Pistas (Mejor Tiempo)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartCircuits"></canvas></div>
                         </div>
-                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-cyan-400 mb-3 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Uso por Circuito (Vueltas)</span>
+                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-3 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Uso por Circuito (Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartUsage"></canvas></div>
                         </div>
                     </div>
@@ -1084,8 +1108,8 @@
                 </div>
             </div>
             
-            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
-                <div class="w-full lg:w-[35%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-emerald-800/50 overflow-y-auto">
+            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden min-h-0">
+                <div class="w-full lg:w-[35%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-emerald-800/50 overflow-y-auto no-scrollbar">
                     <div class="flex gap-3">
                         <div class="flex-1">
                             <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block">Nombre de la Pista</label>
@@ -1135,7 +1159,7 @@
                         </div>
                     </div>
                     
-                    <div class="mt-auto pt-5 flex flex-col gap-3">
+                    <div class="mt-auto pt-5 flex flex-col gap-3 shrink-0">
                         <button id="circuit-save-btn" class="w-full bg-slate-800 border border-emerald-500 hover:bg-emerald-900/60 hover:text-white text-emerald-300 text-xs font-bold tracking-[0.2em] uppercase py-3 rounded-xl transition shadow-md">Guardar Cambios</button>
                         <div class="flex gap-2">
                             <button id="circuit-add-btn" class="flex-1 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-900/50 py-2.5 rounded-xl text-[10px] font-bold tracking-widest uppercase transition">+ Pista Nueva</button>
@@ -1146,10 +1170,11 @@
                     </div>
                 </div>
 
-                <div class="w-full lg:w-[65%] flex flex-col gap-5 overflow-y-auto pr-1">
+                <div class="w-full lg:w-[65%] flex flex-col gap-4 overflow-y-auto pr-1 no-scrollbar">
                     <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-5 shadow-inner relative flex flex-col shrink-0">
                         <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-3 border-b border-emerald-800/50 pb-1.5">Mapa del Circuito (Satélite)</h4>
                         <div class="flex flex-col lg:flex-row gap-5 items-stretch">
+                            <!-- MAPA 16:9 -->
                             <div class="w-full lg:w-2/3 aspect-video bg-black rounded-xl border border-emerald-600/50 overflow-hidden relative shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
                                 <img id="circuit-captured-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-80 filter contrast-125 hover:opacity-100 transition-opacity">
                                 <div id="circuit-img-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-emerald-800/50 bg-slate-900/60">
@@ -1157,6 +1182,7 @@
                                     <p class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin vista aérea</p>
                                 </div>
                             </div>
+                            <!-- BOTÓN ESCANEO (Aprovechando lateral) -->
                             <div class="w-full lg:w-1/3 flex flex-col items-center justify-center gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 shadow-inner">
                                 <button id="circuit-capture-btn" class="w-full bg-slate-800 border-2 border-emerald-500 hover:bg-emerald-900/60 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-widest py-5 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col items-center justify-center transition group relative overflow-hidden">
                                     <div class="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition"></div>
@@ -1169,7 +1195,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0">
+                    <div class="flex flex-col lg:flex-row gap-5 flex-1 min-h-[140px] shrink-0">
                         <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Ritmo de Carrera (Últimas 50 Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartEvolution"></canvas></div>
@@ -1180,7 +1206,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0 mt-5 pb-5">
+                    <div class="flex flex-col lg:flex-row gap-5 flex-1 min-h-[140px] shrink-0 pb-2">
                         <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5" data-i18n="cChartTopCars">Top 5 Coches (Récords)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartTopCars"></canvas></div>
@@ -1946,7 +1972,7 @@
                 for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
                 isProcessing=true; processVideo(); document.getElementById('calibrate-btn').disabled=false;
                 document.getElementById('camera-on-btn').disabled=true; document.getElementById('camera-off-btn').disabled=false;
-                document.getElementById('video-status').textContent = translations[currentLang].sensorActive; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
+                document.getElementById('video-status').textContent = translations[currentLang].sensorActive || "Sensor Activo"; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
                 document.getElementById('perspective-guide').classList.add('hidden');
             } catch(e) {}
         });
@@ -1955,7 +1981,7 @@
             cameraStream=null; isProcessing=false; videoElement.srcObject=null;
             for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active');
             document.getElementById('camera-on-btn').disabled=false; document.getElementById('camera-off-btn').disabled=true; document.getElementById('calibrate-btn').disabled=true;
-            document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
+            document.getElementById('video-status').textContent = translations[currentLang].sensorInactive || "Sensor Inactivo"; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
             document.getElementById('perspective-guide').classList.remove('hidden');
         });
 
@@ -1989,8 +2015,8 @@
             currentLang = e.target.value;
             document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
             
-            if(cameraStream) { document.getElementById('video-status').textContent = translations[currentLang].sensorActive; } 
-            else { document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; }
+            if(cameraStream) { document.getElementById('video-status').textContent = translations[currentLang].sensorActive || "Sensor Activo"; } 
+            else { document.getElementById('video-status').textContent = translations[currentLang].sensorInactive || "Sensor Inactivo"; }
             
             if(document.getElementById('rankingModal').classList.contains('open') && document.getElementById('ranking-circuit-picker').value) { fetchAndRenderRankings(document.getElementById('ranking-circuit-picker').value); }
             if(document.getElementById('garageModal').classList.contains('open')) { renderGarage(currentGarageCarId); }
@@ -2176,7 +2202,7 @@
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
             const car = garageCars.find(c => c.id === currentGarageCarId);
             if(car) {
-                car.name = document.getElementById('g-input-name').value || translations[currentLang].noName; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value;
+                car.name = document.getElementById('g-input-name').value || translations[currentLang].noName || "Coche"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value;
                 car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked;
                 saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn');
                 const orig = btn.innerHTML;
@@ -2415,29 +2441,6 @@
         document.getElementById('close-circuit-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
         document.getElementById('circuit-picker').addEventListener('change', (e) => { renderCircuit(e.target.value); document.getElementById('circuit-model-select').value = e.target.value; loadCircuitROIs(e.target.value); });
         document.getElementById('circuit-model-select').addEventListener('change', (e) => { currentCircuitId = e.target.value; loadCircuitROIs(e.target.value); });
-
-        // Lógica del Vídeo de Demostración
-        const DEMO_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"; // Reemplaza esto con el enlace "embed" real de tu vídeo.
-        const demoBtn = document.getElementById('demo-video-btn');
-        const demoWrapper = document.getElementById('demo-video-wrapper');
-        const demoIframe = document.getElementById('demo-video-iframe');
-        const closeDemoBtn = document.getElementById('close-demo-btn');
-
-        if (demoBtn) {
-            demoBtn.addEventListener('click', () => {
-                demoWrapper.classList.remove('hidden');
-                demoWrapper.classList.add('flex');
-                demoIframe.src = DEMO_VIDEO_URL; // Carga y auto-reproduce
-            });
-        }
-        
-        if (closeDemoBtn) {
-            closeDemoBtn.addEventListener('click', () => {
-                demoWrapper.classList.add('hidden');
-                demoWrapper.classList.remove('flex');
-                demoIframe.src = ""; // Corta la reproducción al cerrar
-            });
-        }
 
         window.onload = () => {
             if (window.speechSynthesis) window.speechSynthesis.getVoices();
