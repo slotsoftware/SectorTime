@@ -280,7 +280,7 @@
         }
         #perspective-guide.hidden { opacity: 0; pointer-events: none; }
         
-        /* Isometric 3D Scene Overlay */
+        /* Isometric 3D Scene Overlay - Flash Style */
         .iso-scene {
             position: relative; width: 380px; height: 380px;
             transform-style: preserve-3d;
@@ -615,6 +615,7 @@
                                 </div>
                             </div>
                             
+                            <!-- ALERTA ROJA ACTUALIZADA -->
                             <div class="mt-3 flex items-center justify-center p-2 bg-red-900/20 border border-red-500/50 rounded-lg shadow-[0_0_15px_rgba(239,68,68,0.2),inset_0_0_10px_rgba(239,68,68,0.2)] animate-[pulse_2s_ease-in-out_infinite]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 shrink-0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                                 <span class="text-[8px] text-red-400 font-bold uppercase tracking-widest text-center leading-relaxed">
@@ -956,6 +957,7 @@
         </div>
     </div>
 
+    <!-- Rest of basic modals (History, Confirm) -->
     <div id="historyModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-2xl">
             <div class="flex justify-between items-center border-b border-cyan-800 pb-3 mb-4">
@@ -1006,19 +1008,19 @@
                 </div>
             </div>
             
-            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden min-h-0">
+            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
                 <!-- COLUMNA IZQUIERDA -->
-                <div class="w-full lg:w-[42%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto no-scrollbar">
+                <div class="w-full lg:w-[42%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto">
                     
                     <div class="flex flex-col gap-3">
-                        <div class="relative w-full aspect-video bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
+                        <div class="relative w-full aspect-[4/3] bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
                             <img id="garage-car-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-90 hover:opacity-100 transition-opacity">
                             <div class="text-center text-blue-500/50 z-10 flex flex-col items-center" id="garage-img-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
                                 <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin Foto</span>
                             </div>
                         </div>
-                        <div class="flex gap-2 shrink-0">
+                        <div class="flex gap-2">
                             <button id="garage-capture-btn" class="flex-1 bg-slate-800 border border-cyan-600/60 hover:bg-cyan-900/50 text-cyan-300 font-bold text-[9px] uppercase tracking-widest py-2.5 rounded-lg transition shadow-md flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Webcam
                             </button>
@@ -1042,7 +1044,7 @@
                             <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Motor</label><input type="text" id="g-input-motor" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                             <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Grip/Neum.</label><input type="text" id="g-input-tires" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                         </div>
-                        <div class="flex gap-2 items-end shrink-0">
+                        <div class="flex gap-2 items-end">
                             <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Peso (g)</label><input type="text" id="g-input-weight" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                             <div class="flex-1 flex items-center justify-center p-2 bg-slate-900/60 rounded-lg border border-blue-500/40 h-[34px]">
                                 <label class="text-[10px] font-bold text-blue-300 uppercase tracking-widest flex items-center cursor-pointer">
@@ -1052,7 +1054,7 @@
                         </div>
                     </div>
                     
-                    <div class="mt-auto pt-4 flex flex-col gap-2 shrink-0">
+                    <div class="mt-auto pt-4 flex flex-col gap-2">
                         <button id="garage-drive-btn" class="w-full bg-gradient-to-r from-emerald-700 to-emerald-900 hover:from-emerald-600 hover:to-emerald-800 text-white font-bold uppercase tracking-widest py-3 rounded-xl transition shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-500/50 text-xs">🏁 PILOTAR COCHE</button>
                         <button id="garage-save-car-btn" class="w-full bg-slate-800 border border-blue-500 text-blue-300 hover:bg-blue-900/60 hover:text-white text-xs font-bold tracking-widest uppercase py-2.5 rounded-xl transition mt-1 shadow-md">Guardar Cambios</button>
                         
@@ -1066,59 +1068,59 @@
                 </div>
                 
                 <!-- COLUMNA DERECHA (DASHBOARD) -->
-                <div class="w-full lg:w-[58%] flex flex-col gap-4 overflow-y-auto pr-1 no-scrollbar">
+                <div class="w-full lg:w-[58%] flex flex-col gap-5 overflow-y-auto pr-1">
                     
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 shrink-0">
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 shrink-0">
+                        <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-emerald-500 shadow-[0_0_15px_#10b981]"></div>
                             <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest mb-1.5">Mejor Vuelta</p>
                             <p id="g-stat-best" class="text-white font-orbitron font-black text-xl drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">--.---</p>
                         </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="bg-slate-900/60 p-4 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-blue-500 shadow-[0_0_15px_#3b82f6]"></div>
                             <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest mb-1.5">Vueltas Totales</p>
                             <p id="g-stat-laps" class="text-white font-orbitron font-bold text-xl">0</p>
                         </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="bg-slate-900/60 p-4 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-purple-500 shadow-[0_0_15px_#a855f7]"></div>
                             <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1.5">Distancia</p>
                             <p id="g-stat-distance" class="text-white font-orbitron font-bold text-lg">0.00 km</p>
                         </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="bg-slate-900/60 p-4 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-amber-500 shadow-[0_0_15px_#f59e0b]"></div>
                             <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1.5">Tiempo de Uso</p>
                             <p id="g-stat-time" class="text-white font-orbitron font-bold text-lg truncate">0h 0m 0s</p>
                         </div>
-                        <div class="col-span-2 bg-slate-900/60 p-3 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
+                        <div class="col-span-2 bg-slate-900/60 p-4 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-cyan-500 shadow-[0_0_15px_#06b6d4]"></div>
                             <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1.5">Velocidad Media Real / Escala 1:32</p>
                             <p id="g-stat-speed" class="text-white font-orbitron font-bold text-base">-- m/s</p>
                         </div>
                     </div>
 
-                    <div class="flex-1 min-h-[140px] bg-slate-900/40 border border-blue-800/50 p-3 rounded-xl flex flex-col shadow-inner">
-                        <span class="text-[10px] font-bold text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-800/50 pb-1.5">Desempeño Histórico (Últimas 50 vueltas)</span>
+                    <div class="flex-1 min-h-[180px] bg-slate-900/40 border border-blue-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                        <span class="text-[10px] font-bold text-blue-400 mb-3 uppercase tracking-widest border-b border-blue-800/50 pb-1.5">Desempeño Histórico (Últimas 50 vueltas)</span>
                         <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
                     </div>
                     
-                    <div class="flex flex-col lg:flex-row gap-4 flex-1 min-h-[140px] shrink-0">
-                        <div class="flex-1 bg-slate-900/40 border border-amber-800/50 p-3 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-amber-500 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1.5">Consistencia (Gap)</span>
+                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0">
+                        <div class="flex-1 bg-slate-900/40 border border-amber-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-amber-500 mb-3 uppercase tracking-widest border-b border-amber-800/50 pb-1.5">Consistencia (Gap)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartConsistency"></canvas></div>
                         </div>
-                        <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-3 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1.5">Distribución Sectores</span>
+                        <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5">Distribución Sectores</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-4 flex-1 min-h-[140px] shrink-0 pb-2">
-                        <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Top Pistas (Mejor Tiempo)</span>
+                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0 mt-5 pb-5">
+                        <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Top Pistas (Mejor Tiempo)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartCircuits"></canvas></div>
                         </div>
-                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-3 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Uso por Circuito (Vueltas)</span>
+                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-cyan-400 mb-3 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Uso por Circuito (Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartUsage"></canvas></div>
                         </div>
                     </div>
@@ -1140,8 +1142,8 @@
                 </div>
             </div>
             
-            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden min-h-0">
-                <div class="w-full lg:w-[35%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-emerald-800/50 overflow-y-auto no-scrollbar">
+            <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
+                <div class="w-full lg:w-[35%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-emerald-800/50 overflow-y-auto">
                     <div class="flex gap-3">
                         <div class="flex-1">
                             <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block">Nombre de la Pista</label>
@@ -1191,7 +1193,7 @@
                         </div>
                     </div>
                     
-                    <div class="mt-auto pt-5 flex flex-col gap-3 shrink-0">
+                    <div class="mt-auto pt-5 flex flex-col gap-3">
                         <button id="circuit-save-btn" class="w-full bg-slate-800 border border-emerald-500 hover:bg-emerald-900/60 hover:text-white text-emerald-300 text-xs font-bold tracking-[0.2em] uppercase py-3 rounded-xl transition shadow-md">Guardar Cambios</button>
                         <div class="flex gap-2">
                             <button id="circuit-add-btn" class="flex-1 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-900/50 py-2.5 rounded-xl text-[10px] font-bold tracking-widest uppercase transition">+ Pista Nueva</button>
@@ -1202,7 +1204,7 @@
                     </div>
                 </div>
 
-                <div class="w-full lg:w-[65%] flex flex-col gap-4 overflow-y-auto pr-1 no-scrollbar">
+                <div class="w-full lg:w-[65%] flex flex-col gap-5 overflow-y-auto pr-1">
                     <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-5 shadow-inner relative flex flex-col shrink-0">
                         <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-3 border-b border-emerald-800/50 pb-1.5">Mapa del Circuito (Satélite)</h4>
                         <div class="flex flex-col lg:flex-row gap-5 items-stretch">
@@ -1227,7 +1229,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 flex-1 min-h-[140px] shrink-0">
+                    <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0">
                         <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Ritmo de Carrera (Últimas 50 Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartEvolution"></canvas></div>
@@ -1238,7 +1240,8 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 flex-1 min-h-[140px] shrink-0 pb-2">
+                    <!-- NUEVOS GRÁFICOS: TOP COCHES Y DISTRIBUCIÓN -->
+                    <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0 mt-5 pb-5">
                         <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5" data-i18n="cChartTopCars">Top 5 Coches (Récords)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartTopCars"></canvas></div>
@@ -1355,10 +1358,11 @@
         
         const synth = new Tone.Synth().toDestination(); const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
 
+        /* NUEVO: ALMACENAMIENTO DE PIXELES DE REFERENCIA (BASELINE) */
         for (let i = 0; i < MAX_ROIS; i++) {
             const el = document.getElementById(`roi-${i}`);
             let tag = 'meta'; if(i===1) tag='s1'; else if(i===2) tag='s2'; else if(i===3) tag='s3'; else if(i===4) tag='s4';
-            roisState.push({ id: i, el: el, baseBri: null, blocked: false, lastRec: 0, tag: tag, needsSilentCalib: false });
+            roisState.push({ id: i, el: el, baselineData: null, blocked: false, lastRec: 0, tag: tag, needsSilentCalib: false });
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
@@ -1415,9 +1419,10 @@
             if(hbr) hbr.addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
         });
 
-        function getROIBrightness(boxEl) {
+        /* NUEVO ALGORITMO: EXTRAER DATOS PIXEL A PIXEL DEL ROI */
+        function getROIPixelData(boxEl) {
             const vw = videoElement.videoWidth; const vh = videoElement.videoHeight;
-            if(!vw || !vh) return 0;
+            if(!vw || !vh) return null;
             const leftPct = getPct(boxEl,'left')/100; const topPct = getPct(boxEl,'top')/100;
             const widthPct = getPct(boxEl,'width')/100; const heightPct = getPct(boxEl,'height')/100;
             const l = Math.max(0, Math.min(vw - 1, Math.floor(vw * leftPct))); 
@@ -1428,12 +1433,31 @@
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             try {
                 ctx.drawImage(videoElement, l, t, w, h, 0, 0, w, h); 
-                const data = ctx.getImageData(0, 0, w, h).data; let sum = 0;
-                for (let i = 0; i < data.length; i += 16) sum += (data[i] + data[i+1] + data[i+2]); 
-                return (sum / 3) / (data.length / 16);
-            } catch(e) { return 0; }
+                return ctx.getImageData(0, 0, w, h).data;
+            } catch(e) { return null; }
         }
 
+        /* NUEVO ALGORITMO: COMPARAR FOTOGRAMA CON BASELINE Y DEVOLVER % DE CAMBIO */
+        function calculateDiffPercentage(currentData, baselineData) {
+            if (!currentData || !baselineData || currentData.length !== baselineData.length) return 0;
+            let changedPixels = 0;
+            const totalPixels = currentData.length / 4;
+            const diffThreshold = 40; // Sensibilidad base de color por píxel (constante)
+
+            for (let i = 0; i < currentData.length; i += 4) {
+                const rDiff = Math.abs(currentData[i] - baselineData[i]);
+                const gDiff = Math.abs(currentData[i+1] - baselineData[i+1]);
+                const bDiff = Math.abs(currentData[i+2] - baselineData[i+2]);
+                
+                // Si la diferencia en cualquier canal de color supera el umbral, el pixel ha cambiado
+                if (rDiff > diffThreshold || gDiff > diffThreshold || bDiff > diffThreshold) {
+                    changedPixels++;
+                }
+            }
+            return (changedPixels / totalPixels) * 100; // Devuelve porcentaje 0-100%
+        }
+
+        /* MODIFICADO: BUCLE DE PROCESAMIENTO USANDO PIXEL DIFFING Y AUTO-CALIBRACIÓN SILENCIOSA */
         function processVideo() {
             if (!isProcessing) return;
             if (isPaused) { requestAnimationFrame(processVideo); return; }
@@ -1442,18 +1466,27 @@
             for (let i = 0; i < activeRoisCount; i++) {
                 const rState = roisState[i]; const box = rState.el;
                 if (!box) continue; 
-                const currentBri = getROIBrightness(box);
                 
-                box.querySelector('.val-indicator').textContent = `Val: ${currentBri.toFixed(0)}`;
+                const currentData = getROIPixelData(box);
+                if (!currentData) continue;
+
                 const isTarget = (!isCalibrating && isRaceActive && currentTargetRoi === i);
 
+                // Auto-Calibración Silenciosa al convertirse en objetivo tras un hit previo
                 if (isRaceActive && isTarget && rState.needsSilentCalib) {
-                    rState.baseBri = currentBri; rState.needsSilentCalib = false;
-                } else if (rState.baseBri === null) {
-                    rState.baseBri = currentBri;
+                    rState.baselineData = new Uint8ClampedArray(currentData);
+                    rState.needsSilentCalib = false;
+                } else if (!rState.baselineData) {
+                    rState.baselineData = new Uint8ClampedArray(currentData);
                 }
                 
-                const diff = Math.abs(currentBri - rState.baseBri); const crossed = diff > sensitivity;
+                // Calcular el % de cambio respecto a la baseline
+                const diffPct = calculateDiffPercentage(currentData, rState.baselineData);
+                
+                // Sensibilidad invertida: Slider 5 (Sensible = requiere 5% de cambio), Slider 100 (Inmune = requiere 100% de cambio)
+                const crossed = diffPct > sensitivity;
+                
+                box.querySelector('.val-indicator').textContent = `Diff: ${diffPct.toFixed(1)}%`;
 
                 if (isRaceActive && !isCalibrating) {
                     if (isTarget) { box.classList.remove('roi-inactive'); box.classList.add('roi-target'); } 
@@ -1465,7 +1498,12 @@
                 if (crossed && canDetect) box.classList.add('roi-detected');
                 else { 
                     box.classList.remove('roi-detected'); 
-                    if (!isCalibrating && !rState.blocked && canDetect) { rState.baseBri = (rState.baseBri * 0.95) + (currentBri * 0.05); } 
+                    // ACTUALIZACIÓN DE BUFFER SILENCIOSO: Si no hay impacto, aprender gradualmente el fondo para evitar falsos positivos por sombras lentas.
+                    if (!isCalibrating && !rState.blocked && canDetect) { 
+                        for(let j=0; j<rState.baselineData.length; j++) {
+                            rState.baselineData[j] = Math.round((rState.baselineData[j] * 0.9) + (currentData[j] * 0.1));
+                        }
+                    } 
                 }
 
                 const msgEl = box.querySelector('.test-msg');
@@ -1479,8 +1517,13 @@
                         if (now - rState.lastRec < blindTimeMs) { 
                             box.classList.add('roi-locked'); box.classList.remove('roi-detected'); msgEl.style.display = "block"; msgEl.textContent = translations[currentLang].testWait; 
                         } else {
-                            if (crossed && isTarget) { box.classList.add('roi-locked'); rState.baseBri = (rState.baseBri * 0.9) + (currentBri * 0.1); } 
-                            else { rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none"; }
+                            if (crossed && isTarget) { 
+                                box.classList.add('roi-locked'); 
+                            } else { 
+                                rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none";
+                                // AL DESBLOQUEAR, FORZAR ACTUALIZACIÓN DEL FONDO (El coche acaba de salir)
+                                rState.baselineData = new Uint8ClampedArray(currentData);
+                            }
                         }
                     } else {
                         if (crossed && isTarget) {
@@ -1618,7 +1661,7 @@
             
             for(let i=0; i<MAX_ROIS; i++) { 
                 if (roisState[i] && roisState[i].el) {
-                    if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; roisState[i].blocked = false; roisState[i].needsSilentCalib = true; } 
+                    if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baselineData = null; roisState[i].blocked = false; roisState[i].needsSilentCalib = true; } 
                     else { roisState[i].el.classList.remove('active'); } 
                 }
             }
@@ -1969,26 +2012,24 @@
             }
         }
 
+        /* MODIFICADA LA CALIBRACIÓN PARA EL NUEVO ALGORITMO PIXEL DIFFING */
         async function runCalibration() {
             if (!isProcessing) return;
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
-            let samples = 0; const frames = 60; const data = Array(activeRoisCount).fill(null).map(()=>({sum:0, min:255, max:0}));
-            function sample() {
-                for (let i = 0; i < activeRoisCount; i++) { const b = getROIBrightness(roisState[i].el); data[i].sum += b; if(b < data[i].min) data[i].min = b; if(b > data[i].max) data[i].max = b; }
-                samples++;
-                if (samples < frames) requestAnimationFrame(sample);
-                else {
-                    let globalMaxNoise = 0;
-                    for (let i = 0; i < activeRoisCount; i++) {
-                        const avg = data[i].sum / frames; roisState[i].baseBri = avg;
-                        const noise = Math.max(data[i].max - avg, avg - data[i].min); if(noise > globalMaxNoise) globalMaxNoise = noise;
+            
+            setTimeout(() => {
+                // Al finalizar la pausa, capturar un fotograma limpio como baseline para cada ROI
+                for (let i = 0; i < activeRoisCount; i++) {
+                    const data = getROIPixelData(roisState[i].el);
+                    if (data) {
+                        roisState[i].baselineData = new Uint8ClampedArray(data);
                     }
-                    sensitivity = Math.max(15, Math.ceil(globalMaxNoise * 1.5));
-                    document.getElementById('threshold-slider').value = sensitivity; document.getElementById('current-threshold').textContent = sensitivity;
-                    isCalibrating = false; calibOverlay.classList.remove('active'); document.getElementById('calibrate-btn').disabled = false; speak(translations[currentLang].voiceCalibrated);
                 }
-            }
-            sample();
+                isCalibrating = false; 
+                calibOverlay.classList.remove('active'); 
+                document.getElementById('calibrate-btn').disabled = false; 
+                speak(translations[currentLang].voiceCalibrated);
+            }, 2500); // 2.5 segundos de espera para que se quiten de la pista
         }
 
         document.getElementById('start-race-btn').addEventListener('click', startTrafficLight);
@@ -2038,7 +2079,7 @@
             const count = parseInt(e.target.value) + 1;
             if(!isRaceActive) {
                 activeRoisCount = count;
-                if(isProcessing) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); } }
+                if(isProcessing) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baselineData = null; } else roisState[i].el.classList.remove('active'); } }
                 autoSaveROIsToCircuit();
             }
         });
@@ -2444,7 +2485,7 @@
             for (let i = 0; i < MAX_ROIS; i++) {
                 const box = document.getElementById(`roi-${i}`);
                 if (circ.rois[i]) { box.style.left = circ.rois[i].left || box.style.left; box.style.top = circ.rois[i].top || box.style.top; box.style.width = circ.rois[i].width || box.style.width; box.style.height = circ.rois[i].height || box.style.height; }
-                if (isProcessing) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baseBri = null; } else { box.classList.remove('active'); } }
+                if (isProcessing) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baselineData = null; } else { box.classList.remove('active'); } }
             }
         }
 
