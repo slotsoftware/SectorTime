@@ -279,9 +279,8 @@
         }
         #perspective-guide.hidden { opacity: 0; pointer-events: none; }
         
-        /* Isometric 3D Scene Overlay */
         .iso-scene {
-            position: relative; width: 340px; height: 340px;
+            position: relative; width: 380px; height: 380px;
             transform-style: preserve-3d;
             transform: rotateX(60deg) rotateZ(45deg);
             animation: floatScene 6s ease-in-out infinite alternate;
@@ -295,90 +294,11 @@
             overflow: visible; transform: translateZ(-1px);
         }
         .iso-block {
-            position: absolute; width: 60px; height: 60px; border-radius: 8px;
+            position: absolute; width: 90px; height: 90px; border-radius: 14px;
             display: flex; justify-content: center; align-items: center;
-            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; color: #fff;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 16px; color: #fff;
             transform: translateZ(25px); /* Elevación sobre el radar */
-            text-shadow: 0 0 5px rgba(255,255,255,0.8);
-        }
-        /* Deshacer la rotación Z en el texto para que mire de frente a la pantalla */
-        .iso-block span { transform: rotateZ(-45deg); display: block; }
-
-        /* Extrusión 3D simulada mediante múltiples proyecciones de sombra en eje (1,1) local que corresponde a "abajo" en pantalla */
-        .iso-meta {
-            top: 15%; left: 15%; background: rgba(16, 185, 129, 0.85); border: 1.5px solid #6ee7b7;
-            box-shadow: 1px 1px 0 #059669, 2px 2px 0 #059669, 3px 3px 0 #059669, 4px 4px 0 #059669, 5px 5px 0 #059669, 6px 6px 0 #059669, 10px 10px 20px rgba(16, 185, 129, 0.5);
-        }
-        .iso-s1 {
-            top: 15%; right: 15%; background: rgba(59, 130, 246, 0.85); border: 1.5px solid #93c5fd;
-            box-shadow: 1px 1px 0 #2563eb, 2px 2px 0 #2563eb, 3px 3px 0 #2563eb, 4px 4px 0 #2563eb, 5px 5px 0 #2563eb, 6px 6px 0 #2563eb, 10px 10px 20px rgba(59, 130, 246, 0.5);
-        }
-        .iso-s3 {
-            bottom: 15%; right: 15%; background: rgba(168, 85, 247, 0.85); border: 1.5px solid #d8b4fe;
-            box-shadow: 1px 1px 0 #9333ea, 2px 2px 0 #9333ea, 3px 3px 0 #9333ea, 4px 4px 0 #9333ea, 5px 5px 0 #9333ea, 6px 6px 0 #9333ea, 10px 10px 20px rgba(168, 85, 247, 0.5);
-        }
-        .iso-s2 {
-            bottom: 15%; left: 15%; background: rgba(245, 158, 11, 0.85); border: 1.5px solid #fcd34d;
-            box-shadow: 1px 1px 0 #d97706, 2px 2px 0 #d97706, 3px 3px 0 #d97706, 4px 4px 0 #d97706, 5px 5px 0 #d97706, 6px 6px 0 #d97706, 10px 10px 20px rgba(245, 158, 11, 0.5);
-        }
-
-        .watermark-title {
-            position: absolute; top: 75%; left: 0; width: 100%; text-align: center;
-            font-family: 'Orbitron', sans-serif; font-size: 2rem; letter-spacing: 0.8em;
-            color: rgba(255,255,255,0.4); text-shadow: 0 0 10px rgba(255,255,255,0.1);
-            z-index: 5; pointer-events: none; padding-left: 0.8em;
-        }
-
-        .specs-grid-container {
-            width: 95%; max-width: 900px; margin: auto; margin-bottom: 2%;
-            background: rgba(2, 6, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 12px; padding: 12px; box-shadow: 0 0 30px rgba(0,0,0,0.8);
-            z-index: 10;
-        }
-        .spec-item {
-            background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 8px;
-            border-top: 2px solid; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-        .spec-title { font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
-        .spec-desc { font-size: 8px; color: #cbd5e1; line-height: 1.35; font-weight: 600;}
-
-        .tab-btn { flex: 1; padding: 0.75rem; font-weight: 700; border-radius: 0.5rem; text-align: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.2s ease; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.3); background: transparent; color: #7dd3fc; font-family: 'Orbitron', sans-serif; }
-        .tab-btn.active { background-color: rgba(56, 189, 248, 0.2); color: #fff; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-        .tab-btn.inactive:hover { background-color: rgba(56, 189, 248, 0.1); }
-        
-        .sector-card { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 0.5rem; padding: 0.75rem; text-align: center; position: relative; overflow: hidden; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-        .sector-card .bar { position: absolute; top: 0; left: 0; height: 3px; width: 100%; }
-        .sector-card.meta .bar { background-color: #ffffff; box-shadow: 0 0 8px #ffffff; }
-        .sector-card.s1 .bar { background-color: #60a5fa; box-shadow: 0 0 8px #60a5fa; }
-        .sector-card.s2 .bar { background-color: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
-        .sector-card.s3 .bar { background-color: #c084fc; box-shadow: 0 0 8px #c084fc; }
-        .sector-card.s4 .bar { background-color: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
-
-        /* F1 Grid Enhancements */
-        .f1-gap { color: #f87171; font-weight: bold; }
-        .f1-leader { color: #34d399; font-weight: bold; }
-        
-        /* Isometric 3D Scene Overlay */
-        .iso-scene {
-            position: relative; width: 300px; height: 300px;
-            transform-style: preserve-3d;
-            transform: rotateX(60deg) rotateZ(45deg);
-            animation: floatScene 6s ease-in-out infinite alternate;
-        }
-        @keyframes floatScene {
-            0% { transform: rotateX(60deg) rotateZ(45deg) translateZ(-5px); }
-            100% { transform: rotateX(60deg) rotateZ(45deg) translateZ(5px); }
-        }
-        .iso-svg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            overflow: visible; transform: translateZ(-1px);
-        }
-        .iso-block {
-            position: absolute; width: 50px; height: 50px; border-radius: 6px;
-            display: flex; justify-content: center; align-items: center;
-            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 11px; color: #fff;
-            transform: translateZ(25px); 
-            text-shadow: 0 0 5px rgba(255,255,255,0.8);
+            text-shadow: 0 0 8px rgba(255,255,255,0.9);
         }
         .iso-block span { transform: rotateZ(-45deg); display: block; }
 
@@ -408,7 +328,6 @@
             100% { transform: translateZ(35px); }
         }
 
-        /* Animación del Cerebro AI Central y Flujo de Datos */
         .data-stream {
             stroke-dasharray: 2 4;
             animation: dataFlow 1s linear infinite;
@@ -443,7 +362,6 @@
             position: absolute; width: 16px; height: 16px;
             background: #fff; border-radius: 50%;
             box-shadow: 0 0 20px #fff, 0 0 40px #38bdf8, 0 0 60px #0284c7;
-            /* Contrarrestar la rotación isométrica para que la esfera mire al frente */
             transform: rotateX(-60deg) rotateZ(-45deg); 
             animation: throbCore 0.8s ease-in-out infinite alternate;
         }
@@ -465,6 +383,34 @@
             color: rgba(255,255,255,0.4); text-shadow: 0 0 10px rgba(255,255,255,0.1);
             z-index: 5; pointer-events: none; padding-left: 0.8em;
         }
+
+        .specs-grid-container {
+            width: 95%; max-width: 900px; margin: auto; margin-bottom: 2%;
+            background: rgba(2, 6, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px; padding: 12px; box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+        .spec-item {
+            background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 8px;
+            border-top: 2px solid; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .spec-title { font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+        .spec-desc { font-size: 8px; color: #cbd5e1; line-height: 1.35; font-weight: 600;}
+
+        .tab-btn { flex: 1; padding: 0.75rem; font-weight: 700; border-radius: 0.5rem; text-align: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.2s ease; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.3); background: transparent; color: #7dd3fc; font-family: 'Orbitron', sans-serif; }
+        .tab-btn.active { background-color: rgba(56, 189, 248, 0.2); color: #fff; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+        .tab-btn.inactive:hover { background-color: rgba(56, 189, 248, 0.1); }
+        
+        .sector-card { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 0.5rem; padding: 0.75rem; text-align: center; position: relative; overflow: hidden; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .sector-card .bar { position: absolute; top: 0; left: 0; height: 3px; width: 100%; }
+        .sector-card.meta .bar { background-color: #ffffff; box-shadow: 0 0 8px #ffffff; }
+        .sector-card.s1 .bar { background-color: #60a5fa; box-shadow: 0 0 8px #60a5fa; }
+        .sector-card.s2 .bar { background-color: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
+        .sector-card.s3 .bar { background-color: #c084fc; box-shadow: 0 0 8px #c084fc; }
+        .sector-card.s4 .bar { background-color: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
+
+        .f1-gap { color: #f87171; font-weight: bold; }
+        .f1-leader { color: #34d399; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -479,10 +425,8 @@
 
     <div class="w-full h-full flex flex-row p-3 gap-3 overflow-hidden box-border">
         
-        <!-- COLUMNA IZQUIERDA -->
         <div class="flex-1 flex flex-col h-full min-w-[60%] gap-3">
             
-            <!-- HEADER -->
             <div class="neon-panel flex justify-between items-center w-full py-2 px-5 shrink-0">
                 <div class="flex items-center space-x-5">
                     <div class="flex flex-col">
@@ -537,7 +481,6 @@
                 
                 <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
 
-                <!-- ÁREA DE VIDEO -->
                 <div id="video-container">
                     <video id="webcam-feed" autoplay playsinline></video>
                     
@@ -556,21 +499,17 @@
 
                     <div id="perspective-guide">
                         <div class="flex-1 flex flex-col justify-center items-center w-full relative h-[55%]">
-                            <!-- Isometric 3D Space -->
                             <div class="iso-scene">
                                 <svg class="iso-svg" viewBox="0 0 100 100">
                                     <circle cx="50" cy="50" r="15" stroke="rgba(255,255,255,0.15)" stroke-width="0.3" fill="none" />
                                     <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.3" fill="none" />
                                     <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.05)" stroke-width="0.3" fill="none" />
-                                    
-                                    <!-- Líneas de datos fluyendo hacia el cerebro (desde el exterior hacia el centro) -->
                                     <line class="data-stream" x1="20" y1="20" x2="50" y2="50" stroke="#10b981" stroke-width="0.4" />
                                     <line class="data-stream" x1="80" y1="20" x2="50" y2="50" stroke="#3b82f6" stroke-width="0.4" />
                                     <line class="data-stream" x1="20" y1="80" x2="50" y2="50" stroke="#f59e0b" stroke-width="0.4" />
                                     <line class="data-stream" x1="80" y1="80" x2="50" y2="50" stroke="#a855f7" stroke-width="0.4" />
                                 </svg>
                                 
-                                <!-- Cerebro AI Central -->
                                 <div class="iso-brain-container">
                                     <div class="iso-brain-ring"></div>
                                     <div class="iso-brain-ring ring-reverse"></div>
@@ -878,15 +817,8 @@
                 <p class="text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] font-orbitron">Recuperando Telemetría...</p>
             </div>
 
-            <!-- TAB 1: PÓDIUM Y PARRILLA -->
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
-                
-                <!-- Pódium F1 Style -->
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-10 px-4 min-h-[280px]">
-                    <!-- Generado por JS -->
-                </div>
-
-                <!-- Tabla del resto de la parrilla (P4 a P25) con GAP -->
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-10 px-4 min-h-[280px]"></div>
                 <table id="f1-grid-table" class="w-full text-left text-sm bg-slate-900/60 rounded-xl border border-cyan-900/60 overflow-hidden shadow-lg hidden">
                     <thead class="bg-slate-800/80 border-b border-cyan-800">
                         <tr>
@@ -896,23 +828,17 @@
                             <th class="p-3 text-cyan-500 text-right w-24">GAP</th>
                         </tr>
                     </thead>
-                    <tbody id="ranking-top25-body" class="divide-y divide-slate-800">
-                        <!-- Generado por JS -->
-                    </tbody>
+                    <tbody id="ranking-top25-body" class="divide-y divide-slate-800"></tbody>
                 </table>
                 <p id="ranking-top25-empty" class="text-center text-cyan-600/60 mt-8 hidden font-bold tracking-widest text-xs uppercase">No hay registros de telemetría para este circuito.</p>
             </div>
 
-            <!-- TAB 2: VUELTA PERFECTA (ULTIMATE LAP) -->
             <div id="ranking-view-sectors" class="hidden overflow-y-auto max-h-[60vh] pr-2">
                 <div class="bg-slate-900/60 p-6 rounded-xl border border-cyan-800/60 mb-4 shadow-lg flex flex-col items-center">
                     <h4 class="text-xs text-cyan-500 mb-2 font-bold uppercase tracking-widest text-center">Límite Físico Teórico del Circuito</h4>
                     <p id="ultimate-lap-time" class="text-5xl font-orbitron font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] mb-2 tracking-wider">--.---</p>
                     <p class="text-[10px] text-cyan-600 font-bold text-center uppercase tracking-widest max-w-lg mb-6">Esta "Vuelta Perfecta" es la suma de los récords absolutos individuales de cada sector, demostrando el ritmo máximo posible si se unieran todos los tramos perfectos.</p>
-                    
-                    <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
-                        <!-- Generado por JS -->
-                    </div>
+                    <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full"></div>
                     <p id="ranking-sectors-empty" class="text-center text-cyan-600/60 mt-6 hidden font-bold tracking-widest text-xs uppercase">Aún no hay sectores registrados para construir la Vuelta Perfecta.</p>
                 </div>
             </div>
@@ -971,7 +897,6 @@
         </div>
     </div>
 
-    <!-- Rest of basic modals (History, Confirm) -->
     <div id="historyModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-2xl">
             <div class="flex justify-between items-center border-b border-cyan-800 pb-3 mb-4">
@@ -1023,7 +948,6 @@
             </div>
             
             <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
-                <!-- COLUMNA IZQUIERDA -->
                 <div class="w-full lg:w-[42%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto">
                     
                     <div class="flex flex-col gap-3">
@@ -1081,9 +1005,7 @@
                     </div>
                 </div>
                 
-                <!-- COLUMNA DERECHA (DASHBOARD) -->
                 <div class="w-full lg:w-[58%] flex flex-col gap-5 overflow-y-auto pr-1">
-                    
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 shrink-0">
                         <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-emerald-500 shadow-[0_0_15px_#10b981]"></div>
@@ -1222,7 +1144,6 @@
                     <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-5 shadow-inner relative flex flex-col shrink-0">
                         <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-3 border-b border-emerald-800/50 pb-1.5">Mapa del Circuito (Satélite)</h4>
                         <div class="flex flex-col lg:flex-row gap-5 items-stretch">
-                            <!-- MAPA 16:9 -->
                             <div class="w-full lg:w-2/3 aspect-video bg-black rounded-xl border border-emerald-600/50 overflow-hidden relative shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
                                 <img id="circuit-captured-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-80 filter contrast-125 hover:opacity-100 transition-opacity">
                                 <div id="circuit-img-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-emerald-800/50 bg-slate-900/60">
@@ -1230,7 +1151,6 @@
                                     <p class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin vista aérea</p>
                                 </div>
                             </div>
-                            <!-- BOTÓN ESCANEO (Aprovechando lateral) -->
                             <div class="w-full lg:w-1/3 flex flex-col items-center justify-center gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 shadow-inner">
                                 <button id="circuit-capture-btn" class="w-full bg-slate-800 border-2 border-emerald-500 hover:bg-emerald-900/60 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-widest py-5 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col items-center justify-center transition group relative overflow-hidden">
                                     <div class="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition"></div>
@@ -1254,7 +1174,6 @@
                         </div>
                     </div>
 
-                    <!-- NUEVOS GRÁFICOS: TOP COCHES Y DISTRIBUCIÓN -->
                     <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0 mt-5 pb-5">
                         <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5" data-i18n="cChartTopCars">Top 5 Coches (Récords)</span>
@@ -1858,7 +1777,6 @@
             } 
             if (records.length === 0) { try { records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => r.circuitId === circuitId); } catch(e) {} }
 
-            // Vinculador Retroactivo: Busca fotos de coches en el garaje para récords antiguos
             records.forEach(r => {
                 if (!r.carImage || r.carImage === "") {
                     const garageCar = garageCars.find(c => c.name === r.car);
@@ -1868,7 +1786,6 @@
 
             records.sort((a, b) => a.time - b.time);
             
-            // F1 Grid: Best unique Pilot+Car combo
             let uniqueEntries = new Set(); let top25 = [];
             for (let r of records) {
                 let key = r.pilot + "_" + r.car;
@@ -1910,7 +1827,6 @@
                 }
             }
 
-            // F1 Ultimate Lap (Sectores)
             let bestSectors = [];
             const activeCircuit = circuits.find(c => c.id === circuitId);
             const numSectorsCircuit = activeCircuit ? parseInt(activeCircuit.activeSectorsSelectValue || "0") + 1 : null;
@@ -2067,11 +1983,9 @@
             currentLang = e.target.value;
             document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
             
-            // Forzar actualización de textos dinámicos si la cámara está activa
             if(cameraStream) { document.getElementById('video-status').textContent = translations[currentLang].sensorActive; } 
             else { document.getElementById('video-status').textContent = translations[currentLang].sensorInactive; }
             
-            // Refrescar paneles abiertos
             if(document.getElementById('rankingModal').classList.contains('open') && document.getElementById('ranking-circuit-picker').value) { fetchAndRenderRankings(document.getElementById('ranking-circuit-picker').value); }
             if(document.getElementById('garageModal').classList.contains('open')) { renderGarage(currentGarageCarId); }
             if(document.getElementById('circuitModal').classList.contains('open')) { renderCircuit(currentCircuitId); }
@@ -2179,7 +2093,6 @@
                 });
             } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
-            // NUEVOS GRÁFICOS: RENDIMIENTO POR CIRCUITO Y KILOMETRAJE
             const ctxCirc = document.getElementById('garageChartCircuits').getContext('2d'); if(garageChartCircuits) garageChartCircuits.destroy();
             let bestPerCircuit = {};
             hist.forEach(h => {
@@ -2213,7 +2126,7 @@
             });
             let usageArr = Object.keys(lapsPerCircuit).map(k => ({name: k, laps: lapsPerCircuit[k]}));
             usageArr.sort((a,b) => b.laps - a.laps);
-            usageArr = usageArr.slice(0, 5); // Limit to top 5 to avoid overcrowding in bar chart
+            usageArr = usageArr.slice(0, 5); 
 
             if(usageArr.length > 0) {
                 const bgColors = ['rgba(6, 182, 212, 0.4)', 'rgba(59, 130, 246, 0.4)', 'rgba(139, 92, 246, 0.4)', 'rgba(217, 70, 239, 0.4)', 'rgba(244, 63, 94, 0.4)'].slice(0, usageArr.length);
@@ -2261,12 +2174,12 @@
                 car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked;
                 saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400');
+                btn.innerHTML = translations[currentLang].saved || "Guardado"; btn.classList.add('text-green-400');
                 setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
             }
         });
 
-        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].noName, brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].noName || "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
             if(garageCars.length > 1) { 
                 if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId)); } 
@@ -2327,12 +2240,12 @@
 
             document.getElementById('c-stat-laps').textContent = totalLaps;
             document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
-            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : translations[currentLang].noRecords;
+            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : translations[currentLang].noRecords || "Sin datos";
             document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
             document.getElementById('c-stat-time').textContent = timeStr;
             document.getElementById('c-stat-speed').textContent = avgSpeedStr;
             
-            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} ${translations[currentLang].sectorsSaved}`;
+            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} ${translations[currentLang].sectorsSaved || "Sectores guardados"}`;
 
             const imgEl = document.getElementById('circuit-captured-img'); const placeholder = document.getElementById('circuit-img-placeholder');
             if(circ.image) { imgEl.src = circ.image; imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); } else { imgEl.src = ""; imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
@@ -2362,7 +2275,6 @@
                 });
             } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
-            // GRÁFICO 3: TOP 5 COCHES (BARRAS HORIZONTALES)
             const ctxTop = document.getElementById('circuitChartTopCars').getContext('2d'); if(circuitChartTopCars) circuitChartTopCars.destroy();
             let bestPerCar = {};
             laps.forEach(l => {
@@ -2371,7 +2283,7 @@
                 }
             });
             let topCarsArr = Object.keys(bestPerCar).map(k => ({name: k, time: bestPerCar[k]}));
-            topCarsArr.sort((a,b) => a.time - b.time); topCarsArr = topCarsArr.slice(0, 5); // Solo los 5 mejores
+            topCarsArr.sort((a,b) => a.time - b.time); topCarsArr = topCarsArr.slice(0, 5);
 
             if(topCarsArr.length > 0) {
                 circuitChartTopCars = new Chart(ctxTop, {
@@ -2387,7 +2299,6 @@
                 });
             } else { ctxTop.clearRect(0, 0, ctxTop.canvas.width, ctxTop.canvas.height); }
 
-            // GRÁFICO 4: DISTRIBUCIÓN DE TIEMPO POR SECTORES (DONUT a BAR)
             const ctxDist = document.getElementById('circuitChartTimeDist').getContext('2d'); if(circuitChartTimeDist) circuitChartTimeDist.destroy();
             let bestLapWithSectors = null;
             laps.forEach(l => { if(l.sectors && l.sectors.length > 0) { if(!bestLapWithSectors || l.lapTime < bestLapWithSectors.lapTime) { bestLapWithSectors = l; } } });
@@ -2398,7 +2309,6 @@
                 const bgColors = ['rgba(96, 165, 250, 0.4)', 'rgba(251, 191, 36, 0.4)', 'rgba(192, 132, 252, 0.4)', 'rgba(34, 211, 238, 0.4)', 'rgba(52, 211, 153, 0.4)'].slice(0, activeSectors.length);
                 const borderColors = ['#60a5fa', '#fbbf24', '#c084fc', '#22d3ee', '#34d399'].slice(0, activeSectors.length);
                 
-                // Convertir a porcentajes
                 const totalTime = activeSectors.reduce((a, b) => a + b, 0);
                 const percentages = activeSectors.map(s => ((s / totalTime) * 100));
 
@@ -2421,7 +2331,7 @@
             if (!videoElement.videoWidth) { 
                 const btn = document.getElementById('circuit-capture-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10">${translations[currentLang].turnCamOn}</span>`;
+                btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10">${translations[currentLang].turnCamOn || "¡Activa cámara!"}</span>`;
                 setTimeout(()=>btn.innerHTML=orig, 2000);
                 return; 
             }
@@ -2452,7 +2362,7 @@
                 circ.image = b64; autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); 
                 const btn = document.getElementById('circuit-capture-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">${translations[currentLang].captured}</span>`;
+                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">${translations[currentLang].captured || "Capturado"}</span>`;
                 setTimeout(()=>btn.innerHTML=orig, 2000);
             }
         });
@@ -2477,14 +2387,14 @@
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
             const circ = circuits.find(c => c.id === currentCircuitId);
             if(circ) {
-                circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
+                circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName || "Pista"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
                 saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn');
                 const orig = btn.innerHTML;
-                btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
+                btn.innerHTML = translations[currentLang].saved || "Guardado"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
             }
         });
 
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].noName, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].noName || "Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
             if(circuits.length > 1) { 
                 if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } 
