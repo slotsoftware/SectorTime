@@ -612,7 +612,7 @@
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
                 
                 <!-- Pódium F1 Style -->
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 h-48">
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-10 px-4 min-h-[280px]">
                     <!-- Generado por JS -->
                 </div>
 
@@ -1551,7 +1551,7 @@
             let imgHtml = r.carImage ? `<img src="${r.carImage}" class="w-14 h-14 object-cover rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(56,189,248,0.6)] mb-2 z-20 bg-slate-900" />` : `<div class="w-14 h-14 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center mb-2 z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
 
             return `
-                <div class="flex flex-col items-center justify-end w-[30%] max-w-[200px] transform ${pos===1?'scale-110 z-10':''}">
+                <div class="flex flex-col items-center justify-end w-[30%] max-w-[200px] transform ${pos===1?'scale-110 z-10 origin-bottom':''}">
                     ${imgHtml}
                     <div class="font-orbitron font-black text-xl ${textColor} mb-1">${formatTime(r.time, false)}</div>
                     <div class="font-bold text-[9px] text-white/50 uppercase tracking-widest mb-1">${gapStr}</div>
@@ -1936,13 +1936,16 @@
             });
             let usageArr = Object.keys(lapsPerCircuit).map(k => ({name: k, laps: lapsPerCircuit[k]}));
             usageArr.sort((a,b) => b.laps - a.laps);
+            usageArr = usageArr.slice(0, 5); // Limit to top 5 to avoid overcrowding in bar chart
 
             if(usageArr.length > 0) {
-                const bgColors = ['#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef', '#f43f5e'].slice(0, usageArr.length);
+                const bgColors = ['rgba(6, 182, 212, 0.4)', 'rgba(59, 130, 246, 0.4)', 'rgba(139, 92, 246, 0.4)', 'rgba(217, 70, 239, 0.4)', 'rgba(244, 63, 94, 0.4)'].slice(0, usageArr.length);
+                const borderColors = ['#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef', '#f43f5e'].slice(0, usageArr.length);
+                
                 garageChartUsage = new Chart(ctxUsage, {
-                    type: 'doughnut',
-                    data: { labels: usageArr.map(u => u.name), datasets: [{ data: usageArr.map(u => u.laps), backgroundColor: bgColors.map(c => c+'80'), borderColor: bgColors, borderWidth: 2, hoverOffset: 4 }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { color: '#67e8f9', font: {size: 9, family: 'Orbitron'} } } } }
+                    type: 'bar',
+                    data: { labels: usageArr.map(u => u.name), datasets: [{ label: 'Vueltas', data: usageArr.map(u => u.laps), backgroundColor: bgColors, borderColor: borderColors, borderWidth: 1, borderRadius: 4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#67e8f9', font: {size: 9}}, grid: {color: 'rgba(6,182,212,0.1)'} }, x: { display: true, ticks: {color: '#22d3ee', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } }
                 });
             } else { ctxUsage.clearRect(0,0,ctxUsage.canvas.width, ctxUsage.canvas.height); }
         }
@@ -2107,7 +2110,7 @@
                 });
             } else { ctxTop.clearRect(0, 0, ctxTop.canvas.width, ctxTop.canvas.height); }
 
-            // GRÁFICO 4: DISTRIBUCIÓN DE TIEMPO POR SECTORES (DONUT)
+            // GRÁFICO 4: DISTRIBUCIÓN DE TIEMPO POR SECTORES (DONUT a BAR)
             const ctxDist = document.getElementById('circuitChartTimeDist').getContext('2d'); if(circuitChartTimeDist) circuitChartTimeDist.destroy();
             let bestLapWithSectors = null;
             laps.forEach(l => { if(l.sectors && l.sectors.length > 0) { if(!bestLapWithSectors || l.lapTime < bestLapWithSectors.lapTime) { bestLapWithSectors = l; } } });
@@ -2115,17 +2118,23 @@
             if(bestLapWithSectors && bestLapWithSectors.sectors) {
                 const activeSectors = bestLapWithSectors.sectors.filter(s => s > 0);
                 const distLabels = activeSectors.map((_, i) => i === activeSectors.length - 1 ? 'Meta' : `S${i+1}`);
-                const bgColors = ['#60a5fa', '#fbbf24', '#c084fc', '#22d3ee', '#34d399'].slice(0, activeSectors.length);
+                const bgColors = ['rgba(96, 165, 250, 0.4)', 'rgba(251, 191, 36, 0.4)', 'rgba(192, 132, 252, 0.4)', 'rgba(34, 211, 238, 0.4)', 'rgba(52, 211, 153, 0.4)'].slice(0, activeSectors.length);
+                const borderColors = ['#60a5fa', '#fbbf24', '#c084fc', '#22d3ee', '#34d399'].slice(0, activeSectors.length);
+                
+                // Convertir a porcentajes
+                const totalTime = activeSectors.reduce((a, b) => a + b, 0);
+                const percentages = activeSectors.map(s => ((s / totalTime) * 100));
 
                 circuitChartTimeDist = new Chart(ctxDist, {
-                    type: 'doughnut',
+                    type: 'bar',
                     data: {
                         labels: distLabels,
-                        datasets: [{ data: activeSectors.map(s => s / 1000), backgroundColor: bgColors.map(c => c + '80'), borderColor: bgColors, borderWidth: 2, hoverOffset: 4 }]
+                        datasets: [{ label: '% del Total', data: percentages, backgroundColor: bgColors, borderColor: borderColors, borderWidth: 1, borderRadius: 4 }]
                     },
                     options: {
-                        responsive: true, maintainAspectRatio: false, cutout: '70%',
-                        plugins: { legend: { position: 'right', labels: { color: '#fbbf24', font: {size: 9, family: 'Orbitron'} } }, tooltip: { callbacks: { label: function(context) { return ' ' + context.raw.toFixed(3) + 's'; } } } }
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return ' ' + context.raw.toFixed(1) + '%'; } } } },
+                        scales: { y: { display: true, max: 100, ticks: {color: '#fbbf24', font: {size: 9}, callback: function(value) { return value + "%" }}, grid: {color: 'rgba(251,191,36,0.1)'} }, x: { display: true, ticks: {color: '#fcd34d', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } }
                     }
                 });
             } else { ctxDist.clearRect(0, 0, ctxDist.canvas.width, ctxDist.canvas.height); }
