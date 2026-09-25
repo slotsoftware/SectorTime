@@ -155,24 +155,41 @@
             background-color: rgba(56, 189, 248, 0.05);
             box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2);
             transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; 
+            border-radius: 8px;
         }
         .roi-box.active { display: block; }
         .roi-box.roi-meta { border-color: #ffffff; }
         .roi-box.roi-s1 { border-color: #60a5fa; } .roi-box.roi-s2 { border-color: #fbbf24; } 
         .roi-box.roi-s3 { border-color: #c084fc; } .roi-box.roi-s4 { border-color: #22d3ee; } 
 
+        .roi-label-container {
+            position: absolute; top: -24px; left: -2px; display: flex; align-items: center;
+        }
+
         .roi-label-tag {
-            position: absolute; top: -24px; left: -2px; color: #fff; font-size: 11px; padding: 2px 8px; 
-            border-radius: 4px 4px 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
-            background: rgba(15, 23, 42, 0.9); border-top: 2px solid; border-left: 2px solid; border-right: 2px solid;
+            color: #fff; font-size: 11px; padding: 2px 8px; 
+            border-radius: 4px 0 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
+            background: rgba(15, 23, 42, 0.9); border-top: 2px solid; border-left: 2px solid; border-bottom: 2px solid;
             text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
         
+        .roi-auto-btn {
+             background: rgba(8, 145, 178, 0.8); border: 2px solid; border-left: none; color: #fff; font-size: 9px; font-weight: 800;
+             padding: 3px 6px; border-radius: 0 4px 0 0; cursor: pointer; font-family: 'Orbitron', sans-serif;
+             transition: background 0.2s;
+        }
+        .roi-auto-btn:hover { background: rgba(14, 165, 233, 0.9); }
+        
         .roi-box.roi-meta .roi-label-tag { border-color: #ffffff; color: #ffffff; }
+        .roi-box.roi-meta .roi-auto-btn { border-color: #ffffff; }
         .roi-box.roi-s1 .roi-label-tag { border-color: #60a5fa; color: #60a5fa; }
+        .roi-box.roi-s1 .roi-auto-btn { border-color: #60a5fa; }
         .roi-box.roi-s2 .roi-label-tag { border-color: #fbbf24; color: #fbbf24; }
+        .roi-box.roi-s2 .roi-auto-btn { border-color: #fbbf24; }
         .roi-box.roi-s3 .roi-label-tag { border-color: #c084fc; color: #c084fc; }
+        .roi-box.roi-s3 .roi-auto-btn { border-color: #c084fc; }
         .roi-box.roi-s4 .roi-label-tag { border-color: #22d3ee; color: #22d3ee; }
+        .roi-box.roi-s4 .roi-auto-btn { border-color: #22d3ee; }
 
         .roi-detected { background-color: rgba(255, 255, 255, 0.3) !important; box-shadow: 0 0 30px rgba(255,255,255, 0.6) !important; border-color: #fff !important; }
         .roi-locked { border-color: #475569 !important; background-color: rgba(0, 0, 0, 0.5) !important; opacity: 0.5; box-shadow: none !important; border-style: dashed !important; }
@@ -191,7 +208,7 @@
         .resize-handle::after { content: ''; width: 12px; height: 12px; background-color: #020617; border: 2px solid #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.8); border-radius: 2px; }
         .handle-tl { top: -22px; left: -22px; cursor: nwse-resize; } .handle-br { bottom: -22px; right: -22px; cursor: nwse-resize; } 
         
-        .val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(15, 23, 42, 0.8); color: #38bdf8; font-size: 10px; font-family: 'Orbitron', sans-serif; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4); }
+        .val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(15, 23, 42, 0.8); color: #38bdf8; font-size: 10px; font-family: 'Orbitron', sans-serif; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4); white-space: nowrap; }
         .dragging { cursor: grabbing !important; } .resizing-nwse { cursor: nwse-resize !important; } #video-canvas { display: none; }
 
         .timer-value { font-size: 1.75rem; line-height: 2rem; color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
@@ -340,7 +357,7 @@
                     <h2 class="text-sm font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
                     <div class="flex space-x-2">
                         <button id="calibrate-btn" class="p-1.5 px-4 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-xs font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md">
-                            Calibrar IA
+                            Calibrar IA (Todas)
                         </button>
                         <button id="camera-on-btn" class="p-1.5 px-4 rounded bg-emerald-600/20 border border-emerald-500 text-emerald-400 hover:bg-emerald-600/40 disabled:opacity-50 transition text-xs font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(16,185,129,0.2)]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -373,23 +390,43 @@
 
                     <!-- ROIs -->
                     <div id="roi-0" class="roi-box roi-meta active" style="left:10%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">META</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                        <div class="roi-label-container">
+                            <div class="roi-label-tag">META</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(0)" title="Calibrar este sector">AUTO</button>
+                        </div>
+                        <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-1" class="roi-box roi-s1" style="left:30%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">SEC 1</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                         <div class="roi-label-container">
+                            <div class="roi-label-tag">SEC 1</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(1)" title="Calibrar este sector">AUTO</button>
+                        </div>
+                        <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-2" class="roi-box roi-s2" style="left:50%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">SEC 2</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                         <div class="roi-label-container">
+                            <div class="roi-label-tag">SEC 2</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(2)" title="Calibrar este sector">AUTO</button>
+                        </div>
+                        <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-3" class="roi-box roi-s3" style="left:70%; top:25%; width:15%; height:50%;">
-                        <div class="roi-label-tag">SEC 3</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                         <div class="roi-label-container">
+                            <div class="roi-label-tag">SEC 3</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(3)" title="Calibrar este sector">AUTO</button>
+                        </div>
+                        <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-4" class="roi-box roi-s4" style="left:40%; top:10%; width:20%; height:40%;">
-                        <div class="roi-label-tag">SEC 4</div><div class="val-indicator">Val: 0</div><div class="test-msg"></div>
+                         <div class="roi-label-container">
+                            <div class="roi-label-tag">SEC 4</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(4)" title="Calibrar este sector">AUTO</button>
+                        </div>
+                        <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                 </div>
@@ -566,19 +603,10 @@
                 </div>
 
                 <h2 class="text-xs font-orbitron font-bold text-cyan-300 mt-2 mb-2 border-b border-cyan-800/50 pb-1 flex items-center justify-start uppercase tracking-widest">
-                    <span data-i18n="aiSens">Sensibilidad IA</span>
+                    <span data-i18n="aiSens">Sensibilidad Individual</span>
                 </h2>
-                <div class="flex items-center space-x-3">
-                    <button id="threshold-minus" class="btn-adjust w-8 h-8 rounded-lg flex items-center justify-center font-bold text-lg shadow-sm"> - </button>
-                    <div class="flex-1">
-                        <input type="range" id="threshold-slider" min="5" max="100" value="20" class="w-full h-1.5 bg-slate-700 rounded-full appearance-none cursor-pointer accent-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]">
-                        <div class="flex justify-between text-[9px] text-cyan-600 mt-1.5 uppercase tracking-widest font-bold">
-                            <span data-i18n="verySens">Sensible (5)</span>
-                            <span id="current-threshold" class="font-black text-cyan-300 text-[10px]">20</span>
-                            <span data-i18n="lessSens">Inmune (100)</span>
-                        </div>
-                    </div>
-                    <button id="threshold-plus" class="btn-adjust w-8 h-8 rounded-lg flex items-center justify-center font-bold text-lg shadow-sm"> + </button>
+                <div id="individual-sensitivity-container" class="space-y-3 mt-3">
+                    <!-- Sliders generados por JS -->
                 </div>
             </div>
         </div>
@@ -612,7 +640,7 @@
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
                 
                 <!-- Pódium F1 Style -->
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 h-48">
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-2 min-h-[250px] pt-10">
                     <!-- Generado por JS -->
                 </div>
 
@@ -985,7 +1013,7 @@
                 lapLimit: "Límite", timeLimit: "Tiempo", limitLabel: "Límite",
                 sectorsCount: "Sectores", sec0: "0 (Solo Meta)", sec1: "1 (+ Meta)", sec2: "2 (+ Meta)", sec3: "3 (+ Meta)", sec4: "4 (+ Meta)",
                 safetyTime: "Anti-Rebote", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
-                engineerVoice: "Voz Ing.", aiSens: "Sensibilidad IA", verySens: "Sensible", lessSens: "Inmune",
+                engineerVoice: "Voz Ing.", aiSens: "Sensibilidad", verySens: "Sensible", lessSens: "Inmune",
                 raceTime: "TIEMPO", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR",
                 videoTitle: "Cámara y Sectores", autoCalib: "Calibrar", newRecord: "¡RÉCORD!",
                 calibrating: "Calibrando...", clearTrack: "Despeja la pista",
@@ -1006,7 +1034,7 @@
                 lapLimit: "Limit", timeLimit: "Time", limitLabel: "Limit",
                 sectorsCount: "Sectors", sec0: "0 (Finish)", sec1: "1 (+ Finish)", sec2: "2 (+ Finish)", sec3: "3 (+ Finish)", sec4: "4 (+ Finish)",
                 safetyTime: "Debounce", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
-                engineerVoice: "Voice:", aiSens: "AI Sensitivity", verySens: "Sens", lessSens: "Immune",
+                engineerVoice: "Voice:", aiSens: "Master Sensitivity", verySens: "Sens", lessSens: "Immune",
                 raceTime: "TIME", laps: "LAPS", start: "START", reset: "RESET",
                 videoTitle: "Cam & Sectors", autoCalib: "Calibrate", newRecord: "RECORD!",
                 calibrating: "Calibrating...", clearTrack: "Clear track",
@@ -1030,7 +1058,7 @@
         let circuits = []; let currentCircuitId = null;
         let circuitChartEvol = null; let circuitChartSect = null;
 
-        const MAX_ROIS = 5; let activeRoisCount = 1; let roisState = []; let currentTargetRoi = 0; let sensitivity = 20; let blindTimeMs = 3000;
+        const MAX_ROIS = 5; let activeRoisCount = 1; let roisState = []; let currentTargetRoi = 0; let blindTimeMs = 3000;
         let cameraStream = null, isProcessing = false, isRaceActive = false, isCountdown = false, raceAborted = false;
         let isCalibrating = false, isPaused = false, pauseStartTime = 0;
 
@@ -1082,11 +1110,11 @@
         for (let i = 0; i < MAX_ROIS; i++) {
             const el = document.getElementById(`roi-${i}`);
             let tag = 'meta'; if(i===1) tag='s1'; else if(i===2) tag='s2'; else if(i===3) tag='s3'; else if(i===4) tag='s4';
-            roisState.push({ id: i, el: el, baseBri: null, blocked: false, lastRec: 0, tag: tag, needsSilentCalib: false });
+            roisState.push({ id: i, el: el, baseBri: null, blocked: false, lastRec: 0, tag: tag, sensitivity: 20, isSilentCalibrating: false, silentFrames: 0, silentSum: 0, silentMin: 255, silentMax: 0 });
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
-        function getClientCoords(e) { return { x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX, y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY }; }
+        function getClientCoords(e) { return { x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.touches ? e.touches[0].clientX : e.clientX, y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.touches ? e.touches[0].clientY : e.clientY }; }
         function getPct(el, prop) { return parseFloat(el.style[prop].replace('%', '')) || 0; }
 
         function startAction(e, type, dir = '') {
@@ -1125,7 +1153,7 @@
 
         function endAction(e) {
             if (!dragState.active) return; const box = roisState[dragState.roiIdx].el;
-            if (e.target.hasPointerCapture(e.pointerId)) e.target.releasePointerCapture(e.pointerId);
+            if (e.target.hasPointerCapture && e.pointerId !== undefined) e.target.releasePointerCapture(e.pointerId);
             box.style.transition = 'all 0.1s ease'; box.classList.remove('dragging'); document.body.classList.remove('resizing-nwse');
             document.removeEventListener('pointermove', moveAction); document.removeEventListener('pointerup', endAction);
             dragState.active = false; autoSaveROIsToCircuit();
@@ -1165,16 +1193,18 @@
                 const rState = roisState[i]; const box = rState.el;
                 const currentBri = getROIBrightness(box);
                 
-                box.querySelector('.val-indicator').textContent = `Val: ${currentBri.toFixed(0)}`;
+                let displayHtml = `Val: ${currentBri.toFixed(0)} | Sens: ${rState.sensitivity}`;
+                if(rState.isSilentCalibrating) displayHtml += ` <span class="text-emerald-400 font-bold ml-1 animate-pulse drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">⚡</span>`;
+                box.querySelector('.val-indicator').innerHTML = displayHtml;
+                
                 const isTarget = (!isCalibrating && isRaceActive && currentTargetRoi === i);
 
-                if (isRaceActive && isTarget && rState.needsSilentCalib) {
-                    rState.baseBri = currentBri; rState.needsSilentCalib = false;
-                } else if (rState.baseBri === null) {
+                if (rState.baseBri === null) {
                     rState.baseBri = currentBri;
                 }
                 
-                const diff = Math.abs(currentBri - rState.baseBri); const crossed = diff > sensitivity;
+                const diff = Math.abs(currentBri - rState.baseBri); 
+                const crossed = diff > rState.sensitivity;
 
                 if (isRaceActive && !isCalibrating) {
                     if (isTarget) { box.classList.remove('roi-inactive'); box.classList.add('roi-target'); } 
@@ -1186,7 +1216,9 @@
                 if (crossed && canDetect) box.classList.add('roi-detected');
                 else { 
                     box.classList.remove('roi-detected'); 
-                    if (!isCalibrating && !rState.blocked && canDetect) { rState.baseBri = (rState.baseBri * 0.95) + (currentBri * 0.05); } 
+                    if (!isCalibrating && !rState.blocked && canDetect && !rState.isSilentCalibrating) { 
+                        rState.baseBri = (rState.baseBri * 0.95) + (currentBri * 0.05); 
+                    } 
                 }
 
                 const msgEl = box.querySelector('.test-msg');
@@ -1200,11 +1232,43 @@
                         if (now - rState.lastRec < blindTimeMs) { 
                             box.classList.add('roi-locked'); box.classList.remove('roi-detected'); msgEl.style.display = "block"; msgEl.textContent = translations[currentLang].testWait; 
                         } else {
-                            if (crossed && isTarget) { box.classList.add('roi-locked'); rState.baseBri = (rState.baseBri * 0.9) + (currentBri * 0.1); } 
-                            else { rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none"; }
+                            if (crossed) { 
+                                box.classList.add('roi-locked'); rState.baseBri = (rState.baseBri * 0.9) + (currentBri * 0.1); 
+                            } 
+                            else { 
+                                rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none"; 
+                                rState.isSilentCalibrating = true;
+                                rState.silentFrames = 0;
+                                rState.silentSum = 0;
+                                rState.silentMin = currentBri;
+                                rState.silentMax = currentBri;
+                            }
                         }
                     } else {
+                        if (rState.isSilentCalibrating) {
+                            rState.silentSum += currentBri;
+                            if (currentBri < rState.silentMin) rState.silentMin = currentBri;
+                            if (currentBri > rState.silentMax) rState.silentMax = currentBri;
+                            rState.silentFrames++;
+                            if (rState.silentFrames >= 30) {
+                                const avg = rState.silentSum / 30;
+                                rState.baseBri = avg; 
+                                
+                                const noise = Math.max(rState.silentMax - avg, avg - rState.silentMin);
+                                const recommendedSens = Math.max(12, Math.ceil(noise * 1.5));
+                                
+                                let currentSens = rState.sensitivity || 20;
+                                let learnedSens = Math.round((currentSens * 0.7) + (recommendedSens * 0.3));
+                                
+                                rState.sensitivity = learnedSens;
+                                if (window.updateRoiSens) window.updateRoiSens(i, learnedSens);
+                                
+                                rState.isSilentCalibrating = false;
+                            }
+                        }
+
                         if (crossed && isTarget) {
+                            rState.isSilentCalibrating = false; 
                             rState.blocked = true; rState.lastRec = now; handleHit(i, now);
                             msgEl.textContent = translations[currentLang].testGo; msgEl.style.display = "block";
                             setTimeout(() => { if(isRaceActive && !rState.blocked) msgEl.style.display = 'none'; }, 1000);
@@ -1226,7 +1290,7 @@
             if (!hasCrossedStart) {
                 if (roiIndex !== 0) return;
                 hasCrossedStart = true; lapStartTimestamp = now; sectorStartTimestamp = now;
-                currentTargetRoi = (activeRoisCount > 1) ? 1 : 0; roisState[currentTargetRoi].needsSilentCalib = true; currentLapSectors = [];
+                currentTargetRoi = (activeRoisCount > 1) ? 1 : 0; currentLapSectors = [];
                 polySynth.triggerAttackRelease(["C5", "G5"], "0.1"); return;
             }
             if (roiIndex === 0) {
@@ -1234,10 +1298,10 @@
                 currentLapSectors.push(finalSectorTime); lastCompletedSectors = [...currentLapSectors];
                 recordLap(lapTime, lastCompletedSectors);
                 lapStartTimestamp = now; sectorStartTimestamp = now; currentLapSectors = [];
-                currentTargetRoi = (activeRoisCount > 1) ? 1 : 0; roisState[currentTargetRoi].needsSilentCalib = true; 
+                currentTargetRoi = (activeRoisCount > 1) ? 1 : 0; 
             } else {
                 const sectorTime = now - sectorStartTimestamp; currentLapSectors.push(sectorTime);
-                sectorStartTimestamp = now; currentTargetRoi = (roiIndex + 1) % activeRoisCount; roisState[currentTargetRoi].needsSilentCalib = true; 
+                sectorStartTimestamp = now; currentTargetRoi = (roiIndex + 1) % activeRoisCount; 
                 if(Tone.context.state === 'running') synth.triggerAttackRelease("C6", "0.05");
                 updateLiveSectorUI(roiIndex, sectorTime);
             }
@@ -1338,7 +1402,12 @@
             document.getElementById('false-start-alert').classList.remove('show'); document.getElementById('sectors-telemetry-container').classList.add('hidden');
             
             for(let i=0; i<MAX_ROIS; i++) { 
-                if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; roisState[i].blocked = false; roisState[i].needsSilentCalib = true; } 
+                if(i < activeRoisCount) { 
+                    roisState[i].el.classList.add('active'); 
+                    roisState[i].baseBri = null; 
+                    roisState[i].blocked = false; 
+                    roisState[i].isSilentCalibrating = false;
+                } 
                 else { roisState[i].el.classList.remove('active'); } 
             }
             const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
@@ -1525,14 +1594,14 @@
                                          'text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]');
             let gapStr = pos === 1 ? 'LEADER' : '+' + ((r.time - leaderTime)/1000).toFixed(3);
 
-            let imgHtml = r.carImage ? `<img src="${r.carImage}" class="w-14 h-14 object-cover rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(56,189,248,0.6)] mb-2 z-20 bg-slate-900" />` : `<div class="w-14 h-14 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center mb-2 z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
+            let imgHtml = r.carImage ? `<img src="${r.carImage}" class="relative w-16 h-16 object-cover rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(56,189,248,0.6)] mb-2 z-20 bg-slate-900" />` : `<div class="relative w-16 h-16 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center mb-2 z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
 
             return `
                 <div class="flex flex-col items-center justify-end w-[30%] max-w-[200px] transform ${pos===1?'scale-110 z-10':''}">
                     ${imgHtml}
-                    <div class="font-orbitron font-black text-xl ${textColor} mb-1">${formatTime(r.time, false)}</div>
-                    <div class="font-bold text-[9px] text-white/50 uppercase tracking-widest mb-1">${gapStr}</div>
-                    <div class="w-full ${height} ${bg} border-t-4 rounded-t-xl flex flex-col items-center justify-start pt-3 shadow-[0_-5px_25px_rgba(0,0,0,0.5)]">
+                    <div class="font-orbitron font-black text-xl ${textColor} mb-1 z-20 relative">${formatTime(r.time, false)}</div>
+                    <div class="font-bold text-[9px] text-white/50 uppercase tracking-widest mb-2 z-20 relative">${gapStr}</div>
+                    <div class="w-full ${height} ${bg} border-t-4 rounded-t-xl flex flex-col items-center justify-start pt-3 shadow-[0_-5px_25px_rgba(0,0,0,0.5)] relative z-10">
                         <span class="text-4xl font-black ${textColor} opacity-30 leading-none">${pos}</span>
                         <span class="font-bold text-white text-sm truncate w-full text-center px-2 uppercase mt-2">${r.pilot}</span>
                         <span class="font-light text-cyan-200/70 text-[10px] truncate w-full text-center px-2 tracking-widest">${r.car}</span>
@@ -1679,6 +1748,43 @@
             }
         }
 
+        window.calibrateSingleROI = async (roiIdx) => {
+            if (!isProcessing || isCalibrating || isRaceActive) return;
+            isCalibrating = true; 
+            
+            const box = document.getElementById(`roi-${roiIdx}`);
+            const originalValContent = box.querySelector('.val-indicator').innerHTML;
+            box.querySelector('.val-indicator').innerHTML = `<span class="animate-pulse text-white">CAL...</span>`;
+            
+            let samples = 0; const frames = 60; 
+            let sum = 0; let min = 255; let max = 0;
+            
+            function sample() {
+                const b = getROIBrightness(roisState[roiIdx].el); 
+                sum += b; 
+                if(b < min) min = b; 
+                if(b > max) max = b;
+                
+                samples++;
+                if (samples < frames) {
+                    requestAnimationFrame(sample);
+                } else {
+                    const avg = sum / frames; 
+                    roisState[roiIdx].baseBri = avg;
+                    const noise = Math.max(max - avg, avg - min); 
+                    
+                    const recommendedSensitivity = Math.max(15, Math.ceil(noise * 1.5));
+                    roisState[roiIdx].sensitivity = recommendedSensitivity;
+                    
+                    box.querySelector('.val-indicator').innerHTML = `Val: ${avg.toFixed(0)} | Sens: ${recommendedSensitivity}`;
+                    isCalibrating = false; 
+                    renderSensitivitiesUI();
+                    if (document.getElementById('voice-toggle').checked) synth.triggerAttackRelease("C6", "0.1");
+                }
+            }
+            sample();
+        };
+
         async function runCalibration() {
             if (!isProcessing) return;
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
@@ -1688,13 +1794,17 @@
                 samples++;
                 if (samples < frames) requestAnimationFrame(sample);
                 else {
-                    let globalMaxNoise = 0;
                     for (let i = 0; i < activeRoisCount; i++) {
                         const avg = data[i].sum / frames; roisState[i].baseBri = avg;
-                        const noise = Math.max(data[i].max - avg, avg - data[i].min); if(noise > globalMaxNoise) globalMaxNoise = noise;
+                        const noise = Math.max(data[i].max - avg, avg - data[i].min); 
+                        roisState[i].sensitivity = Math.max(15, Math.ceil(noise * 1.5));
+                        
+                        const box = document.getElementById(`roi-${i}`);
+                        const valInd = box.querySelector('.val-indicator');
+                        if (valInd) valInd.innerHTML = `Val: ${avg.toFixed(0)} | Sens: ${roisState[i].sensitivity}`;
                     }
-                    sensitivity = Math.max(15, Math.ceil(globalMaxNoise * 1.5));
-                    document.getElementById('threshold-slider').value = sensitivity; document.getElementById('current-threshold').textContent = sensitivity;
+                    
+                    renderSensitivitiesUI();
                     isCalibrating = false; calibOverlay.classList.remove('active'); document.getElementById('calibrate-btn').disabled = false; speak(translations[currentLang].voiceCalibrated);
                 }
             }
@@ -1727,10 +1837,48 @@
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
 
-        const slider = document.getElementById('threshold-slider');
-        slider.addEventListener('input', () => { sensitivity = parseInt(slider.value); document.getElementById('current-threshold').textContent = sensitivity; });
-        document.getElementById('threshold-minus').addEventListener('click', () => { if(sensitivity>5) {sensitivity--; slider.value=sensitivity; document.getElementById('current-threshold').textContent=sensitivity;} });
-        document.getElementById('threshold-plus').addEventListener('click', () => { if(sensitivity<100) {sensitivity++; slider.value=sensitivity; document.getElementById('current-threshold').textContent=sensitivity;} });
+        window.renderSensitivitiesUI = () => {
+            const container = document.getElementById('individual-sensitivity-container');
+            if(!container) return;
+            container.innerHTML = '';
+            for(let i = 0; i < activeRoisCount; i++) {
+                const label = i === 0 ? 'META' : `SEC ${i}`;
+                const val = roisState[i].sensitivity || 20;
+                const colorClass = i === 0 ? 'text-white' : (i === 1 ? 'text-blue-400' : (i === 2 ? 'text-amber-400' : (i === 3 ? 'text-purple-400' : 'text-cyan-400')));
+                
+                const html = `
+                <div class="flex items-center space-x-2 bg-slate-900/40 p-2 rounded-lg border border-cyan-900/30">
+                    <span class="w-12 text-[10px] font-bold ${colorClass} uppercase tracking-widest">${label}</span>
+                    <button class="btn-adjust w-6 h-6 rounded flex items-center justify-center font-bold text-sm shadow-sm" onclick="adjustRoiSens(${i}, -1)">-</button>
+                    <div class="flex-1 relative flex items-center h-6">
+                        <input type="range" id="sens-slider-${i}" min="5" max="100" value="${val}" class="w-full h-1.5 bg-slate-700 rounded-full appearance-none cursor-pointer accent-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]" oninput="updateRoiSens(${i}, this.value)">
+                        <span id="sens-val-${i}" class="absolute -top-1 left-1/2 transform -translate-x-1/2 text-[9px] text-cyan-300 font-bold bg-slate-900 px-1 rounded">${val}</span>
+                    </div>
+                    <button class="btn-adjust w-6 h-6 rounded flex items-center justify-center font-bold text-sm shadow-sm" onclick="adjustRoiSens(${i}, 1)">+</button>
+                </div>`;
+                container.innerHTML += html;
+            }
+        };
+
+        window.updateRoiSens = (idx, val) => {
+            val = parseInt(val);
+            if(val < 5) val = 5; if(val > 100) val = 100;
+            roisState[idx].sensitivity = val;
+            const slider = document.getElementById(`sens-slider-${idx}`); if(slider) slider.value = val;
+            const valDisplay = document.getElementById(`sens-val-${idx}`); if(valDisplay) valDisplay.textContent = val;
+            
+            const box = document.getElementById(`roi-${idx}`);
+            const valInd = box.querySelector('.val-indicator');
+            if(valInd) {
+                const currentBriText = valInd.textContent.split('|')[0].trim();
+                valInd.textContent = `${currentBriText} | Sens: ${val}`;
+            }
+        };
+
+        window.adjustRoiSens = (idx, dir) => {
+            let val = parseInt(roisState[idx].sensitivity) + dir;
+            updateRoiSens(idx, val);
+        };
         
         document.getElementById('fullscreen-btn').addEventListener('click', () => {
             if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(()=>{}); document.getElementById('fs-icon-enter').classList.add('hidden'); document.getElementById('fs-icon-exit').classList.remove('hidden'); }
@@ -1748,6 +1896,7 @@
                 activeRoisCount = count;
                 if(isProcessing) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); } }
                 autoSaveROIsToCircuit();
+                renderSensitivitiesUI();
             }
         });
 
@@ -1780,7 +1929,7 @@
         document.getElementById('tab-btn-top25').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-sectors').classList.replace('active', 'inactive'); document.getElementById('ranking-view-top25').classList.remove('hidden'); document.getElementById('ranking-view-sectors').classList.add('hidden'); });
         document.getElementById('tab-btn-sectors').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-top25').classList.replace('active', 'inactive'); document.getElementById('ranking-view-sectors').classList.remove('hidden'); document.getElementById('ranking-view-top25').classList.add('hidden'); });
 
-        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
+        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche 1", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
         async function saveGarage() { 
             try { localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -1898,16 +2047,16 @@
         });
 
         document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
-            if(garageCars.length > 1) { 
-                if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId)); } 
-                garageCars = garageCars.filter(c => c.id !== currentGarageCarId); saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
-            } else { 
-                const btn = document.getElementById('garage-delete-car-btn');
-                btn.classList.add('bg-red-900/80', 'border-red-400');
-                setTimeout(()=>btn.classList.remove('bg-red-900/80', 'border-red-400'), 1500);
-            } 
+            if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId)); } catch(e){} } 
+            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); 
+            if(garageCars.length === 0) {
+                garageCars.push({ id: Date.now().toString(), name: "Coche 1", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] });
+            }
+            saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id);
         });
+        
         document.getElementById('garage-open-btn').addEventListener('click', () => { const circSelect = document.getElementById('garage-circuit-picker'); if (circSelect && currentCircuitId) { circSelect.value = currentCircuitId; } document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10); renderGarage(document.getElementById('car-model-select').value); });
         document.getElementById('garage-drive-btn').addEventListener('click', () => { document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); });
         document.getElementById('close-garage-btn').addEventListener('click', () => { document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
@@ -1915,7 +2064,7 @@
         document.getElementById('garage-circuit-picker').addEventListener('change', (e) => { const val = e.target.value; if(val !== 'ALL') { document.getElementById('circuit-model-select').value = val; currentCircuitId = val; loadCircuitROIs(val); } renderGarage(currentGarageCarId); });
         document.getElementById('car-model-select').addEventListener('change', (e) => { currentGarageCarId = e.target.value; updateTelemetryDisplay(); });
 
-        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Pista Principal", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
+        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
         async function saveCircuits() { 
             try { localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -2044,17 +2193,17 @@
             }
         });
 
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
-            if(circuits.length > 1) { 
-                if(window.userId && window.fs && window.db) { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } 
-                circuits = circuits.filter(c => c.id !== currentCircuitId); saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
-            } else { 
-                const btn = document.getElementById('circuit-delete-btn');
-                btn.classList.add('bg-red-900/80', 'border-red-400');
-                setTimeout(()=>btn.classList.remove('bg-red-900/80', 'border-red-400'), 1500);
-            } 
+            if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
+            circuits = circuits.filter(c => c.id !== currentCircuitId); 
+            if(circuits.length === 0) {
+                circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" });
+            }
+            saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
         });
+        
         document.getElementById('circuit-open-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('hidden'); setTimeout(() => document.getElementById('circuitModal').classList.add('open'), 10); renderCircuit(document.getElementById('circuit-model-select').value); });
         document.getElementById('close-circuit-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
         document.getElementById('circuit-picker').addEventListener('change', (e) => { renderCircuit(e.target.value); document.getElementById('circuit-model-select').value = e.target.value; loadCircuitROIs(e.target.value); });
@@ -2062,7 +2211,7 @@
 
         window.onload = () => {
             if (window.speechSynthesis) window.speechSynthesis.getVoices();
-            sensitivity = 20; slider.value = 20; document.getElementById('current-threshold').textContent = 20;
+            renderSensitivitiesUI();
             updateLapDisplay(); stopRace(false);
             setTimeout(() => { if (window.initFirebase) { window.initFirebase(); } else if (window.initLocalMode) { window.initLocalMode(); } setTimeout(() => { if (circuits.length === 0 && window.initLocalMode) window.initLocalMode(); }, 3000); }, 500);
         };
