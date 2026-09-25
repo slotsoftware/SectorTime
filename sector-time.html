@@ -12,7 +12,6 @@
     <meta name="application-name" content="SECTOR TIME V.1.0">
     <meta http-equiv="Permissions-Policy" content="camera=(self)">
     
-    <!-- Fuentes Futuristas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
@@ -64,15 +63,14 @@
             }
         };
 
-        Chart.defaults.color = '#bae6fd'; // cyan-200
-        Chart.defaults.borderColor = 'rgba(56, 189, 248, 0.15)'; // sky-400 opacity
+        Chart.defaults.color = '#bae6fd'; 
+        Chart.defaults.borderColor = 'rgba(56, 189, 248, 0.15)'; 
         Chart.defaults.font.family = "'Orbitron', sans-serif";
     </script>
     
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* Fondo azul tecnológico luminoso y vibrante */
             background: radial-gradient(circle at 50% 0%, #0369a1 0%, #0f172a 70%, #020617 100%);
             margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
@@ -99,14 +97,13 @@
         
         input, select { user-select: text; -webkit-user-select: text; }
         
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(56, 189, 248, 0.1); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.4); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.8); }
 
         .font-orbitron { font-family: 'Orbitron', sans-serif !important; letter-spacing: 0.05em; }
 
-        /* Paneles rellenos de Azul Neón Translúcido */
         .neon-panel {
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(30, 58, 138, 0.4));
             border: 1px solid rgba(56, 189, 248, 0.4);
@@ -132,9 +129,9 @@
             text-align: left; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
         }
 
-        .traffic-light-container.five-lights { display: flex; gap: 10px; }
+        .traffic-light-container.five-lights { display: flex; gap: 8px; }
         .light {
-            width: 30px; height: 30px; border-radius: 50%;
+            width: 24px; height: 24px; border-radius: 50%;
             background-color: #020617; border: 2px solid #1e293b; 
             box-shadow: inset 0 0 8px #000;
             transition: background-color 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
@@ -155,7 +152,7 @@
             background-color: rgba(56, 189, 248, 0.05);
             box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2);
             transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; 
-            border-radius: 8px;
+            border-radius: 8px; 
         }
         .roi-box.active { display: block; }
         .roi-box.roi-meta { border-color: #ffffff; }
@@ -163,22 +160,24 @@
         .roi-box.roi-s3 { border-color: #c084fc; } .roi-box.roi-s4 { border-color: #22d3ee; } 
 
         .roi-label-container {
-            position: absolute; top: -24px; left: -2px; display: flex; align-items: center;
+            position: absolute; top: -24px; left: -2px; display: flex; align-items: stretch; height: 22px;
         }
 
         .roi-label-tag {
-            color: #fff; font-size: 11px; padding: 2px 8px; 
-            border-radius: 4px 0 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
+            color: #fff; font-size: 11px; padding: 0 8px; display: flex; align-items: center; justify-content: center;
+            border-radius: 6px 0 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
             background: rgba(15, 23, 42, 0.9); border-top: 2px solid; border-left: 2px solid; border-bottom: 2px solid;
             text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
         
         .roi-auto-btn {
-             background: rgba(8, 145, 178, 0.8); border: 2px solid; border-left: none; color: #fff; font-size: 9px; font-weight: 800;
-             padding: 3px 6px; border-radius: 0 4px 0 0; cursor: pointer; font-family: 'Orbitron', sans-serif;
-             transition: background 0.2s;
+             background: rgba(8, 145, 178, 0.8); border-top: 2px solid; border-right: 2px solid; border-bottom: 2px solid; 
+             color: #fff; font-size: 9px; font-weight: 800; padding: 0 6px; border-radius: 0 6px 0 0; 
+             cursor: pointer; font-family: 'Orbitron', sans-serif; transition: background 0.2s; pointer-events: auto;
+             display: flex; align-items: center; justify-content: center;
         }
         .roi-auto-btn:hover { background: rgba(14, 165, 233, 0.9); }
+        .roi-auto-btn:active { background: #bae6fd; color: #0f172a; }
         
         .roi-box.roi-meta .roi-label-tag { border-color: #ffffff; color: #ffffff; }
         .roi-box.roi-meta .roi-auto-btn { border-color: #ffffff; }
@@ -205,30 +204,30 @@
         .roi-locked .test-msg { display: block; content: "WAIT..."; color: #94a3b8; text-shadow: none; font-size: 12px;}
 
         .resize-handle { position: absolute; width: 44px; height: 44px; background: transparent; z-index: 20; display: flex; align-items: center; justify-content: center; }
-        .resize-handle::after { content: ''; width: 12px; height: 12px; background-color: #020617; border: 2px solid #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.8); border-radius: 2px; }
+        .resize-handle::after { content: ''; width: 12px; height: 12px; background-color: #020617; border: 2px solid #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.8); border-radius: 4px; }
         .handle-tl { top: -22px; left: -22px; cursor: nwse-resize; } .handle-br { bottom: -22px; right: -22px; cursor: nwse-resize; } 
         
-        .val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(15, 23, 42, 0.8); color: #38bdf8; font-size: 10px; font-family: 'Orbitron', sans-serif; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4); white-space: nowrap; }
+        .val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(15, 23, 42, 0.8); color: #38bdf8; font-size: 10px; font-family: 'Orbitron', sans-serif; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4); white-space: nowrap; }
         .dragging { cursor: grabbing !important; } .resizing-nwse { cursor: nwse-resize !important; } #video-canvas { display: none; }
 
-        .timer-value { font-size: 1.75rem; line-height: 2rem; color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
+        .timer-value { font-size: 1.5rem; line-height: 1.75rem; color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
         
-        .telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        .telemetry-item { display: flex; flex-direction: column; padding: 8px; border-radius: 8px; background: rgba(2, 6, 23, 0.5); border: 1px solid rgba(56, 189, 248, 0.2); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-        .telemetry-label { font-size: 0.65rem; font-weight: 600; color: #7dd3fc; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.1em; }
-        .telemetry-data { font-size: 0.9rem; font-weight: 700; color: #fff; }
+        .telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
+        .telemetry-item { display: flex; flex-direction: column; padding: 4px 8px; border-radius: 8px; background: rgba(2, 6, 23, 0.5); border: 1px solid rgba(56, 189, 248, 0.2); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .telemetry-label { font-size: 0.6rem; font-weight: 600; color: #7dd3fc; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.1em; }
+        .telemetry-data { font-size: 0.85rem; font-weight: 700; color: #fff; }
         .telemetry-data.green { color: #34d399; text-shadow: 0 0 8px rgba(52, 211, 153, 0.6); }
         .telemetry-data.yellow { color: #fbbf24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
         
-        .sectors-display { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; background: rgba(2, 6, 23, 0.5); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.2); }
-        .sector-tag { padding: 2px 4px; border-radius: 4px; font-size: 0.65rem; color: #020617; margin-right: 6px; font-weight: 800; }
+        .sectors-display { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; background: rgba(2, 6, 23, 0.5); padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.2); }
+        .sector-tag { padding: 1px 3px; border-radius: 4px; font-size: 0.6rem; color: #020617; margin-right: 4px; font-weight: 800; }
         .sector-tag.meta { background: #f8fafc; } .sector-tag.s1 { background: #60a5fa; } .sector-tag.s2 { background: #fbbf24; } .sector-tag.s3 { background: #c084fc; } .sector-tag.s4 { background: #22d3ee; }
 
         .race-control-btn {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 12px 0; border-radius: 8px; background: rgba(2, 6, 23, 0.4);
+            padding: 6px 0; border-radius: 8px; background: rgba(2, 6, 23, 0.4);
             border: 1px solid rgba(56, 189, 248, 0.4); transition: all 0.2s ease;
-            font-size: 0.75rem; font-weight: 700; color: #bae6fd; font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem; font-weight: 700; color: #bae6fd; font-family: 'Orbitron', sans-serif;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .race-control-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
@@ -237,8 +236,6 @@
         #start-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(52, 211, 153, 0.15); box-shadow: 0 0 20px rgba(52, 211, 153, 0.4); }
         #reset-race-btn.race-control-btn { color: #f87171; border-color: #f87171; }
         #reset-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(248, 113, 113, 0.15); box-shadow: 0 0 20px rgba(248, 113, 113, 0.4); }
-
-        #lap-graph-canvas { width: 100%; height: 120px; background: rgba(2, 6, 23, 0.5); border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.2); }
         
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -269,7 +266,6 @@
         #record-notification.show { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
         
         .toggle-checkbox:checked { right: 0; border-color: #38bdf8; } .toggle-checkbox:checked + .toggle-label { background-color: rgba(56, 189, 248, 0.3); }
-        .btn-adjust { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: bold; } .btn-adjust:active { background: rgba(56, 189, 248, 0.3); }
         
         .calib-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(2, 6, 23, 0.85); color: #38bdf8; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; display: none; backdrop-filter: blur(4px); }
         .calib-overlay.active { display: flex; }
@@ -296,12 +292,11 @@
         .sector-card.s3 .bar { background-color: #c084fc; box-shadow: 0 0 8px #c084fc; }
         .sector-card.s4 .bar { background-color: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
 
-        /* F1 Grid Enhancements */
         .f1-gap { color: #f87171; font-weight: bold; }
         .f1-leader { color: #34d399; font-weight: bold; }
     </style>
 </head>
-<body>
+<body class="flex flex-col h-screen overflow-hidden">
     <div id="orientation-lock">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="22" y1="12" x2="22.01" y2="12"></line>
@@ -311,59 +306,81 @@
         <button onclick="document.getElementById('orientation-lock').style.display='none'" class="px-6 py-3 bg-cyan-900/50 border border-cyan-400 hover:bg-cyan-800 rounded-lg font-bold text-white text-sm tracking-wider shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-colors">Continuar de todos modos</button>
     </div>
 
-    <div class="w-full h-full flex flex-row p-3 gap-3 overflow-hidden box-border">
+    <!-- Contenedor Principal. Layout Horizontal -->
+    <div class="w-full h-full flex flex-row p-2 gap-2 overflow-hidden box-border">
         
-        <!-- COLUMNA IZQUIERDA -->
-        <div class="flex-1 flex flex-col h-full min-w-[60%] gap-3">
+        <!-- COLUMNA IZQUIERDA (Cámara y Cabecera) -->
+        <div class="flex-1 flex flex-col h-full min-w-[55%] gap-2 overflow-hidden">
             
-            <!-- HEADER -->
-            <div class="neon-panel flex justify-between items-center w-full py-2 px-5 shrink-0">
-                <div class="flex items-center space-x-5">
+            <div class="neon-panel flex justify-between items-center w-full py-1.5 px-4 shrink-0">
+                <div class="flex items-center space-x-2 lg:space-x-4 w-full">
                     <div class="flex flex-col">
-                        <h1 class="text-xl neon-title font-orbitron tracking-wider leading-tight">SECTOR TIME V.1.0</h1>
-                        <span class="text-[10px] font-bold text-cyan-300 tracking-widest uppercase">By Albert Closa</span>
+                        <div class="flex items-center">
+                            <h1 class="text-lg neon-title font-orbitron tracking-wider leading-tight mr-3">SECTOR TIME V.1.0</h1>
+                            <!-- Idioma movido al Header para ahorrar espacio -->
+                            <select id="lang-select" class="bg-transparent border border-cyan-800 text-cyan-400 text-[9px] font-bold py-0.5 px-1 rounded hover:bg-cyan-900/50 outline-none uppercase tracking-widest transition-colors cursor-pointer">
+                                <option value="es">ES</option><option value="en">EN</option><option value="fr">FR</option>
+                            </select>
+                        </div>
+                        <span class="text-[9px] font-bold text-cyan-300 tracking-widest uppercase">By Albert Closa</span>
                     </div>
                     
-                    <button id="history-btn" class="flex items-center text-cyan-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-cyan-900/50 border border-transparent hover:border-cyan-400" title="Ver Historial">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/><path d="M12 7v5l4 2"/></svg>
-                        <span class="text-[11px] font-bold uppercase tracking-widest" data-i18n="history">Historial</span>
+                    <div class="flex-1"></div> <!-- Separador Flexible -->
+
+                    <button id="history-btn" class="flex items-center text-cyan-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-cyan-900/50 border border-transparent hover:border-cyan-400" title="Ver Historial">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/><path d="M12 7v5l4 2"/></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="history">Historial</span>
                     </button>
                     
-                    <button id="circuit-open-btn" class="flex items-center text-emerald-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-emerald-900/50 border border-transparent hover:border-emerald-400" title="Circuitos">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
-                        <span class="text-[11px] font-bold uppercase tracking-widest" data-i18n="circuits">Circuitos</span>
+                    <button id="circuit-open-btn" class="flex items-center text-emerald-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-emerald-900/50 border border-transparent hover:border-emerald-400" title="Circuitos">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="circuits">Circuitos</span>
                     </button>
 
-                    <button id="garage-open-btn" class="flex items-center text-blue-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-blue-900/50 border border-transparent hover:border-blue-400" title="Mi Garaje">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
-                        <span class="text-[11px] font-bold uppercase tracking-widest" data-i18n="garage">Garaje</span>
+                    <button id="garage-open-btn" class="flex items-center text-blue-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-blue-900/50 border border-transparent hover:border-blue-400" title="Mi Garaje">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="garage">Garaje</span>
                     </button>
                     
-                    <button id="ranking-open-btn" class="flex items-center text-amber-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-amber-900/50 border border-transparent hover:border-amber-400" title="Ranking F1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
-                        <span class="text-[11px] font-bold uppercase tracking-widest" data-i18n="ranking">Ranking</span>
+                    <button id="videos-open-btn" class="flex items-center text-fuchsia-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-fuchsia-900/50 border border-transparent hover:border-fuchsia-400" title="Videos">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="videos">Videos</span>
                     </button>
                     
-                    <button id="fullscreen-btn" class="flex items-center text-slate-300 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-slate-700/50 border border-transparent hover:border-slate-400" title="Pantalla Completa">
-                         <svg id="fs-icon-enter" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
-                         <svg id="fs-icon-exit" class="hidden mr-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
-                         <span class="text-[11px] font-bold uppercase tracking-widest">Pantalla</span>
+                    <button id="guide-open-btn" class="flex items-center text-teal-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-teal-900/50 border border-transparent hover:border-teal-400" title="Guía">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="guide">Guía</span>
+                    </button>
+                    
+                    <button id="ranking-open-btn" class="flex items-center text-amber-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-amber-900/50 border border-transparent hover:border-amber-400" title="Ranking F1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="ranking">Ranking</span>
+                    </button>
+                    
+                    <button id="fullscreen-btn" class="flex items-center text-slate-300 hover:text-white transition-colors px-2 py-1 rounded hover:bg-slate-700/50 border border-transparent hover:border-slate-400" title="Pantalla Completa">
+                         <svg id="fs-icon-enter" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+                         <svg id="fs-icon-exit" class="hidden lg:mr-1.5" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+                         <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline">Pantalla</span>
                     </button>
                 </div>
             </div>
 
-            <div id="video-feed-box" class="neon-panel p-3 w-full flex-1 flex flex-col relative overflow-hidden">
-                <div class="flex justify-between items-center border-b border-cyan-800/50 pb-2 mb-2 shrink-0">
-                    <h2 class="text-sm font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
-                    <div class="flex space-x-2">
-                        <button id="calibrate-btn" class="p-1.5 px-4 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-xs font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md">
-                            Calibrar IA (Todas)
+            <div id="video-feed-box" class="neon-panel p-2 w-full flex-1 flex flex-col relative overflow-hidden">
+                <div class="flex justify-between items-center border-b border-cyan-800/50 pb-1.5 mb-1.5 shrink-0">
+                    <h2 class="text-xs font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
+                    <div class="flex space-x-1.5">
+                        <button id="calibrate-btn" class="p-1 px-3 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-[10px] font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md">
+                            Calibrar IA
                         </button>
-                        <button id="camera-on-btn" class="p-1.5 px-4 rounded bg-emerald-600/20 border border-emerald-500 text-emerald-400 hover:bg-emerald-600/40 disabled:opacity-50 transition text-xs font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                        <label for="bg-image-input" class="p-1 px-2.5 rounded bg-blue-600/20 border border-blue-500 text-blue-400 hover:bg-blue-600/40 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(59,130,246,0.2)] cursor-pointer" title="Cargar Imagen de Fondo">
+                            IMG
+                            <input type="file" id="bg-image-input" accept="image/jpeg, image/png, image/webp" class="hidden">
+                        </label>
+                        <button id="camera-on-btn" class="p-1 px-3 rounded bg-emerald-600/20 border border-emerald-500 text-emerald-400 hover:bg-emerald-600/40 disabled:opacity-50 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
                             CAM ON
                         </button>
-                        <button id="camera-off-btn" class="p-1.5 px-4 rounded bg-red-600/20 border border-red-500 text-red-400 hover:bg-red-600/40 disabled:opacity-50 transition text-xs font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(239,68,68,0.2)]" disabled>
+                        <button id="camera-off-btn" class="p-1 px-3 rounded bg-red-600/20 border border-red-500 text-red-400 hover:bg-red-600/40 disabled:opacity-50 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(239,68,68,0.2)]" disabled>
                             OFF
                         </button>
                     </div>
@@ -373,23 +390,31 @@
 
                 <!-- ÁREA DE VIDEO -->
                 <div id="video-container">
+                    <img id="static-bg-img" class="absolute inset-0 w-full h-full object-cover hidden z-0 pointer-events-none" />
                     <video id="webcam-feed" autoplay playsinline></video>
                     
+                    <!-- REPRODUCTOR DE VIDEOS TUTORIALES -->
+                    <video id="tutorial-player" class="absolute inset-0 w-full h-full object-contain hidden z-[70] bg-black" controls playsinline></video>
+                    <button id="close-tutorial-btn" class="absolute top-4 right-4 z-[80] hidden bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(239,68,68,0.6)] border border-red-400 text-[10px] tracking-widest uppercase flex items-center transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        Cerrar Video
+                    </button>
+
                     <div id="calib-overlay" class="calib-overlay">
                         <div class="spinner"></div>
-                        <h3 class="text-2xl font-orbitron font-bold uppercase tracking-widest drop-shadow-md text-white" data-i18n="calibrating">Calibrando...</h3>
-                        <p class="text-sm mt-3 font-bold border border-cyan-400 bg-cyan-900/50 px-5 py-1.5 rounded-lg text-cyan-200 uppercase tracking-widest" data-i18n="clearTrack">Despeja la pista</p>
+                        <h3 class="text-xl font-orbitron font-bold uppercase tracking-widest drop-shadow-md text-white" data-i18n="calibrating">Calibrando...</h3>
+                        <p class="text-xs mt-2 font-bold border border-cyan-400 bg-cyan-900/50 px-4 py-1 rounded-lg text-cyan-200 uppercase tracking-widest" data-i18n="clearTrack">Despeja la pista</p>
                     </div>
                     <div id="false-start-alert">
-                        <h2 class="text-3xl font-orbitron font-bold uppercase tracking-widest mb-2 text-red-400 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" data-i18n="falseStart">¡SALIDA NULA!</h2>
+                        <h2 class="text-2xl font-orbitron font-bold uppercase tracking-widest mb-1 text-red-400 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" data-i18n="falseStart">¡SALIDA NULA!</h2>
                     </div>
                     <div id="yellow-flag-overlay">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="currentColor" class="yellow-flag-icon"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
-                        <h3 class="text-3xl font-orbitron font-bold text-yellow-400 uppercase tracking-widest mt-4 drop-shadow-lg" data-i18n="yellowFlag">BANDERA AMARILLA</h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="currentColor" class="yellow-flag-icon"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                        <h3 class="text-2xl font-orbitron font-bold text-yellow-400 uppercase tracking-widest mt-2 drop-shadow-lg" data-i18n="yellowFlag">BANDERA AMARILLA</h3>
                     </div>
 
                     <!-- ROIs -->
-                    <div id="roi-0" class="roi-box roi-meta active" style="left:10%; top:25%; width:15%; height:50%;">
+                    <div id="roi-0" class="roi-box roi-meta" style="left:10%; top:25%; width:15%; height:50%;">
                         <div class="roi-label-container">
                             <div class="roi-label-tag">META</div>
                             <button class="roi-auto-btn" onclick="calibrateSingleROI(0)" title="Calibrar este sector">AUTO</button>
@@ -431,187 +456,173 @@
                     </div>
                 </div>
                 <canvas id="video-canvas"></canvas>
-                <div id="video-status" class="text-center text-[10px] mt-2 text-cyan-700/70 font-bold tracking-widest uppercase" data-i18n="camLoading">Sensor Inactivo</div>
+                <div id="video-status" class="text-center text-[9px] mt-1.5 text-cyan-700/70 font-bold tracking-widest uppercase" data-i18n="camLoading">Sensor Inactivo</div>
             </div>
         </div>
 
-        <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-3 h-full overflow-y-auto pr-1 pb-2">
+        <!-- COLUMNA DERECHA (Panel Cero-Scroll) -->
+        <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-1.5 h-full overflow-hidden pb-1">
             
-            <div class="neon-panel w-full p-4 text-center shrink-0">
-                <div class="flex justify-center w-full mb-3 pb-3 border-b border-cyan-800/50">
-                    <div id="traffic-light-module" class="traffic-light-container five-lights bg-slate-900/80 px-4 py-2 rounded-xl border border-cyan-900/50 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            <!-- TIEMPO Y SEMÁFORO -->
+            <div class="neon-panel w-full p-2 text-center shrink-0">
+                <div class="flex justify-center w-full mb-1.5 pb-1.5 border-b border-cyan-800/50">
+                    <div id="traffic-light-module" class="traffic-light-container five-lights bg-slate-900/80 px-3 py-1.5 rounded-xl border border-cyan-900/50 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                         <div id="light-1" class="light"></div><div id="light-2" class="light"></div><div id="light-3" class="light"></div>
                         <div id="light-4" class="light"></div><div id="light-5" class="light"></div>
                     </div>
                 </div>
 
-                <div class="flex justify-around items-end space-x-4 mb-2">
+                <div class="flex justify-around items-end space-x-2 mb-1">
                     <div class="flex-1">
-                        <p class="text-[10px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="raceTime">TIEMPO CARRERA</p>
+                        <p class="text-[8px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="raceTime">TIEMPO CARRERA</p>
                         <p id="race-time" class="timer-value font-orbitron">00:00.000</p>
                     </div>
-                    <div class="flex-1 border-l border-cyan-800/50 pl-4 flex flex-col justify-end">
-                        <p class="text-[10px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="laps">VUELTAS</p>
+                    <div class="flex-1 border-l border-cyan-800/50 pl-2 flex flex-col justify-end">
+                        <p class="text-[8px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="laps">VUELTAS</p>
                         <p id="lap-count" class="timer-value font-orbitron text-cyan-100 !text-shadow-none">0 / 10</p> 
-                        <p id="mode-target-display" class="text-[9px] text-blue-400 font-bold mt-0 font-orbitron hidden">--</p>
+                        <p id="mode-target-display" class="text-[8px] text-blue-400 font-bold mt-0 font-orbitron hidden">--</p>
                     </div>
                 </div>
-                <p id="lap-time" class="text-3xl text-cyan-300 mt-2 font-orbitron font-bold tracking-widest drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">00.000</p>
+                <p id="lap-time" class="text-2xl text-cyan-300 mt-1 font-orbitron font-bold tracking-widest drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">00.000</p>
             </div>
 
+            <!-- BOTONES -->
             <div class="w-full flex space-x-2 shrink-0">
                 <button id="start-race-btn" class="flex-1 race-control-btn disabled:opacity-50 disabled:cursor-not-allowed border-b-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     <span data-i18n="start">INICIAR</span>
                 </button>
                 <button id="pause-btn" class="flex-1 race-control-btn disabled:opacity-50 disabled:cursor-not-allowed border-amber-500/50 text-amber-400 border-b-2">
-                    <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-1"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                    <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-1 hidden"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                    <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5 hidden"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     <span id="pause-text" data-i18n="pause">PAUSA</span>
                 </button>
                 <button id="reset-race-btn" class="flex-1 race-control-btn disabled:opacity-50 disabled:cursor-not-allowed border-b-2" disabled>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-1"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
                     <span data-i18n="reset">REINICIAR</span>
                 </button>
             </div>
 
-            <div class="neon-panel w-full p-3 shrink-0">
-                <h2 class="text-[11px] font-bold text-cyan-400 mb-2 border-b border-cyan-800/50 pb-1 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
-                <div class="telemetry-grid">
-                    <div class="telemetry-item">
-                        <p class="telemetry-label" data-i18n="pilotCar">PILOTO / COCHE</p>
-                        <p id="telemetry-pilot-car" class="telemetry-data font-light truncate">N/A / N/A</p>
+            <!-- Panel de Telemetría Dinámico (Muelle Flexbox) -->
+            <div class="neon-panel w-full p-2 shrink-0 flex flex-col flex-1 min-h-[100px]">
+                <h2 class="text-[9px] font-bold text-cyan-400 mb-1 border-b border-cyan-800/50 pb-1 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
+                <div class="telemetry-grid gap-1 shrink-0">
+                    <div class="telemetry-item p-1">
+                        <p class="telemetry-label text-[7px]" data-i18n="pilotCar">PILOTO / COCHE</p>
+                        <p id="telemetry-pilot-car" class="telemetry-data text-xs font-light truncate">N/A / N/A</p>
                     </div>
-                    <div class="telemetry-item">
-                        <p class="telemetry-label" data-i18n="lastLap">ÚLTIMA VUELTA</p>
-                        <p id="telemetry-last-lap-time" class="telemetry-data yellow font-orbitron">--.---</p>
+                    <div class="telemetry-item p-1">
+                        <p class="telemetry-label text-[7px]" data-i18n="lastLap">ÚLTIMA VUELTA</p>
+                        <p id="telemetry-last-lap-time" class="telemetry-data yellow text-xs font-orbitron">--.---</p>
                     </div>
                     
-                    <div class="telemetry-item col-span-2 hidden" id="sectors-telemetry-container">
-                        <p class="telemetry-label" data-i18n="lastLapSectors">TIEMPOS DE SECTOR</p>
-                        <div id="telemetry-sectors" class="sectors-display"></div>
+                    <div class="telemetry-item col-span-2 hidden p-1" id="sectors-telemetry-container">
+                        <p class="telemetry-label text-[7px]" data-i18n="lastLapSectors">TIEMPOS DE SECTOR</p>
+                        <div id="telemetry-sectors" class="sectors-display py-0.5"></div>
                     </div>
 
-                    <div class="telemetry-item">
-                        <p class="telemetry-label" data-i18n="bestLap">MEJOR VUELTA</p>
-                        <p id="telemetry-best-time" class="telemetry-data green font-orbitron">--.---</p>
+                    <div class="telemetry-item p-1">
+                        <p class="telemetry-label text-[7px]" data-i18n="bestLap">MEJOR VUELTA</p>
+                        <p id="telemetry-best-time" class="telemetry-data green text-xs font-orbitron">--.---</p>
                     </div>
-                    <div class="telemetry-item">
-                        <p class="telemetry-label" data-i18n="avgTime">TIEMPO MEDIO</p>
-                        <p id="telemetry-average-time" class="telemetry-data font-orbitron text-cyan-200">--.---</p>
+                    <div class="telemetry-item p-1">
+                        <p class="telemetry-label text-[7px]" data-i18n="avgTime">TIEMPO MEDIO</p>
+                        <p id="telemetry-average-time" class="telemetry-data text-xs font-orbitron text-cyan-200">--.---</p>
                     </div>
                 </div>
                 
-                <div class="mt-3 border-t border-cyan-800/50 pt-2">
-                    <h2 class="text-[10px] font-bold text-cyan-400 mb-1 uppercase tracking-[0.2em] text-left" data-i18n="timeGraph">Evolución de Tiempos</h2>
-                    <canvas id="lap-graph-canvas"></canvas>
-                    <p id="graph-status" class="text-center text-[10px] text-cyan-600/50 mt-1 italic tracking-widest" data-i18n="noData">Sin datos</p>
+                <!-- Gráfica Muelle (Se expande para llenar el hueco) -->
+                <div class="mt-1 border-t border-cyan-800/50 pt-1 flex-1 flex flex-col min-h-[40px]">
+                    <h2 class="text-[8px] font-bold text-cyan-400 mb-0.5 uppercase tracking-[0.2em] text-left shrink-0" data-i18n="timeGraph">Evolución de Tiempos</h2>
+                    <div class="flex-1 relative w-full h-full"><canvas id="lap-graph-canvas" class="absolute inset-0 w-full h-full rounded-md border border-cyan-500/20 bg-slate-900/50"></canvas></div>
+                    <p id="graph-status" class="text-center text-[8px] text-cyan-600/50 absolute bottom-3 w-full left-0 italic tracking-widest pointer-events-none" data-i18n="noData">Sin datos</p>
                 </div>
             </div>
 
-            <div id="config-panel" class="neon-panel w-full p-4 shrink-0">
-                <div class="mb-3 border-b border-cyan-800/50 pb-2">
-                     <div class="flex items-center justify-between">
-                         <label for="lang-select" class="text-[10px] font-bold text-cyan-400 tracking-widest uppercase flex items-center">
-                            <span data-i18n="langLabel">Idioma / Language</span>
-                         </label>
-                         <select id="lang-select" class="neon-input p-1.5 rounded-lg text-xs w-1/2 font-bold">
-                             <option value="es">Español</option><option value="en">English</option><option value="fr">Français</option>
-                         </select>
-                     </div>
-                </div>
-
-                <h2 class="text-xs font-orbitron font-bold text-cyan-300 mb-3 border-b border-cyan-800/50 pb-1 flex items-center justify-start uppercase tracking-widest">
-                    <span data-i18n="pilotDataTitle">Datos Piloto & Pista</span>
-                </h2>
-                <div class="space-y-3">
-                     <div class="flex gap-2">
-                        <div class="flex-1">
-                            <label for="pilot-name-input" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest" data-i18n="pilotName">Piloto</label>
-                            <input type="text" id="pilot-name-input" value="Racer 1" class="neon-input w-full p-1.5 text-xs rounded-lg" />
-                        </div>
-                        <div class="flex-1">
-                            <label for="circuit-model-select" class="block text-[9px] font-bold text-emerald-400 mb-1 uppercase tracking-widest" data-i18n="circuitName">Circuito</label>
-                            <select id="circuit-model-select" class="neon-input w-full p-1.5 text-xs rounded-lg font-bold border-emerald-500/50 focus:border-emerald-400"></select>
+            <!-- Panel de Configuración (Compacto, Sin Scroll) -->
+            <div id="config-panel" class="neon-panel w-full p-2 shrink-0">
+                <div class="flex items-center justify-between mb-1 border-b border-cyan-800/50 pb-1">
+                    <h2 class="text-[9px] font-orbitron font-bold text-cyan-300 uppercase tracking-widest flex items-center">
+                        <span data-i18n="pilotDataTitle">Datos Piloto & Pista</span>
+                    </h2>
+                    <div class="flex items-center space-x-2">
+                        <label for="voice-toggle" class="text-[8px] font-bold text-cyan-400 uppercase tracking-widest cursor-pointer" data-i18n="engineerVoice">Voz Ing.</label>
+                        <div class="relative inline-block w-6 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="voice-toggle" id="voice-toggle" class="toggle-checkbox absolute block w-3 h-3 rounded-full bg-slate-900 border border-cyan-500 appearance-none cursor-pointer" checked/>
+                            <label for="voice-toggle" class="toggle-label block overflow-hidden h-3 rounded-full bg-slate-800 cursor-pointer border border-cyan-900/80"></label>
                         </div>
                     </div>
-                    <div class="flex gap-2">
-                        <div class="flex-1">
-                            <label for="car-model-select" class="block text-[9px] font-bold text-blue-400 mb-1 uppercase tracking-widest" data-i18n="carModel">Coche (Garaje)</label>
-                            <select id="car-model-select" class="neon-input w-full p-1.5 text-xs rounded-lg font-bold border-blue-500/50 focus:border-blue-400"></select>
+                </div>
+
+                <div class="space-y-1">
+                     <div class="grid grid-cols-3 gap-1">
+                        <div class="col-span-1">
+                            <label for="pilot-name-input" class="block text-[8px] font-bold text-cyan-500 mb-0.5 uppercase tracking-widest" data-i18n="pilotName">Piloto</label>
+                            <input type="text" id="pilot-name-input" value="Racer 1" class="neon-input w-full px-1 py-0.5 text-[9px] rounded" />
+                        </div>
+                        <div class="col-span-1">
+                            <label for="circuit-model-select" class="block text-[8px] font-bold text-emerald-400 mb-0.5 uppercase tracking-widest" data-i18n="circuitName">Circuito</label>
+                            <select id="circuit-model-select" class="neon-input w-full px-1 py-0.5 text-[9px] rounded font-bold border-emerald-500/50 focus:border-emerald-400"></select>
+                        </div>
+                        <div class="col-span-1">
+                            <label for="car-model-select" class="block text-[8px] font-bold text-blue-400 mb-0.5 uppercase tracking-widest" data-i18n="carModel">Coche</label>
+                            <select id="car-model-select" class="neon-input w-full px-1 py-0.5 text-[9px] rounded font-bold border-blue-500/50 focus:border-blue-400"></select>
                         </div>
                     </div>
                     
-                    <div class="flex gap-2 bg-slate-900/40 p-2 rounded-lg border border-cyan-900/50 shadow-inner">
-                        <div class="flex-1">
-                            <label for="race-mode-select" class="block text-[9px] font-bold text-purple-400 mb-1 uppercase tracking-widest" data-i18n="raceMode">Modo</label>
-                            <select id="race-mode-select" class="neon-input w-full p-1.5 text-xs rounded-lg font-bold">
+                    <div class="grid grid-cols-4 gap-1 bg-slate-900/40 p-1 rounded border border-cyan-900/50 shadow-inner">
+                        <div class="col-span-1">
+                            <label for="race-mode-select" class="block text-[8px] font-bold text-purple-400 mb-0.5 uppercase tracking-widest truncate" data-i18n="raceMode">Modo</label>
+                            <select id="race-mode-select" class="neon-input w-full px-1 py-0.5 text-[9px] rounded font-bold">
                                 <option value="laps" selected data-i18n="modeLaps">Vueltas</option>
                                 <option value="time" data-i18n="modeTime">Tiempo</option>
                             </select>
                         </div>
-                        <div class="flex-1">
+                        <div class="col-span-1">
                             <div id="laps-config-container">
-                                <label for="lap-limit-select" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest" data-i18n="lapLimit">Límite</label>
-                                <select id="lap-limit-select" class="neon-input w-full p-1.5 text-xs rounded-lg font-bold">
-                                    <option value="5" data-i18n="5laps">5 Vueltas</option><option value="10" selected data-i18n="10laps">10 Vueltas</option>
-                                    <option value="25">25 Vueltas</option><option value="50">50 Vueltas</option><option value="Infinity" data-i18n="infinite">Infinito</option>
+                                <label for="lap-limit-select" class="block text-[8px] font-bold text-cyan-500 mb-0.5 uppercase tracking-widest truncate" data-i18n="lapLimit">Límite</label>
+                                <select id="lap-limit-select" class="neon-input w-full px-1 py-0.5 text-[9px] rounded font-bold">
+                                    <option value="5">5 V</option><option value="10" selected>10 V</option>
+                                    <option value="25">25 V</option><option value="50">50 V</option><option value="Infinity">Inf</option>
                                 </select>
                             </div>
                             <div id="time-config-container" class="hidden">
-                                <label for="time-limit-select" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest" data-i18n="timeLimit">Tiempo</label>
-                                <select id="time-limit-select" class="neon-input w-full p-1.5 text-xs rounded-lg font-bold">
-                                    <option value="5">5 Min</option><option value="10" selected>10 Min</option><option value="15">15 Min</option><option value="30">30 Min</option>
+                                <label for="time-limit-select" class="block text-[8px] font-bold text-cyan-500 mb-0.5 uppercase tracking-widest truncate" data-i18n="timeLimit">Tiempo</label>
+                                <select id="time-limit-select" class="neon-input w-full px-1 py-0.5 text-[9px] rounded font-bold">
+                                    <option value="5">5 M</option><option value="10" selected>10 M</option><option value="15">15 M</option><option value="30">30 M</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <div class="flex-1">
-                            <label for="sectors-select" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest">
-                                <span data-i18n="sectorsCount">Sectores Activos</span>
-                            </label>
-                            <select id="sectors-select" class="neon-input w-full p-1.5 rounded-lg font-bold text-xs">
-                                <option value="0" selected data-i18n="sec0">0 (Solo Meta)</option>
-                                <option value="1" data-i18n="sec1">1 (+ Meta)</option>
-                                <option value="2" data-i18n="sec2">2 (+ Meta)</option>
-                                <option value="3" data-i18n="sec3">3 (+ Meta)</option>
-                                <option value="4" data-i18n="sec4">4 (+ Meta)</option>
+                        <div class="col-span-1">
+                            <label for="sectors-select" class="block text-[8px] font-bold text-cyan-500 mb-0.5 uppercase tracking-widest truncate" data-i18n="sectorsCount">Sectores</label>
+                            <select id="sectors-select" class="neon-input w-full px-1 py-0.5 rounded font-bold text-[9px]">
+                                <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option>
+                                <option value="3">3</option><option value="4">4</option>
                             </select>
                         </div>
-                        <div class="w-1/3">
-                            <label for="safety-time-select" class="block text-[9px] font-bold text-red-400 mb-1 uppercase tracking-widest">
-                                <span data-i18n="safetyTime">Anti-Rebote</span>
-                            </label>
-                            <select id="safety-time-select" class="neon-input w-full p-1.5 rounded-lg text-xs font-bold border-red-500/30 focus:border-red-400">
-                                <option value="500" data-i18n="05sec">0.5s</option><option value="1000" data-i18n="1sec">1s</option>
-                                <option value="3000" selected data-i18n="3sec">3s (Std)</option><option value="5000" data-i18n="5sec">5s</option>
+                        <div class="col-span-1">
+                            <label for="safety-time-select" class="block text-[8px] font-bold text-red-400 mb-0.5 uppercase tracking-widest truncate" data-i18n="safetyTime">Anti-Reb.</label>
+                            <select id="safety-time-select" class="neon-input w-full px-1 py-0.5 rounded text-[9px] font-bold border-red-500/30">
+                                <option value="500">0.5s</option><option value="1000">1s</option>
+                                <option value="3000" selected>3s</option><option value="5000">5s</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-4 mb-2 border-b border-cyan-800/50 pb-3">
-                    <div class="flex items-center justify-between mb-1">
-                        <label for="voice-toggle" class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest" data-i18n="engineerVoice">Voz Ingeniero:</label>
-                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                            <input type="checkbox" name="voice-toggle" id="voice-toggle" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-slate-900 border-2 border-cyan-500 appearance-none cursor-pointer" checked/>
-                            <label for="voice-toggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-800 cursor-pointer border border-cyan-900/80"></label>
-                        </div>
+                <div class="mt-1 border-t border-cyan-800/50 pt-1">
+                    <h2 class="text-[9px] font-orbitron font-bold text-cyan-300 mb-1 flex items-center justify-start uppercase tracking-widest">
+                        <span data-i18n="aiSens">Sensibilidad IA Individual</span>
+                    </h2>
+                    <!-- Aquí se inyectan los sliders individuales de la IA -->
+                    <div id="individual-sensitivity-container" class="grid grid-cols-2 gap-1">
                     </div>
-                </div>
-
-                <h2 class="text-xs font-orbitron font-bold text-cyan-300 mt-2 mb-2 border-b border-cyan-800/50 pb-1 flex items-center justify-start uppercase tracking-widest">
-                    <span data-i18n="aiSens">Sensibilidad Individual</span>
-                </h2>
-                <div id="individual-sensitivity-container" class="space-y-3 mt-3">
-                    <!-- Sliders generados por JS -->
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modales Globales -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-5xl">
             <div class="flex justify-between items-center border-b border-cyan-500/50 pb-3 mb-6">
@@ -636,15 +647,10 @@
                 <p class="text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] font-orbitron">Recuperando Telemetría...</p>
             </div>
 
-            <!-- TAB 1: PÓDIUM Y PARRILLA -->
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
-                
-                <!-- Pódium F1 Style -->
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-2 min-h-[250px] pt-10">
-                    <!-- Generado por JS -->
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 min-h-[200px] pt-10">
                 </div>
 
-                <!-- Tabla del resto de la parrilla (P4 a P25) con GAP -->
                 <table id="f1-grid-table" class="w-full text-left text-sm bg-slate-900/60 rounded-xl border border-cyan-900/60 overflow-hidden shadow-lg hidden">
                     <thead class="bg-slate-800/80 border-b border-cyan-800">
                         <tr>
@@ -655,22 +661,17 @@
                         </tr>
                     </thead>
                     <tbody id="ranking-top25-body" class="divide-y divide-slate-800">
-                        <!-- Generado por JS -->
                     </tbody>
                 </table>
                 <p id="ranking-top25-empty" class="text-center text-cyan-600/60 mt-8 hidden font-bold tracking-widest text-xs uppercase">No hay registros de telemetría para este circuito.</p>
             </div>
 
-            <!-- TAB 2: VUELTA PERFECTA (ULTIMATE LAP) -->
             <div id="ranking-view-sectors" class="hidden overflow-y-auto max-h-[60vh] pr-2">
                 <div class="bg-slate-900/60 p-6 rounded-xl border border-cyan-800/60 mb-4 shadow-lg flex flex-col items-center">
                     <h4 class="text-xs text-cyan-500 mb-2 font-bold uppercase tracking-widest text-center">Límite Físico Teórico del Circuito</h4>
                     <p id="ultimate-lap-time" class="text-5xl font-orbitron font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] mb-2 tracking-wider">--.---</p>
                     <p class="text-[10px] text-cyan-600 font-bold text-center uppercase tracking-widest max-w-lg mb-6">Esta "Vuelta Perfecta" es la suma de los récords absolutos individuales de cada sector, demostrando el ritmo máximo posible si se unieran todos los tramos perfectos.</p>
-                    
-                    <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
-                        <!-- Generado por JS -->
-                    </div>
+                    <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full"></div>
                     <p id="ranking-sectors-empty" class="text-center text-cyan-600/60 mt-6 hidden font-bold tracking-widest text-xs uppercase">Aún no hay sectores registrados para construir la Vuelta Perfecta.</p>
                 </div>
             </div>
@@ -743,18 +744,64 @@
                 <p id="no-history-msg" class="text-center text-cyan-700 mt-4 hidden font-bold uppercase tracking-widest text-[10px]" data-i18n="noHistory">No hay carreras registradas aún.</p>
             </div>
             <div class="mt-4 flex justify-end">
-                <button id="open-confirm-btn" class="bg-transparent border border-red-500/50 hover:bg-red-900/50 text-red-400 px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-colors" data-i18n="clearHistory">Borrar Historial</button>
+                <button id="open-confirm-btn" class="bg-transparent border border-red-500/50 hover:bg-red-900/50 text-red-400 px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-colors" data-i18n="clearHistory">Restaurar de Fábrica (Peligro)</button>
             </div>
         </div>
     </div>
 
     <div id="confirmModal" class="modal-overlay hidden" style="z-index: 200;">
         <div class="modal-content p-6 w-full max-w-sm text-center border-red-500/50 shadow-[0_0_30px_rgba(239,68,68,0.2)]">
-            <h3 class="text-lg font-orbitron font-bold text-red-400 uppercase tracking-widest" data-i18n="clearHistoryQ">¿Borrar Historial?</h3>
-            <p class="text-slate-400 text-xs mt-2 mb-6 font-bold tracking-widest uppercase" data-i18n="cannotUndo">Esta acción no se puede deshacer.</p>
+            <h3 class="text-lg font-orbitron font-bold text-red-400 uppercase tracking-widest" data-i18n="clearHistoryQ">¿Restaurar Todo?</h3>
+            <p class="text-slate-400 text-xs mt-2 mb-6 font-bold tracking-widest uppercase" data-i18n="cannotUndo">Se borrarán TODAS las pistas, coches y vueltas. Irreversible.</p>
             <div class="flex justify-center space-x-3">
                 <button id="cancel-clear-btn" class="px-4 py-2 bg-transparent border border-slate-600 hover:bg-slate-800 text-slate-300 rounded-lg font-bold text-xs tracking-widest uppercase" data-i18n="cancel">Cancelar</button>
-                <button id="confirm-clear-btn" class="px-4 py-2 bg-red-900/60 hover:bg-red-800 text-red-200 border border-red-500 rounded-lg font-bold text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(239,68,68,0.4)]" data-i18n="yesClear">Sí, Borrar</button>
+                <button id="confirm-clear-btn" class="px-4 py-2 bg-red-900/60 hover:bg-red-800 text-red-200 border border-red-500 rounded-lg font-bold text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(239,68,68,0.4)]" data-i18n="yesClear">Sí, Borrar Todo</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="videosModal" class="modal-overlay hidden" style="z-index: 150;">
+        <div class="modal-content p-6 w-full max-w-4xl border-fuchsia-500/50 shadow-[0_0_50px_rgba(232,121,249,0.3)]">
+             <div class="flex justify-between items-center border-b border-fuchsia-500/50 pb-3 mb-4">
+                <h3 class="text-2xl font-orbitron font-black text-fuchsia-300 uppercase tracking-widest flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    Centro de Videos
+                </h3>
+                <button id="close-videos-btn" class="text-slate-500 hover:text-white font-bold text-3xl transition-colors">×</button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                <button class="tutorial-vid-btn flex flex-col items-center justify-center bg-slate-900/60 border border-fuchsia-800 hover:border-fuchsia-400 hover:bg-fuchsia-900/40 p-6 rounded-xl transition group shadow-inner" data-src="1.mp4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-3 text-fuchsia-500/50 group-hover:text-fuchsia-400 group-hover:scale-110 transition-all"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <span class="text-fuchsia-400 font-bold uppercase tracking-[0.2em] text-sm group-hover:text-white transition-colors">Video 1</span>
+                </button>
+                <button class="tutorial-vid-btn flex flex-col items-center justify-center bg-slate-900/60 border border-fuchsia-800 hover:border-fuchsia-400 hover:bg-fuchsia-900/40 p-6 rounded-xl transition group shadow-inner" data-src="2.mp4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-3 text-fuchsia-500/50 group-hover:text-fuchsia-400 group-hover:scale-110 transition-all"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <span class="text-fuchsia-400 font-bold uppercase tracking-[0.2em] text-sm group-hover:text-white transition-colors">Video 2</span>
+                </button>
+                <button class="tutorial-vid-btn flex flex-col items-center justify-center bg-slate-900/60 border border-fuchsia-800 hover:border-fuchsia-400 hover:bg-fuchsia-900/40 p-6 rounded-xl transition group shadow-inner" data-src="3.mp4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-3 text-fuchsia-500/50 group-hover:text-fuchsia-400 group-hover:scale-110 transition-all"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <span class="text-fuchsia-400 font-bold uppercase tracking-[0.2em] text-sm group-hover:text-white transition-colors">Video 3</span>
+                </button>
+                <button class="tutorial-vid-btn flex flex-col items-center justify-center bg-slate-900/60 border border-fuchsia-800 hover:border-fuchsia-400 hover:bg-fuchsia-900/40 p-6 rounded-xl transition group shadow-inner" data-src="4.mp4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-3 text-fuchsia-500/50 group-hover:text-fuchsia-400 group-hover:scale-110 transition-all"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <span class="text-fuchsia-400 font-bold uppercase tracking-[0.2em] text-sm group-hover:text-white transition-colors">Video 4</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="guideModal" class="modal-overlay hidden" style="z-index: 150;">
+        <div class="modal-content p-6 w-full max-w-4xl border-teal-500/50 shadow-[0_0_50px_rgba(45,212,191,0.3)]">
+             <div class="flex justify-between items-center border-b border-teal-500/50 pb-3 mb-4">
+                <h3 class="text-2xl font-orbitron font-black text-teal-300 uppercase tracking-widest flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    Guía de Usuario
+                </h3>
+                <button id="close-guide-btn" class="text-slate-500 hover:text-white font-bold text-3xl transition-colors">×</button>
+            </div>
+            <div class="text-center py-16 bg-slate-900/40 rounded-xl border border-slate-700/50 shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mx-auto mb-4 text-teal-500/50"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <p class="text-teal-400 font-bold uppercase tracking-[0.2em] text-sm">Próximamente: Manual completo de instrucciones</p>
             </div>
         </div>
     </div>
@@ -840,7 +887,6 @@
                 
                 <!-- COLUMNA DERECHA (DASHBOARD) -->
                 <div class="w-full lg:w-[65%] flex flex-col gap-5 overflow-y-auto pr-1">
-                    
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 shrink-0">
                         <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-emerald-500 shadow-[0_0_15px_#10b981]"></div>
@@ -872,17 +918,6 @@
                     <div class="flex-1 min-h-[180px] bg-slate-900/40 border border-blue-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                         <span class="text-[10px] font-bold text-blue-400 mb-3 uppercase tracking-widest border-b border-blue-800/50 pb-1.5">Desempeño Histórico (Últimas 50 vueltas)</span>
                         <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
-                    </div>
-                    
-                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0">
-                        <div class="flex-1 bg-slate-900/40 border border-amber-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-amber-500 mb-3 uppercase tracking-widest border-b border-amber-800/50 pb-1.5">Consistencia (Gap)</span>
-                            <div class="flex-1 relative w-full"><canvas id="garageChartConsistency"></canvas></div>
-                        </div>
-                        <div class="flex-1 bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-purple-400 mb-3 uppercase tracking-widest border-b border-purple-800/50 pb-1.5">Distribución Sectores</span>
-                            <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -936,16 +971,6 @@
                             <p id="c-stat-laps" class="text-white font-orbitron font-bold text-xl">0</p>
                             <p class="text-[8px] text-slate-400 font-bold truncate mt-2 tracking-widest uppercase">En esta pista</p>
                         </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
-                            <div class="absolute top-0 left-0 w-full h-[2px] bg-purple-500"></div>
-                            <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1">Distancia</p>
-                            <p id="c-stat-distance" class="text-white font-orbitron font-bold text-sm">0.00 km</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
-                            <div class="absolute top-0 left-0 w-full h-[2px] bg-amber-500"></div>
-                            <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1">Tiempo Acum.</p>
-                            <p id="c-stat-time" class="text-white font-orbitron font-bold text-sm truncate">0h 0m</p>
-                        </div>
                         <div class="col-span-2 bg-slate-900/60 p-3 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[2px] bg-cyan-500"></div>
                             <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1">Velocidad Media (Real / Escala)</p>
@@ -976,7 +1001,6 @@
                                     <p class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin vista aérea</p>
                                 </div>
                             </div>
-                            <!-- BOTÓN ESCANEO (Aprovechando lateral) -->
                             <div class="w-full lg:w-1/3 flex flex-col items-center justify-center gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 shadow-inner">
                                 <button id="circuit-capture-btn" class="w-full bg-slate-800 border-2 border-emerald-500 hover:bg-emerald-900/60 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-widest py-5 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col items-center justify-center transition group relative overflow-hidden">
                                     <div class="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition"></div>
@@ -984,19 +1008,14 @@
                                     <span class="z-10">Capturar ROIs</span>
                                     <span class="text-[8px] text-emerald-500 mt-1 z-10 font-bold">(IMAGEN + POSICIONES)</span>
                                 </button>
-                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras IA en pista antes de capturar el mapa.</p>
+                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras en pista antes de capturar el mapa.</p>
                             </div>
                         </div>
                     </div>
-
                     <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0">
                         <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Ritmo de Carrera (Últimas 50 Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartEvolution"></canvas></div>
-                        </div>
-                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-cyan-400 mb-3 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Tiempos Medios por Sector</span>
-                            <div class="flex-1 relative w-full"><canvas id="circuitChartSectors"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -1013,7 +1032,7 @@
                 lapLimit: "Límite", timeLimit: "Tiempo", limitLabel: "Límite",
                 sectorsCount: "Sectores", sec0: "0 (Solo Meta)", sec1: "1 (+ Meta)", sec2: "2 (+ Meta)", sec3: "3 (+ Meta)", sec4: "4 (+ Meta)",
                 safetyTime: "Anti-Rebote", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
-                engineerVoice: "Voz Ing.", aiSens: "Sensibilidad", verySens: "Sensible", lessSens: "Inmune",
+                engineerVoice: "Voz Ing.", aiSens: "Sensibilidad IA", verySens: "Sensible", lessSens: "Inmune",
                 raceTime: "TIEMPO", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR",
                 videoTitle: "Cámara y Sectores", autoCalib: "Calibrar", newRecord: "¡RÉCORD!",
                 calibrating: "Calibrando...", clearTrack: "Despeja la pista",
@@ -1022,10 +1041,10 @@
                 lastLapSectors: "TIEMPOS SECTOR", timeGraph: "Evolución de Tiempos", noData: "Sin datos",
                 raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
                 restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "Vacío.",
-                clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
+                clearHistory: "Restaurar todo", clearHistoryQ: "¿Restaurar Todo?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí, Borrar",
                 pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
                 "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "Inf",
-                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje"
+                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía"
             },
             en: {
                 langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit", ranking: "Ranking",
@@ -1034,7 +1053,7 @@
                 lapLimit: "Limit", timeLimit: "Time", limitLabel: "Limit",
                 sectorsCount: "Sectors", sec0: "0 (Finish)", sec1: "1 (+ Finish)", sec2: "2 (+ Finish)", sec3: "3 (+ Finish)", sec4: "4 (+ Finish)",
                 safetyTime: "Debounce", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
-                engineerVoice: "Voice:", aiSens: "Master Sensitivity", verySens: "Sens", lessSens: "Immune",
+                engineerVoice: "Voice:", aiSens: "AI Sensitivity", verySens: "Sens", lessSens: "Immune",
                 raceTime: "TIME", laps: "LAPS", start: "START", reset: "RESET",
                 videoTitle: "Cam & Sectors", autoCalib: "Calibrate", newRecord: "RECORD!",
                 calibrating: "Calibrating...", clearTrack: "Clear track",
@@ -1043,20 +1062,19 @@
                 lastLapSectors: "SECTOR TIMES", timeGraph: "Lap Graph", noData: "No data",
                 raceFinished: "Finished!", totalTime: "Total", avg: "Avg", lapDetail: "Details", time: "Total",
                 restartFull: "RESTART", exportExcel: "Excel", historyTitle: "History", date: "DATE", noHistory: "Empty.",
-                clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
+                clearHistory: "Factory Reset", clearHistoryQ: "Reset All?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
                 pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
                 "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "Inf",
-                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage"
+                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide"
             }
         };
         translations.fr = translations.en; 
         let currentLang = 'es';
 
         let garageCars = []; let currentGarageCarId = null;
-        let garageChartEvol = null; let garageChartCons = null; let garageChartSect = null;
-
+        let garageChartEvol = null; let garageChartCons = null;
         let circuits = []; let currentCircuitId = null;
-        let circuitChartEvol = null; let circuitChartSect = null;
+        let circuitChartEvol = null;
 
         const MAX_ROIS = 5; let activeRoisCount = 1; let roisState = []; let currentTargetRoi = 0; let blindTimeMs = 3000;
         let cameraStream = null, isProcessing = false, isRaceActive = false, isCountdown = false, raceAborted = false;
@@ -1104,7 +1122,6 @@
 
         const videoElement = document.getElementById('webcam-feed'); const videoContainer = document.getElementById('video-container');
         const calibOverlay = document.getElementById('calib-overlay'); const testMsg = document.querySelector('.test-msg');
-        
         const synth = new Tone.Synth().toDestination(); const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
 
         for (let i = 0; i < MAX_ROIS; i++) {
@@ -1114,7 +1131,7 @@
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
-        function getClientCoords(e) { return { x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.touches ? e.touches[0].clientX : e.clientX, y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.touches ? e.touches[0].clientY : e.clientY }; }
+        function getClientCoords(e) { return { x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX, y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY }; }
         function getPct(el, prop) { return parseFloat(el.style[prop].replace('%', '')) || 0; }
 
         function startAction(e, type, dir = '') {
@@ -1160,7 +1177,7 @@
         }
 
         document.querySelectorAll('.roi-box').forEach(box => {
-            box.addEventListener('pointerdown', e => { if (!e.target.classList.contains('resize-handle')) startAction(e, 'drag'); });
+            box.addEventListener('pointerdown', e => { if (!e.target.classList.contains('resize-handle') && !e.target.classList.contains('roi-auto-btn')) startAction(e, 'drag'); });
             box.querySelector('.handle-tl').addEventListener('pointerdown', e => startAction(e, 'resize', 'tl'));
             box.querySelector('.handle-br').addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
         });
@@ -1199,10 +1216,7 @@
                 
                 const isTarget = (!isCalibrating && isRaceActive && currentTargetRoi === i);
 
-                if (rState.baseBri === null) {
-                    rState.baseBri = currentBri;
-                }
-                
+                if (rState.baseBri === null) rState.baseBri = currentBri;
                 const diff = Math.abs(currentBri - rState.baseBri); 
                 const crossed = diff > rState.sensitivity;
 
@@ -1234,14 +1248,9 @@
                         } else {
                             if (crossed) { 
                                 box.classList.add('roi-locked'); rState.baseBri = (rState.baseBri * 0.9) + (currentBri * 0.1); 
-                            } 
-                            else { 
+                            } else { 
                                 rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none"; 
-                                rState.isSilentCalibrating = true;
-                                rState.silentFrames = 0;
-                                rState.silentSum = 0;
-                                rState.silentMin = currentBri;
-                                rState.silentMax = currentBri;
+                                rState.isSilentCalibrating = true; rState.silentFrames = 0; rState.silentSum = 0; rState.silentMin = currentBri; rState.silentMax = currentBri;
                             }
                         }
                     } else {
@@ -1251,25 +1260,17 @@
                             if (currentBri > rState.silentMax) rState.silentMax = currentBri;
                             rState.silentFrames++;
                             if (rState.silentFrames >= 30) {
-                                const avg = rState.silentSum / 30;
-                                rState.baseBri = avg; 
-                                
+                                const avg = rState.silentSum / 30; rState.baseBri = avg; 
                                 const noise = Math.max(rState.silentMax - avg, avg - rState.silentMin);
                                 const recommendedSens = Math.max(12, Math.ceil(noise * 1.5));
-                                
-                                let currentSens = rState.sensitivity || 20;
-                                let learnedSens = Math.round((currentSens * 0.7) + (recommendedSens * 0.3));
-                                
+                                let learnedSens = Math.round((rState.sensitivity * 0.7) + (recommendedSens * 0.3));
                                 rState.sensitivity = learnedSens;
                                 if (window.updateRoiSens) window.updateRoiSens(i, learnedSens);
-                                
                                 rState.isSilentCalibrating = false;
                             }
                         }
-
                         if (crossed && isTarget) {
-                            rState.isSilentCalibrating = false; 
-                            rState.blocked = true; rState.lastRec = now; handleHit(i, now);
+                            rState.isSilentCalibrating = false; rState.blocked = true; rState.lastRec = now; handleHit(i, now);
                             msgEl.textContent = translations[currentLang].testGo; msgEl.style.display = "block";
                             setTimeout(() => { if(isRaceActive && !rState.blocked) msgEl.style.display = 'none'; }, 1000);
                         }
@@ -1308,8 +1309,7 @@
         }
 
         function recordLap(lapTime, sectorsArray) {
-            lastCompletedLapTime = lapTime;
-            const isBest = (lapTime < bestLapTime); 
+            lastCompletedLapTime = lapTime; const isBest = (lapTime < bestLapTime); 
             if (isBest) { bestLapTime = lapTime; bestLapSectors = [...sectorsArray]; }
             
             totalLapTime += lapTime; currentAverageTime = totalLapTime / (lapHistory.length + 1);
@@ -1359,12 +1359,10 @@
                 let prevLapSectors = null; if (lapHistory.length > 1) prevLapSectors = lapHistory[lapHistory.length - 2].sectors;
 
                 lastCompletedSectors.forEach((secTime, idx) => {
-                    const rIdx = (idx + 1) % activeRoisCount; const tagClass = rIdx === 0 ? 'meta' : roisState[rIdx].tag;
-                    let deltaHtml = "";
+                    const rIdx = (idx + 1) % activeRoisCount; const tagClass = rIdx === 0 ? 'meta' : roisState[rIdx].tag; let deltaHtml = "";
                     if (prevLapSectors && prevLapSectors[idx]) {
                         const diff = secTime - prevLapSectors[idx]; const diffSec = (Math.abs(diff) / 1000).toFixed(3);
-                        if (diff < 0) deltaHtml = `<span class="text-emerald-400 font-bold ml-1 text-[10px]">(-${diffSec})</span>`;
-                        else deltaHtml = `<span class="text-red-400 font-bold ml-1 text-[10px]">(+${diffSec})</span>`;
+                        if (diff < 0) deltaHtml = `<span class="text-emerald-400 font-bold ml-1 text-[10px]">(-${diffSec})</span>`; else deltaHtml = `<span class="text-red-400 font-bold ml-1 text-[10px]">(+${diffSec})</span>`;
                     }
                     display.innerHTML += `<div class="flex items-center mr-4 mb-2"><span class="sector-tag ${tagClass}">${tagClass.toUpperCase()}</span><span class="font-orbitron font-bold text-white">${formatTime(secTime, false)}</span>${deltaHtml}</div>`;
                 });
@@ -1402,12 +1400,7 @@
             document.getElementById('false-start-alert').classList.remove('show'); document.getElementById('sectors-telemetry-container').classList.add('hidden');
             
             for(let i=0; i<MAX_ROIS; i++) { 
-                if(i < activeRoisCount) { 
-                    roisState[i].el.classList.add('active'); 
-                    roisState[i].baseBri = null; 
-                    roisState[i].blocked = false; 
-                    roisState[i].isSilentCalibrating = false;
-                } 
+                if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; roisState[i].blocked = false; roisState[i].isSilentCalibrating = false; } 
                 else { roisState[i].el.classList.remove('active'); } 
             }
             const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
@@ -1530,24 +1523,24 @@
             lapHistory.forEach(l => {
                 const row = document.createElement('tr'); if(l.time === bestLapTime) row.className = "bg-emerald-900/40 text-emerald-200 border-l-4 border-emerald-400";
                 let tdHtml = `<td class="py-2 px-3 font-orbitron">${l.lap}</td>`;
-                if(activeRoisCount > 1 && l.sectors) { 
-                    for(let i=0; i<activeRoisCount-1; i++) tdHtml += `<td class="py-2 px-3 text-cyan-400/70 font-orbitron">${l.sectors[i] ? (l.sectors[i]/1000).toFixed(3) : '-'}</td>`; 
-                }
+                if(activeRoisCount > 1 && l.sectors) { for(let i=0; i<activeRoisCount-1; i++) tdHtml += `<td class="py-2 px-3 text-cyan-400/70 font-orbitron">${l.sectors[i] ? (l.sectors[i]/1000).toFixed(3) : '-'}</td>`; }
                 tdHtml += `<td class="py-2 px-3 font-bold font-orbitron text-right">${(l.time/1000).toFixed(3)}</td>`; row.innerHTML = tdHtml; tbody.appendChild(row);
             });
         }
 
         function drawLapGraph() {
             const canvas = document.getElementById('lap-graph-canvas'); const ctx = canvas.getContext('2d');
-            const w = Math.max(100, (canvas.parentElement.offsetWidth || 300) - 32); canvas.width = w; canvas.height = 120;
-            if (!lapHistory.length) { ctx.clearRect(0,0,w,120); return; } document.getElementById('graph-status').textContent="";
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const w = Math.max(100, rect.width); const h = Math.max(40, rect.height);
+            canvas.width = w; canvas.height = h;
+            if (!lapHistory.length) { ctx.clearRect(0,0,w,h); return; } document.getElementById('graph-status').textContent="";
             const times = lapHistory.map(l=>l.time); const max = Math.max(...times); const min = Math.min(...times);
-            const range = max-min || 1; const pad = 10; const gw = w-pad*2; const gh = 120-pad*2; const barW = (gw / times.length) - 2;
+            const range = max-min || 1; const pad = 4; const gw = w-pad*2; const gh = h-pad*2; const barW = (gw / times.length) - 2;
             
-            ctx.clearRect(0,0,w,120);
+            ctx.clearRect(0,0,w,h);
             times.forEach((t, i) => {
                 const normalizedH = range===0 ? gh*0.7 : (gh * (1 - (t-min)/range)*0.8 + gh*0.2);
-                const x = pad + i * (barW + 2); const y = 120 - pad - normalizedH;
+                const x = pad + i * (barW + 2); const y = h - pad - normalizedH;
                 ctx.fillStyle = (t===bestLapTime) ? '#34d399' : '#0ea5e9'; 
                 if(t===bestLapTime) { ctx.shadowColor = '#34d399'; ctx.shadowBlur = 10; } else { ctx.shadowBlur = 0; }
                 ctx.fillRect(x, y, barW, normalizedH);
@@ -1582,138 +1575,6 @@
             try { let localLB = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]'); localLB.push(record); localStorage.setItem('krono_leaderboards_v4', JSON.stringify(localLB)); } catch(e) {}
             if(!window.userId || !window.fs || !window.db) return;
             try { await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'leaderboards'), record); } catch (e) { }
-        }
-
-        function buildPodiumCard(r, pos, leaderTime) {
-            let height = pos === 1 ? 'h-36' : (pos === 2 ? 'h-28' : 'h-24');
-            let bg = pos === 1 ? 'bg-gradient-to-t from-yellow-700/60 to-yellow-500/20 border-yellow-400' :
-                     (pos === 2 ? 'bg-gradient-to-t from-slate-500/60 to-slate-400/20 border-slate-300' :
-                                  'bg-gradient-to-t from-amber-800/60 to-amber-700/20 border-amber-600');
-            let textColor = pos === 1 ? 'text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]' : 
-                            (pos === 2 ? 'text-slate-200 drop-shadow-[0_0_10px_rgba(203,213,225,0.8)]' : 
-                                         'text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]');
-            let gapStr = pos === 1 ? 'LEADER' : '+' + ((r.time - leaderTime)/1000).toFixed(3);
-
-            let imgHtml = r.carImage ? `<img src="${r.carImage}" class="relative w-16 h-16 object-cover rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(56,189,248,0.6)] mb-2 z-20 bg-slate-900" />` : `<div class="relative w-16 h-16 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center mb-2 z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
-
-            return `
-                <div class="flex flex-col items-center justify-end w-[30%] max-w-[200px] transform ${pos===1?'scale-110 z-10':''}">
-                    ${imgHtml}
-                    <div class="font-orbitron font-black text-xl ${textColor} mb-1 z-20 relative">${formatTime(r.time, false)}</div>
-                    <div class="font-bold text-[9px] text-white/50 uppercase tracking-widest mb-2 z-20 relative">${gapStr}</div>
-                    <div class="w-full ${height} ${bg} border-t-4 rounded-t-xl flex flex-col items-center justify-start pt-3 shadow-[0_-5px_25px_rgba(0,0,0,0.5)] relative z-10">
-                        <span class="text-4xl font-black ${textColor} opacity-30 leading-none">${pos}</span>
-                        <span class="font-bold text-white text-sm truncate w-full text-center px-2 uppercase mt-2">${r.pilot}</span>
-                        <span class="font-light text-cyan-200/70 text-[10px] truncate w-full text-center px-2 tracking-widest">${r.car}</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        async function fetchAndRenderRankings(circuitId) {
-            document.getElementById('ranking-loading').classList.remove('hidden');
-            document.getElementById('f1-podium-container').innerHTML = '';
-            document.getElementById('f1-podium-container').classList.add('hidden');
-            document.getElementById('ranking-top25-body').innerHTML = ''; 
-            document.getElementById('f1-grid-table').classList.add('hidden');
-            document.getElementById('ranking-sectors-grid').innerHTML = '';
-            document.getElementById('ranking-top25-empty').classList.add('hidden'); 
-            document.getElementById('ranking-sectors-empty').classList.add('hidden');
-            let records = [];
-
-            if (window.userId && window.fs && window.db) {
-                try {
-                    const q = window.fs.query(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'leaderboards'), window.fs.where('circuitId', '==', circuitId));
-                    const snap = await window.fs.getDocs(q); snap.forEach(d => records.push(d.data()));
-                } catch(e) { }
-            } 
-            if (records.length === 0) { try { records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => r.circuitId === circuitId); } catch(e) {} }
-
-            records.sort((a, b) => a.time - b.time);
-            
-            // F1 Grid: Best unique Pilot+Car combo
-            let uniqueEntries = new Set(); let top25 = [];
-            for (let r of records) {
-                let key = r.pilot + "_" + r.car;
-                if(!uniqueEntries.has(key)) { uniqueEntries.add(key); top25.push(r); if(top25.length >= 25) break; }
-            }
-
-            if (top25.length === 0) { 
-                document.getElementById('ranking-top25-empty').classList.remove('hidden'); 
-            } else {
-                const leaderTime = top25[0].time;
-                const podiumContainer = document.getElementById('f1-podium-container');
-                podiumContainer.classList.remove('hidden');
-                
-                let p2 = top25[1] ? buildPodiumCard(top25[1], 2, leaderTime) : `<div class="w-[30%] max-w-[200px]"></div>`;
-                let p1 = top25[0] ? buildPodiumCard(top25[0], 1, leaderTime) : `<div class="w-[30%] max-w-[200px]"></div>`;
-                let p3 = top25[2] ? buildPodiumCard(top25[2], 3, leaderTime) : `<div class="w-[30%] max-w-[200px]"></div>`;
-                podiumContainer.innerHTML = p2 + p1 + p3;
-
-                if (top25.length > 3) {
-                    const gridTable = document.getElementById('f1-grid-table');
-                    gridTable.classList.remove('hidden');
-                    const tbody = document.getElementById('ranking-top25-body');
-                    for (let i = 3; i < top25.length; i++) {
-                        let r = top25[i];
-                        let gap = r.time - leaderTime;
-                        let rowImgHtml = r.carImage ? `<img src="${r.carImage}" class="w-10 h-10 object-cover rounded-lg border border-cyan-700/50 mr-3 shadow-md bg-slate-900" />` : `<div class="w-10 h-10 rounded-lg border border-slate-700/50 bg-slate-800/80 flex items-center justify-center mr-3 shadow-inner"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
-
-                        const tr = document.createElement('tr');
-                        tr.className = "hover:bg-slate-800/50 transition-colors";
-                        tr.innerHTML = `<td class="p-3 text-center text-slate-400 font-bold text-lg align-middle">${i + 1}</td>
-                                        <td class="p-3 flex items-center">
-                                            ${rowImgHtml}
-                                            <div class="flex flex-col justify-center"><span class="block text-white font-bold text-sm leading-tight">${r.pilot}</span><span class="text-[9px] text-cyan-500/70 font-bold tracking-widest uppercase leading-tight mt-0.5">${r.car}</span></div>
-                                        </td>
-                                        <td class="p-3 text-right text-cyan-300 font-orbitron font-bold text-base align-middle">${formatTime(r.time, false)}</td>
-                                        <td class="p-3 text-right font-orbitron text-red-400 font-bold text-sm align-middle">+${(gap/1000).toFixed(3)}</td>`;
-                        tbody.appendChild(tr);
-                    }
-                }
-            }
-
-            // F1 Ultimate Lap (Sectores)
-            let bestSectors = [];
-            const activeCircuit = circuits.find(c => c.id === circuitId);
-            const numSectorsCircuit = activeCircuit ? parseInt(activeCircuit.activeSectorsSelectValue || "0") + 1 : null;
-
-            records.forEach(r => {
-                if(r.sectors && r.sectors.length > 0) {
-                    if (numSectorsCircuit === null || r.sectors.length === numSectorsCircuit) {
-                        r.sectors.forEach((secTime, idx) => {
-                            if (secTime > 0) {
-                                if(!bestSectors[idx] || secTime < bestSectors[idx].time) { bestSectors[idx] = { time: secTime, pilot: r.pilot, car: r.car }; }
-                            }
-                        });
-                    }
-                }
-            });
-
-            if (bestSectors.length === 0) { 
-                document.getElementById('ranking-sectors-empty').classList.remove('hidden');
-                document.getElementById('ultimate-lap-time').textContent = "--.---";
-            } else {
-                const grid = document.getElementById('ranking-sectors-grid');
-                let ultimateLapSum = 0;
-
-                bestSectors.forEach((sec, idx) => {
-                    if (sec) {
-                        ultimateLapSum += sec.time;
-                        const isMeta = (idx === bestSectors.length - 1); const secLabel = isMeta ? 'META' : `SEC ${idx + 1}`; const secClass = isMeta ? 'meta' : (idx===0?'s1':(idx===1?'s2':(idx===2?'s3':'s4')));
-                        grid.innerHTML += `<div class="sector-card ${secClass} bg-slate-800/80 border-cyan-700/50">
-                                            <div class="bar"></div>
-                                            <h4 class="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mt-2">${secLabel}</h4>
-                                            <p class="text-2xl font-black font-orbitron text-white my-2 drop-shadow-md">${formatTime(sec.time, false)}</p>
-                                            <p class="text-[11px] font-bold text-emerald-400 truncate tracking-widest uppercase">${sec.pilot}</p>
-                                            <p class="text-[9px] text-slate-400 font-bold truncate tracking-widest uppercase">${sec.car}</p>
-                                        </div>`;
-                    }
-                });
-                document.getElementById('ultimate-lap-time').textContent = formatTime(ultimateLapSum, false);
-                document.getElementById('ultimate-lap-time').classList.add('text-purple-400', 'drop-shadow-[0_0_15px_rgba(192,132,252,0.8)]');
-            }
-            document.getElementById('ranking-loading').classList.add('hidden');
         }
 
         async function saveHistory() {
@@ -1751,34 +1612,21 @@
         window.calibrateSingleROI = async (roiIdx) => {
             if (!isProcessing || isCalibrating || isRaceActive) return;
             isCalibrating = true; 
-            
             const box = document.getElementById(`roi-${roiIdx}`);
-            const originalValContent = box.querySelector('.val-indicator').innerHTML;
             box.querySelector('.val-indicator').innerHTML = `<span class="animate-pulse text-white">CAL...</span>`;
             
-            let samples = 0; const frames = 60; 
-            let sum = 0; let min = 255; let max = 0;
-            
+            let samples = 0; const frames = 60; let sum = 0; let min = 255; let max = 0;
             function sample() {
                 const b = getROIBrightness(roisState[roiIdx].el); 
-                sum += b; 
-                if(b < min) min = b; 
-                if(b > max) max = b;
-                
+                sum += b; if(b < min) min = b; if(b > max) max = b;
                 samples++;
-                if (samples < frames) {
-                    requestAnimationFrame(sample);
-                } else {
-                    const avg = sum / frames; 
-                    roisState[roiIdx].baseBri = avg;
+                if (samples < frames) { requestAnimationFrame(sample); } else {
+                    const avg = sum / frames; roisState[roiIdx].baseBri = avg;
                     const noise = Math.max(max - avg, avg - min); 
-                    
                     const recommendedSensitivity = Math.max(15, Math.ceil(noise * 1.5));
                     roisState[roiIdx].sensitivity = recommendedSensitivity;
-                    
                     box.querySelector('.val-indicator').innerHTML = `Val: ${avg.toFixed(0)} | Sens: ${recommendedSensitivity}`;
-                    isCalibrating = false; 
-                    renderSensitivitiesUI();
+                    isCalibrating = false; renderSensitivitiesUI();
                     if (document.getElementById('voice-toggle').checked) synth.triggerAttackRelease("C6", "0.1");
                 }
             }
@@ -1798,12 +1646,10 @@
                         const avg = data[i].sum / frames; roisState[i].baseBri = avg;
                         const noise = Math.max(data[i].max - avg, avg - data[i].min); 
                         roisState[i].sensitivity = Math.max(15, Math.ceil(noise * 1.5));
-                        
                         const box = document.getElementById(`roi-${i}`);
                         const valInd = box.querySelector('.val-indicator');
                         if (valInd) valInd.innerHTML = `Val: ${avg.toFixed(0)} | Sens: ${roisState[i].sensitivity}`;
                     }
-                    
                     renderSensitivitiesUI();
                     isCalibrating = false; calibOverlay.classList.remove('active'); document.getElementById('calibrate-btn').disabled = false; speak(translations[currentLang].voiceCalibrated);
                 }
@@ -1811,75 +1657,91 @@
             sample();
         }
 
+        window.updateRoiSens = (idx, val) => {
+            roisState[idx].sensitivity = parseInt(val);
+            const box = document.getElementById(`roi-${idx}`);
+            const valInd = box.querySelector('.val-indicator');
+            if(valInd) {
+                const parts = valInd.innerHTML.split('|');
+                const currentBriText = parts[0] ? parts[0].trim() : 'Val: 0';
+                valInd.innerHTML = `${currentBriText} | Sens: ${val}`;
+            }
+            const sliderVal = document.getElementById(`sens-val-${idx}`);
+            if (sliderVal) sliderVal.textContent = val;
+        };
+
+        window.adjustRoiSens = (idx, dir) => {
+            let val = parseInt(roisState[idx].sensitivity) + dir;
+            if(val < 5) val = 5; if(val > 100) val = 100;
+            const slider = document.getElementById(`sens-slider-${idx}`);
+            if(slider) slider.value = val;
+            window.updateRoiSens(idx, val);
+        };
+
+        window.renderSensitivitiesUI = () => {
+            const container = document.getElementById('individual-sensitivity-container');
+            if(!container) return; container.innerHTML = '';
+            for(let i=0; i<activeRoisCount; i++) {
+                const tag = roisState[i].tag; const tagLabel = tag === 'meta' ? 'META' : 'S' + i;
+                const val = roisState[i].sensitivity || 20;
+                container.innerHTML += `
+                    <div class="bg-slate-900/60 p-1.5 rounded border border-cyan-900/50 shadow-inner flex flex-col justify-center">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[8px] font-bold text-cyan-400 uppercase tracking-widest">${tagLabel}</span>
+                            <span id="sens-val-${i}" class="text-[9px] font-black text-cyan-300 bg-slate-800 px-1 py-0.5 rounded border border-cyan-700/50">${val}</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="adjustRoiSens(${i}, -1)" class="w-4 h-4 rounded bg-slate-800 hover:bg-slate-700 text-cyan-500 font-bold border border-cyan-800 flex items-center justify-center shadow-sm text-[10px] leading-none pb-0.5">-</button>
+                            <input type="range" id="sens-slider-${i}" min="5" max="100" value="${val}" oninput="updateRoiSens(${i}, this.value)" class="flex-1 h-1 bg-slate-700 rounded-full appearance-none cursor-pointer accent-cyan-400">
+                            <button onclick="adjustRoiSens(${i}, 1)" class="w-4 h-4 rounded bg-slate-800 hover:bg-slate-700 text-cyan-500 font-bold border border-cyan-800 flex items-center justify-center shadow-sm text-[10px] leading-none pb-0.5">+</button>
+                        </div>
+                    </div>
+                `;
+            }
+        };
+
         document.getElementById('start-race-btn').addEventListener('click', startTrafficLight);
         document.getElementById('reset-race-btn').addEventListener('click', () => stopRace(false));
         document.getElementById('modal-restart-btn').addEventListener('click', () => { document.getElementById('resultsModal').classList.remove('open'); setTimeout(()=>document.getElementById('resultsModal').classList.add('hidden'),300); stopRace(false); });
         document.getElementById('export-excel-btn').addEventListener('click', exportToExcel);
         
+        document.getElementById('bg-image-input').addEventListener('change', (e) => {
+            const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
+            reader.onload = (ev) => {
+                const imgEl = document.getElementById('static-bg-img'); imgEl.src = ev.target.result;
+                imgEl.classList.remove('hidden'); videoElement.classList.add('hidden');
+                activeRoisCount = parseInt(document.getElementById('sectors-select').value) + 1;
+                for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
+                if(!cameraStream) { document.getElementById('video-status').textContent = "IMAGEN CARGADA"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase"; }
+            }; reader.readAsDataURL(file);
+        });
+
         document.getElementById('camera-on-btn').addEventListener('click', async () => {
             try {
                 const s = await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
                 cameraStream = s; videoElement.srcObject = s; videoElement.play(); 
+                document.getElementById('static-bg-img').classList.add('hidden'); videoElement.classList.remove('hidden');
                 activeRoisCount = parseInt(document.getElementById('sectors-select').value) + 1;
                 for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
                 isProcessing=true; processVideo(); document.getElementById('calibrate-btn').disabled=false;
                 document.getElementById('camera-on-btn').disabled=true; document.getElementById('camera-off-btn').disabled=false;
-                document.getElementById('video-status').textContent = "Sensor Activo"; document.getElementById('video-status').classList.replace('text-cyan-700/70', 'text-emerald-400');
+                document.getElementById('video-status').textContent = "Sensor Activo"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-emerald-400 font-bold tracking-widest uppercase";
             } catch(e) {}
         });
+
         document.getElementById('camera-off-btn').addEventListener('click', () => {
             if(cameraStream) cameraStream.getTracks().forEach(t=>t.stop());
             cameraStream=null; isProcessing=false; videoElement.srcObject=null;
             for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active');
+            const imgEl = document.getElementById('static-bg-img');
+            if (imgEl.src && imgEl.src !== window.location.href) {
+                imgEl.classList.remove('hidden'); videoElement.classList.add('hidden'); document.getElementById('video-status').textContent = "IMAGEN CARGADA"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase";
+                for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
+            } else { document.getElementById('video-status').textContent = "Sensor Inactivo"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-cyan-700/70 font-bold tracking-widest uppercase"; }
             document.getElementById('camera-on-btn').disabled=false; document.getElementById('camera-off-btn').disabled=true; document.getElementById('calibrate-btn').disabled=true;
-            document.getElementById('video-status').textContent = "Sensor Inactivo"; document.getElementById('video-status').classList.replace('text-emerald-400', 'text-cyan-700/70');
         });
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
-
-        window.renderSensitivitiesUI = () => {
-            const container = document.getElementById('individual-sensitivity-container');
-            if(!container) return;
-            container.innerHTML = '';
-            for(let i = 0; i < activeRoisCount; i++) {
-                const label = i === 0 ? 'META' : `SEC ${i}`;
-                const val = roisState[i].sensitivity || 20;
-                const colorClass = i === 0 ? 'text-white' : (i === 1 ? 'text-blue-400' : (i === 2 ? 'text-amber-400' : (i === 3 ? 'text-purple-400' : 'text-cyan-400')));
-                
-                const html = `
-                <div class="flex items-center space-x-2 bg-slate-900/40 p-2 rounded-lg border border-cyan-900/30">
-                    <span class="w-12 text-[10px] font-bold ${colorClass} uppercase tracking-widest">${label}</span>
-                    <button class="btn-adjust w-6 h-6 rounded flex items-center justify-center font-bold text-sm shadow-sm" onclick="adjustRoiSens(${i}, -1)">-</button>
-                    <div class="flex-1 relative flex items-center h-6">
-                        <input type="range" id="sens-slider-${i}" min="5" max="100" value="${val}" class="w-full h-1.5 bg-slate-700 rounded-full appearance-none cursor-pointer accent-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]" oninput="updateRoiSens(${i}, this.value)">
-                        <span id="sens-val-${i}" class="absolute -top-1 left-1/2 transform -translate-x-1/2 text-[9px] text-cyan-300 font-bold bg-slate-900 px-1 rounded">${val}</span>
-                    </div>
-                    <button class="btn-adjust w-6 h-6 rounded flex items-center justify-center font-bold text-sm shadow-sm" onclick="adjustRoiSens(${i}, 1)">+</button>
-                </div>`;
-                container.innerHTML += html;
-            }
-        };
-
-        window.updateRoiSens = (idx, val) => {
-            val = parseInt(val);
-            if(val < 5) val = 5; if(val > 100) val = 100;
-            roisState[idx].sensitivity = val;
-            const slider = document.getElementById(`sens-slider-${idx}`); if(slider) slider.value = val;
-            const valDisplay = document.getElementById(`sens-val-${idx}`); if(valDisplay) valDisplay.textContent = val;
-            
-            const box = document.getElementById(`roi-${idx}`);
-            const valInd = box.querySelector('.val-indicator');
-            if(valInd) {
-                const currentBriText = valInd.textContent.split('|')[0].trim();
-                valInd.textContent = `${currentBriText} | Sens: ${val}`;
-            }
-        };
-
-        window.adjustRoiSens = (idx, dir) => {
-            let val = parseInt(roisState[idx].sensitivity) + dir;
-            updateRoiSens(idx, val);
-        };
-        
         document.getElementById('fullscreen-btn').addEventListener('click', () => {
             if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(()=>{}); document.getElementById('fs-icon-enter').classList.add('hidden'); document.getElementById('fs-icon-exit').classList.remove('hidden'); }
             else { document.exitFullscreen(); document.getElementById('fs-icon-enter').classList.remove('hidden'); document.getElementById('fs-icon-exit').classList.add('hidden'); }
@@ -1893,16 +1755,14 @@
         document.getElementById('sectors-select').addEventListener('change', (e) => {
             const count = parseInt(e.target.value) + 1;
             if(!isRaceActive) {
-                activeRoisCount = count;
-                if(isProcessing) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); } }
-                autoSaveROIsToCircuit();
-                renderSensitivitiesUI();
+                activeRoisCount = count; const imgEl = document.getElementById('static-bg-img'); const hasImage = !imgEl.classList.contains('hidden') && imgEl.src && imgEl.src !== window.location.href;
+                if(isProcessing || hasImage) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); } }
+                autoSaveROIsToCircuit(); renderSensitivitiesUI();
             }
         });
 
         document.getElementById('lang-select').addEventListener('change', (e) => {
-            currentLang = e.target.value;
-            document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
+            currentLang = e.target.value; document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
         });
 
         document.getElementById('history-btn').addEventListener('click', () => { loadHistory(); document.getElementById('historyModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('historyModal').classList.add('open'),10); });
@@ -1910,26 +1770,97 @@
         
         document.getElementById('open-confirm-btn').addEventListener('click', () => { document.getElementById('confirmModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('confirmModal').classList.add('open'),10); });
         document.getElementById('cancel-clear-btn').addEventListener('click', () => { document.getElementById('confirmModal').classList.remove('open'); setTimeout(()=>document.getElementById('confirmModal').classList.add('hidden'),300); });
+        
+        // Factory Reset for everything
         document.getElementById('confirm-clear-btn').addEventListener('click', async () => { 
             localStorage.removeItem('krono_history_v4');
             if(window.userId && window.fs && window.db) { try { const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history')); for(const d of hSnap.docs) { await window.fs.deleteDoc(d.ref); } } catch(e) {} }
-            loadHistory(); document.getElementById('confirmModal').classList.remove('open'); setTimeout(()=>document.getElementById('confirmModal').classList.add('hidden'),300); 
+            circuits.forEach(c => { c.bestLap=Infinity; c.totalLaps=0; c.bestPilot=""; c.bestCar=""; }); saveCircuits();
+            garageCars.forEach(c => { c.bestLap=Infinity; c.totalLaps=0; c.history=[]; }); saveGarage();
+            loadHistory(); updateCircuitSelects(); updateCarSelects();
+            document.getElementById('confirmModal').classList.remove('open'); setTimeout(()=>document.getElementById('confirmModal').classList.add('hidden'),300); 
         });
 
-        document.getElementById('ranking-open-btn').addEventListener('click', () => {
-            document.getElementById('rankingModal').classList.remove('hidden'); setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10);
-            const rankingCircSelect = document.getElementById('ranking-circuit-picker'); rankingCircSelect.innerHTML = '';
-            circuits.forEach(c => { const opt = document.createElement('option'); opt.value = c.id; opt.textContent = c.name; rankingCircSelect.appendChild(opt); });
-            rankingCircSelect.value = currentCircuitId || (circuits.length > 0 ? circuits[0].id : null);
-            if (rankingCircSelect.value) fetchAndRenderRankings(rankingCircSelect.value);
-        });
+        function buildPodiumCard(r, pos, leaderTime) {
+            let height = pos === 1 ? 'h-36' : (pos === 2 ? 'h-28' : 'h-24');
+            let bg = pos === 1 ? 'bg-gradient-to-t from-yellow-700/60 to-yellow-500/20 border-yellow-400' : (pos === 2 ? 'bg-gradient-to-t from-slate-500/60 to-slate-400/20 border-slate-300' : 'bg-gradient-to-t from-amber-800/60 to-amber-700/20 border-amber-600');
+            let textColor = pos === 1 ? 'text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]' : (pos === 2 ? 'text-slate-200 drop-shadow-[0_0_10px_rgba(203,213,225,0.8)]' : 'text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.8)]');
+            let gapStr = pos === 1 ? 'LEADER' : '+' + ((r.time - leaderTime)/1000).toFixed(3);
 
+            let imgHtml = r.carImage ? `<img src="${r.carImage}" class="relative w-16 h-16 object-cover rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(56,189,248,0.6)] mb-2 z-20 bg-slate-900" />` : `<div class="relative w-16 h-16 rounded-full border-2 border-slate-600 bg-slate-800 flex items-center justify-center mb-2 z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
+
+            return `
+                <div class="flex flex-col items-center justify-end w-[30%] max-w-[200px] transform ${pos===1?'scale-110 z-10':''}">
+                    ${imgHtml}
+                    <div class="font-orbitron font-black text-xl ${textColor} mb-1 z-20 relative">${formatTime(r.time, false)}</div>
+                    <div class="font-bold text-[9px] text-white/50 uppercase tracking-widest mb-2 z-20 relative">${gapStr}</div>
+                    <div class="w-full ${height} ${bg} border-t-4 rounded-t-xl flex flex-col items-center justify-start pt-3 shadow-[0_-5px_25px_rgba(0,0,0,0.5)] relative z-10">
+                        <span class="text-4xl font-black ${textColor} opacity-30 leading-none">${pos}</span>
+                        <span class="font-bold text-white text-sm truncate w-full text-center px-2 uppercase mt-2">${r.pilot}</span>
+                        <span class="font-light text-cyan-200/70 text-[10px] truncate w-full text-center px-2 tracking-widest">${r.car}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function fetchAndRenderRankings(circuitId) {
+            document.getElementById('ranking-loading').classList.remove('hidden'); document.getElementById('f1-podium-container').innerHTML = ''; document.getElementById('f1-podium-container').classList.add('hidden');
+            document.getElementById('ranking-top25-body').innerHTML = ''; document.getElementById('f1-grid-table').classList.add('hidden');
+            document.getElementById('ranking-sectors-grid').innerHTML = ''; document.getElementById('ranking-top25-empty').classList.add('hidden'); document.getElementById('ranking-sectors-empty').classList.add('hidden');
+            let records = [];
+
+            if (window.userId && window.fs && window.db) {
+                try { const q = window.fs.query(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'leaderboards'), window.fs.where('circuitId', '==', circuitId)); const snap = await window.fs.getDocs(q); snap.forEach(d => records.push(d.data())); } catch(e) { }
+            } 
+            if (records.length === 0) { try { records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => r.circuitId === circuitId); } catch(e) {} }
+
+            records.sort((a, b) => a.time - b.time); let uniqueEntries = new Set(); let top25 = [];
+            for (let r of records) { let key = r.pilot + "_" + r.car; if(!uniqueEntries.has(key)) { uniqueEntries.add(key); top25.push(r); if(top25.length >= 25) break; } }
+
+            if (top25.length === 0) { document.getElementById('ranking-top25-empty').classList.remove('hidden'); } else {
+                const leaderTime = top25[0].time; const podiumContainer = document.getElementById('f1-podium-container'); podiumContainer.classList.remove('hidden');
+                let p2 = top25[1] ? buildPodiumCard(top25[1], 2, leaderTime) : `<div class="w-[30%] max-w-[200px]"></div>`;
+                let p1 = top25[0] ? buildPodiumCard(top25[0], 1, leaderTime) : `<div class="w-[30%] max-w-[200px]"></div>`;
+                let p3 = top25[2] ? buildPodiumCard(top25[2], 3, leaderTime) : `<div class="w-[30%] max-w-[200px]"></div>`;
+                podiumContainer.innerHTML = p2 + p1 + p3;
+
+                if (top25.length > 3) {
+                    const gridTable = document.getElementById('f1-grid-table'); gridTable.classList.remove('hidden'); const tbody = document.getElementById('ranking-top25-body');
+                    for (let i = 3; i < top25.length; i++) {
+                        let r = top25[i]; let gap = r.time - leaderTime;
+                        let rowImgHtml = r.carImage ? `<img src="${r.carImage}" class="w-10 h-10 object-cover rounded-lg border border-cyan-700/50 mr-3 shadow-md bg-slate-900" />` : `<div class="w-10 h-10 rounded-lg border border-slate-700/50 bg-slate-800/80 flex items-center justify-center mr-3 shadow-inner"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></div>`;
+                        const tr = document.createElement('tr'); tr.className = "hover:bg-slate-800/50 transition-colors";
+                        tr.innerHTML = `<td class="p-3 text-center text-slate-400 font-bold text-lg align-middle">${i + 1}</td><td class="p-3 flex items-center">${rowImgHtml}<div class="flex flex-col justify-center"><span class="block text-white font-bold text-sm leading-tight">${r.pilot}</span><span class="text-[9px] text-cyan-500/70 font-bold tracking-widest uppercase leading-tight mt-0.5">${r.car}</span></div></td><td class="p-3 text-right text-cyan-300 font-orbitron font-bold text-base align-middle">${formatTime(r.time, false)}</td><td class="p-3 text-right font-orbitron text-red-400 font-bold text-sm align-middle">+${(gap/1000).toFixed(3)}</td>`;
+                        tbody.appendChild(tr);
+                    }
+                }
+            }
+
+            let bestSectors = []; const activeCircuit = circuits.find(c => c.id === circuitId); const numSectorsCircuit = activeCircuit ? parseInt(activeCircuit.activeSectorsSelectValue || "0") + 1 : null;
+            records.forEach(r => { if(r.sectors && r.sectors.length > 0) { if (numSectorsCircuit === null || r.sectors.length === numSectorsCircuit) { r.sectors.forEach((secTime, idx) => { if (secTime > 0) { if(!bestSectors[idx] || secTime < bestSectors[idx].time) { bestSectors[idx] = { time: secTime, pilot: r.pilot, car: r.car }; } } }); } } });
+
+            if (bestSectors.length === 0) { 
+                document.getElementById('ranking-sectors-empty').classList.remove('hidden'); document.getElementById('ultimate-lap-time').textContent = "--.---";
+            } else {
+                const grid = document.getElementById('ranking-sectors-grid'); let ultimateLapSum = 0;
+                bestSectors.forEach((sec, idx) => {
+                    if (sec) {
+                        ultimateLapSum += sec.time; const isMeta = (idx === bestSectors.length - 1); const secLabel = isMeta ? 'META' : `SEC ${idx + 1}`; const secClass = isMeta ? 'meta' : (idx===0?'s1':(idx===1?'s2':(idx===2?'s3':'s4')));
+                        grid.innerHTML += `<div class="sector-card ${secClass} bg-slate-800/80 border-cyan-700/50"><div class="bar"></div><h4 class="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mt-2">${secLabel}</h4><p class="text-2xl font-black font-orbitron text-white my-2 drop-shadow-md">${formatTime(sec.time, false)}</p><p class="text-[11px] font-bold text-emerald-400 truncate tracking-widest uppercase">${sec.pilot}</p><p class="text-[9px] text-slate-400 font-bold truncate tracking-widest uppercase">${sec.car}</p></div>`;
+                    }
+                });
+                document.getElementById('ultimate-lap-time').textContent = formatTime(ultimateLapSum, false); document.getElementById('ultimate-lap-time').classList.add('text-purple-400', 'drop-shadow-[0_0_15px_rgba(192,132,252,0.8)]');
+            }
+            document.getElementById('ranking-loading').classList.add('hidden');
+        }
+
+        document.getElementById('ranking-open-btn').addEventListener('click', () => { document.getElementById('rankingModal').classList.remove('hidden'); setTimeout(() => document.getElementById('rankingModal').classList.add('open'), 10); const rankingCircSelect = document.getElementById('ranking-circuit-picker'); rankingCircSelect.innerHTML = ''; circuits.forEach(c => { const opt = document.createElement('option'); opt.value = c.id; opt.textContent = c.name; rankingCircSelect.appendChild(opt); }); rankingCircSelect.value = currentCircuitId || (circuits.length > 0 ? circuits[0].id : null); if (rankingCircSelect.value) fetchAndRenderRankings(rankingCircSelect.value); });
         document.getElementById('close-ranking-btn').addEventListener('click', () => { document.getElementById('rankingModal').classList.remove('open'); setTimeout(() => document.getElementById('rankingModal').classList.add('hidden'), 300); });
         document.getElementById('ranking-circuit-picker').addEventListener('change', (e) => { fetchAndRenderRankings(e.target.value); });
         document.getElementById('tab-btn-top25').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-sectors').classList.replace('active', 'inactive'); document.getElementById('ranking-view-top25').classList.remove('hidden'); document.getElementById('ranking-view-sectors').classList.add('hidden'); });
         document.getElementById('tab-btn-sectors').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-top25').classList.replace('active', 'inactive'); document.getElementById('ranking-view-sectors').classList.remove('hidden'); document.getElementById('ranking-view-top25').classList.add('hidden'); });
 
-        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche 1", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
+        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
         async function saveGarage() { 
             try { localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -1948,115 +1879,49 @@
             
             let filteredBest = Infinity; let totalTimeMs = 0; let totalDistance = 0;
             hist.forEach(h => { 
-                if(h.lapTime < filteredBest) filteredBest = h.lapTime; 
-                totalTimeMs += h.lapTime;
-                const tCirc = circuits.find(c => c.id === h.circuitId);
-                if (tCirc && tCirc.length) totalDistance += parseFloat(tCirc.length);
+                if(h.lapTime < filteredBest) filteredBest = h.lapTime; totalTimeMs += h.lapTime;
+                const tCirc = circuits.find(c => c.id === h.circuitId); if (tCirc && tCirc.length) totalDistance += parseFloat(tCirc.length);
             });
 
             document.getElementById('g-input-name').value = car.name || ""; document.getElementById('g-input-brand').value = car.brand || ""; document.getElementById('g-input-cat').value = car.cat || "";
             document.getElementById('g-input-motor').value = car.motor || ""; document.getElementById('g-input-tires').value = car.tires || ""; document.getElementById('g-input-weight').value = car.weight || ""; document.getElementById('g-input-magnet').checked = !!car.magnet;
             
-            let timeStr = "--h --m --s";
-            if (totalTimeMs > 0) { const hrs = Math.floor(totalTimeMs/3600000); const mins = Math.floor((totalTimeMs%3600000)/60000); const secs = Math.floor((totalTimeMs%60000)/1000); timeStr = `${hrs}h ${mins}m ${secs}s`; }
-            
-            let avgSpeedStr = "-- m/s";
-            if (hist.length > 0 && totalDistance > 0) {
-                const speedMs = totalDistance / (totalTimeMs / 1000); const speedKmh = speedMs * 3.6; const scaleSpeedKmh = speedKmh * 32; 
-                avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h Escala)`;
-            }
+            let timeStr = "--h --m --s"; if (totalTimeMs > 0) { const hrs = Math.floor(totalTimeMs/3600000); const mins = Math.floor((totalTimeMs%3600000)/60000); const secs = Math.floor((totalTimeMs%60000)/1000); timeStr = `${hrs}h ${mins}m ${secs}s`; }
+            let avgSpeedStr = "-- m/s"; if (hist.length > 0 && totalDistance > 0) { const speedMs = totalDistance / (totalTimeMs / 1000); const scaleSpeedKmh = speedMs * 3.6 * 32; avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h Escala)`; }
 
-            document.getElementById('g-stat-laps').textContent = hist.length; 
-            document.getElementById('g-stat-best').textContent = filteredBest !== Infinity ? formatTime(filteredBest, false) : "--.---";
-            document.getElementById('g-stat-distance').textContent = `${(totalDistance/1000).toFixed(2)} km`;
-            document.getElementById('g-stat-time').textContent = timeStr; document.getElementById('g-stat-speed').textContent = avgSpeedStr;
+            document.getElementById('g-stat-laps').textContent = hist.length; document.getElementById('g-stat-best').textContent = filteredBest !== Infinity ? formatTime(filteredBest, false) : "--.---";
+            document.getElementById('g-stat-distance').textContent = `${(totalDistance/1000).toFixed(2)} km`; document.getElementById('g-stat-time').textContent = timeStr; document.getElementById('g-stat-speed').textContent = avgSpeedStr;
 
             const imgEl = document.getElementById('garage-car-img'); const placeholder = document.getElementById('garage-img-placeholder');
             if(car.image) { imgEl.src = car.image; imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); } else { imgEl.src = ""; imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
-            
             drawGarageCharts(hist, filteredBest);
         }
 
         function drawGarageCharts(hist, bestLapForChart) {
             hist = hist || []; const recentHist = hist.slice(-50);
-            
             const ctxEvol = document.getElementById('garageChartEvolution').getContext('2d'); if(garageChartEvol) garageChartEvol.destroy();
-            garageChartEvol = new Chart(ctxEvol, { 
-                type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentHist.map(h => h.lapTime/1000), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', fill: true, tension: 0.3, pointRadius: 1 }] }, 
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } 
-            });
-
-            const ctxCons = document.getElementById('garageChartConsistency').getContext('2d'); if(garageChartCons) garageChartCons.destroy();
-            const devData = recentHist.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
-            garageChartCons = new Chart(ctxCons, { 
-                type: 'bar', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desviación (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, 
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } 
-            });
-
-            const ctxSect = document.getElementById('garageChartSectors').getContext('2d'); if(garageChartSect) garageChartSect.destroy();
-            let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0];
-            hist.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; } }); } });
-            for(let i=0; i<5; i++) { if(sectorCounts[i] > 0) sectorAverages[i] = (sectorAverages[i] / sectorCounts[i]) / 1000; }
-            
-            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
-            
-            if(activeSecs.length > 0) {
-                garageChartSect = new Chart(ctxSect, { 
-                    type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(192, 132, 252, 0.4)', borderColor: '#c084fc', borderWidth: 1, borderRadius: 4 }] }, 
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#a855f7', font: {size: 9}}, grid: {color: 'rgba(192,132,252,0.1)'} }, x: { display: true, ticks: {color: '#d8b4fe', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } 
-                });
-            } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+            garageChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentHist.map(h => h.lapTime/1000), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
         }
 
         document.getElementById('garage-capture-btn').addEventListener('click', () => {
-            if (!videoElement.videoWidth) { 
-                const btn = document.getElementById('garage-capture-btn');
-                const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-red-400">¡Activa cámara!</span>`;
-                setTimeout(()=>btn.innerHTML=orig, 2000);
-                return; 
-            }
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = videoElement.videoWidth; canvas.height = videoElement.videoHeight;
-            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-            const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 350; const scale = maxW / canvas.width; 
-            destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
-            const b64 = destCanvas.toDataURL('image/jpeg', 0.8);
-            const car = garageCars.find(c => c.id === currentGarageCarId); if(car) { car.image = b64; saveGarage(); renderGarage(currentGarageCarId); }
+            if (!videoElement.videoWidth) { const btn = document.getElementById('garage-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400">¡Cámara!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); return; }
+            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = videoElement.videoWidth; canvas.height = videoElement.videoHeight; ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 350; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
+            const car = garageCars.find(c => c.id === currentGarageCarId); if(car) { car.image = destCanvas.toDataURL('image/jpeg', 0.8); saveGarage(); renderGarage(currentGarageCarId); }
         });
-
         document.getElementById('garage-img-input').addEventListener('change', (e) => {
             const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
-            reader.onload = (ev) => {
-                const img = new Image(); img.onload = () => {
-                    const canvas = document.createElement('canvas'); const maxW = 350; const scale = maxW / img.width; canvas.width = maxW; canvas.height = img.height * scale;
-                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); const b64 = canvas.toDataURL('image/jpeg', 0.8);
-                    const car = garageCars.find(c => c.id === currentGarageCarId); if(car) { car.image = b64; saveGarage(); renderGarage(currentGarageCarId); }
-                }; img.src = ev.target.result;
-            }; reader.readAsDataURL(file);
+            reader.onload = (ev) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); const maxW = 350; const scale = maxW / img.width; canvas.width = maxW; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); const car = garageCars.find(c => c.id === currentGarageCarId); if(car) { car.image = canvas.toDataURL('image/jpeg', 0.8); saveGarage(); renderGarage(currentGarageCarId); } }; img.src = ev.target.result; }; reader.readAsDataURL(file);
         });
-
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
             const car = garageCars.find(c => c.id === currentGarageCarId);
-            if(car) {
-                car.name = document.getElementById('g-input-name').value || "Sin Nombre"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value;
-                car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked;
-                saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn');
-                btn.innerHTML = "¡Guardado!"; btn.classList.add('text-green-400');
-                setTimeout(() => { btn.innerHTML = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500);
-            }
+            if(car) { car.name = document.getElementById('g-input-name').value || "Sin Nombre"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value; car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500); }
         });
-
         document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
-        
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
-            if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId)); } catch(e){} } 
-            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); 
-            if(garageCars.length === 0) {
-                garageCars.push({ id: Date.now().toString(), name: "Coche 1", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] });
-            }
-            saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id);
+            if(window.userId && window.fs && window.db) { try{await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));}catch(e){} } 
+            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
         });
-        
         document.getElementById('garage-open-btn').addEventListener('click', () => { const circSelect = document.getElementById('garage-circuit-picker'); if (circSelect && currentCircuitId) { circSelect.value = currentCircuitId; } document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10); renderGarage(document.getElementById('car-model-select').value); });
         document.getElementById('garage-drive-btn').addEventListener('click', () => { document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); });
         document.getElementById('close-garage-btn').addEventListener('click', () => { document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
@@ -2064,7 +1929,7 @@
         document.getElementById('garage-circuit-picker').addEventListener('change', (e) => { const val = e.target.value; if(val !== 'ALL') { document.getElementById('circuit-model-select').value = val; currentCircuitId = val; loadCircuitROIs(val); } renderGarage(currentGarageCarId); });
         document.getElementById('car-model-select').addEventListener('change', (e) => { currentGarageCarId = e.target.value; updateTelemetryDisplay(); });
 
-        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
+        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Pista Principal", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
         async function saveCircuits() { 
             try { localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -2088,83 +1953,39 @@
             const length = parseFloat(circ.length) || 0; const totalLaps = allCircuitLaps.length; const totalMeters = totalLaps * length;
             let totalTimeMs = 0; allCircuitLaps.forEach(l => totalTimeMs += l.lapTime);
             
-            let timeStr = "--h --m --s";
-            if (totalTimeMs > 0) { const hrs = Math.floor(totalTimeMs/3600000); const mins = Math.floor((totalTimeMs%3600000)/60000); timeStr = `${hrs}h ${mins}m`; }
-            
-            let avgSpeedStr = "-- m/s";
-            if (totalLaps > 0 && length > 0) {
-                const avgTimeS = (totalTimeMs / totalLaps) / 1000; const speedMs = length / avgTimeS; const scaleSpeedKmh = (speedMs * 3.6) * 32; 
-                avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h)`;
-            }
+            let timeStr = "--h --m --s"; if (totalTimeMs > 0) { const hrs = Math.floor(totalTimeMs/3600000); const mins = Math.floor((totalTimeMs%3600000)/60000); timeStr = `${hrs}h ${mins}m`; }
+            let avgSpeedStr = "-- m/s"; if (totalLaps > 0 && length > 0) { const avgTimeS = (totalTimeMs / totalLaps) / 1000; const speedMs = length / avgTimeS; const scaleSpeedKmh = (speedMs * 3.6) * 32; avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h)`; }
 
-            document.getElementById('c-stat-laps').textContent = totalLaps;
-            document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
-            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : "Sin registros";
-            document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
-            document.getElementById('c-stat-time').textContent = timeStr;
-            document.getElementById('c-stat-speed').textContent = avgSpeedStr;
-            
+            document.getElementById('c-stat-laps').textContent = totalLaps; document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
+            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : "Sin registros"; document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
+            document.getElementById('c-stat-time').textContent = timeStr; document.getElementById('c-stat-speed').textContent = avgSpeedStr;
             const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} Sector(es)`;
 
             const imgEl = document.getElementById('circuit-captured-img'); const placeholder = document.getElementById('circuit-img-placeholder');
             if(circ.image) { imgEl.src = circ.image; imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); } else { imgEl.src = ""; imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
-            
             drawCircuitCharts(allCircuitLaps);
         }
 
         function drawCircuitCharts(laps) {
             const ctxEvol = document.getElementById('circuitChartEvolution').getContext('2d'); if(circuitChartEvol) circuitChartEvol.destroy();
             const recentLaps = laps.slice(-50);
-            circuitChartEvol = new Chart(ctxEvol, {
-                type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentLaps.map(h => h.lapTime/1000), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.3, pointRadius: 1 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } }
-            });
-
-            const ctxSect = document.getElementById('circuitChartSectors').getContext('2d'); if(circuitChartSect) circuitChartSect.destroy();
-            let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0];
-            laps.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; } }); } });
-            for(let i=0; i<5; i++) { if(sectorCounts[i] > 0) sectorAverages[i] = (sectorAverages[i] / sectorCounts[i]) / 1000; }
-            
-            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
-            
-            if(activeSecs.length > 0) {
-                circuitChartSect = new Chart(ctxSect, { 
-                    type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(34, 211, 238, 0.4)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 4 }] }, 
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } 
-                });
-            } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+            circuitChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentLaps.map(h => h.lapTime/1000), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
         }
 
         document.getElementById('circuit-capture-btn').addEventListener('click', () => {
-            if (!videoElement.videoWidth) { 
-                const btn = document.getElementById('circuit-capture-btn');
-                const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10">¡Activa cámara!</span>`;
-                setTimeout(()=>btn.innerHTML=orig, 2000);
-                return; 
-            }
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = videoElement.videoWidth; canvas.height = videoElement.videoHeight;
-            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const imgEl = document.getElementById('static-bg-img'); const sourceEl = videoElement.videoWidth ? videoElement : (imgEl.src && imgEl.src !== window.location.href ? imgEl : null);
+            const sWidth = sourceEl ? (sourceEl.videoWidth || sourceEl.naturalWidth) : 0; const sHeight = sourceEl ? (sourceEl.videoHeight || sourceEl.naturalHeight) : 0;
+            if (!sWidth) { const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10 text-center">¡Activa cámara!</span>`; setTimeout(()=>btn.innerHTML=orig, 2500); return; }
+            
+            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = sWidth; canvas.height = sHeight; ctx.drawImage(sourceEl, 0, 0, canvas.width, canvas.height);
             for (let i = 0; i < activeRoisCount; i++) {
                 const box = document.getElementById(`roi-${i}`);
-                const l = Math.floor(canvas.width * (getPct(box, 'left')/100)); const t = Math.floor(canvas.height * (getPct(box, 'top')/100));
-                const w = Math.ceil(canvas.width * (getPct(box, 'width')/100)); const h = Math.ceil(canvas.height * (getPct(box, 'height')/100));
-                let strokeColor = '#ffffff'; let labelText = 'META';
-                if(i===1) { strokeColor='#3b82f6'; labelText='S1'; } if(i===2) { strokeColor='#f59e0b'; labelText='S2'; } if(i===3) { strokeColor='#a855f7'; labelText='S3'; } if(i===4) { strokeColor='#06b6d4'; labelText='S4'; }
-                ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.strokeRect(l, t, w, h); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(l, t, w, h);
-                ctx.fillStyle = strokeColor; ctx.fillRect(l, t - 25, 60, 25); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 5, t - 6);
+                const l = Math.floor(canvas.width * (getPct(box, 'left')/100)); const t = Math.floor(canvas.height * (getPct(box, 'top')/100)); const w = Math.ceil(canvas.width * (getPct(box, 'width')/100)); const h = Math.ceil(canvas.height * (getPct(box, 'height')/100));
+                let strokeColor = '#ffffff'; let labelText = 'META'; if(i===1) { strokeColor='#3b82f6'; labelText='S1'; } if(i===2) { strokeColor='#f59e0b'; labelText='S2'; } if(i===3) { strokeColor='#a855f7'; labelText='S3'; } if(i===4) { strokeColor='#06b6d4'; labelText='S4'; }
+                ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.strokeRect(l, t, w, h); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(l, t, w, h); ctx.fillStyle = strokeColor; ctx.fillRect(l, t - 25, 60, 25); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 5, t - 6);
             }
-            const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 500; const scale = maxW / canvas.width;
-            destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
-            const b64 = destCanvas.toDataURL('image/jpeg', 0.6);
-            const circ = circuits.find(c => c.id === currentCircuitId); 
-            if(circ) { 
-                circ.image = b64; autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); 
-                const btn = document.getElementById('circuit-capture-btn');
-                const orig = btn.innerHTML;
-                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡Capturado!</span>`;
-                setTimeout(()=>btn.innerHTML=orig, 2000);
-            }
+            const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 500; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
+            const circ = circuits.find(c => c.id === currentCircuitId); if(circ) { circ.image = destCanvas.toDataURL('image/jpeg', 0.6); autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡Capturado!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); }
         });
 
         function autoSaveROIsToCircuit() {
@@ -2180,39 +2001,47 @@
             for (let i = 0; i < MAX_ROIS; i++) {
                 const box = document.getElementById(`roi-${i}`);
                 if (circ.rois[i]) { box.style.left = circ.rois[i].left || box.style.left; box.style.top = circ.rois[i].top || box.style.top; box.style.width = circ.rois[i].width || box.style.width; box.style.height = circ.rois[i].height || box.style.height; }
-                if (isProcessing) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baseBri = null; } else { box.classList.remove('active'); } }
+                const imgEl = document.getElementById('static-bg-img'); const hasImage = !imgEl.classList.contains('hidden') && imgEl.src && imgEl.src !== window.location.href;
+                if (isProcessing || hasImage) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baseBri = null; } else { box.classList.remove('active'); } } else { box.classList.remove('active'); }
             }
+            renderSensitivitiesUI();
         }
 
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
             const circ = circuits.find(c => c.id === currentCircuitId);
-            if(circ) {
-                circ.name = document.getElementById('c-input-name').value || "Sin Nombre"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0;
-                saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn');
-                btn.textContent = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500);
-            }
+            if(circ) { circ.name = document.getElementById('c-input-name').value || "Sin Nombre"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500); }
         });
-
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
-        
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
+            // Cascade delete history from garage
+            garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => h.circuitId !== currentCircuitId); } }); saveGarage();
             if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
-            circuits = circuits.filter(c => c.id !== currentCircuitId); 
-            if(circuits.length === 0) {
-                circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" });
-            }
-            saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
+            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
         });
-        
         document.getElementById('circuit-open-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('hidden'); setTimeout(() => document.getElementById('circuitModal').classList.add('open'), 10); renderCircuit(document.getElementById('circuit-model-select').value); });
         document.getElementById('close-circuit-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
         document.getElementById('circuit-picker').addEventListener('change', (e) => { renderCircuit(e.target.value); document.getElementById('circuit-model-select').value = e.target.value; loadCircuitROIs(e.target.value); });
         document.getElementById('circuit-model-select').addEventListener('change', (e) => { currentCircuitId = e.target.value; loadCircuitROIs(e.target.value); });
 
+        // Videos & Guide Modals
+        document.getElementById('videos-open-btn').addEventListener('click', () => { document.getElementById('videosModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('videosModal').classList.add('open'),10); });
+        document.getElementById('close-videos-btn').addEventListener('click', () => { document.getElementById('videosModal').classList.remove('open'); setTimeout(()=>document.getElementById('videosModal').classList.add('hidden'),300); });
+        document.querySelectorAll('.tutorial-vid-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const src = e.currentTarget.getAttribute('data-src'); const player = document.getElementById('tutorial-player'); const closeBtn = document.getElementById('close-tutorial-btn');
+                player.src = src; player.classList.remove('hidden'); closeBtn.classList.remove('hidden'); player.play();
+                document.getElementById('videosModal').classList.remove('open'); setTimeout(()=>document.getElementById('videosModal').classList.add('hidden'), 300);
+            });
+        });
+        document.getElementById('close-tutorial-btn').addEventListener('click', () => { const player = document.getElementById('tutorial-player'); player.pause(); player.src = ""; player.classList.add('hidden'); document.getElementById('close-tutorial-btn').classList.add('hidden'); });
+
+        document.getElementById('guide-open-btn').addEventListener('click', () => { document.getElementById('guideModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('guideModal').classList.add('open'),10); });
+        document.getElementById('close-guide-btn').addEventListener('click', () => { document.getElementById('guideModal').classList.remove('open'); setTimeout(()=>document.getElementById('guideModal').classList.add('hidden'),300); });
+
+        // Final Boot
         window.onload = () => {
             if (window.speechSynthesis) window.speechSynthesis.getVoices();
-            renderSensitivitiesUI();
-            updateLapDisplay(); stopRace(false);
+            renderSensitivitiesUI(); updateLapDisplay(); stopRace(false);
             setTimeout(() => { if (window.initFirebase) { window.initFirebase(); } else if (window.initLocalMode) { window.initLocalMode(); } setTimeout(() => { if (circuits.length === 0 && window.initLocalMode) window.initLocalMode(); }, 3000); }, 500);
         };
     </script>
