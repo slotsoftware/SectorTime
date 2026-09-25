@@ -36,17 +36,15 @@
           measurementId: "G-6DMG51VQ92"
         };
 
-        let app; let db; let auth; let userId = null;
-        
         window.initFirebase = async () => {
             try {
                 if (Object.keys(firebaseConfig).length === 0) { 
                     if (window.initLocalMode) window.initLocalMode();
                     return; 
                 }
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                const auth = getAuth(app);
                 setLogLevel('error'); 
                 
                 window.db = db;
@@ -63,12 +61,14 @@
                 if (window.initLocalMode) window.initLocalMode();
             }
         };
-
+    </script>
+    
+    <script>
         Chart.defaults.color = '#bae6fd'; // cyan-200
         Chart.defaults.borderColor = 'rgba(56, 189, 248, 0.15)'; // sky-400 opacity
         Chart.defaults.font.family = "'Orbitron', sans-serif";
     </script>
-    
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -398,7 +398,7 @@
             width: 95%; max-width: 900px; margin: auto; margin-bottom: 2%;
             background: rgba(2, 6, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: 12px; padding: 12px; box-shadow: 0 0 30px rgba(0,0,0,0.8);
-            z-index: 10;
+            z-index: 10; pointer-events: auto;
         }
         .spec-item {
             background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 8px;
@@ -531,9 +531,14 @@
 
                         <!-- Technical Specs Grid -->
                         <div class="specs-grid-container flex flex-col shrink-0">
-                            <div class="flex items-center text-cyan-400 text-[10px] font-bold tracking-widest uppercase mb-3 border-b border-cyan-800/50 pb-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                ESPECIFICACIONES TÉCNICAS (REF. GALAXY TAB S9)
+                            <div class="flex justify-between items-center text-cyan-400 text-[10px] font-bold tracking-widest uppercase mb-3 border-b border-cyan-800/50 pb-2">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                    ESPECIFICACIONES TÉCNICAS (REF. GALAXY TAB S9)
+                                </div>
+                                <button id="read-specs-btn" class="bg-cyan-900/50 hover:bg-cyan-700/50 text-cyan-300 p-1.5 rounded transition-colors border border-cyan-500/50 flex items-center justify-center cursor-pointer shadow-md" title="Leer en voz alta">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                                </button>
                             </div>
                             <div class="grid grid-cols-3 gap-2">
                                 <div class="spec-item" style="border-color: #facc15;">
@@ -623,7 +628,7 @@
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                 </div>
-                <canvas id="video-canvas"></canvas>
+                <canvas id="video-canvas" class="hidden"></canvas>
                 <div id="video-status" class="text-center text-[10px] mt-2 text-cyan-700/70 font-bold tracking-widest uppercase" data-i18n="camLoading">Sensor Inactivo</div>
             </div>
         </div>
@@ -964,7 +969,7 @@
     </div>
 
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
-        <div class="modal-content p-6 w-[96vw] max-w-[1800px] flex flex-col h-[96vh]">
+        <div class="modal-content p-4 lg:p-6 w-[98vw] max-w-[1800px] flex flex-col h-[96vh]" style="max-height: 96vh; overflow: hidden;">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-3 mb-4 shrink-0">
                 <h3 class="text-2xl font-orbitron font-black text-blue-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
@@ -1078,7 +1083,7 @@
                         <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
                     </div>
                     
-                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0">
+                    <div class="flex flex-col lg:flex-row gap-4 h-56 shrink-0 mt-1">
                         <div class="flex-1 bg-slate-900/40 border border-amber-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-amber-500 mb-3 uppercase tracking-widest border-b border-amber-800/50 pb-1.5">Consistencia (Gap)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartConsistency"></canvas></div>
@@ -1089,7 +1094,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 h-56 shrink-0 mt-5 pb-5">
+                    <div class="flex flex-col lg:flex-row gap-4 h-56 shrink-0 mt-1 pb-2">
                         <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Top Pistas (Mejor Tiempo)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartCircuits"></canvas></div>
@@ -1204,7 +1209,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0">
+                    <div class="flex flex-col lg:flex-row gap-4 h-60 shrink-0 mt-2">
                         <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Ritmo de Carrera (Últimas 50 Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartEvolution"></canvas></div>
@@ -1252,7 +1257,8 @@
                 clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
                 pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
                 "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "Inf",
-                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje"
+                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje",
+                noName: "Coche", saved: "Guardado", sensorActive: "Sensor Activo", sensorInactive: "Sensor Inactivo", noRecords: "Sin datos", sectorsSaved: "Sectores guardados", turnCamOn: "¡Activa cámara!", captured: "Capturado"
             },
             en: {
                 langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit", ranking: "Ranking",
@@ -1273,7 +1279,8 @@
                 clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
                 pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
                 "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "Inf",
-                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage"
+                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage",
+                noName: "Car", saved: "Saved", sensorActive: "Sensor Active", sensorInactive: "Sensor Inactive", noRecords: "No data", sectorsSaved: "Sectors saved", turnCamOn: "Turn Cam On!", captured: "Captured"
             }
         };
         let currentLang = 'es';
@@ -1284,15 +1291,51 @@
         let circuits = []; let currentCircuitId = null;
         let circuitChartEvol = null; let circuitChartSect = null; let circuitChartTopCars = null; let circuitChartTimeDist = null;
 
-        const MAX_ROIS = 5; let activeRoisCount = 1; let roisState = []; let currentTargetRoi = 0; let sensitivity = 20; let blindTimeMs = 3000;
-        let cameraStream = null, isProcessing = false, isRaceActive = false, isCountdown = false, raceAborted = false;
-        let isCalibrating = false, isPaused = false, pauseStartTime = 0;
-
-        let raceStartTime = 0, lapStartTimestamp = 0, sectorStartTimestamp = 0;
-        let currentLapSectors = [], hasCrossedStart = false, currentLap = 0, totalLaps = 10;
-        let raceMode = 'laps', raceTimeLimit = 0, finalRaceTimeMs = 0; 
+        const MAX_ROIS = 5; 
+        let activeRoisCount = 1; 
+        let roisState = []; 
+        let currentTargetRoi = 0; 
+        let sensitivity = 20; 
+        let blindTimeMs = 3000;
         
-        let lapHistory = [], bestLapTime = Infinity, bestLapSectors = [], totalLapTime = 0, currentAverageTime = 0, lastCompletedLapTime = 0, lastCompletedSectors = [];
+        let cameraStream = null;
+        let isProcessing = false;
+        let isRaceActive = false;
+        let isCountdown = false;
+        let raceAborted = false;
+        let isCalibrating = false;
+        let isPaused = false;
+        let pauseStartTime = 0;
+
+        let raceStartTime = 0;
+        let lapStartTimestamp = 0;
+        let sectorStartTimestamp = 0;
+        let currentLapSectors = [];
+        let hasCrossedStart = false;
+        let currentLap = 0;
+        let totalLaps = 10;
+        let raceMode = 'laps';
+        let raceTimeLimit = 0;
+        let finalRaceTimeMs = 0; 
+        
+        let lapHistory = [];
+        let bestLapTime = Infinity;
+        let bestLapSectors = [];
+        let totalLapTime = 0;
+        let currentAverageTime = 0;
+        let lastCompletedLapTime = 0;
+        let lastCompletedSectors = [];
+        
+        const videoElement = document.getElementById('webcam-feed'); 
+        const videoContainer = document.getElementById('video-container');
+        const calibOverlay = document.getElementById('calib-overlay'); 
+        
+        // Contexto de Canvas global para no instanciar en bucle
+        const videoCanvas = document.getElementById('video-canvas');
+        const videoCtx = videoCanvas.getContext('2d', { willReadFrequently: true });
+        
+        const synth = new Tone.Synth().toDestination(); 
+        const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
 
         window.initLocalMode = () => {
             try {
@@ -1307,88 +1350,148 @@
                 if (circuits.length === 0) initCircuitsLocal();
                 if (garageCars.length === 0) initGarageLocal();
             }
-            updateCarSelects(); updateCircuitSelects();
-            if (circuits.length > 0) { currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
-            if (garageCars.length > 0) currentGarageCarId = garageCars[0].id;
+            updateCarSelects(); 
+            updateCircuitSelects();
+            if (circuits.length > 0) { 
+                currentCircuitId = circuits[0].id; 
+                loadCircuitROIs(currentCircuitId); 
+            }
+            if (garageCars.length > 0) {
+                currentGarageCarId = garageCars[0].id;
+            }
         };
 
         window.loadCloudData = async () => {
             if (!window.userId || !window.fs) { window.initLocalMode(); return; }
             try {
                 const circSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits'));
-                const cloudCircuits = []; circSnap.forEach(d => cloudCircuits.push(d.data()));
-                if (cloudCircuits.length > 0) { circuits = cloudCircuits; localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); }
+                const cloudCircuits = []; 
+                circSnap.forEach(d => cloudCircuits.push(d.data()));
+                
+                if (cloudCircuits.length > 0) { 
+                    circuits = cloudCircuits; 
+                    localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); 
+                }
                 
                 const garSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage'));
                 const cloudCars = [];
-                garSnap.forEach(d => { let c = d.data(); c.history = c.history || []; cloudCars.push(c); });
-                if (cloudCars.length > 0) { garageCars = cloudCars; localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); }
+                garSnap.forEach(d => { 
+                    let c = d.data(); 
+                    c.history = c.history || []; 
+                    cloudCars.push(c); 
+                });
+                
+                if (cloudCars.length > 0) { 
+                    garageCars = cloudCars; 
+                    localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); 
+                }
                 
                 window.initLocalMode();
-            } catch(e) { window.initLocalMode(); }
+            } catch(e) { 
+                window.initLocalMode(); 
+            }
         };
 
-        const videoElement = document.getElementById('webcam-feed'); const videoContainer = document.getElementById('video-container');
-        const calibOverlay = document.getElementById('calib-overlay'); const testMsg = document.querySelector('.test-msg');
-        
-        const synth = new Tone.Synth().toDestination(); const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
-
-        /* NUEVO: ALMACENAMIENTO DE PIXELES DE REFERENCIA (BASELINE) */
         for (let i = 0; i < MAX_ROIS; i++) {
             const el = document.getElementById(`roi-${i}`);
-            let tag = 'meta'; if(i===1) tag='s1'; else if(i===2) tag='s2'; else if(i===3) tag='s3'; else if(i===4) tag='s4';
-            roisState.push({ id: i, el: el, baselineData: null, blocked: false, lastRec: 0, tag: tag, needsSilentCalib: false });
+            let tag = 'meta'; 
+            if(i===1) tag='s1'; else if(i===2) tag='s2'; else if(i===3) tag='s3'; else if(i===4) tag='s4';
+            roisState.push({ 
+                id: i, 
+                el: el, 
+                baselineData: null, 
+                blocked: false, 
+                lastRec: 0, 
+                tag: tag, 
+                needsSilentCalib: false,
+                isCalibrating: false 
+            });
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
-        function getClientCoords(e) { return { x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX, y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY }; }
-        function getPct(el, prop) { return parseFloat(el.style[prop].replace('%', '')) || 0; }
+        
+        function getClientCoords(e) { 
+            return { 
+                x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX, 
+                y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY 
+            }; 
+        }
+        
+        function getPct(el, prop) { 
+            return parseFloat(el.style[prop].replace('%', '')) || 0; 
+        }
 
         function startAction(e, type, dir = '') {
             if (isRaceActive || isCalibrating) return;
             const box = e.target.closest('.roi-box'); if (!box) return;
-            const roiIdx = parseInt(box.id.split('-')[1]); e.preventDefault();
+            const roiIdx = parseInt(box.id.split('-')[1]); 
+            e.preventDefault();
             const coords = getClientCoords(e);
-            dragState = { active: true, type: type, dir: dir, roiIdx: roiIdx, startX: coords.x, startY: coords.y, sL: getPct(box, 'left'), sT: getPct(box, 'top'), sW: getPct(box, 'width'), sH: getPct(box, 'height') };
+            dragState = { 
+                active: true, type: type, dir: dir, roiIdx: roiIdx, 
+                startX: coords.x, startY: coords.y, 
+                sL: getPct(box, 'left'), sT: getPct(box, 'top'), 
+                sW: getPct(box, 'width'), sH: getPct(box, 'height') 
+            };
             box.style.transition = 'none';
             if (e.pointerId !== undefined) e.target.setPointerCapture(e.pointerId);
-            if (type === 'drag') box.classList.add('dragging'); else document.body.classList.add('resizing-nwse');
-            document.addEventListener('pointermove', moveAction); document.addEventListener('pointerup', endAction);
+            
+            if (type === 'drag') {
+                box.classList.add('dragging'); 
+            } else {
+                document.body.classList.add('resizing-nwse');
+            }
+            document.addEventListener('pointermove', moveAction); 
+            document.addEventListener('pointerup', endAction);
         }
 
         function moveAction(e) {
-            if (!dragState.active) return; e.preventDefault();
-            const coords = getClientCoords(e); const dx = coords.x - dragState.startX; const dy = coords.y - dragState.startY;
+            if (!dragState.active) return; 
+            e.preventDefault();
+            const coords = getClientCoords(e); 
+            const dx = coords.x - dragState.startX; 
+            const dy = coords.y - dragState.startY;
             const videoRect = videoContainer.getBoundingClientRect();
-            const dxPct = (dx / videoRect.width) * 100; const dyPct = (dy / videoRect.height) * 100;
-            const box = roisState[dragState.roiIdx].el; const minSize = 5;
+            const dxPct = (dx / videoRect.width) * 100; 
+            const dyPct = (dy / videoRect.height) * 100;
+            const box = roisState[dragState.roiIdx].el; 
+            const minSize = 5;
 
             if (dragState.type === 'drag') {
                 box.style.left = `${Math.max(0, Math.min(dragState.sL + dxPct, 100 - dragState.sW))}%`; 
                 box.style.top = `${Math.max(0, Math.min(dragState.sT + dyPct, 100 - dragState.sH))}%`;
             } else if (dragState.type === 'resize') {
                 if (dragState.dir === 'tl') {
-                    let nw = dragState.sW - dxPct; let nh = dragState.sH - dyPct; let nl = dragState.sL + dxPct; let nt = dragState.sT + dyPct;
+                    let nw = dragState.sW - dxPct; 
+                    let nh = dragState.sH - dyPct; 
+                    let nl = dragState.sL + dxPct; 
+                    let nt = dragState.sT + dyPct;
                     if (nw >= minSize && nl >= 0) { box.style.left = `${nl}%`; box.style.width = `${nw}%`; }
                     if (nh >= minSize && nt >= 0) { box.style.top = `${nt}%`; box.style.height = `${nh}%`; }
                 } else if (dragState.dir === 'br') {
-                    let nw = Math.max(minSize, dragState.sW + dxPct); let nh = Math.max(minSize, dragState.sH + dyPct);
-                    if (dragState.sL + nw <= 100) box.style.width = `${nw}%`; if (dragState.sT + nh <= 100) box.style.height = `${nh}%`;
+                    let nw = Math.max(minSize, dragState.sW + dxPct); 
+                    let nh = Math.max(minSize, dragState.sH + dyPct);
+                    if (dragState.sL + nw <= 100) box.style.width = `${nw}%`; 
+                    if (dragState.sT + nh <= 100) box.style.height = `${nh}%`;
                 }
             }
         }
 
         function endAction(e) {
-            if (!dragState.active) return; const box = roisState[dragState.roiIdx].el;
+            if (!dragState.active) return; 
+            const box = roisState[dragState.roiIdx].el;
             if (e.target.hasPointerCapture(e.pointerId)) e.target.releasePointerCapture(e.pointerId);
-            box.style.transition = 'all 0.1s ease'; box.classList.remove('dragging'); document.body.classList.remove('resizing-nwse');
-            document.removeEventListener('pointermove', moveAction); document.removeEventListener('pointerup', endAction);
-            dragState.active = false; autoSaveROIsToCircuit();
+            box.style.transition = 'all 0.1s ease'; 
+            box.classList.remove('dragging'); 
+            document.body.classList.remove('resizing-nwse');
+            document.removeEventListener('pointermove', moveAction); 
+            document.removeEventListener('pointerup', endAction);
+            dragState.active = false; 
+            autoSaveROIsToCircuit();
         }
 
         document.querySelectorAll('.roi-box').forEach(box => {
             box.addEventListener('pointerdown', e => { 
-                // Evitar drag si se hace clic en botones de calibración o handles de resize
                 if (!e.target.classList.contains('resize-handle') && !e.target.classList.contains('btn-calib-roi')) {
                     startAction(e, 'drag'); 
                 }
@@ -1399,94 +1502,175 @@
             if(hbr) hbr.addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
         });
 
-        /* NUEVO: Lógica de botones de calibración individual */
+        
+        // Esta variable almacena la matriz de la cámara actual. Se actualiza una vez por fotograma.
+        let currentFullFrameData = null;
+        let frameWidth = 0;
+        let frameHeight = 0;
+
+        function updateFullFrameCache() {
+            const vw = videoElement.videoWidth; 
+            const vh = videoElement.videoHeight;
+            
+            if(!vw || !vh) {
+                currentFullFrameData = null;
+                return false;
+            }
+
+            if(videoCanvas.width !== vw || videoCanvas.height !== vh) {
+                videoCanvas.width = vw;
+                videoCanvas.height = vh;
+                frameWidth = vw;
+                frameHeight = vh;
+            }
+
+            try {
+                // Dibujar el vídeo entero al canvas oculto UNA VEZ
+                videoCtx.drawImage(videoElement, 0, 0, vw, vh); 
+                // Extraer el array de píxeles completo UNA VEZ (Operación pesada optimizada)
+                currentFullFrameData = videoCtx.getImageData(0, 0, vw, vh).data;
+                return true;
+            } catch(e) { 
+                currentFullFrameData = null;
+                return false; 
+            }
+        }
+
+        // Nueva función matemática para extraer un fragmento del buffer global sin tocar el Canvas/DOM
+        function extractROIDataFromCache(boxEl) {
+            if (!currentFullFrameData) return null;
+
+            const leftPct = getPct(boxEl, 'left') / 100; 
+            const topPct = getPct(boxEl, 'top') / 100;
+            const widthPct = getPct(boxEl, 'width') / 100; 
+            const heightPct = getPct(boxEl, 'height') / 100;
+            
+            const l = Math.max(0, Math.min(frameWidth - 1, Math.floor(frameWidth * leftPct))); 
+            const t = Math.max(0, Math.min(frameHeight - 1, Math.floor(frameHeight * topPct)));
+            const w = Math.max(1, Math.min(frameWidth - l, Math.ceil(frameWidth * widthPct))); 
+            const h = Math.max(1, Math.min(frameHeight - t, Math.ceil(frameHeight * heightPct)));
+
+            // Crear un array local para este ROI
+            const roiData = new Uint8ClampedArray(w * h * 4);
+            let destIdx = 0;
+
+            // Copiar las filas de píxeles desde el buffer principal 1D
+            for (let y = t; y < t + h; y++) {
+                const srcStartIdx = (y * frameWidth + l) * 4;
+                const bytesToCopy = w * 4;
+                
+                // Extraer la fila mediante subarray (no copia) y asignarla (copia rápida)
+                roiData.set(currentFullFrameData.subarray(srcStartIdx, srcStartIdx + bytesToCopy), destIdx);
+                destIdx += bytesToCopy;
+            }
+
+            return roiData;
+        }
+
         document.querySelectorAll('.calib-auto').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Evitar drag
+                e.stopPropagation(); 
                 const roiIdx = parseInt(e.target.getAttribute('data-roi'));
-                if (roisState[roiIdx]) {
-                    roisState[roiIdx].needsSilentCalib = true;
-                    // Efecto visual rápido
-                    const originalBg = e.target.style.background;
-                    e.target.style.background = '#10b981'; // Verde success
-                    setTimeout(() => e.target.style.background = originalBg, 300);
+                if (roisState[roiIdx] && isProcessing) {
+                    roisState[roiIdx].isCalibrating = true;
+                    const box = roisState[roiIdx].el;
+                    const msgEl = box.querySelector('.test-msg');
+                    
+                    box.classList.add('roi-locked');
+                    msgEl.style.display = "block";
+                    msgEl.textContent = "CALIB...";
+                    msgEl.style.color = "#38bdf8"; 
+
+                    setTimeout(() => {
+                        // Forzar una actualización de cache manual ya que processVideo saltará si calib=true
+                        updateFullFrameCache();
+                        const currentData = extractROIDataFromCache(box);
+                        
+                        if (currentData) {
+                            roisState[roiIdx].baselineData = new Uint8ClampedArray(currentData);
+                            roisState[roiIdx].needsSilentCalib = false;
+                            
+                            const originalBg = e.target.style.background;
+                            e.target.style.background = '#10b981'; 
+                            setTimeout(() => e.target.style.background = originalBg, 500);
+                        }
+                        
+                        roisState[roiIdx].isCalibrating = false;
+                        box.classList.remove('roi-locked');
+                        msgEl.style.display = "none";
+                        msgEl.style.color = "#34d399"; 
+                        
+                        if(document.getElementById('voice-toggle').checked) {
+                            speak(`Sector ${roiIdx === 0 ? 'Meta' : roiIdx} calibrado`);
+                        }
+                    }, 2500);
                 }
             });
         });
 
         document.querySelectorAll('.calib-man').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Evitar drag
+                e.stopPropagation(); 
                 const roiIdx = parseInt(e.target.getAttribute('data-roi'));
                 if (roisState[roiIdx] && roisState[roiIdx].el) {
-                    const currentData = getROIPixelData(roisState[roiIdx].el);
+                    updateFullFrameCache();
+                    const currentData = extractROIDataFromCache(roisState[roiIdx].el);
+                    
                     if (currentData) {
                         roisState[roiIdx].baselineData = new Uint8ClampedArray(currentData);
-                        roisState[roiIdx].needsSilentCalib = false; // Resetear auto si se fuerza manual
+                        roisState[roiIdx].needsSilentCalib = false; 
+                        roisState[roiIdx].isCalibrating = false;
                         
-                        // Efecto visual rápido
                         const originalBg = e.target.style.background;
-                        e.target.style.background = '#3b82f6'; // Azul success
+                        e.target.style.background = '#3b82f6'; 
                         setTimeout(() => e.target.style.background = originalBg, 300);
                     }
                 }
             });
         });
 
-        /* NUEVO ALGORITMO: EXTRAER DATOS PIXEL A PIXEL DEL ROI */
-        function getROIPixelData(boxEl) {
-            const vw = videoElement.videoWidth; const vh = videoElement.videoHeight;
-            if(!vw || !vh) return null;
-            const leftPct = getPct(boxEl,'left')/100; const topPct = getPct(boxEl,'top')/100;
-            const widthPct = getPct(boxEl,'width')/100; const heightPct = getPct(boxEl,'height')/100;
-            const l = Math.max(0, Math.min(vw - 1, Math.floor(vw * leftPct))); 
-            const t = Math.max(0, Math.min(vh - 1, Math.floor(vh * topPct)));
-            const w = Math.max(1, Math.min(vw - l, Math.ceil(vw * widthPct))); 
-            const h = Math.max(1, Math.min(vh - t, Math.ceil(vh * heightPct)));
-            const canvas = document.getElementById('video-canvas'); canvas.width = w; canvas.height = h; 
-            const ctx = canvas.getContext('2d', { willReadFrequently: true });
-            try {
-                ctx.drawImage(videoElement, l, t, w, h, 0, 0, w, h); 
-                return ctx.getImageData(0, 0, w, h).data;
-            } catch(e) { return null; }
-        }
-
-        /* NUEVO ALGORITMO: COMPARAR FOTOGRAMA CON BASELINE Y DEVOLVER % DE CAMBIO */
         function calculateDiffPercentage(currentData, baselineData) {
             if (!currentData || !baselineData || currentData.length !== baselineData.length) return 0;
             let changedPixels = 0;
             const totalPixels = currentData.length / 4;
-            const diffThreshold = 40; // Sensibilidad base de color por píxel (constante)
+            const diffThreshold = 40; 
 
             for (let i = 0; i < currentData.length; i += 4) {
                 const rDiff = Math.abs(currentData[i] - baselineData[i]);
                 const gDiff = Math.abs(currentData[i+1] - baselineData[i+1]);
                 const bDiff = Math.abs(currentData[i+2] - baselineData[i+2]);
                 
-                // Si la diferencia en cualquier canal de color supera el umbral, el pixel ha cambiado
                 if (rDiff > diffThreshold || gDiff > diffThreshold || bDiff > diffThreshold) {
                     changedPixels++;
                 }
             }
-            return (changedPixels / totalPixels) * 100; // Devuelve porcentaje 0-100%
+            return (changedPixels / totalPixels) * 100; 
         }
 
-        /* MODIFICADO: BUCLE DE PROCESAMIENTO USANDO PIXEL DIFFING Y AUTO-CALIBRACIÓN SILENCIOSA */
         function processVideo() {
             if (!isProcessing) return;
             if (isPaused) { requestAnimationFrame(processVideo); return; }
+            
+            // 1. Extraer fotograma global una sola vez para toda la pasada
+            if (!updateFullFrameCache()) {
+                requestAnimationFrame(processVideo);
+                return;
+            }
+
             const now = Date.now();
 
             for (let i = 0; i < activeRoisCount; i++) {
-                const rState = roisState[i]; const box = rState.el;
-                if (!box) continue; 
+                const rState = roisState[i]; 
+                const box = rState.el;
                 
-                const currentData = getROIPixelData(box);
+                if (!box || rState.isCalibrating) continue; 
+                
+                // 2. Extraer matemáticamente el bloque de RAM, sin sobrecargar GPU
+                const currentData = extractROIDataFromCache(box);
                 if (!currentData) continue;
 
                 const isTarget = (!isCalibrating && isRaceActive && currentTargetRoi === i);
 
-                // Auto-Calibración Silenciosa al convertirse en objetivo tras un hit previo
                 if (isRaceActive && isTarget && rState.needsSilentCalib) {
                     rState.baselineData = new Uint8ClampedArray(currentData);
                     rState.needsSilentCalib = false;
@@ -1494,25 +1678,29 @@
                     rState.baselineData = new Uint8ClampedArray(currentData);
                 }
                 
-                // Calcular el % de cambio respecto a la baseline
                 const diffPct = calculateDiffPercentage(currentData, rState.baselineData);
-                
-                // Sensibilidad invertida: Slider 5 (Sensible = requiere 5% de cambio), Slider 100 (Inmune = requiere 100% de cambio)
                 const crossed = diffPct > sensitivity;
                 
                 box.querySelector('.val-indicator').textContent = `Diff: ${diffPct.toFixed(1)}%`;
 
                 if (isRaceActive && !isCalibrating) {
-                    if (isTarget) { box.classList.remove('roi-inactive'); box.classList.add('roi-target'); } 
-                    else { box.classList.add('roi-inactive'); box.classList.remove('roi-target'); }
-                } else { box.classList.remove('roi-inactive', 'roi-target'); }
+                    if (isTarget) { 
+                        box.classList.remove('roi-inactive'); 
+                        box.classList.add('roi-target'); 
+                    } else { 
+                        box.classList.add('roi-inactive'); 
+                        box.classList.remove('roi-target'); 
+                    }
+                } else { 
+                    box.classList.remove('roi-inactive', 'roi-target'); 
+                }
 
                 const canDetect = !isRaceActive || isTarget;
 
-                if (crossed && canDetect) box.classList.add('roi-detected');
-                else { 
+                if (crossed && canDetect) {
+                    box.classList.add('roi-detected');
+                } else { 
                     box.classList.remove('roi-detected'); 
-                    // ACTUALIZACIÓN DE BUFFER SILENCIOSO: Si no hay impacto, aprender gradualmente el fondo para evitar falsos positivos por sombras lentas.
                     if (!isCalibrating && !rState.blocked && canDetect) { 
                         for(let j=0; j<rState.baselineData.length; j++) {
                             rState.baselineData[j] = Math.round((rState.baselineData[j] * 0.9) + (currentData[j] * 0.1));
@@ -1522,35 +1710,49 @@
 
                 const msgEl = box.querySelector('.test-msg');
                 if (!isRaceActive && !isCountdown) {
-                    if (crossed) { msgEl.style.display = 'block'; msgEl.textContent = translations[currentLang].testOk; }
-                    else { msgEl.style.display = 'none'; }
+                    if (crossed) { 
+                        msgEl.style.display = 'block'; 
+                        msgEl.textContent = translations[currentLang].testOk; 
+                    } else { 
+                        msgEl.style.display = 'none'; 
+                    }
                 }
 
                 if (isRaceActive && !isCalibrating) {
                     if (rState.blocked) {
                         if (now - rState.lastRec < blindTimeMs) { 
-                            box.classList.add('roi-locked'); box.classList.remove('roi-detected'); msgEl.style.display = "block"; msgEl.textContent = translations[currentLang].testWait; 
+                            box.classList.add('roi-locked'); 
+                            box.classList.remove('roi-detected'); 
+                            msgEl.style.display = "block"; 
+                            msgEl.textContent = translations[currentLang].testWait; 
                         } else {
                             if (crossed && isTarget) { 
                                 box.classList.add('roi-locked'); 
                             } else { 
-                                rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none";
-                                // AL DESBLOQUEAR, FORZAR ACTUALIZACIÓN DEL FONDO (El coche acaba de salir)
+                                rState.blocked = false; 
+                                box.classList.remove('roi-locked'); 
+                                msgEl.style.display = "none";
                                 rState.baselineData = new Uint8ClampedArray(currentData);
                             }
                         }
                     } else {
                         if (crossed && isTarget) {
-                            rState.blocked = true; rState.lastRec = now; handleHit(i, now);
-                            msgEl.textContent = translations[currentLang].testGo; msgEl.style.display = "block";
+                            rState.blocked = true; 
+                            rState.lastRec = now; 
+                            handleHit(i, now);
+                            msgEl.textContent = translations[currentLang].testGo; 
+                            msgEl.style.display = "block";
                             setTimeout(() => { if(isRaceActive && !rState.blocked) msgEl.style.display = 'none'; }, 1000);
                         }
                     }
                 }
                 
                 if (isCountdown && crossed && !raceAborted && i === 0) {
-                    raceAborted = true; isCountdown = false; polySynth.triggerAttackRelease(["C2", "F#2"], "1");
-                    document.getElementById('false-start-alert').classList.add('show'); speak(translations[currentLang].voiceFalseStart);
+                    raceAborted = true; 
+                    isCountdown = false; 
+                    polySynth.triggerAttackRelease(["C2", "F#2"], "1");
+                    document.getElementById('false-start-alert').classList.add('show'); 
+                    speak(translations[currentLang].voiceFalseStart);
                     document.getElementById('reset-race-btn').disabled = false;
                     setTimeout(() => document.getElementById('false-start-alert').classList.remove('show'), 2000);
                 }
@@ -2026,15 +2228,14 @@
             }
         }
 
-        /* MODIFICADA LA CALIBRACIÓN PARA EL NUEVO ALGORITMO PIXEL DIFFING */
         async function runCalibration() {
             if (!isProcessing) return;
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
             
             setTimeout(() => {
-                // Al finalizar la pausa, capturar un fotograma limpio como baseline para cada ROI
+                updateFullFrameCache();
                 for (let i = 0; i < activeRoisCount; i++) {
-                    const data = getROIPixelData(roisState[i].el);
+                    const data = extractROIDataFromCache(roisState[i].el);
                     if (data) {
                         roisState[i].baselineData = new Uint8ClampedArray(data);
                     }
@@ -2043,7 +2244,7 @@
                 calibOverlay.classList.remove('active'); 
                 document.getElementById('calibrate-btn').disabled = false; 
                 speak(translations[currentLang].voiceCalibrated);
-            }, 2500); // 2.5 segundos de espera para que se quiten de la pista
+            }, 2500); 
         }
 
         document.getElementById('start-race-btn').addEventListener('click', startTrafficLight);
@@ -2073,6 +2274,28 @@
         });
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
+
+        /* NUEVO: Lectura de especificaciones técnicas */
+        document.getElementById('read-specs-btn').addEventListener('click', () => {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel(); // Si ya está hablando, lo detenemos al pulsarlo
+                return;
+            }
+            let specText = currentLang === 'en' ? "Technical Specifications. " : "Especificaciones Técnicas. ";
+            document.querySelectorAll('.spec-item').forEach(item => {
+                const title = item.querySelector('.spec-title').textContent;
+                const desc = item.querySelector('.spec-desc').textContent;
+                specText += title + ". " + desc + ". ";
+            });
+            
+            const u = new SpeechSynthesisUtterance(specText);
+            let langCode = currentLang === 'en' ? 'en-US' : 'es-ES'; 
+            u.lang = langCode; 
+            const voices = window.speechSynthesis.getVoices(); 
+            let voice = voices.find(v => v.lang === langCode) || voices.find(v => v.lang.startsWith(langCode.substring(0, 2)));
+            if (voice) u.voice = voice; 
+            window.speechSynthesis.speak(u);
+        });
 
         const slider = document.getElementById('threshold-slider');
         slider.addEventListener('input', () => { sensitivity = parseInt(slider.value); document.getElementById('current-threshold').textContent = sensitivity; });
