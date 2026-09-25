@@ -12,6 +12,7 @@
     <meta name="application-name" content="SECTOR TIME V.1.0">
     <meta http-equiv="Permissions-Policy" content="camera=(self)">
     
+    <!-- Fuentes Futuristas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
@@ -97,9 +98,9 @@
         
         input, select { user-select: text; -webkit-user-select: text; }
         
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.3); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.4); border-radius: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(56, 189, 248, 0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.5); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.8); }
 
         .font-orbitron { font-family: 'Orbitron', sans-serif !important; letter-spacing: 0.05em; }
@@ -152,7 +153,7 @@
             background-color: rgba(56, 189, 248, 0.05);
             box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2);
             transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; 
-            border-radius: 8px; 
+            border-radius: 8px;
         }
         .roi-box.active { display: block; }
         .roi-box.roi-meta { border-color: #ffffff; }
@@ -309,15 +310,15 @@
     <!-- Contenedor Principal. Layout Horizontal -->
     <div class="w-full h-full flex flex-row p-2 gap-2 overflow-hidden box-border">
         
-        <!-- COLUMNA IZQUIERDA (Cámara y Cabecera) -->
         <div class="flex-1 flex flex-col h-full min-w-[55%] gap-2 overflow-hidden">
             
+            <!-- HEADER -->
             <div class="neon-panel flex justify-between items-center w-full py-1.5 px-4 shrink-0">
                 <div class="flex items-center space-x-2 lg:space-x-4 w-full">
                     <div class="flex flex-col">
                         <div class="flex items-center">
                             <h1 class="text-lg neon-title font-orbitron tracking-wider leading-tight mr-3">SECTOR TIME V.1.0</h1>
-                            <!-- Idioma movido al Header para ahorrar espacio -->
+                            <!-- IDIOMA en Header -->
                             <select id="lang-select" class="bg-transparent border border-cyan-800 text-cyan-400 text-[9px] font-bold py-0.5 px-1 rounded hover:bg-cyan-900/50 outline-none uppercase tracking-widest transition-colors cursor-pointer">
                                 <option value="es">ES</option><option value="en">EN</option><option value="fr">FR</option>
                             </select>
@@ -365,6 +366,7 @@
                 </div>
             </div>
 
+            <!-- CAMERA BOX -->
             <div id="video-feed-box" class="neon-panel p-2 w-full flex-1 flex flex-col relative overflow-hidden">
                 <div class="flex justify-between items-center border-b border-cyan-800/50 pb-1.5 mb-1.5 shrink-0">
                     <h2 class="text-xs font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
@@ -388,12 +390,11 @@
                 
                 <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
 
-                <!-- ÁREA DE VIDEO -->
+                <!-- VIDEO / IMAGE CONTAINER -->
                 <div id="video-container">
                     <img id="static-bg-img" class="absolute inset-0 w-full h-full object-cover hidden z-0 pointer-events-none" />
                     <video id="webcam-feed" autoplay playsinline></video>
                     
-                    <!-- REPRODUCTOR DE VIDEOS TUTORIALES -->
                     <video id="tutorial-player" class="absolute inset-0 w-full h-full object-contain hidden z-[70] bg-black" controls playsinline></video>
                     <button id="close-tutorial-btn" class="absolute top-4 right-4 z-[80] hidden bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(239,68,68,0.6)] border border-red-400 text-[10px] tracking-widest uppercase flex items-center transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -460,10 +461,9 @@
             </div>
         </div>
 
-        <!-- COLUMNA DERECHA (Panel Cero-Scroll) -->
         <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-1.5 h-full overflow-hidden pb-1">
             
-            <!-- TIEMPO Y SEMÁFORO -->
+            <!-- TIMERS & LIGHTS -->
             <div class="neon-panel w-full p-2 text-center shrink-0">
                 <div class="flex justify-center w-full mb-1.5 pb-1.5 border-b border-cyan-800/50">
                     <div id="traffic-light-module" class="traffic-light-container five-lights bg-slate-900/80 px-3 py-1.5 rounded-xl border border-cyan-900/50 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
@@ -475,18 +475,18 @@
                 <div class="flex justify-around items-end space-x-2 mb-1">
                     <div class="flex-1">
                         <p class="text-[8px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="raceTime">TIEMPO CARRERA</p>
-                        <p id="race-time" class="timer-value font-orbitron">00:00.000</p>
+                        <p id="race-time" class="timer-value font-orbitron text-xl">00:00.000</p>
                     </div>
                     <div class="flex-1 border-l border-cyan-800/50 pl-2 flex flex-col justify-end">
                         <p class="text-[8px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="laps">VUELTAS</p>
-                        <p id="lap-count" class="timer-value font-orbitron text-cyan-100 !text-shadow-none">0 / 10</p> 
+                        <p id="lap-count" class="timer-value font-orbitron text-cyan-100 !text-shadow-none text-xl">0 / 10</p> 
                         <p id="mode-target-display" class="text-[8px] text-blue-400 font-bold mt-0 font-orbitron hidden">--</p>
                     </div>
                 </div>
-                <p id="lap-time" class="text-2xl text-cyan-300 mt-1 font-orbitron font-bold tracking-widest drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">00.000</p>
+                <p id="lap-time" class="text-3xl text-cyan-300 mt-1 font-orbitron font-bold tracking-widest drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">00.000</p>
             </div>
 
-            <!-- BOTONES -->
+            <!-- CONTROL BUTTONS -->
             <div class="w-full flex space-x-2 shrink-0">
                 <button id="start-race-btn" class="flex-1 race-control-btn disabled:opacity-50 disabled:cursor-not-allowed border-b-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -503,43 +503,36 @@
                 </button>
             </div>
 
-            <!-- Panel de Telemetría Dinámico (Muelle Flexbox) -->
+            <!-- TELEMETRY PANEL -->
             <div class="neon-panel w-full p-2 shrink-0 flex flex-col flex-1 min-h-[100px]">
                 <h2 class="text-[9px] font-bold text-cyan-400 mb-1 border-b border-cyan-800/50 pb-1 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
                 <div class="telemetry-grid gap-1 shrink-0">
-                    <div class="telemetry-item p-1">
+                    <div class="telemetry-item p-1.5">
                         <p class="telemetry-label text-[7px]" data-i18n="pilotCar">PILOTO / COCHE</p>
                         <p id="telemetry-pilot-car" class="telemetry-data text-xs font-light truncate">N/A / N/A</p>
                     </div>
-                    <div class="telemetry-item p-1">
+                    <div class="telemetry-item p-1.5">
                         <p class="telemetry-label text-[7px]" data-i18n="lastLap">ÚLTIMA VUELTA</p>
-                        <p id="telemetry-last-lap-time" class="telemetry-data yellow text-xs font-orbitron">--.---</p>
+                        <p id="telemetry-last-lap-time" class="telemetry-data yellow text-sm font-orbitron">--.---</p>
                     </div>
                     
-                    <div class="telemetry-item col-span-2 hidden p-1" id="sectors-telemetry-container">
+                    <div class="telemetry-item col-span-2 hidden p-1.5" id="sectors-telemetry-container">
                         <p class="telemetry-label text-[7px]" data-i18n="lastLapSectors">TIEMPOS DE SECTOR</p>
                         <div id="telemetry-sectors" class="sectors-display py-0.5"></div>
                     </div>
 
-                    <div class="telemetry-item p-1">
+                    <div class="telemetry-item p-1.5">
                         <p class="telemetry-label text-[7px]" data-i18n="bestLap">MEJOR VUELTA</p>
-                        <p id="telemetry-best-time" class="telemetry-data green text-xs font-orbitron">--.---</p>
+                        <p id="telemetry-best-time" class="telemetry-data green text-sm font-orbitron">--.---</p>
                     </div>
-                    <div class="telemetry-item p-1">
+                    <div class="telemetry-item p-1.5">
                         <p class="telemetry-label text-[7px]" data-i18n="avgTime">TIEMPO MEDIO</p>
-                        <p id="telemetry-average-time" class="telemetry-data text-xs font-orbitron text-cyan-200">--.---</p>
+                        <p id="telemetry-average-time" class="telemetry-data text-sm font-orbitron text-cyan-200">--.---</p>
                     </div>
-                </div>
-                
-                <!-- Gráfica Muelle (Se expande para llenar el hueco) -->
-                <div class="mt-1 border-t border-cyan-800/50 pt-1 flex-1 flex flex-col min-h-[40px]">
-                    <h2 class="text-[8px] font-bold text-cyan-400 mb-0.5 uppercase tracking-[0.2em] text-left shrink-0" data-i18n="timeGraph">Evolución de Tiempos</h2>
-                    <div class="flex-1 relative w-full h-full"><canvas id="lap-graph-canvas" class="absolute inset-0 w-full h-full rounded-md border border-cyan-500/20 bg-slate-900/50"></canvas></div>
-                    <p id="graph-status" class="text-center text-[8px] text-cyan-600/50 absolute bottom-3 w-full left-0 italic tracking-widest pointer-events-none" data-i18n="noData">Sin datos</p>
                 </div>
             </div>
 
-            <!-- Panel de Configuración (Compacto, Sin Scroll) -->
+            <!-- CONFIG PANEL -->
             <div id="config-panel" class="neon-panel w-full p-2 shrink-0">
                 <div class="flex items-center justify-between mb-1 border-b border-cyan-800/50 pb-1">
                     <h2 class="text-[9px] font-orbitron font-bold text-cyan-300 uppercase tracking-widest flex items-center">
@@ -554,7 +547,7 @@
                     </div>
                 </div>
 
-                <div class="space-y-1">
+                <div class="space-y-1.5">
                      <div class="grid grid-cols-3 gap-1">
                         <div class="col-span-1">
                             <label for="pilot-name-input" class="block text-[8px] font-bold text-cyan-500 mb-0.5 uppercase tracking-widest" data-i18n="pilotName">Piloto</label>
@@ -614,15 +607,15 @@
                     <h2 class="text-[9px] font-orbitron font-bold text-cyan-300 mb-1 flex items-center justify-start uppercase tracking-widest">
                         <span data-i18n="aiSens">Sensibilidad IA Individual</span>
                     </h2>
-                    <!-- Aquí se inyectan los sliders individuales de la IA -->
                     <div id="individual-sensitivity-container" class="grid grid-cols-2 gap-1">
+                        <!-- Generado por JS -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modales Globales -->
+    <!-- RANKING MODAL -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-5xl">
             <div class="flex justify-between items-center border-b border-cyan-500/50 pb-3 mb-6">
@@ -647,10 +640,9 @@
                 <p class="text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] font-orbitron">Recuperando Telemetría...</p>
             </div>
 
+            <!-- TAB 1: PÓDIUM Y PARRILLA -->
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 min-h-[200px] pt-10">
-                </div>
-
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 min-h-[200px] pt-10"></div>
                 <table id="f1-grid-table" class="w-full text-left text-sm bg-slate-900/60 rounded-xl border border-cyan-900/60 overflow-hidden shadow-lg hidden">
                     <thead class="bg-slate-800/80 border-b border-cyan-800">
                         <tr>
@@ -660,12 +652,12 @@
                             <th class="p-3 text-cyan-500 text-right w-24">GAP</th>
                         </tr>
                     </thead>
-                    <tbody id="ranking-top25-body" class="divide-y divide-slate-800">
-                    </tbody>
+                    <tbody id="ranking-top25-body" class="divide-y divide-slate-800"></tbody>
                 </table>
                 <p id="ranking-top25-empty" class="text-center text-cyan-600/60 mt-8 hidden font-bold tracking-widest text-xs uppercase">No hay registros de telemetría para este circuito.</p>
             </div>
 
+            <!-- TAB 2: VUELTA PERFECTA -->
             <div id="ranking-view-sectors" class="hidden overflow-y-auto max-h-[60vh] pr-2">
                 <div class="bg-slate-900/60 p-6 rounded-xl border border-cyan-800/60 mb-4 shadow-lg flex flex-col items-center">
                     <h4 class="text-xs text-cyan-500 mb-2 font-bold uppercase tracking-widest text-center">Límite Físico Teórico del Circuito</h4>
@@ -678,6 +670,7 @@
         </div>
     </div>
 
+    <!-- RESULTS MODAL -->
     <div id="resultsModal" class="modal-overlay hidden">
         <div class="modal-content p-8 w-full max-w-4xl border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
             <div class="text-center mb-6">
@@ -730,6 +723,7 @@
         </div>
     </div>
 
+    <!-- HISTORY & CONFIRM MODALS -->
     <div id="historyModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-2xl">
             <div class="flex justify-between items-center border-b border-cyan-800 pb-3 mb-4">
@@ -744,7 +738,7 @@
                 <p id="no-history-msg" class="text-center text-cyan-700 mt-4 hidden font-bold uppercase tracking-widest text-[10px]" data-i18n="noHistory">No hay carreras registradas aún.</p>
             </div>
             <div class="mt-4 flex justify-end">
-                <button id="open-confirm-btn" class="bg-transparent border border-red-500/50 hover:bg-red-900/50 text-red-400 px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-colors" data-i18n="clearHistory">Restaurar de Fábrica (Peligro)</button>
+                <button id="open-confirm-btn" class="bg-transparent border border-red-500/50 hover:bg-red-900/50 text-red-400 px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-colors" data-i18n="clearHistory">Restaurar de Fábrica</button>
             </div>
         </div>
     </div>
@@ -760,6 +754,7 @@
         </div>
     </div>
 
+    <!-- VIDEOS MODAL -->
     <div id="videosModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-4xl border-fuchsia-500/50 shadow-[0_0_50px_rgba(232,121,249,0.3)]">
              <div class="flex justify-between items-center border-b border-fuchsia-500/50 pb-3 mb-4">
@@ -790,6 +785,7 @@
         </div>
     </div>
 
+    <!-- GUIDE MODAL -->
     <div id="guideModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-4xl border-teal-500/50 shadow-[0_0_50px_rgba(45,212,191,0.3)]">
              <div class="flex justify-between items-center border-b border-teal-500/50 pb-3 mb-4">
@@ -806,6 +802,7 @@
         </div>
     </div>
 
+    <!-- GARAGE MODAL (8 CHARTS) -->
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-5 w-full max-w-6xl flex flex-col h-[90vh]">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-3 mb-4 shrink-0">
@@ -915,15 +912,47 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 min-h-[180px] bg-slate-900/40 border border-blue-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                        <span class="text-[10px] font-bold text-blue-400 mb-3 uppercase tracking-widest border-b border-blue-800/50 pb-1.5">Desempeño Histórico (Últimas 50 vueltas)</span>
-                        <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
+                    <!-- 8 CHARTS -->
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 shrink-0 mb-4">
+                        <div class="bg-slate-900/40 border border-blue-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-800/50 pb-1">Desempeño Histórico</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-amber-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-amber-500 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1">Consistencia (Gap)</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartConsistency"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-purple-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1">Tiempos Medios Sectores</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1">Tendencia de Ritmo (Media Móvil 5V)</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartTrend"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-rose-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-rose-400 mb-2 uppercase tracking-widest border-b border-rose-800/50 pb-1">Evolución por Sectores</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartSectorsEvol"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-indigo-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-indigo-400 mb-2 uppercase tracking-widest border-b border-indigo-800/50 pb-1">Distribución de Tiempos</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartHistogram"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-cyan-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1">Evolución Velocidad Media</span>
+                            <div class="flex-1 relative w-full"><canvas id="garageChartSpeedEvol"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-teal-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
+                            <span class="text-[10px] font-bold text-teal-400 mb-2 uppercase tracking-widest border-b border-teal-800/50 pb-1">Radar (Media vs Mejor)</span>
+                            <div class="flex-1 relative w-full flex justify-center"><div class="w-full max-w-sm"><canvas id="garageChartRadar"></canvas></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- CIRCUIT MODAL -->
     <div id="circuitModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-5 w-full max-w-6xl flex flex-col h-[90vh]">
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-3 mb-4 shrink-0">
@@ -971,6 +1000,16 @@
                             <p id="c-stat-laps" class="text-white font-orbitron font-bold text-xl">0</p>
                             <p class="text-[8px] text-slate-400 font-bold truncate mt-2 tracking-widest uppercase">En esta pista</p>
                         </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
+                            <div class="absolute top-0 left-0 w-full h-[2px] bg-purple-500"></div>
+                            <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1">Distancia</p>
+                            <p id="c-stat-distance" class="text-white font-orbitron font-bold text-sm">0.00 km</p>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
+                            <div class="absolute top-0 left-0 w-full h-[2px] bg-amber-500"></div>
+                            <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1">Tiempo Acum.</p>
+                            <p id="c-stat-time" class="text-white font-orbitron font-bold text-sm truncate">0h 0m</p>
+                        </div>
                         <div class="col-span-2 bg-slate-900/60 p-3 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[2px] bg-cyan-500"></div>
                             <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1">Velocidad Media (Real / Escala)</p>
@@ -993,7 +1032,6 @@
                     <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-5 shadow-inner relative flex flex-col shrink-0">
                         <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-3 border-b border-emerald-800/50 pb-1.5">Mapa del Circuito (Satélite)</h4>
                         <div class="flex flex-col lg:flex-row gap-5 items-stretch">
-                            <!-- MAPA 16:9 -->
                             <div class="w-full lg:w-2/3 aspect-video bg-black rounded-xl border border-emerald-600/50 overflow-hidden relative shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
                                 <img id="circuit-captured-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-80 filter contrast-125 hover:opacity-100 transition-opacity">
                                 <div id="circuit-img-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-emerald-800/50 bg-slate-900/60">
@@ -1008,14 +1046,19 @@
                                     <span class="z-10">Capturar ROIs</span>
                                     <span class="text-[8px] text-emerald-500 mt-1 z-10 font-bold">(IMAGEN + POSICIONES)</span>
                                 </button>
-                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras en pista antes de capturar el mapa.</p>
+                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras IA en pista antes de capturar el mapa.</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0">
                         <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
                             <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Ritmo de Carrera (Últimas 50 Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartEvolution"></canvas></div>
+                        </div>
+                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-4 rounded-xl flex flex-col shadow-inner">
+                            <span class="text-[10px] font-bold text-cyan-400 mb-3 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Tiempos Medios por Sector</span>
+                            <div class="flex-1 relative w-full"><canvas id="circuitChartSectors"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -1041,7 +1084,7 @@
                 lastLapSectors: "TIEMPOS SECTOR", timeGraph: "Evolución de Tiempos", noData: "Sin datos",
                 raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
                 restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "Vacío.",
-                clearHistory: "Restaurar todo", clearHistoryQ: "¿Restaurar Todo?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí, Borrar",
+                clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
                 pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
                 "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "Inf",
                 voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía"
@@ -1062,7 +1105,7 @@
                 lastLapSectors: "SECTOR TIMES", timeGraph: "Lap Graph", noData: "No data",
                 raceFinished: "Finished!", totalTime: "Total", avg: "Avg", lapDetail: "Details", time: "Total",
                 restartFull: "RESTART", exportExcel: "Excel", historyTitle: "History", date: "DATE", noHistory: "Empty.",
-                clearHistory: "Factory Reset", clearHistoryQ: "Reset All?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
+                clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
                 pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
                 "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "Inf",
                 voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide"
@@ -1072,9 +1115,12 @@
         let currentLang = 'es';
 
         let garageCars = []; let currentGarageCarId = null;
-        let garageChartEvol = null; let garageChartCons = null;
+        let garageChartEvol = null; let garageChartCons = null; let garageChartSect = null;
+        let garageChartTrend = null; let garageChartSectorsEvol = null; let garageChartHistogram = null; 
+        let garageChartSpeedEvol = null; let garageChartRadar = null;
+
         let circuits = []; let currentCircuitId = null;
-        let circuitChartEvol = null;
+        let circuitChartEvol = null; let circuitChartSect = null;
 
         const MAX_ROIS = 5; let activeRoisCount = 1; let roisState = []; let currentTargetRoi = 0; let blindTimeMs = 3000;
         let cameraStream = null, isProcessing = false, isRaceActive = false, isCountdown = false, raceAborted = false;
@@ -1122,6 +1168,7 @@
 
         const videoElement = document.getElementById('webcam-feed'); const videoContainer = document.getElementById('video-container');
         const calibOverlay = document.getElementById('calib-overlay'); const testMsg = document.querySelector('.test-msg');
+        
         const synth = new Tone.Synth().toDestination(); const polySynth = new Tone.PolySynth(Tone.Synth).toDestination();
 
         for (let i = 0; i < MAX_ROIS; i++) {
@@ -1170,7 +1217,7 @@
 
         function endAction(e) {
             if (!dragState.active) return; const box = roisState[dragState.roiIdx].el;
-            if (e.target.hasPointerCapture && e.pointerId !== undefined) e.target.releasePointerCapture(e.pointerId);
+            if (e.target.hasPointerCapture && e.target.hasPointerCapture(e.pointerId)) e.target.releasePointerCapture(e.pointerId);
             box.style.transition = 'all 0.1s ease'; box.classList.remove('dragging'); document.body.classList.remove('resizing-nwse');
             document.removeEventListener('pointermove', moveAction); document.removeEventListener('pointerup', endAction);
             dragState.active = false; autoSaveROIsToCircuit();
@@ -1367,7 +1414,6 @@
                     display.innerHTML += `<div class="flex items-center mr-4 mb-2"><span class="sector-tag ${tagClass}">${tagClass.toUpperCase()}</span><span class="font-orbitron font-bold text-white">${formatTime(secTime, false)}</span>${deltaHtml}</div>`;
                 });
             }
-            drawLapGraph();
         }
 
         function updateLapDisplay() { 
@@ -1525,25 +1571,6 @@
                 let tdHtml = `<td class="py-2 px-3 font-orbitron">${l.lap}</td>`;
                 if(activeRoisCount > 1 && l.sectors) { for(let i=0; i<activeRoisCount-1; i++) tdHtml += `<td class="py-2 px-3 text-cyan-400/70 font-orbitron">${l.sectors[i] ? (l.sectors[i]/1000).toFixed(3) : '-'}</td>`; }
                 tdHtml += `<td class="py-2 px-3 font-bold font-orbitron text-right">${(l.time/1000).toFixed(3)}</td>`; row.innerHTML = tdHtml; tbody.appendChild(row);
-            });
-        }
-
-        function drawLapGraph() {
-            const canvas = document.getElementById('lap-graph-canvas'); const ctx = canvas.getContext('2d');
-            const rect = canvas.parentElement.getBoundingClientRect();
-            const w = Math.max(100, rect.width); const h = Math.max(40, rect.height);
-            canvas.width = w; canvas.height = h;
-            if (!lapHistory.length) { ctx.clearRect(0,0,w,h); return; } document.getElementById('graph-status').textContent="";
-            const times = lapHistory.map(l=>l.time); const max = Math.max(...times); const min = Math.min(...times);
-            const range = max-min || 1; const pad = 4; const gw = w-pad*2; const gh = h-pad*2; const barW = (gw / times.length) - 2;
-            
-            ctx.clearRect(0,0,w,h);
-            times.forEach((t, i) => {
-                const normalizedH = range===0 ? gh*0.7 : (gh * (1 - (t-min)/range)*0.8 + gh*0.2);
-                const x = pad + i * (barW + 2); const y = h - pad - normalizedH;
-                ctx.fillStyle = (t===bestLapTime) ? '#34d399' : '#0ea5e9'; 
-                if(t===bestLapTime) { ctx.shadowColor = '#34d399'; ctx.shadowBlur = 10; } else { ctx.shadowBlur = 0; }
-                ctx.fillRect(x, y, barW, normalizedH);
             });
         }
         
@@ -1771,7 +1798,6 @@
         document.getElementById('open-confirm-btn').addEventListener('click', () => { document.getElementById('confirmModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('confirmModal').classList.add('open'),10); });
         document.getElementById('cancel-clear-btn').addEventListener('click', () => { document.getElementById('confirmModal').classList.remove('open'); setTimeout(()=>document.getElementById('confirmModal').classList.add('hidden'),300); });
         
-        // Factory Reset for everything
         document.getElementById('confirm-clear-btn').addEventListener('click', async () => { 
             localStorage.removeItem('krono_history_v4');
             if(window.userId && window.fs && window.db) { try { const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history')); for(const d of hSnap.docs) { await window.fs.deleteDoc(d.ref); } } catch(e) {} }
@@ -1899,8 +1925,50 @@
 
         function drawGarageCharts(hist, bestLapForChart) {
             hist = hist || []; const recentHist = hist.slice(-50);
+            
+            // 1. Evolución
             const ctxEvol = document.getElementById('garageChartEvolution').getContext('2d'); if(garageChartEvol) garageChartEvol.destroy();
             garageChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentHist.map(h => h.lapTime/1000), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+
+            // 2. Consistencia
+            const ctxCons = document.getElementById('garageChartConsistency').getContext('2d'); if(garageChartCons) garageChartCons.destroy();
+            const devData = recentHist.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
+            garageChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desviación (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+
+            // 3. Tiempos Medios Sectores
+            const ctxSect = document.getElementById('garageChartSectors').getContext('2d'); if(garageChartSect) garageChartSect.destroy();
+            let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0]; let bestSectorTimes = [Infinity, Infinity, Infinity, Infinity, Infinity];
+            hist.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; if(secTime < bestSectorTimes[idx]) bestSectorTimes[idx] = secTime; } }); } });
+            for(let i=0; i<5; i++) { if(sectorCounts[i] > 0) sectorAverages[i] = (sectorAverages[i] / sectorCounts[i]) / 1000; }
+            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
+            if(activeSecs.length > 0) { garageChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(192, 132, 252, 0.4)', borderColor: '#c084fc', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#a855f7', font: {size: 9}}, grid: {color: 'rgba(192,132,252,0.1)'} }, x: { display: true, ticks: {color: '#d8b4fe', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+
+            // 4. Tendencia (Media Móvil)
+            const ctxTrend = document.getElementById('garageChartTrend').getContext('2d'); if(garageChartTrend) garageChartTrend.destroy();
+            let movingAvg = [];
+            for(let i=0; i<recentHist.length; i++) { let sum = 0; let count = 0; for(let j=Math.max(0, i-4); j<=i; j++) { sum += recentHist[j].lapTime; count++; } movingAvg.push((sum/count)/1000); }
+            garageChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Media Móvil (5V)', data: movingAvg, borderColor: '#10b981', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+
+            // 5. Evolución por Sectores
+            const ctxSectorsEvol = document.getElementById('garageChartSectorsEvol').getContext('2d'); if(garageChartSectorsEvol) garageChartSectorsEvol.destroy();
+            let datasetsSectors = []; const colors = ['#3b82f6', '#f59e0b', '#a855f7', '#06b6d4', '#10b981'];
+            if(activeSecs.length > 0) { for(let i=0; i<activeSecs.length; i++) { const secData = recentHist.map(h => (h.sectors && h.sectors[i]) ? h.sectors[i]/1000 : null); datasetsSectors.push({ label: labels[i], data: secData, borderColor: colors[i%colors.length], tension: 0.3, pointRadius: 0, borderWidth: 1.5 }); } }
+            garageChartSectorsEvol = new Chart(ctxSectorsEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: datasetsSectors }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: true, position: 'bottom', labels: {color: '#94a3b8', boxWidth: 10, font:{size:9}}} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+
+            // 6. Histograma
+            const ctxHist = document.getElementById('garageChartHistogram').getContext('2d'); if(garageChartHistogram) garageChartHistogram.destroy();
+            let histogramBins = {}; recentHist.forEach(h => { const sec = Math.floor(h.lapTime / 1000); const bin = `${sec}s`; histogramBins[bin] = (histogramBins[bin] || 0) + 1; });
+            const sortedBins = Object.keys(histogramBins).sort((a,b) => parseFloat(a) - parseFloat(b));
+            garageChartHistogram = new Chart(ctxHist, { type: 'bar', data: { labels: sortedBins, datasets: [{ label: 'Frecuencia', data: sortedBins.map(b => histogramBins[b]), backgroundColor: 'rgba(99, 102, 241, 0.5)', borderColor: '#6366f1', borderWidth: 1, borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}, stepSize: 1}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: true, ticks: {color: '#818cf8', font: {size: 9}}, grid: {display: false} } } } });
+
+            // 7. Velocidad Media Evolución
+            const ctxSpeedEvol = document.getElementById('garageChartSpeedEvol').getContext('2d'); if(garageChartSpeedEvol) garageChartSpeedEvol.destroy();
+            let speedData = []; recentHist.forEach(h => { const tCirc = circuits.find(c => c.id === h.circuitId); const len = tCirc ? parseFloat(tCirc.length) : 0; if(len > 0 && h.lapTime > 0) { const speedMs = len / (h.lapTime / 1000); const scaleKmh = speedMs * 3.6 * 32; speedData.push(scaleKmh); } else { speedData.push(null); } });
+            garageChartSpeedEvol = new Chart(ctxSpeedEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Vel. Media Escala (km/h)', data: speedData, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+
+            // 8. Radar Comparativa
+            const ctxRadar = document.getElementById('garageChartRadar').getContext('2d'); if(garageChartRadar) garageChartRadar.destroy();
+            if(activeSecs.length > 0) { const bestSecs = activeSecs.map((_, i) => bestSectorTimes[i] !== Infinity ? bestSectorTimes[i]/1000 : 0); garageChartRadar = new Chart(ctxRadar, { type: 'radar', data: { labels: labels, datasets: [{ label: 'Tiempo Medio', data: activeSecs, backgroundColor: 'rgba(45, 212, 191, 0.2)', borderColor: '#2dd4bf', pointBackgroundColor: '#2dd4bf' }, { label: 'Mejor Tiempo', data: bestSecs, backgroundColor: 'rgba(244, 63, 94, 0.2)', borderColor: '#f43f5e', pointBackgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color: 'rgba(255,255,255,0.1)'}, grid: {color: 'rgba(255,255,255,0.1)'}, pointLabels: {color: '#94a3b8', font: {size: 9}}, ticks: {display: false} } }, plugins: { legend: {position: 'bottom', labels:{color:'#94a3b8', font:{size:9}}} } } }); } else { ctxRadar.clearRect(0, 0, ctxRadar.canvas.width, ctxRadar.canvas.height); }
         }
 
         document.getElementById('garage-capture-btn').addEventListener('click', () => {
@@ -1970,6 +2038,17 @@
             const ctxEvol = document.getElementById('circuitChartEvolution').getContext('2d'); if(circuitChartEvol) circuitChartEvol.destroy();
             const recentLaps = laps.slice(-50);
             circuitChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentLaps.map(h => h.lapTime/1000), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+
+            const ctxSect = document.getElementById('circuitChartSectors').getContext('2d'); if(circuitChartSect) circuitChartSect.destroy();
+            let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0];
+            laps.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; } }); } });
+            for(let i=0; i<5; i++) { if(sectorCounts[i] > 0) sectorAverages[i] = (sectorAverages[i] / sectorCounts[i]) / 1000; }
+            
+            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
+            
+            if(activeSecs.length > 0) {
+                circuitChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(34, 211, 238, 0.4)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } });
+            } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
         }
 
         document.getElementById('circuit-capture-btn').addEventListener('click', () => {
@@ -2013,7 +2092,6 @@
         });
         document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
-            // Cascade delete history from garage
             garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => h.circuitId !== currentCircuitId); } }); saveGarage();
             if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
             circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
@@ -2023,7 +2101,6 @@
         document.getElementById('circuit-picker').addEventListener('change', (e) => { renderCircuit(e.target.value); document.getElementById('circuit-model-select').value = e.target.value; loadCircuitROIs(e.target.value); });
         document.getElementById('circuit-model-select').addEventListener('change', (e) => { currentCircuitId = e.target.value; loadCircuitROIs(e.target.value); });
 
-        // Videos & Guide Modals
         document.getElementById('videos-open-btn').addEventListener('click', () => { document.getElementById('videosModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('videosModal').classList.add('open'),10); });
         document.getElementById('close-videos-btn').addEventListener('click', () => { document.getElementById('videosModal').classList.remove('open'); setTimeout(()=>document.getElementById('videosModal').classList.add('hidden'),300); });
         document.querySelectorAll('.tutorial-vid-btn').forEach(btn => {
@@ -2038,7 +2115,6 @@
         document.getElementById('guide-open-btn').addEventListener('click', () => { document.getElementById('guideModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('guideModal').classList.add('open'),10); });
         document.getElementById('close-guide-btn').addEventListener('click', () => { document.getElementById('guideModal').classList.remove('open'); setTimeout(()=>document.getElementById('guideModal').classList.add('hidden'),300); });
 
-        // Final Boot
         window.onload = () => {
             if (window.speechSynthesis) window.speechSynthesis.getVoices();
             renderSensitivitiesUI(); updateLapDisplay(); stopRace(false);
