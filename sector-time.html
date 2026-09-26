@@ -334,7 +334,7 @@
                         <div class="flex items-center">
                             <h1 class="text-lg neon-title font-orbitron tracking-wider leading-tight mr-3">SECTOR TIME V.1.0</h1>
                             <select id="lang-select" class="bg-transparent border border-cyan-800 text-cyan-400 text-[9px] font-bold py-0.5 px-1 rounded hover:bg-cyan-900/50 outline-none uppercase tracking-widest transition-colors cursor-pointer">
-                                <option value="es">ES</option><option value="en">EN</option><option value="fr">FR</option>
+                                <option value="es">ES</option><option value="en">EN</option>
                             </select>
                         </div>
                         <span class="text-[9px] font-bold text-cyan-300 tracking-widest uppercase">By Albert Closa</span>
@@ -362,10 +362,10 @@
                         <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="videos">Videos</span>
                     </button>
                     
-                    <a href="sector.pdf" target="_blank" download="sector.pdf" id="guide-open-btn" class="flex items-center text-teal-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-teal-900/50 border border-transparent hover:border-teal-400" title="Guía">
+                    <button id="guide-open-btn" class="flex items-center text-teal-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-teal-900/50 border border-transparent hover:border-teal-400" title="Guía">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                         <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="guide">Guía</span>
-                    </a>
+                    </button>
                     
                     <button id="ranking-open-btn" class="flex items-center text-amber-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-amber-900/50 border border-transparent hover:border-amber-400" title="Ranking F1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
@@ -375,7 +375,7 @@
                     <button id="fullscreen-btn" class="flex items-center text-slate-300 hover:text-white transition-colors px-2 py-1 rounded hover:bg-slate-700/50 border border-transparent hover:border-slate-400" title="Pantalla Completa">
                          <svg id="fs-icon-enter" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
                          <svg id="fs-icon-exit" class="hidden lg:mr-1.5" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
-                         <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline">Pantalla</span>
+                         <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="fullscreen">Pantalla</span>
                     </button>
                 </div>
             </div>
@@ -384,18 +384,18 @@
                 <div class="flex justify-between items-center border-b border-cyan-800/50 pb-1.5 mb-1.5 shrink-0">
                     <h2 class="text-xs font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
                     <div class="flex space-x-1.5">
-                        <button id="calibrate-btn" class="p-1 px-3 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-[10px] font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md" disabled>
+                        <button id="calibrate-btn" class="p-1 px-3 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-[10px] font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md" disabled data-i18n="calibIA">
                             Calibrar IA
                         </button>
                         <label for="bg-image-input" class="p-1 px-2.5 rounded bg-blue-600/20 border border-blue-500 text-blue-400 hover:bg-blue-600/40 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(59,130,246,0.2)] cursor-pointer" title="Cargar Imagen de Fondo">
-                            IMG
+                            <span data-i18n="img">IMG</span>
                             <input type="file" id="bg-image-input" accept="image/jpeg, image/png, image/webp" class="hidden">
                         </label>
                         <button id="camera-on-btn" class="p-1 px-3 rounded bg-emerald-600/20 border border-emerald-500 text-emerald-400 hover:bg-emerald-600/40 disabled:opacity-50 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(16,185,129,0.2)]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                            CAM ON
+                            <span data-i18n="camOn">CAM ON</span>
                         </button>
-                        <button id="camera-off-btn" class="p-1 px-3 rounded bg-red-600/20 border border-red-500 text-red-400 hover:bg-red-600/40 disabled:opacity-50 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(239,68,68,0.2)]" disabled>
+                        <button id="camera-off-btn" class="p-1 px-3 rounded bg-red-600/20 border border-red-500 text-red-400 hover:bg-red-600/40 disabled:opacity-50 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(239,68,68,0.2)]" disabled data-i18n="camOff">
                             OFF
                         </button>
                     </div>
@@ -408,7 +408,7 @@
                     <video id="webcam-feed" class="absolute inset-0 w-full h-full object-cover hidden z-10" autoplay playsinline></video>
                     
                     <video id="tutorial-player" class="absolute inset-0 w-full h-full object-contain hidden z-[70] bg-black" controls playsinline></video>
-                    <button id="close-tutorial-btn" class="absolute top-4 right-4 z-[80] hidden bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(239,68,68,0.6)] border border-red-400 text-[10px] tracking-widest uppercase flex items-center transition-all">
+                    <button id="close-tutorial-btn" class="absolute top-4 right-4 z-[80] hidden bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(239,68,68,0.6)] border border-red-400 text-[10px] tracking-widest uppercase flex items-center transition-all" data-i18n="closeVideo">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         Cerrar Video
                     </button>
@@ -428,47 +428,47 @@
 
                     <div id="roi-0" class="roi-box roi-meta z-20" style="left:10%; top:25%; width:15%; height:50%;">
                         <div class="roi-label-container">
-                            <div class="roi-label-tag">META</div>
-                            <button class="roi-auto-btn" onclick="calibrateSingleROI(0)" title="Calibrar este sector">AUTO</button>
+                            <div class="roi-label-tag" data-i18n="meta">META</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(0)" title="Calibrar este sector" data-i18n="auto">AUTO</button>
                         </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-1" class="roi-box roi-s1 z-20" style="left:30%; top:25%; width:15%; height:50%;">
                          <div class="roi-label-container">
-                            <div class="roi-label-tag">SEC 1</div>
-                            <button class="roi-auto-btn" onclick="calibrateSingleROI(1)" title="Calibrar este sector">AUTO</button>
+                            <div class="roi-label-tag" data-i18n="sec1">SEC 1</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(1)" title="Calibrar este sector" data-i18n="auto">AUTO</button>
                         </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-2" class="roi-box roi-s2 z-20" style="left:50%; top:25%; width:15%; height:50%;">
                          <div class="roi-label-container">
-                            <div class="roi-label-tag">SEC 2</div>
-                            <button class="roi-auto-btn" onclick="calibrateSingleROI(2)" title="Calibrar este sector">AUTO</button>
+                            <div class="roi-label-tag" data-i18n="sec2">SEC 2</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(2)" title="Calibrar este sector" data-i18n="auto">AUTO</button>
                         </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-3" class="roi-box roi-s3 z-20" style="left:70%; top:25%; width:15%; height:50%;">
                          <div class="roi-label-container">
-                            <div class="roi-label-tag">SEC 3</div>
-                            <button class="roi-auto-btn" onclick="calibrateSingleROI(3)" title="Calibrar este sector">AUTO</button>
+                            <div class="roi-label-tag" data-i18n="sec3">SEC 3</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(3)" title="Calibrar este sector" data-i18n="auto">AUTO</button>
                         </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-4" class="roi-box roi-s4 z-20" style="left:40%; top:10%; width:20%; height:40%;">
                          <div class="roi-label-container">
-                            <div class="roi-label-tag">SEC 4</div>
-                            <button class="roi-auto-btn" onclick="calibrateSingleROI(4)" title="Calibrar este sector">AUTO</button>
+                            <div class="roi-label-tag" data-i18n="sec4">SEC 4</div>
+                            <button class="roi-auto-btn" onclick="calibrateSingleROI(4)" title="Calibrar este sector" data-i18n="auto">AUTO</button>
                         </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                 </div>
                 <canvas id="video-canvas"></canvas>
-                <div id="video-status" class="text-center text-[9px] mt-1.5 text-cyan-400 font-bold tracking-widest uppercase">Vista Previa Pista Activa</div>
+                <div id="video-status" class="text-center text-[9px] mt-1.5 text-cyan-400 font-bold tracking-widest uppercase" data-i18n="previewTrack">Vista Previa Pista Activa</div>
             </div>
         </div>
 
@@ -625,23 +625,23 @@
             <div class="flex justify-between items-center border-b border-cyan-500/50 pb-3 mb-6">
                 <h3 class="text-2xl font-orbitron font-black text-cyan-300 flex items-center uppercase tracking-widest drop-shadow-[0_0_10px_rgba(56,189,248,0.6)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
-                    Ranking Global F1
+                    <span data-i18n="globalRanking">Ranking Global F1</span>
                 </h3>
                 <div class="flex items-center space-x-3">
-                    <span class="text-xs font-bold text-cyan-500 uppercase tracking-widest">Circuito:</span>
+                    <span class="text-xs font-bold text-cyan-500 uppercase tracking-widest" data-i18n="circuitLabel">Circuito:</span>
                     <select id="ranking-circuit-picker" class="neon-input border-cyan-500/50 text-cyan-200 text-xs font-bold px-3 py-1.5 rounded-lg w-56 shadow-[0_0_10px_rgba(56,189,248,0.2)]"></select>
                     <button id="close-ranking-btn" class="text-slate-500 hover:text-white font-bold ml-4 text-2xl transition-colors">×</button>
                 </div>
             </div>
 
             <div class="flex space-x-3 mb-6">
-                <button id="tab-btn-top25" class="tab-btn active">Top 25 Absoluto</button>
-                <button id="tab-btn-sectors" class="tab-btn inactive">La Vuelta Perfecta (Sectores)</button>
+                <button id="tab-btn-top25" class="tab-btn active" data-i18n="top25">Top 25 Absoluto</button>
+                <button id="tab-btn-sectors" class="tab-btn inactive" data-i18n="perfectLap">La Vuelta Perfecta (Sectores)</button>
             </div>
 
             <div id="ranking-loading" class="text-center py-12 hidden">
                 <div class="spinner mx-auto mb-3"></div>
-                <p class="text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] font-orbitron">Recuperando Telemetría...</p>
+                <p class="text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] font-orbitron" data-i18n="loadingTelemetry">Recuperando Telemetría...</p>
             </div>
 
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
@@ -649,24 +649,24 @@
                 <table id="f1-grid-table" class="w-full text-left text-sm bg-slate-900/60 rounded-xl border border-cyan-900/60 overflow-hidden shadow-lg hidden">
                     <thead class="bg-slate-800/80 border-b border-cyan-800">
                         <tr>
-                            <th class="p-3 text-cyan-500 w-16 text-center">POS</th>
-                            <th class="p-3 text-cyan-500">PILOTO / COCHE</th>
-                            <th class="p-3 text-cyan-500 text-right">TIEMPO VUELTA</th>
-                            <th class="p-3 text-cyan-500 text-right w-24">GAP</th>
+                            <th class="p-3 text-cyan-500 w-16 text-center" data-i18n="pos">POS</th>
+                            <th class="p-3 text-cyan-500" data-i18n="pilotCar">PILOTO / COCHE</th>
+                            <th class="p-3 text-cyan-500 text-right" data-i18n="lapTimeHeader">TIEMPO VUELTA</th>
+                            <th class="p-3 text-cyan-500 text-right w-24" data-i18n="gap">GAP</th>
                         </tr>
                     </thead>
                     <tbody id="ranking-top25-body" class="divide-y divide-slate-800"></tbody>
                 </table>
-                <p id="ranking-top25-empty" class="text-center text-cyan-600/60 mt-8 hidden font-bold tracking-widest text-xs uppercase">No hay registros de telemetría para este circuito.</p>
+                <p id="ranking-top25-empty" class="text-center text-cyan-600/60 mt-8 hidden font-bold tracking-widest text-xs uppercase" data-i18n="noTelemetry">No hay registros de telemetría para este circuito.</p>
             </div>
 
             <div id="ranking-view-sectors" class="hidden overflow-y-auto max-h-[60vh] pr-2">
                 <div class="bg-slate-900/60 p-6 rounded-xl border border-cyan-800/60 mb-4 shadow-lg flex flex-col items-center">
-                    <h4 class="text-xs text-cyan-500 mb-2 font-bold uppercase tracking-widest text-center">Límite Físico Teórico del Circuito</h4>
+                    <h4 class="text-xs text-cyan-500 mb-2 font-bold uppercase tracking-widest text-center" data-i18n="theoreticLimit">Límite Físico Teórico del Circuito</h4>
                     <p id="ultimate-lap-time" class="text-5xl font-orbitron font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] mb-2 tracking-wider">--.---</p>
-                    <p class="text-[10px] text-cyan-600 font-bold text-center uppercase tracking-widest max-w-lg mb-6">Esta "Vuelta Perfecta" es la suma de los récords absolutos individuales de cada sector, demostrando el ritmo máximo posible si se unieran todos los tramos perfectos.</p>
+                    <p class="text-[10px] text-cyan-600 font-bold text-center uppercase tracking-widest max-w-lg mb-6" data-i18n="perfectLapDesc">Esta "Vuelta Perfecta" es la suma de los récords absolutos individuales de cada sector, demostrando el ritmo máximo posible si se unieran todos los tramos perfectos.</p>
                     <div id="ranking-sectors-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full"></div>
-                    <p id="ranking-sectors-empty" class="text-center text-cyan-600/60 mt-6 hidden font-bold tracking-widest text-xs uppercase">Aún no hay sectores registrados para construir la Vuelta Perfecta.</p>
+                    <p id="ranking-sectors-empty" class="text-center text-cyan-600/60 mt-6 hidden font-bold tracking-widest text-xs uppercase" data-i18n="noSectorsPerfect">Aún no hay sectores registrados para construir la Vuelta Perfecta.</p>
                 </div>
             </div>
         </div>
@@ -761,7 +761,7 @@
              <div class="flex justify-between items-center border-b border-fuchsia-500/50 pb-3 mb-4">
                 <h3 class="text-2xl font-orbitron font-black text-fuchsia-300 uppercase tracking-widest flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                    Centro de Videos
+                    <span data-i18n="videoCenterTitle">Centro de Videos</span>
                 </h3>
                 <button id="close-videos-btn" class="text-slate-500 hover:text-white font-bold text-3xl transition-colors">×</button>
             </div>
@@ -786,21 +786,37 @@
         </div>
     </div>
 
+    <div id="guideModal" class="modal-overlay hidden" style="z-index: 150;">
+        <div class="modal-content p-6 w-full max-w-4xl border-teal-500/50 shadow-[0_0_50px_rgba(45,212,191,0.3)]">
+             <div class="flex justify-between items-center border-b border-teal-500/50 pb-3 mb-4">
+                <h3 class="text-2xl font-orbitron font-black text-teal-300 uppercase tracking-widest flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <span data-i18n="userGuideTitle">Guía de Usuario</span>
+                </h3>
+                <button id="close-guide-btn" class="text-slate-500 hover:text-white font-bold text-3xl transition-colors">×</button>
+            </div>
+            <div class="text-center py-16 bg-slate-900/40 rounded-xl border border-slate-700/50 shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mx-auto mb-4 text-teal-500/50"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <p class="text-teal-400 font-bold uppercase tracking-[0.2em] text-sm" data-i18n="guideComingSoon">Próximamente: Manual completo de instrucciones</p>
+            </div>
+        </div>
+    </div>
+
     <!-- GARAGE MODAL (8 CHARTS) -->
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content garage-modal-custom p-5">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-3 mb-4 shrink-0">
                 <h3 class="text-2xl font-orbitron font-black text-blue-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
-                    Mi Garaje Premium
+                    <span data-i18n="garageTitle">Mi Garaje Premium</span>
                 </h3>
                 <div class="flex items-center space-x-3">
                     <div class="flex items-center bg-slate-900/60 rounded-lg border border-blue-800 px-3 py-1.5">
-                        <span class="text-[9px] text-blue-400 font-bold tracking-widest mr-2 uppercase">Coche:</span>
+                        <span class="text-[9px] text-blue-400 font-bold tracking-widest mr-2 uppercase" data-i18n="carLabel">Coche:</span>
                         <select id="garage-car-picker" class="bg-transparent text-xs font-bold outline-none cursor-pointer text-white w-32"></select>
                     </div>
                     <div class="flex items-center bg-slate-900/60 rounded-lg border border-emerald-800 px-3 py-1.5">
-                        <span class="text-[9px] text-emerald-400 font-bold tracking-widest mr-2 uppercase">Pista:</span>
+                        <span class="text-[9px] text-emerald-400 font-bold tracking-widest mr-2 uppercase" data-i18n="trackLabel">Pista:</span>
                         <select id="garage-circuit-picker" class="bg-transparent text-xs font-bold outline-none cursor-pointer text-white w-40"></select>
                     </div>
                     <button id="close-garage-btn" class="text-slate-500 hover:text-white font-bold ml-4 text-3xl transition-colors">×</button>
@@ -814,15 +830,15 @@
                             <img id="garage-car-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-90 hover:opacity-100 transition-opacity">
                             <div class="text-center text-blue-500/50 z-10 flex flex-col items-center" id="garage-img-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
-                                <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin Foto</span>
+                                <span class="text-[10px] font-bold uppercase tracking-[0.2em]" data-i18n="noPhoto">Sin Foto</span>
                             </div>
                         </div>
                         <div class="flex gap-2">
                             <button id="garage-capture-btn" class="flex-1 bg-slate-800 border border-cyan-600/60 hover:bg-cyan-900/50 text-cyan-300 font-bold text-[9px] uppercase tracking-widest py-2.5 rounded-lg transition shadow-md flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Webcam
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> <span data-i18n="webcam">Webcam</span>
                             </button>
                             <label class="flex-1 bg-slate-800 border border-blue-600/60 hover:bg-blue-900/50 text-blue-300 font-bold text-[9px] uppercase tracking-widest py-2.5 rounded-lg text-center cursor-pointer transition flex items-center justify-center m-0 shadow-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Archivo
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> <span data-i18n="file">Archivo</span>
                                 <input type="file" id="garage-img-input" accept="image/*" class="hidden">
                             </label>
                         </div>
@@ -830,33 +846,33 @@
                     
                     <div class="flex flex-col gap-2.5 mt-1">
                         <div>
-                            <label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Modelo</label>
+                            <label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block" data-i18n="modelLabel">Modelo</label>
                             <input type="text" id="g-input-name" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg" placeholder="Ej: Porsche 911 RSR">
                         </div>
                         <div class="flex gap-2">
-                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Marca</label><input type="text" id="g-input-brand" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
-                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Clase</label><input type="text" id="g-input-cat" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
+                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block" data-i18n="brandLabel">Marca</label><input type="text" id="g-input-brand" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
+                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block" data-i18n="classLabel">Clase</label><input type="text" id="g-input-cat" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                         </div>
                         <div class="flex gap-2">
-                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Motor</label><input type="text" id="g-input-motor" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
-                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Grip/Neum.</label><input type="text" id="g-input-tires" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
+                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block" data-i18n="motorLabel">Motor</label><input type="text" id="g-input-motor" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
+                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block" data-i18n="gripLabel">Grip/Neum.</label><input type="text" id="g-input-tires" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                         </div>
                         <div class="flex gap-2 items-end">
-                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block">Peso (g)</label><input type="text" id="g-input-weight" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
+                            <div class="flex-1"><label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1 block" data-i18n="weightLabel">Peso (g)</label><input type="text" id="g-input-weight" class="neon-input border-blue-500/40 w-full p-2 text-xs rounded-lg"></div>
                             <div class="flex-1 flex items-center justify-center p-2 bg-slate-900/60 rounded-lg border border-blue-500/40 h-[34px]">
                                 <label class="text-[10px] font-bold text-blue-300 uppercase tracking-widest flex items-center cursor-pointer">
-                                    <input type="checkbox" id="g-input-magnet" class="mr-2 accent-blue-500 w-3 h-3"> Imán
+                                    <input type="checkbox" id="g-input-magnet" class="mr-2 accent-blue-500 w-3 h-3"> <span data-i18n="magnetLabel">Imán</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     
                     <div class="mt-auto pt-2 flex flex-col gap-2">
-                        <button id="garage-drive-btn" class="w-full bg-gradient-to-r from-emerald-700 to-emerald-900 hover:from-emerald-600 hover:to-emerald-800 text-white font-bold uppercase tracking-widest py-2.5 rounded-xl transition shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-500/50 text-xs">🏁 PILOTAR COCHE</button>
-                        <button id="garage-save-car-btn" class="w-full bg-slate-800 border border-blue-500 text-blue-300 hover:bg-blue-900/60 hover:text-white text-xs font-bold tracking-widest uppercase py-2 rounded-xl transition shadow-md">Guardar Cambios</button>
+                        <button id="garage-drive-btn" class="w-full bg-gradient-to-r from-emerald-700 to-emerald-900 hover:from-emerald-600 hover:to-emerald-800 text-white font-bold uppercase tracking-widest py-2.5 rounded-xl transition shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-500/50 text-xs" data-i18n="driveCarBtn">🏁 PILOTAR COCHE</button>
+                        <button id="garage-save-car-btn" class="w-full bg-slate-800 border border-blue-500 text-blue-300 hover:bg-blue-900/60 hover:text-white text-xs font-bold tracking-widest uppercase py-2 rounded-xl transition shadow-md" data-i18n="saveChangesBtn">Guardar Cambios</button>
                         
                         <div class="grid grid-cols-2 gap-2 mt-1">
-                            <button id="garage-add-btn" class="bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-900/50 py-2 rounded-xl text-[10px] font-bold tracking-widest uppercase transition">+ Añadir</button>
+                            <button id="garage-add-btn" class="bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-900/50 py-2 rounded-xl text-[10px] font-bold tracking-widest uppercase transition" data-i18n="addBtn">+ Añadir</button>
                             <button id="garage-delete-car-btn" class="bg-transparent border border-red-500 text-red-500 hover:bg-red-900/50 py-2 rounded-xl text-[10px] font-bold tracking-widest uppercase transition flex justify-center items-center" title="Eliminar Coche">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                             </button>
@@ -868,62 +884,62 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 shrink-0">
                         <div class="bg-slate-900/60 p-3 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-emerald-500 shadow-[0_0_15px_#10b981]"></div>
-                            <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest mb-1">Mejor Vuelta</p>
+                            <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest mb-1" data-i18n="bestLapStat">Mejor Vuelta</p>
                             <p id="g-stat-best" class="text-white font-orbitron font-black text-lg drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">--.---</p>
                         </div>
                         <div class="bg-slate-900/60 p-3 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-blue-500 shadow-[0_0_15px_#3b82f6]"></div>
-                            <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest mb-1">Vueltas Totales</p>
+                            <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest mb-1" data-i18n="totalLapsStat">Vueltas Totales</p>
                             <p id="g-stat-laps" class="text-white font-orbitron font-bold text-lg">0</p>
                         </div>
                         <div class="bg-slate-900/60 p-3 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-purple-500 shadow-[0_0_15px_#a855f7]"></div>
-                            <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1">Distancia</p>
+                            <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1" data-i18n="distanceStat">Distancia</p>
                             <p id="g-stat-distance" class="text-white font-orbitron font-bold text-base">0.00 km</p>
                         </div>
                         <div class="bg-slate-900/60 p-3 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-amber-500 shadow-[0_0_15px_#f59e0b]"></div>
-                            <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1">Tiempo de Uso</p>
+                            <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1" data-i18n="useTimeStat">Tiempo de Uso</p>
                             <p id="g-stat-time" class="text-white font-orbitron font-bold text-base truncate">0h 0m 0s</p>
                         </div>
                         <div class="col-span-2 bg-slate-900/60 p-3 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-cyan-500 shadow-[0_0_15px_#06b6d4]"></div>
-                            <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1">Velocidad Media Real / Escala 1:32</p>
+                            <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1" data-i18n="avgSpeedStat">Velocidad Media Real / Escala 1:32</p>
                             <p id="g-stat-speed" class="text-white font-orbitron font-bold text-sm">-- m/s</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-3 shrink-0 mb-2">
                         <div class="bg-slate-900/40 border border-blue-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-800/50 pb-1">Desempeño Histórico</span>
+                            <span class="text-[10px] font-bold text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-800/50 pb-1" data-i18n="histPerf">Desempeño Histórico</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartEvolution"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-amber-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-amber-500 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1">Consistencia (Gap)</span>
+                            <span class="text-[10px] font-bold text-amber-500 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1" data-i18n="consistGap">Consistencia (Gap)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartConsistency"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-purple-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1">Tiempos Medios Sectores</span>
+                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1" data-i18n="avgSectTimes">Tiempos Medios Sectores</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartSectors"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1">Tendencia de Ritmo (Media Móvil 5V)</span>
+                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1" data-i18n="paceTrend">Tendencia de Ritmo (Media Móvil 5V)</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartTrend"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-rose-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-rose-400 mb-2 uppercase tracking-widest border-b border-rose-800/50 pb-1">Evolución por Sectores</span>
+                            <span class="text-[10px] font-bold text-rose-400 mb-2 uppercase tracking-widest border-b border-rose-800/50 pb-1" data-i18n="sectEvol">Evolución por Sectores</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartSectorsEvol"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-indigo-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-indigo-400 mb-2 uppercase tracking-widest border-b border-indigo-800/50 pb-1">Distribución de Tiempos</span>
+                            <span class="text-[10px] font-bold text-indigo-400 mb-2 uppercase tracking-widest border-b border-indigo-800/50 pb-1" data-i18n="timeDist">Distribución de Tiempos</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartHistogram"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-cyan-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1">Evolución Velocidad Media</span>
+                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1" data-i18n="avgSpeedEvol">Evolución Velocidad Media</span>
                             <div class="flex-1 relative w-full"><canvas id="garageChartSpeedEvol"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-teal-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-teal-400 mb-2 uppercase tracking-widest border-b border-teal-800/50 pb-1">Radar (Media vs Mejor)</span>
+                            <span class="text-[10px] font-bold text-teal-400 mb-2 uppercase tracking-widest border-b border-teal-800/50 pb-1" data-i18n="radarMeanBest">Radar (Media vs Mejor)</span>
                             <div class="flex-1 relative w-full flex justify-center"><div class="w-full max-w-xs"><canvas id="garageChartRadar"></canvas></div></div>
                         </div>
                     </div>
@@ -938,7 +954,7 @@
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-3 mb-4 shrink-0">
                 <h3 class="text-2xl font-orbitron font-black text-emerald-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(52,211,153,0.6)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
-                    Centro de Circuitos
+                    <span data-i18n="circuitsCenter">Centro de Circuitos</span>
                 </h3>
                 <div class="flex items-center space-x-3">
                     <select id="circuit-picker" class="neon-input border-emerald-600/50 text-emerald-200 text-xs font-bold px-3 py-1.5 rounded-lg w-56 shadow-md"></select>
@@ -950,19 +966,19 @@
                 <div class="w-full lg:w-[35%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-emerald-800/50 overflow-y-auto">
                     <div class="flex gap-3">
                         <div class="flex-1">
-                            <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block">Nombre de la Pista</label>
+                            <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block" data-i18n="trackNameInput">Nombre de la Pista</label>
                             <input type="text" id="c-input-name" class="neon-input border-emerald-600/40 w-full p-2 text-xs rounded-lg">
                         </div>
                         <div class="w-24">
-                            <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block">Largo (m)</label>
+                            <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block" data-i18n="trackLengthInput">Largo (m)</label>
                             <input type="number" id="c-input-length" class="neon-input border-emerald-600/40 w-full p-2 text-xs rounded-lg text-center">
                         </div>
                     </div>
                     
                     <div class="bg-slate-900/60 border border-emerald-800/60 p-3 rounded-xl flex items-center justify-between shadow-lg">
                         <div class="flex flex-col gap-1">
-                            <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em]">Cámaras IA</span>
-                            <span class="text-[8px] text-slate-400 uppercase tracking-widest">Auto-guardado activo</span>
+                            <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em]" data-i18n="aiCameras">Cámaras IA</span>
+                            <span class="text-[8px] text-slate-400 uppercase tracking-widest" data-i18n="autoSaveActive">Auto-guardado activo</span>
                         </div>
                         <span id="c-stat-rois" class="text-[10px] font-bold text-cyan-200 bg-slate-800 px-3 py-1.5 rounded-lg border border-cyan-700/50 tracking-widest uppercase shadow-inner">--</span>
                     </div>
@@ -970,37 +986,37 @@
                     <div class="grid grid-cols-2 gap-3 mt-2 pt-4 border-t border-emerald-800/50">
                         <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-emerald-500 shadow-[0_0_15px_#10b981]"></div>
-                            <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest mb-1.5">Récord Abs.</p>
+                            <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest mb-1.5" data-i18n="absRecord">Récord Abs.</p>
                             <p id="c-stat-best" class="text-white font-orbitron font-black text-xl drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">--.---</p>
-                            <p id="c-stat-pilot" class="text-[8px] text-slate-400 font-bold truncate mt-2 tracking-widest uppercase">Piloto/Coche</p>
+                            <p id="c-stat-pilot" class="text-[8px] text-slate-400 font-bold truncate mt-2 tracking-widest uppercase" data-i18n="pilotCarSub">Piloto/Coche</p>
                         </div>
                         <div class="bg-slate-900/60 p-4 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[3px] bg-blue-500 shadow-[0_0_15px_#3b82f6]"></div>
-                            <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest mb-1.5">Vueltas Totales</p>
+                            <p class="text-[9px] text-blue-400 font-bold uppercase tracking-widest mb-1.5" data-i18n="totalLapsStat">Vueltas Totales</p>
                             <p id="c-stat-laps" class="text-white font-orbitron font-bold text-xl">0</p>
-                            <p class="text-[8px] text-slate-400 font-bold truncate mt-2 tracking-widest uppercase">En esta pista</p>
+                            <p class="text-[8px] text-slate-400 font-bold truncate mt-2 tracking-widest uppercase" data-i18n="onThisTrack">En esta pista</p>
                         </div>
                         <div class="bg-slate-900/60 p-3 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[2px] bg-purple-500"></div>
-                            <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1">Distancia</p>
+                            <p class="text-[9px] text-purple-400 font-bold uppercase tracking-widest mb-1" data-i18n="distanceStat">Distancia</p>
                             <p id="c-stat-distance" class="text-white font-orbitron font-bold text-sm">0.00 km</p>
                         </div>
                         <div class="bg-slate-900/60 p-3 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[2px] bg-amber-500"></div>
-                            <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1">Tiempo Acum.</p>
+                            <p class="text-[9px] text-amber-400 font-bold uppercase tracking-widest mb-1" data-i18n="accumTime">Tiempo Acum.</p>
                             <p id="c-stat-time" class="text-white font-orbitron font-bold text-sm truncate">0h 0m</p>
                         </div>
                         <div class="col-span-2 bg-slate-900/60 p-3 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-lg">
                             <div class="absolute top-0 left-0 w-full h-[2px] bg-cyan-500"></div>
-                            <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1">Velocidad Media (Real / Escala)</p>
+                            <p class="text-[9px] text-cyan-400 font-bold uppercase tracking-widest mb-1" data-i18n="avgSpeedCirc">Velocidad Media (Real / Escala)</p>
                             <p id="c-stat-speed" class="text-white font-orbitron font-bold text-sm">-- m/s</p>
                         </div>
                     </div>
                     
                     <div class="mt-auto pt-5 flex flex-col gap-3">
-                        <button id="circuit-save-btn" class="w-full bg-slate-800 border border-emerald-500 hover:bg-emerald-900/60 hover:text-white text-emerald-300 text-xs font-bold tracking-[0.2em] uppercase py-3 rounded-xl transition shadow-md">Guardar Cambios</button>
+                        <button id="circuit-save-btn" class="w-full bg-slate-800 border border-emerald-500 hover:bg-emerald-900/60 hover:text-white text-emerald-300 text-xs font-bold tracking-[0.2em] uppercase py-3 rounded-xl transition shadow-md" data-i18n="saveChangesBtn">Guardar Cambios</button>
                         <div class="flex gap-2">
-                            <button id="circuit-add-btn" class="flex-1 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-900/50 py-2.5 rounded-xl text-[10px] font-bold tracking-widest uppercase transition">+ Pista Nueva</button>
+                            <button id="circuit-add-btn" class="flex-1 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-900/50 py-2.5 rounded-xl text-[10px] font-bold tracking-widest uppercase transition" data-i18n="newTrackBtn">+ Pista Nueva</button>
                             <button id="circuit-delete-btn" class="bg-transparent text-red-500 hover:bg-red-900/50 border border-red-500/50 px-4 py-2.5 rounded-xl transition flex justify-center items-center" title="Eliminar Pista">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                             </button>
@@ -1010,42 +1026,42 @@
 
                 <div class="w-full lg:w-[65%] flex flex-col gap-4 overflow-y-auto pr-1">
                     <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-3 shadow-inner relative flex flex-col shrink-0">
-                        <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-2.5 border-b border-emerald-800/50 pb-1">Mapa del Circuito (Satélite)</h4>
+                        <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-2.5 border-b border-emerald-800/50 pb-1" data-i18n="circMapSat">Mapa del Circuito (Satélite)</h4>
                         <div class="flex flex-col lg:flex-row gap-4 items-stretch">
                             <div class="w-full lg:w-2/3 aspect-video bg-black rounded-xl border border-emerald-600/50 overflow-hidden relative shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
                                 <img id="circuit-captured-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-80 filter contrast-125 hover:opacity-100 transition-opacity">
                                 <div id="circuit-img-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-emerald-800/50 bg-slate-900/60">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="mb-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                    <p class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin vista aérea</p>
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.2em]" data-i18n="noAerialView">Sin vista aérea</p>
                                 </div>
                             </div>
                             <div class="w-full lg:w-1/3 flex flex-col items-center justify-center gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 shadow-inner">
                                 <button id="circuit-capture-btn" class="w-full bg-slate-800 border-2 border-emerald-500 hover:bg-emerald-900/60 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col items-center justify-center transition group relative overflow-hidden">
                                     <div class="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition"></div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-1 text-emerald-400 group-hover:scale-110 transition-transform z-10"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                                    <span class="z-10">Capturar ROIs</span>
-                                    <span class="text-[8px] text-emerald-500 mt-0.5 z-10 font-bold">(IMAGEN + POSICIONES)</span>
+                                    <span class="z-10" data-i18n="captureRoisBtn">Capturar ROIs</span>
+                                    <span class="text-[8px] text-emerald-500 mt-0.5 z-10 font-bold" data-i18n="imgPosSub">(IMAGEN + POSICIONES)</span>
                                 </button>
-                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras IA antes de capturar.</p>
+                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed" data-i18n="placeCamerasTip">Coloca las cámaras IA antes de capturar.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 shrink-0 mb-2">
                         <div class="bg-slate-900/40 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1">Ritmo de Carrera (50 Vueltas)</span>
+                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1" data-i18n="racePace50">Ritmo de Carrera (50 Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartEvolution"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-cyan-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1">Tiempos Medios por Sector</span>
+                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1" data-i18n="avgSecTimesTitle">Tiempos Medios por Sector</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartSectors"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-amber-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-amber-400 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1">Consistencia en Pista</span>
+                            <span class="text-[10px] font-bold text-amber-400 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1" data-i18n="trackConsistency">Consistencia en Pista</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartConsistency"></canvas></div>
                         </div>
                         <div class="bg-slate-900/40 border border-purple-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
-                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1">Tendencia General de Ritmo</span>
+                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1" data-i18n="genPaceTrend">Tendencia General de Ritmo</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartTrend"></canvas></div>
                         </div>
                     </div>
@@ -1075,7 +1091,37 @@
                 clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
                 pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
                 "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "Inf",
-                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía"
+                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía",
+                
+                // Nuevas adiciones ES
+                rotateDeviceTitle: "Gira tu dispositivo", rotateDeviceDesc: "Diseñado para formato horizontal (Landscape).", continueAnyway: "Continuar de todos modos",
+                fullscreen: "Pantalla", calibIA: "Calibrar IA", img: "IMG", camOn: "CAM ON", camOff: "OFF", closeVideo: "Cerrar Video",
+                meta: "META", auto: "AUTO", sec1: "SEC 1", sec2: "SEC 2", sec3: "SEC 3", sec4: "SEC 4", previewTrack: "Vista Previa Pista Activa",
+                globalRanking: "Ranking Global F1", circuitLabel: "Circuito:", top25: "Top 25 Absoluto", perfectLap: "La Vuelta Perfecta (Sectores)",
+                loadingTelemetry: "Recuperando Telemetría...", pos: "POS", lapTimeHeader: "TIEMPO VUELTA", gap: "GAP",
+                noTelemetry: "No hay registros de telemetría para este circuito.", theoreticLimit: "Límite Físico Teórico del Circuito",
+                perfectLapDesc: 'Esta "Vuelta Perfecta" es la suma de los récords absolutos individuales de cada sector, demostrando el ritmo máximo posible si se unieran todos los tramos perfectos.',
+                noSectorsPerfect: "Aún no hay sectores registrados para construir la Vuelta Perfecta.", videoCenterTitle: "Centro de Videos",
+                userGuideTitle: "Guía de Usuario", guideComingSoon: "Próximamente: Manual completo de instrucciones",
+                garageTitle: "Mi Garaje Premium", carLabel: "Coche:", trackLabel: "Pista:", noPhoto: "Sin Foto", webcam: "Webcam", file: "Archivo",
+                modelLabel: "Modelo", brandLabel: "Marca", classLabel: "Clase", motorLabel: "Motor", gripLabel: "Grip/Neum.", weightLabel: "Peso (g)",
+                magnetLabel: "Imán", driveCarBtn: "🏁 PILOTAR COCHE", saveChangesBtn: "Guardar Cambios", addBtn: "+ Añadir",
+                bestLapStat: "Mejor Vuelta", totalLapsStat: "Vueltas Totales", distanceStat: "Distancia", useTimeStat: "Tiempo de Uso",
+                avgSpeedStat: "Velocidad Media Real / Escala 1:32", histPerf: "Desempeño Histórico", consistGap: "Consistencia (Gap)",
+                avgSectTimes: "Tiempos Medios Sectores", paceTrend: "Tendencia de Ritmo (Media Móvil 5V)", sectEvol: "Evolución por Sectores",
+                timeDist: "Distribución de Tiempos", avgSpeedEvol: "Evolución Velocidad Media", radarMeanBest: "Radar (Media vs Mejor)",
+                circuitsCenter: "Centro de Circuitos", trackNameInput: "Nombre de la Pista", trackLengthInput: "Largo (m)",
+                aiCameras: "Cámaras IA", autoSaveActive: "Auto-guardado activo", absRecord: "Récord Abs.", pilotCarSub: "Piloto/Coche",
+                onThisTrack: "En esta pista", accumTime: "Tiempo Acum.", avgSpeedCirc: "Velocidad Media (Real / Escala)", newTrackBtn: "+ Pista Nueva",
+                circMapSat: "Mapa del Circuito (Satélite)", noAerialView: "Sin vista aérea", captureRoisBtn: "Capturar ROIs", imgPosSub: "(IMAGEN + POSICIONES)",
+                placeCamerasTip: "Coloca las cámaras IA antes de capturar.", racePace50: "Ritmo de Carrera (50 Vueltas)", avgSecTimesTitle: "Tiempos Medios por Sector",
+                trackConsistency: "Consistencia en Pista", genPaceTrend: "Tendencia General de Ritmo",
+                baseCarName: "Coche Base", newCarName: "Nuevo Coche", noName: "Sin Nombre", newTrackName: "Nueva Pista",
+                circ1: "Circuito 1", allTracks: "Todas las pistas", noRecords: "Sin registros", camWarning: "¡Cámara!",
+                saved: "¡Guardado!", captured: "¡Capturado!", activateCamWarn: "¡Activa cámara!", imgLoaded: "IMAGEN CARGADA",
+                sensorActive: "Sensor Activo", chartTime: "Tiempo (s)", chartDev: "Desviación (s)", chartDevRec: "Desviación Récord (s)",
+                chartAvgTimes: "Tiempos Medios (s)", chartMovAvg: "Media Móvil (5V)", chartFreq: "Frecuencia", chartSpeedScale: "Vel. Media Escala (km/h)",
+                chartAvgTime: "Tiempo Medio", chartBestTime: "Mejor Tiempo"
             },
             en: {
                 langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit", ranking: "Ranking",
@@ -1096,10 +1142,39 @@
                 clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
                 pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
                 "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "Inf",
-                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide"
+                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide",
+                
+                // New additions EN
+                rotateDeviceTitle: "Rotate your device", rotateDeviceDesc: "Designed for Landscape format.", continueAnyway: "Continue anyway",
+                fullscreen: "Fullscreen", calibIA: "Calibrate AI", img: "IMG", camOn: "CAM ON", camOff: "OFF", closeVideo: "Close Video",
+                meta: "FINISH", auto: "AUTO", sec1: "SEC 1", sec2: "SEC 2", sec3: "SEC 3", sec4: "SEC 4", previewTrack: "Active Track Preview",
+                globalRanking: "Global F1 Ranking", circuitLabel: "Circuit:", top25: "Absolute Top 25", perfectLap: "The Perfect Lap (Sectors)",
+                loadingTelemetry: "Fetching Telemetry...", pos: "POS", lapTimeHeader: "LAP TIME", gap: "GAP",
+                noTelemetry: "No telemetry records for this circuit.", theoreticLimit: "Theoretical Physical Limit",
+                perfectLapDesc: 'This "Perfect Lap" is the sum of individual absolute records of each sector, showing the maximum possible pace.',
+                noSectorsPerfect: "No sectors recorded yet to build the Perfect Lap.", videoCenterTitle: "Video Center",
+                userGuideTitle: "User Guide", guideComingSoon: "Coming soon: Full instruction manual",
+                garageTitle: "My Premium Garage", carLabel: "Car:", trackLabel: "Track:", noPhoto: "No Photo", webcam: "Webcam", file: "File",
+                modelLabel: "Model", brandLabel: "Brand", classLabel: "Class", motorLabel: "Motor", gripLabel: "Grip/Tires", weightLabel: "Weight (g)",
+                magnetLabel: "Magnet", driveCarBtn: "🏁 DRIVE CAR", saveChangesBtn: "Save Changes", addBtn: "+ Add",
+                bestLapStat: "Best Lap", totalLapsStat: "Total Laps", distanceStat: "Distance", useTimeStat: "Time Used",
+                avgSpeedStat: "Avg Speed Real / Scale 1:32", histPerf: "Historical Performance", consistGap: "Consistency (Gap)",
+                avgSectTimes: "Avg Sector Times", paceTrend: "Pace Trend (5L Moving Avg)", sectEvol: "Sector Evolution",
+                timeDist: "Time Distribution", avgSpeedEvol: "Average Speed Evolution", radarMeanBest: "Radar (Avg vs Best)",
+                circuitsCenter: "Circuits Center", trackNameInput: "Track Name", trackLengthInput: "Length (m)",
+                aiCameras: "AI Cameras", autoSaveActive: "Auto-save active", absRecord: "Abs Record", pilotCarSub: "Driver/Car",
+                onThisTrack: "On this track", accumTime: "Accum. Time", avgSpeedCirc: "Avg Speed (Real/Scale)", newTrackBtn: "+ New Track",
+                circMapSat: "Circuit Map (Satellite)", noAerialView: "No aerial view", captureRoisBtn: "Capture ROIs", imgPosSub: "(IMAGE + POSITIONS)",
+                placeCamerasTip: "Place the AI cameras before capturing.", racePace50: "Race Pace (50 Laps)", avgSecTimesTitle: "Avg Times per Sector",
+                trackConsistency: "Track Consistency", genPaceTrend: "General Pace Trend",
+                baseCarName: "Base Car", newCarName: "New Car", noName: "Unnamed", newTrackName: "New Track",
+                circ1: "Circuit 1", allTracks: "All tracks", noRecords: "No records", camWarning: "Camera!",
+                saved: "Saved!", captured: "Captured!", activateCamWarn: "Activate Camera!", imgLoaded: "IMAGE LOADED",
+                sensorActive: "Active Sensor", chartTime: "Time (s)", chartDev: "Deviation (s)", chartDevRec: "Record Deviation (s)",
+                chartAvgTimes: "Average Times (s)", chartMovAvg: "Moving Avg (5L)", chartFreq: "Frequency", chartSpeedScale: "Avg Scale Spd (km/h)",
+                chartAvgTime: "Avg Time", chartBestTime: "Best Time"
             }
         };
-        translations.fr = translations.en; 
         let currentLang = 'es';
 
         let garageCars = []; let currentGarageCarId = null;
@@ -1166,7 +1241,7 @@
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
-        function getClientCoords(e) { return { x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX, y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY }; }
+        function getClientCoords(e) { return { x: e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.touches ? e.touches[0].clientX : e.clientX, y: e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.touches ? e.touches[0].clientY : e.clientY }; }
         function getPct(el, prop) { return parseFloat(el.style[prop].replace('%', '')) || 0; }
 
         function startAction(e, type, dir = '') {
@@ -1803,7 +1878,25 @@
         });
 
         document.getElementById('lang-select').addEventListener('change', (e) => {
-            currentLang = e.target.value; document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
+            currentLang = e.target.value; 
+            document.querySelectorAll('[data-i18n]').forEach(el => { 
+                const key = el.getAttribute('data-i18n'); 
+                if (translations[currentLang][key]) {
+                    if(el.tagName === 'SPAN' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'H4' || el.tagName === 'P' || el.tagName === 'TH' || el.tagName === 'LABEL' || el.tagName === 'OPTION' || el.tagName === 'DIV') {
+                         el.textContent = translations[currentLang][key];
+                    } else if (el.childNodes.length > 0) {
+                        Array.from(el.childNodes).forEach(node => {
+                            if(node.nodeType === 3 && node.nodeValue.trim() !== '') {
+                                node.nodeValue = translations[currentLang][key];
+                            }
+                        });
+                    }
+                } 
+            });
+            updateCircuitSelects();
+            updateCarSelects();
+            if(document.getElementById('garageModal').classList.contains('open')) renderGarage(currentGarageCarId);
+            if(document.getElementById('circuitModal').classList.contains('open')) renderCircuit(currentCircuitId);
         });
 
         document.getElementById('history-btn').addEventListener('click', () => { loadHistory(); document.getElementById('historyModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('historyModal').classList.add('open'),10); });
@@ -1900,7 +1993,7 @@
         document.getElementById('tab-btn-top25').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-sectors').classList.replace('active', 'inactive'); document.getElementById('ranking-view-top25').classList.remove('hidden'); document.getElementById('ranking-view-sectors').classList.add('hidden'); });
         document.getElementById('tab-btn-sectors').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-top25').classList.replace('active', 'inactive'); document.getElementById('ranking-view-sectors').classList.remove('hidden'); document.getElementById('ranking-view-top25').classList.add('hidden'); });
 
-        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
+        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: translations[currentLang].baseCarName, brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
         async function saveGarage() { 
             try { localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -1939,25 +2032,26 @@
 
         function drawGarageCharts(hist, bestLapForChart) {
             hist = hist || []; const recentHist = hist.slice(-50);
+            const tl = translations[currentLang];
             
             const ctxEvol = document.getElementById('garageChartEvolution').getContext('2d'); if(garageChartEvol) garageChartEvol.destroy();
-            garageChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentHist.map(h => h.lapTime/1000), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+            garageChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: tl.chartTime, data: recentHist.map(h => h.lapTime/1000), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
             const ctxCons = document.getElementById('garageChartConsistency').getContext('2d'); if(garageChartCons) garageChartCons.destroy();
             const devData = recentHist.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
-            garageChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desviación (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+            garageChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: tl.chartDev, data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
             const ctxSect = document.getElementById('garageChartSectors').getContext('2d'); if(garageChartSect) garageChartSect.destroy();
             let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0]; let bestSectorTimes = [Infinity, Infinity, Infinity, Infinity, Infinity];
             hist.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; if(secTime < bestSectorTimes[idx]) bestSectorTimes[idx] = secTime; } }); } });
             for(let i=0; i<5; i++) { if(sectorCounts[i] > 0) sectorAverages[i] = (sectorAverages[i] / sectorCounts[i]) / 1000; }
-            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
-            if(activeSecs.length > 0) { garageChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(192, 132, 252, 0.4)', borderColor: '#c084fc', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#a855f7', font: {size: 9}}, grid: {color: 'rgba(192,132,252,0.1)'} }, x: { display: true, ticks: {color: '#d8b4fe', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? tl.meta : `S${i+1}`);
+            if(activeSecs.length > 0) { garageChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: tl.chartAvgTimes, data: activeSecs, backgroundColor: 'rgba(192, 132, 252, 0.4)', borderColor: '#c084fc', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#a855f7', font: {size: 9}}, grid: {color: 'rgba(192,132,252,0.1)'} }, x: { display: true, ticks: {color: '#d8b4fe', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
             const ctxTrend = document.getElementById('garageChartTrend').getContext('2d'); if(garageChartTrend) garageChartTrend.destroy();
             let movingAvg = [];
             for(let i=0; i<recentHist.length; i++) { let sum = 0; let count = 0; for(let j=Math.max(0, i-4); j<=i; j++) { sum += recentHist[j].lapTime; count++; } movingAvg.push((sum/count)/1000); }
-            garageChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Media Móvil (5V)', data: movingAvg, borderColor: '#10b981', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+            garageChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: tl.chartMovAvg, data: movingAvg, borderColor: '#10b981', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
             const ctxSectorsEvol = document.getElementById('garageChartSectorsEvol').getContext('2d'); if(garageChartSectorsEvol) garageChartSectorsEvol.destroy();
             let datasetsSectors = []; const colors = ['#3b82f6', '#f59e0b', '#a855f7', '#06b6d4', '#10b981'];
@@ -1967,21 +2061,20 @@
             const ctxHist = document.getElementById('garageChartHistogram').getContext('2d'); if(garageChartHistogram) garageChartHistogram.destroy();
             let histogramBins = {}; recentHist.forEach(h => { const sec = Math.floor(h.lapTime / 1000); const bin = `${sec}s`; histogramBins[bin] = (histogramBins[bin] || 0) + 1; });
             const sortedBins = Object.keys(histogramBins).sort((a,b) => parseFloat(a) - parseFloat(b));
-            garageChartHistogram = new Chart(ctxHist, { type: 'bar', data: { labels: sortedBins, datasets: [{ label: 'Frecuencia', data: sortedBins.map(b => histogramBins[b]), backgroundColor: 'rgba(99, 102, 241, 0.5)', borderColor: '#6366f1', borderWidth: 1, borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}, stepSize: 1}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: true, ticks: {color: '#818cf8', font: {size: 9}}, grid: {display: false} } } } });
+            garageChartHistogram = new Chart(ctxHist, { type: 'bar', data: { labels: sortedBins, datasets: [{ label: tl.chartFreq, data: sortedBins.map(b => histogramBins[b]), backgroundColor: 'rgba(99, 102, 241, 0.5)', borderColor: '#6366f1', borderWidth: 1, borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}, stepSize: 1}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: true, ticks: {color: '#818cf8', font: {size: 9}}, grid: {display: false} } } } });
 
             const ctxSpeedEvol = document.getElementById('garageChartSpeedEvol').getContext('2d'); if(garageChartSpeedEvol) garageChartSpeedEvol.destroy();
             let speedData = []; recentHist.forEach(h => { const tCirc = circuits.find(c => c.id === h.circuitId); const len = tCirc ? parseFloat(tCirc.length) : 0; if(len > 0 && h.lapTime > 0) { const speedMs = len / (h.lapTime / 1000); const scaleKmh = speedMs * 3.6 * 32; speedData.push(scaleKmh); } else { speedData.push(null); } });
-            garageChartSpeedEvol = new Chart(ctxSpeedEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Vel. Media Escala (km/h)', data: speedData, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+            garageChartSpeedEvol = new Chart(ctxSpeedEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: tl.chartSpeedScale, data: speedData, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
             const ctxRadar = document.getElementById('garageChartRadar').getContext('2d'); if(garageChartRadar) garageChartRadar.destroy();
-            if(activeSecs.length > 0) { const bestSecs = activeSecs.map((_, i) => bestSectorTimes[i] !== Infinity ? bestSectorTimes[i]/1000 : 0); garageChartRadar = new Chart(ctxRadar, { type: 'radar', data: { labels: labels, datasets: [{ label: 'Tiempo Medio', data: activeSecs, backgroundColor: 'rgba(45, 212, 191, 0.2)', borderColor: '#2dd4bf', pointBackgroundColor: '#2dd4bf' }, { label: 'Mejor Tiempo', data: bestSecs, backgroundColor: 'rgba(244, 63, 94, 0.2)', borderColor: '#f43f5e', pointBackgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color: 'rgba(255,255,255,0.1)'}, grid: {color: 'rgba(255,255,255,0.1)'}, pointLabels: {color: '#94a3b8', font: {size: 9}}, ticks: {display: false} } }, plugins: { legend: {position: 'bottom', labels:{color:'#94a3b8', font:{size:9}}} } } }); } else { ctxRadar.clearRect(0, 0, ctxRadar.canvas.width, ctxRadar.canvas.height); }
+            if(activeSecs.length > 0) { const bestSecs = activeSecs.map((_, i) => bestSectorTimes[i] !== Infinity ? bestSectorTimes[i]/1000 : 0); garageChartRadar = new Chart(ctxRadar, { type: 'radar', data: { labels: labels, datasets: [{ label: tl.chartAvgTime, data: activeSecs, backgroundColor: 'rgba(45, 212, 191, 0.2)', borderColor: '#2dd4bf', pointBackgroundColor: '#2dd4bf' }, { label: tl.chartBestTime, data: bestSecs, backgroundColor: 'rgba(244, 63, 94, 0.2)', borderColor: '#f43f5e', pointBackgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color: 'rgba(255,255,255,0.1)'}, grid: {color: 'rgba(255,255,255,0.1)'}, pointLabels: {color: '#94a3b8', font: {size: 9}}, ticks: {display: false} } }, plugins: { legend: {position: 'bottom', labels:{color:'#94a3b8', font:{size:9}}} } } }); } else { ctxRadar.clearRect(0, 0, ctxRadar.canvas.width, ctxRadar.canvas.height); }
         }
 
         document.getElementById('garage-capture-btn').addEventListener('click', () => {
             const activeSource = cameraStream ? videoElement : document.getElementById('static-bg-img');
             const sWidth = activeSource.videoWidth || activeSource.naturalWidth;
-            if (!sWidth) { const btn = document.getElementById('garage-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400">¡Cámara!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); return; }
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = sWidth; canvas.height = activeSource.videoHeight || activeSource.naturalHeight; ctx.drawImage(activeSource, 0, 0, canvas.width, canvas.height);
+            if (!sWidth) { const btn = document.getElementById('garage-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400">${translations[currentLang].camWarning}</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); return; }
             const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 350; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
             const car = garageCars.find(c => c.id === currentGarageCarId); if(car) { car.image = destCanvas.toDataURL('image/jpeg', 0.8); saveGarage(); renderGarage(currentGarageCarId); }
         });
@@ -1991,7 +2084,12 @@
         });
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
             const car = garageCars.find(c => c.id === currentGarageCarId);
-            if(car) { car.name = document.getElementById('g-input-name').value || "Sin Nombre"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value; car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500); }
+            if(car) { car.name = document.getElementById('g-input-name').value || translations[currentLang].noName; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value; car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = translations[currentLang].saveChangesBtn; btn.classList.remove('text-green-400'); }, 1500); }
+        });
+        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].newCarName, brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
+            if(window.userId && window.fs && window.db) { try{await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));}catch(e){} } 
+            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: translations[currentLang].baseCarName, brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
         });
         document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
@@ -2005,7 +2103,7 @@
         document.getElementById('garage-circuit-picker').addEventListener('change', (e) => { const val = e.target.value; if(val !== 'ALL') { document.getElementById('circuit-model-select').value = val; currentCircuitId = val; loadCircuitROIs(val); } renderGarage(currentGarageCarId); });
         document.getElementById('car-model-select').addEventListener('change', (e) => { currentGarageCarId = e.target.value; updateTelemetryDisplay(); });
 
-        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Pista Principal", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
+        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: translations[currentLang].newTrackName, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
         async function saveCircuits() { 
             try { localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -2014,7 +2112,7 @@
         function updateCircuitSelects() {
             const mainSelect = document.getElementById('circuit-model-select'); const modalSelect = document.getElementById('circuit-picker'); const garageCircSelect = document.getElementById('garage-circuit-picker');
             const currentMainVal = mainSelect.value; const currentGarageCircVal = garageCircSelect ? garageCircSelect.value : 'ALL';
-            mainSelect.innerHTML = ''; modalSelect.innerHTML = ''; if (garageCircSelect) garageCircSelect.innerHTML = '<option value="ALL">Todas las pistas</option>';
+            mainSelect.innerHTML = ''; modalSelect.innerHTML = ''; if (garageCircSelect) garageCircSelect.innerHTML = `<option value="ALL">${translations[currentLang].allTracks}</option>`;
             circuits.forEach(c => { const optMain = document.createElement('option'); optMain.value = c.id; optMain.textContent = c.name; const optMod = document.createElement('option'); optMod.value = c.id; optMod.textContent = c.name; mainSelect.appendChild(optMain); modalSelect.appendChild(optMod); if (garageCircSelect) { const optGar = document.createElement('option'); optGar.value = c.id; optGar.textContent = c.name; garageCircSelect.appendChild(optGar); } });
             if(currentMainVal && Array.from(mainSelect.options).some(o => o.value === currentMainVal)) { mainSelect.value = currentMainVal; } else if (currentCircuitId) { mainSelect.value = currentCircuitId; }
             if (garageCircSelect) { if(currentGarageCircVal && Array.from(garageCircSelect.options).some(o => o.value === currentGarageCircVal)) { garageCircSelect.value = currentGarageCircVal; } else { garageCircSelect.value = 'ALL'; } }
@@ -2033,7 +2131,7 @@
             let avgSpeedStr = "-- m/s"; if (totalLaps > 0 && length > 0) { const avgTimeS = (totalTimeMs / totalLaps) / 1000; const speedMs = length / avgTimeS; const scaleSpeedKmh = (speedMs * 3.6) * 32; avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h)`; }
 
             document.getElementById('c-stat-laps').textContent = totalLaps; document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
-            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : "Sin registros"; document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
+            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : translations[currentLang].noRecords; document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
             document.getElementById('c-stat-time').textContent = timeStr; document.getElementById('c-stat-speed').textContent = avgSpeedStr;
             const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} Sector(es)`;
 
@@ -2044,31 +2142,32 @@
 
         function drawCircuitCharts(laps, bestLapForChart) {
             laps = laps || []; const recentLaps = laps.slice(-50);
+            const tl = translations[currentLang];
 
             const ctxEvol = document.getElementById('circuitChartEvolution').getContext('2d'); if(circuitChartEvol) circuitChartEvol.destroy();
-            circuitChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentLaps.map(h => h.lapTime/1000), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+            circuitChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: tl.chartTime, data: recentLaps.map(h => h.lapTime/1000), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
             const ctxSect = document.getElementById('circuitChartSectors').getContext('2d'); if(circuitChartSect) circuitChartSect.destroy();
             let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0];
             laps.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; } }); } });
             for(let i=0; i<5; i++) { if(sectorCounts[i] > 0) sectorAverages[i] = (sectorAverages[i] / sectorCounts[i]) / 1000; }
-            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
-            if(activeSecs.length > 0) { circuitChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(34, 211, 238, 0.4)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+            const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? tl.meta : `S${i+1}`);
+            if(activeSecs.length > 0) { circuitChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: tl.chartAvgTimes, data: activeSecs, backgroundColor: 'rgba(34, 211, 238, 0.4)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
             const ctxCons = document.getElementById('circuitChartConsistency').getContext('2d'); if(circuitChartCons) circuitChartCons.destroy();
             const devData = recentLaps.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
-            circuitChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desviación Récord (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+            circuitChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: tl.chartDevRec, data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
             const ctxTrend = document.getElementById('circuitChartTrend').getContext('2d'); if(circuitChartTrend) circuitChartTrend.destroy();
             let movingAvg = [];
             for(let i=0; i<recentLaps.length; i++) { let sum = 0; let count = 0; for(let j=Math.max(0, i-4); j<=i; j++) { sum += recentLaps[j].lapTime; count++; } movingAvg.push((sum/count)/1000); }
-            circuitChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Media Móvil (5V)', data: movingAvg, borderColor: '#a855f7', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+            circuitChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: tl.chartMovAvg, data: movingAvg, borderColor: '#a855f7', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
         }
 
         document.getElementById('circuit-capture-btn').addEventListener('click', () => {
             const activeSource = cameraStream ? videoElement : document.getElementById('static-bg-img');
             const sWidth = activeSource.videoWidth || activeSource.naturalWidth;
-            if (!sWidth) { const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10 text-center">¡Activa cámara!</span>`; setTimeout(()=>btn.innerHTML=orig, 2500); return; }
+            if (!sWidth) { const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10 text-center">${translations[currentLang].activateCamWarn}</span>`; setTimeout(()=>btn.innerHTML=orig, 2500); return; }
             
             const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = sWidth; canvas.height = activeSource.videoHeight || activeSource.naturalHeight; ctx.drawImage(activeSource, 0, 0, canvas.width, canvas.height);
             for (let i = 0; i < activeRoisCount; i++) {
@@ -2078,7 +2177,7 @@
                 ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.strokeRect(l, t, w, h); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(l, t, w, h); ctx.fillStyle = strokeColor; ctx.fillRect(l, t - 25, 60, 25); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 5, t - 6);
             }
             const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 500; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
-            const circ = circuits.find(c => c.id === currentCircuitId); if(circ) { circ.image = destCanvas.toDataURL('image/jpeg', 0.6); autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡Capturado!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); }
+            const circ = circuits.find(c => c.id === currentCircuitId); if(circ) { circ.image = destCanvas.toDataURL('image/jpeg', 0.6); autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">${translations[currentLang].captured}</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); }
         });
 
         function autoSaveROIsToCircuit() {
@@ -2100,13 +2199,13 @@
 
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
             const circ = circuits.find(c => c.id === currentCircuitId);
-            if(circ) { circ.name = document.getElementById('c-input-name').value || "Sin Nombre"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500); }
+            if(circ) { circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = translations[currentLang].saved; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = translations[currentLang].saveChangesBtn; btn.classList.remove('text-green-400'); }, 1500); }
         });
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].newTrackName, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
             garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => h.circuitId !== currentCircuitId); } }); saveGarage();
             if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
-            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
+            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: translations[currentLang].circ1, length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
         });
         document.getElementById('circuit-open-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('hidden'); setTimeout(() => document.getElementById('circuitModal').classList.add('open'), 10); renderCircuit(document.getElementById('circuit-model-select').value); });
         document.getElementById('close-circuit-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
@@ -2123,6 +2222,9 @@
             });
         });
         document.getElementById('close-tutorial-btn').addEventListener('click', () => { const player = document.getElementById('tutorial-player'); player.pause(); player.src = ""; player.classList.add('hidden'); document.getElementById('close-tutorial-btn').classList.add('hidden'); });
+
+        document.getElementById('guide-open-btn').addEventListener('click', () => { document.getElementById('guideModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('guideModal').classList.add('open'),10); });
+        document.getElementById('close-guide-btn').addEventListener('click', () => { document.getElementById('guideModal').classList.remove('open'); setTimeout(()=>document.getElementById('guideModal').classList.add('hidden'),300); });
 
         window.onload = () => {
             if (window.speechSynthesis) window.speechSynthesis.getVoices();
