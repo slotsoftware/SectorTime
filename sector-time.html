@@ -602,16 +602,8 @@
                         <div class="col-span-1">
                             <label for="safety-time-select" class="block text-[9px] font-bold text-red-400 mb-1 uppercase tracking-widest truncate" data-i18n="safetyTime">Anti-Reb.</label>
                             <select id="safety-time-select" class="neon-input w-full px-1 py-1 rounded text-[10px] font-bold border-red-500/30">
-                                <option value="1000">1s</option>
-                                <option value="2000">2s</option>
-                                <option value="3000" selected>3s</option>
-                                <option value="4000">4s</option>
-                                <option value="5000">5s</option>
-                                <option value="6000">6s</option>
-                                <option value="7000">7s</option>
-                                <option value="8000">8s</option>
-                                <option value="9000">9s</option>
-                                <option value="10000">10s</option>
+                                <option value="500">0.5s</option><option value="1000">1s</option>
+                                <option value="3000" selected>3s</option><option value="5000">5s</option>
                             </select>
                         </div>
                     </div>
@@ -1150,7 +1142,37 @@
                 clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
                 pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
                 "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "Inf",
-                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide"
+                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide",
+                
+                // New additions EN
+                rotateDeviceTitle: "Rotate your device", rotateDeviceDesc: "Designed for Landscape format.", continueAnyway: "Continue anyway",
+                fullscreen: "Fullscreen", calibIA: "Calibrate AI", img: "IMG", camOn: "CAM ON", camOff: "OFF", closeVideo: "Close Video",
+                meta: "FINISH", auto: "AUTO", sec1: "SEC 1", sec2: "SEC 2", sec3: "SEC 3", sec4: "SEC 4", previewTrack: "Active Track Preview",
+                globalRanking: "Global F1 Ranking", circuitLabel: "Circuit:", top25: "Absolute Top 25", perfectLap: "The Perfect Lap (Sectors)",
+                loadingTelemetry: "Fetching Telemetry...", pos: "POS", lapTimeHeader: "LAP TIME", gap: "GAP",
+                noTelemetry: "No telemetry records for this circuit.", theoreticLimit: "Theoretical Physical Limit",
+                perfectLapDesc: 'This "Perfect Lap" is the sum of individual absolute records of each sector, showing the maximum possible pace.',
+                noSectorsPerfect: "No sectors recorded yet to build the Perfect Lap.", videoCenterTitle: "Video Center",
+                userGuideTitle: "User Guide", guideComingSoon: "Coming soon: Full instruction manual",
+                garageTitle: "My Premium Garage", carLabel: "Car:", trackLabel: "Track:", noPhoto: "No Photo", webcam: "Webcam", file: "File",
+                modelLabel: "Model", brandLabel: "Brand", classLabel: "Class", motorLabel: "Motor", gripLabel: "Grip/Tires", weightLabel: "Weight (g)",
+                magnetLabel: "Magnet", driveCarBtn: "🏁 DRIVE CAR", saveChangesBtn: "Save Changes", addBtn: "+ Add",
+                bestLapStat: "Best Lap", totalLapsStat: "Total Laps", distanceStat: "Distance", useTimeStat: "Time Used",
+                avgSpeedStat: "Avg Speed Real / Scale 1:32", histPerf: "Historical Performance", consistGap: "Consistency (Gap)",
+                avgSectTimes: "Avg Sector Times", paceTrend: "Pace Trend (5L Moving Avg)", sectEvol: "Sector Evolution",
+                timeDist: "Time Distribution", avgSpeedEvol: "Average Speed Evolution", radarMeanBest: "Radar (Avg vs Best)",
+                circuitsCenter: "Circuits Center", trackNameInput: "Track Name", trackLengthInput: "Length (m)",
+                aiCameras: "AI Cameras", autoSaveActive: "Auto-save active", absRecord: "Abs Record", pilotCarSub: "Driver/Car",
+                onThisTrack: "On this track", accumTime: "Accum. Time", avgSpeedCirc: "Avg Speed (Real/Scale)", newTrackBtn: "+ New Track",
+                circMapSat: "Circuit Map (Satellite)", noAerialView: "No aerial view", captureRoisBtn: "Capture ROIs", imgPosSub: "(IMAGE + POSITIONS)",
+                placeCamerasTip: "Place the AI cameras before capturing.", racePace50: "Race Pace (50 Laps)", avgSecTimesTitle: "Avg Times per Sector",
+                trackConsistency: "Track Consistency", genPaceTrend: "General Pace Trend",
+                baseCarName: "Base Car", newCarName: "New Car", noName: "Unnamed", newTrackName: "New Track",
+                circ1: "Circuit 1", allTracks: "All tracks", noRecords: "No records", camWarning: "Camera!",
+                saved: "Saved!", captured: "Captured!", activateCamWarn: "Activate Camera!", imgLoaded: "IMAGE LOADED",
+                sensorActive: "Active Sensor", chartTime: "Time (s)", chartDev: "Deviation (s)", chartDevRec: "Record Deviation (s)",
+                chartAvgTimes: "Average Times (s)", chartMovAvg: "Moving Avg (5L)", chartFreq: "Frequency", chartSpeedScale: "Avg Scale Spd (km/h)",
+                chartAvgTime: "Avg Time", chartBestTime: "Best Time"
             }
         };
         let currentLang = 'es';
@@ -1215,7 +1237,7 @@
         for (let i = 0; i < MAX_ROIS; i++) {
             const el = document.getElementById(`roi-${i}`);
             let tag = 'meta'; if(i===1) tag='s1'; else if(i===2) tag='s2'; else if(i===3) tag='s3'; else if(i===4) tag='s4';
-            roisState.push({ id: i, el: el, baseBri: null, bgData: null, blocked: false, lastRec: 0, tag: tag, sensitivity: 20, isSilentCalibrating: false, silentFrames: 0, silentSum: 0, silentMin: 255, silentMax: 0 });
+            roisState.push({ id: i, el: el, baseBri: null, blocked: false, lastRec: 0, tag: tag, sensitivity: 20, isSilentCalibrating: false, silentFrames: 0, silentSum: 0, silentMin: 255, silentMax: 0 });
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
@@ -1270,9 +1292,7 @@
             box.querySelector('.handle-br').addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
         });
 
-        function getROIBrightness(roiIdx) {
-            const rState = roisState[roiIdx];
-            const boxEl = rState.el;
+        function getROIBrightness(boxEl) {
             const activeSource = cameraStream ? videoElement : document.getElementById('static-bg-img');
             const vw = activeSource.videoWidth || activeSource.naturalWidth; 
             const vh = activeSource.videoHeight || activeSource.naturalHeight;
@@ -1287,51 +1307,9 @@
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             try {
                 ctx.drawImage(activeSource, l, t, w, h, 0, 0, w, h); 
-                const frame = ctx.getImageData(0, 0, w, h);
-                const data = frame.data; 
-
-                // Guardar fondo inicial si falta, cambió el tamaño, o estamos en el primer frame de calibración manual
-                if(!rState.bgData || rState.bgData.width !== w || rState.bgData.height !== h || (isCalibrating && rState.silentFrames === 0)) {
-                    rState.bgData = frame; // Guarda la "foto" del asfalto vacío
-                    
-                    let sum = 0;
-                    for (let i = 0; i < data.length; i += 16) sum += (data[i] + data[i+1] + data[i+2]); 
-                    return (sum / 3) / (data.length / 16);
-                }
-
-                // NUEVO MOTOR: Detección de Movimiento Píxel a Píxel (Sustracción de fondo)
-                let diffSum = 0;
-                let changedPixels = 0;
-                const bgData = rState.bgData.data;
-                const totalPixelsEvaluated = data.length / 16; 
-                
-                for (let i = 0; i < data.length; i += 16) {
-                    const diffR = Math.abs(data[i] - bgData[i]);
-                    const diffG = Math.abs(data[i+1] - bgData[i+1]);
-                    const diffB = Math.abs(data[i+2] - bgData[i+2]);
-                    const diff = (diffR + diffG + diffB) / 3;
-                    
-                    if (diff > 15) { // Threshold dinámico para ignorar el ruido de la cámara
-                        diffSum += diff;
-                        changedPixels++;
-                    }
-                }
-
-                if (changedPixels === 0) return 0;
-
-                const avgChange = diffSum / changedPixels;
-                const pctChanged = changedPixels / totalPixelsEvaluated;
-                
-                // Multiplicador dinámico: Magnifica la señal si un objeto concentrado entra en el sector
-                let areaMultiplier = 1.0;
-                if (pctChanged > 0.005) areaMultiplier = 3.0; // Ocupa el 0.5% del sector
-                if (pctChanged > 0.02) areaMultiplier = 5.0;  // Ocupa el 2% del sector
-                if (pctChanged > 0.1) areaMultiplier = 8.0;   // Ocupa el 10% del sector
-                
-                const finalScore = avgChange * areaMultiplier * (pctChanged * 15);
-                
-                return Math.min(255, finalScore);
-
+                const data = ctx.getImageData(0, 0, w, h).data; let sum = 0;
+                for (let i = 0; i < data.length; i += 16) sum += (data[i] + data[i+1] + data[i+2]); 
+                return (sum / 3) / (data.length / 16);
             } catch(e) { return 0; }
         }
 
@@ -1342,7 +1320,7 @@
 
             for (let i = 0; i < activeRoisCount; i++) {
                 const rState = roisState[i]; const box = rState.el;
-                const currentBri = getROIBrightness(i);
+                const currentBri = getROIBrightness(box);
                 
                 let displayHtml = `Val: ${currentBri.toFixed(0)} | Sens: ${rState.sensitivity}`;
                 if(rState.isSilentCalibrating) displayHtml += ` <span class="text-emerald-400 font-bold ml-1 animate-pulse">⚡</span>`;
@@ -1749,10 +1727,8 @@
             box.querySelector('.val-indicator').innerHTML = `<span class="animate-pulse text-white">CAL...</span>`;
             
             let samples = 0; const frames = 60; let sum = 0; let min = 255; let max = 0;
-            roisState[roiIdx].silentFrames = 0; // Trigger background capture
             function sample() {
-                const b = getROIBrightness(roiIdx); 
-                if (samples === 0) roisState[roiIdx].silentFrames = 1;
+                const b = getROIBrightness(roisState[roiIdx].el); 
                 sum += b; if(b < min) min = b; if(b > max) max = b;
                 samples++;
                 if (samples < frames) { requestAnimationFrame(sample); } else {
@@ -1771,13 +1747,8 @@
         async function runCalibration() {
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
             let samples = 0; const frames = 60; const data = Array(activeRoisCount).fill(null).map(()=>({sum:0, min:255, max:0}));
-            for (let i = 0; i < activeRoisCount; i++) roisState[i].silentFrames = 0; // Trigger BG capture
             function sample() {
-                for (let i = 0; i < activeRoisCount; i++) { 
-                    const b = getROIBrightness(i); 
-                    if (samples === 0) roisState[i].silentFrames = 1;
-                    data[i].sum += b; if(b < data[i].min) data[i].min = b; if(b > data[i].max) data[i].max = b; 
-                }
+                for (let i = 0; i < activeRoisCount; i++) { const b = getROIBrightness(roisState[i].el); data[i].sum += b; if(b < data[i].min) data[i].min = b; if(b > data[i].max) data[i].max = b; }
                 samples++;
                 if (samples < frames) requestAnimationFrame(sample);
                 else {
@@ -2022,7 +1993,7 @@
         document.getElementById('tab-btn-top25').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-sectors').classList.replace('active', 'inactive'); document.getElementById('ranking-view-top25').classList.remove('hidden'); document.getElementById('ranking-view-sectors').classList.add('hidden'); });
         document.getElementById('tab-btn-sectors').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-top25').classList.replace('active', 'inactive'); document.getElementById('ranking-view-sectors').classList.remove('hidden'); document.getElementById('ranking-view-top25').classList.add('hidden'); });
 
-        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: translations[currentLang].baseCarName || "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
+        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: translations[currentLang].baseCarName, brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
         async function saveGarage() { 
             try { localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -2113,12 +2084,17 @@
         });
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
             const car = garageCars.find(c => c.id === currentGarageCarId);
-            if(car) { car.name = document.getElementById('g-input-name').value || translations[currentLang].noName || "Sin Nombre"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value; car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = translations[currentLang].saved || "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = translations[currentLang].saveChangesBtn || "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500); }
+            if(car) { car.name = document.getElementById('g-input-name').value || translations[currentLang].noName; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value; car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = translations[currentLang].saved; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = translations[currentLang].saveChangesBtn; btn.classList.remove('text-green-400'); }, 1500); }
         });
-        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].newCarName || "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: translations[currentLang].newCarName, brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
             if(window.userId && window.fs && window.db) { try{await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));}catch(e){} } 
-            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: translations[currentLang].baseCarName || "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
+            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: translations[currentLang].baseCarName, brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
+        });
+        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
+            if(window.userId && window.fs && window.db) { try{await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));}catch(e){} } 
+            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
         });
         document.getElementById('garage-open-btn').addEventListener('click', () => { const circSelect = document.getElementById('garage-circuit-picker'); if (circSelect && currentCircuitId) { circSelect.value = currentCircuitId; } document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10); renderGarage(document.getElementById('car-model-select').value); });
         document.getElementById('garage-drive-btn').addEventListener('click', () => { document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); });
@@ -2127,7 +2103,7 @@
         document.getElementById('garage-circuit-picker').addEventListener('change', (e) => { const val = e.target.value; if(val !== 'ALL') { document.getElementById('circuit-model-select').value = val; currentCircuitId = val; loadCircuitROIs(val); } renderGarage(currentGarageCarId); });
         document.getElementById('car-model-select').addEventListener('change', (e) => { currentGarageCarId = e.target.value; updateTelemetryDisplay(); });
 
-        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: translations[currentLang].newTrackName || "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
+        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: translations[currentLang].newTrackName, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
         async function saveCircuits() { 
             try { localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -2223,13 +2199,13 @@
 
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
             const circ = circuits.find(c => c.id === currentCircuitId);
-            if(circ) { circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName || "Sin Nombre"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = translations[currentLang].saved || "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = translations[currentLang].saveChangesBtn || "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500); }
+            if(circ) { circ.name = document.getElementById('c-input-name').value || translations[currentLang].noName; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = translations[currentLang].saved; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = translations[currentLang].saveChangesBtn; btn.classList.remove('text-green-400'); }, 1500); }
         });
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].newTrackName || "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: translations[currentLang].newTrackName, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
             garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => h.circuitId !== currentCircuitId); } }); saveGarage();
             if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
-            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: translations[currentLang].circ1 || "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
+            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: translations[currentLang].circ1, length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
         });
         document.getElementById('circuit-open-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('hidden'); setTimeout(() => document.getElementById('circuitModal').classList.add('open'), 10); renderCircuit(document.getElementById('circuit-model-select').value); });
         document.getElementById('close-circuit-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
