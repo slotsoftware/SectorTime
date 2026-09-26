@@ -259,7 +259,6 @@
         }
         .modal-overlay.open { opacity: 1; visibility: visible; }
         
-        /* GARAGE MODAL: Más largo (w-max) y ligeramente achatado (h-[82vh]) */
         .modal-content.garage-modal-custom {
             width: 96% !important; max-width: 1400px !important; height: 82vh !important; max-height: 82vh !important;
             display: flex; flex-direction: column;
@@ -799,7 +798,7 @@
         </div>
     </div>
 
-    <!-- GARAGE MODAL: Más largo y ligeramente achatado, centrado -->
+    <!-- GARAGE MODAL -->
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content garage-modal-custom p-5">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-3 mb-4 shrink-0">
@@ -945,6 +944,7 @@
         </div>
     </div>
 
+    <!-- CIRCUIT MODAL (4 Charts now) -->
     <div id="circuitModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-5 w-full max-w-6xl flex flex-col h-[90vh]">
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-3 mb-4 shrink-0">
@@ -1020,37 +1020,46 @@
                     </div>
                 </div>
 
-                <div class="w-full lg:w-[65%] flex flex-col gap-5 overflow-y-auto pr-1">
-                    <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-5 shadow-inner relative flex flex-col shrink-0">
-                        <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-3 border-b border-emerald-800/50 pb-1.5">Mapa del Circuito (Satélite)</h4>
-                        <div class="flex flex-col lg:flex-row gap-5 items-stretch">
+                <div class="w-full lg:w-[65%] flex flex-col gap-4 overflow-y-auto pr-1">
+                    <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-4 shadow-inner relative flex flex-col shrink-0">
+                        <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-2.5 border-b border-emerald-800/50 pb-1">Mapa del Circuito (Satélite)</h4>
+                        <div class="flex flex-col lg:flex-row gap-4 items-stretch">
                             <div class="w-full lg:w-2/3 aspect-video bg-black rounded-xl border border-emerald-600/50 overflow-hidden relative shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
                                 <img id="circuit-captured-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-80 filter contrast-125 hover:opacity-100 transition-opacity">
                                 <div id="circuit-img-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-emerald-800/50 bg-slate-900/60">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="mb-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="mb-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                                     <p class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin vista aérea</p>
                                 </div>
                             </div>
-                            <div class="w-full lg:w-1/3 flex flex-col items-center justify-center gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 shadow-inner">
-                                <button id="circuit-capture-btn" class="w-full bg-slate-800 border-2 border-emerald-500 hover:bg-emerald-900/60 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-widest py-5 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col items-center justify-center transition group relative overflow-hidden">
+                            <div class="w-full lg:w-1/3 flex flex-col items-center justify-center gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 shadow-inner">
+                                <button id="circuit-capture-btn" class="w-full bg-slate-800 border-2 border-emerald-500 hover:bg-emerald-900/60 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col items-center justify-center transition group relative overflow-hidden">
                                     <div class="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition"></div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-2 text-emerald-400 group-hover:scale-110 transition-transform z-10"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-1 text-emerald-400 group-hover:scale-110 transition-transform z-10"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
                                     <span class="z-10">Capturar ROIs</span>
-                                    <span class="text-[8px] text-emerald-500 mt-1 z-10 font-bold">(IMAGEN + POSICIONES)</span>
+                                    <span class="text-[8px] text-emerald-500 mt-0.5 z-10 font-bold">(IMAGEN + POSICIONES)</span>
                                 </button>
-                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras IA en pista antes de capturar el mapa.</p>
+                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras IA antes de capturar.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col lg:flex-row gap-5 h-60 shrink-0">
-                        <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-emerald-400 mb-3 uppercase tracking-widest border-b border-emerald-800/50 pb-1.5">Ritmo de Carrera (Últimas 50 Vueltas)</span>
+                    <!-- 4 CHARTS FOR CIRCUITS -->
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 shrink-0 mb-2">
+                        <div class="bg-slate-900/40 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
+                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1">Ritmo de Carrera (50 Vueltas)</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartEvolution"></canvas></div>
                         </div>
-                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-4 rounded-xl flex flex-col shadow-inner">
-                            <span class="text-[10px] font-bold text-cyan-400 mb-3 uppercase tracking-widest border-b border-cyan-800/50 pb-1.5">Tiempos Medios por Sector</span>
+                        <div class="bg-slate-900/40 border border-cyan-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
+                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1">Tiempos Medios por Sector</span>
                             <div class="flex-1 relative w-full"><canvas id="circuitChartSectors"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-amber-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
+                            <span class="text-[10px] font-bold text-amber-400 mb-2 uppercase tracking-widest border-b border-amber-800/50 pb-1">Consistencia en Pista</span>
+                            <div class="flex-1 relative w-full"><canvas id="circuitChartConsistency"></canvas></div>
+                        </div>
+                        <div class="bg-slate-900/40 border border-purple-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
+                            <span class="text-[10px] font-bold text-purple-400 mb-2 uppercase tracking-widest border-b border-purple-800/50 pb-1">Tendencia General de Ritmo</span>
+                            <div class="flex-1 relative w-full"><canvas id="circuitChartTrend"></canvas></div>
                         </div>
                     </div>
                 </div>
@@ -1112,7 +1121,7 @@
         let garageChartSpeedEvol = null; let garageChartRadar = null;
 
         let circuits = []; let currentCircuitId = null;
-        let circuitChartEvol = null; let circuitChartSect = null;
+        let circuitChartEvol = null; let circuitChartSect = null; let circuitChartCons = null; let circuitChartTrend = null;
 
         const MAX_ROIS = 5; let activeRoisCount = 1; let roisState = []; let currentTargetRoi = 0; let blindTimeMs = 3000;
         let cameraStream = null, isProcessing = false, isRaceActive = false, isCountdown = false, raceAborted = false;
@@ -2034,24 +2043,34 @@
 
             const imgEl = document.getElementById('circuit-captured-img'); const placeholder = document.getElementById('circuit-img-placeholder');
             if(circ.image) { imgEl.src = circ.image; imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); } else { imgEl.src = ""; imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
-            drawCircuitCharts(allCircuitLaps);
+            drawCircuitCharts(allCircuitLaps, circ.bestLap);
         }
 
-        function drawCircuitCharts(laps) {
+        function drawCircuitCharts(laps, bestLapForChart) {
+            laps = laps || []; const recentLaps = laps.slice(-50);
+
+            // 1. Ritmo de carrera
             const ctxEvol = document.getElementById('circuitChartEvolution').getContext('2d'); if(circuitChartEvol) circuitChartEvol.destroy();
-            const recentLaps = laps.slice(-50);
             circuitChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentLaps.map(h => h.lapTime/1000), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
+            // 2. Tiempos Medios por Sector
             const ctxSect = document.getElementById('circuitChartSectors').getContext('2d'); if(circuitChartSect) circuitChartSect.destroy();
             let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0];
             laps.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; } }); } });
             for(let i=0; i<5; i++) { if(sectorCounts[i] > 0) sectorAverages[i] = (sectorAverages[i] / sectorCounts[i]) / 1000; }
-            
             const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
-            
-            if(activeSecs.length > 0) {
-                circuitChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(34, 211, 238, 0.4)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } });
-            } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+            if(activeSecs.length > 0) { circuitChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(34, 211, 238, 0.4)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
+
+            // 3. Consistencia (Gap con el récord de la pista)
+            const ctxCons = document.getElementById('circuitChartConsistency').getContext('2d'); if(circuitChartCons) circuitChartCons.destroy();
+            const devData = recentLaps.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
+            circuitChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desviación Récord (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
+
+            // 4. Tendencia general de ritmo (Media Móvil 5V)
+            const ctxTrend = document.getElementById('circuitChartTrend').getContext('2d'); if(circuitChartTrend) circuitChartTrend.destroy();
+            let movingAvg = [];
+            for(let i=0; i<recentLaps.length; i++) { let sum = 0; let count = 0; for(let j=Math.max(0, i-4); j<=i; j++) { sum += recentLaps[j].lapTime; count++; } movingAvg.push((sum/count)/1000); }
+            circuitChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Media Móvil (5V)', data: movingAvg, borderColor: '#a855f7', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
         }
 
         document.getElementById('circuit-capture-btn').addEventListener('click', () => {
