@@ -216,6 +216,7 @@
             box-shadow: 0 0 50px rgba(2, 132, 199, 0.4); transform: scale(0.95); transition: transform 0.3s ease;
             overflow-y: auto; max-width: 95%; max-height: 90%; 
         }
+        .modal-content.panoramic { width: 85vw !important; max-width: 1300px !important; height: 75vh !important; max-height: 800px !important; }
         .modal-overlay.open .modal-content { transform: scale(1); }
         
         table { width: 100%; text-align: left; border-collapse: collapse; margin-top: 10px; }
@@ -691,8 +692,7 @@
     </div>
 
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
-        <!-- Maximized to 98vw / 98vh with strict overflow hiding -->
-        <div class="modal-content p-4 w-[98vw] max-w-[98vw] flex flex-col h-[98vh] max-h-[98vh] overflow-hidden border-blue-500/50 shadow-[0_0_50px_rgba(59,130,246,0.3)]">
+        <div class="modal-content panoramic p-4 flex flex-col overflow-hidden border-blue-500/50 shadow-[0_0_50px_rgba(59,130,246,0.3)]">
             
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-2 mb-3 shrink-0">
                 <h3 class="text-2xl font-orbitron font-black text-blue-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]">
@@ -851,7 +851,7 @@
     </div>
 
     <div id="circuitModal" class="modal-overlay hidden" style="z-index: 150;">
-        <div class="modal-content p-4 w-[98vw] max-w-[98vw] flex flex-col h-[98vh] max-h-[98vh] overflow-hidden border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
+        <div class="modal-content panoramic p-4 flex flex-col overflow-hidden border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-2 mb-3 shrink-0">
                 <h3 class="text-2xl font-orbitron font-black text-emerald-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(52,211,153,0.6)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
@@ -1127,9 +1127,9 @@
             box.querySelector('.handle-br').addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
         });
 
-        function getROIBrightness(boxEl) {
+        function getROIAverages(boxEl) {
             const vw = videoElement.videoWidth; const vh = videoElement.videoHeight;
-            if(!vw || !vh) return 0;
+            if(!vw || !vh) return {r:0, g:0, b:0, bri:0};
             const leftPct = getPct(boxEl,'left')/100; const topPct = getPct(boxEl,'top')/100;
             const widthPct = getPct(boxEl,'width')/100; const heightPct = getPct(boxEl,'height')/100;
             const l = Math.max(0, Math.min(vw - 1, Math.floor(vw * leftPct))); 
@@ -1140,10 +1140,15 @@
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             try {
                 ctx.drawImage(videoElement, l, t, w, h, 0, 0, w, h); 
-                const data = ctx.getImageData(0, 0, w, h).data; let sum = 0;
-                for (let i = 0; i < data.length; i += 16) sum += (data[i] + data[i+1] + data[i+2]); 
-                return (sum / 3) / (data.length / 16);
-            } catch(e) { return 0; }
+                const data = ctx.getImageData(0, 0, w, h).data; 
+                let sumR = 0, sumG = 0, sumB = 0;
+                const step = 4; // Check every single pixel for max color accuracy
+                let count = 0;
+                for (let i = 0; i < data.length; i += step) {
+                    sumR += data[i]; sumG += data[i+1]; sumB += data[i+2]; count++;
+                }
+                return { r: sumR/count, g: sumG/count, b: sumB/count, bri: (sumR+sumG+sumB)/(3*count) };
+            } catch(e) { return {r:0, g:0, b:0, bri:0}; }
         }
 
         function processVideo() {
@@ -1153,17 +1158,26 @@
 
             for (let i = 0; i < activeRoisCount; i++) {
                 const rState = roisState[i]; const box = rState.el;
-                const currentBri = getROIBrightness(box);
+                const avgs = getROIAverages(box);
+                const currentBri = avgs.bri;
+                
+                if (!rState.baseColor) { rState.baseColor = {r: avgs.r, g: avgs.g, b: avgs.b}; rState.baseBri = currentBri; }
+                
+                // Color Precision Logic: Evaluates each color channel separately to catch cars that match the brightness of the track but have a different hue.
+                const diffR = Math.abs(avgs.r - rState.baseColor.r);
+                const diffG = Math.abs(avgs.g - rState.baseColor.g);
+                const diffB = Math.abs(avgs.b - rState.baseColor.b);
+                const maxDiff = Math.max(diffR, diffG, diffB); 
+                
+                const crossed = maxDiff > rState.sensitivity;
                 
                 let displayHtml = `Val: ${currentBri.toFixed(0)} | Sens: ${rState.sensitivity}`;
+                if (crossed && !isRaceActive) displayHtml = `<span class="text-emerald-400 font-black">Δ: ${maxDiff.toFixed(0)}</span> | Sens: ${rState.sensitivity}`;
                 if(rState.isSilentCalibrating) displayHtml += ` <span class="text-emerald-400 font-bold ml-1 animate-pulse drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">⚡</span>`;
                 box.querySelector('.val-indicator').innerHTML = displayHtml;
                 
+                // STRICT SECTOR ORDER: The AI mathematically blinds this sector if it's not the next one in the sequence.
                 const isTarget = (!isCalibrating && isRaceActive && currentTargetRoi === i);
-
-                if (rState.baseBri === null) rState.baseBri = currentBri;
-                const diff = Math.abs(currentBri - rState.baseBri); 
-                const crossed = diff > rState.sensitivity;
 
                 if (isRaceActive && !isCalibrating) {
                     if (isTarget) { box.classList.remove('roi-inactive'); box.classList.add('roi-target'); } 
@@ -1176,6 +1190,9 @@
                 else { 
                     box.classList.remove('roi-detected'); 
                     if (!isCalibrating && !rState.blocked && canDetect && !rState.isSilentCalibrating) { 
+                        rState.baseColor.r = (rState.baseColor.r * 0.95) + (avgs.r * 0.05);
+                        rState.baseColor.g = (rState.baseColor.g * 0.95) + (avgs.g * 0.05);
+                        rState.baseColor.b = (rState.baseColor.b * 0.95) + (avgs.b * 0.05);
                         rState.baseBri = (rState.baseBri * 0.95) + (currentBri * 0.05); 
                     } 
                 }
@@ -1192,7 +1209,10 @@
                             box.classList.add('roi-locked'); box.classList.remove('roi-detected'); msgEl.style.display = "block"; msgEl.textContent = translations[currentLang].testWait; 
                         } else {
                             if (crossed) { 
-                                box.classList.add('roi-locked'); rState.baseBri = (rState.baseBri * 0.9) + (currentBri * 0.1); 
+                                box.classList.add('roi-locked'); 
+                                rState.baseColor.r = (rState.baseColor.r * 0.9) + (avgs.r * 0.1);
+                                rState.baseColor.g = (rState.baseColor.g * 0.9) + (avgs.g * 0.1);
+                                rState.baseColor.b = (rState.baseColor.b * 0.9) + (avgs.b * 0.1);
                             } else { 
                                 rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none"; 
                                 rState.isSilentCalibrating = true; rState.silentFrames = 0; rState.silentSum = 0; rState.silentMin = currentBri; rState.silentMax = currentBri;
@@ -1207,7 +1227,7 @@
                             if (rState.silentFrames >= 30) {
                                 const avg = rState.silentSum / 30; rState.baseBri = avg; 
                                 const noise = Math.max(rState.silentMax - avg, avg - rState.silentMin);
-                                const recommendedSens = Math.max(12, Math.ceil(noise * 1.5));
+                                const recommendedSens = Math.max(12, Math.ceil(noise * 2.0)); // Stricter multiplier
                                 let learnedSens = Math.round((rState.sensitivity * 0.7) + (recommendedSens * 0.3));
                                 rState.sensitivity = learnedSens;
                                 if (window.updateRoiSens) window.updateRoiSens(i, learnedSens);
@@ -1344,7 +1364,7 @@
             document.getElementById('false-start-alert').classList.remove('show'); document.getElementById('sectors-telemetry-container').classList.add('hidden');
             
             for(let i=0; i<MAX_ROIS; i++) { 
-                if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; roisState[i].blocked = false; roisState[i].isSilentCalibrating = false; } 
+                if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baseColor = null; roisState[i].baseBri = null; roisState[i].blocked = false; roisState[i].isSilentCalibrating = false; } 
                 else { roisState[i].el.classList.remove('active'); } 
             }
             const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
@@ -1541,14 +1561,19 @@
             box.querySelector('.val-indicator').innerHTML = `<span class="animate-pulse text-white">CAL...</span>`;
             
             let samples = 0; const frames = 60; let sum = 0; let min = 255; let max = 0;
+            let sumR=0, sumG=0, sumB=0;
             function sample() {
-                const b = getROIBrightness(roisState[roiIdx].el); 
-                sum += b; if(b < min) min = b; if(b > max) max = b;
+                const avgs = getROIAverages(roisState[roiIdx].el); 
+                const b = avgs.bri;
+                sum += b; sumR+=avgs.r; sumG+=avgs.g; sumB+=avgs.b;
+                if(b < min) min = b; if(b > max) max = b;
                 samples++;
                 if (samples < frames) { requestAnimationFrame(sample); } else {
-                    const avg = sum / frames; roisState[roiIdx].baseBri = avg;
+                    const avg = sum / frames; 
+                    roisState[roiIdx].baseBri = avg;
+                    roisState[roiIdx].baseColor = {r: sumR/frames, g: sumG/frames, b: sumB/frames};
                     const noise = Math.max(max - avg, avg - min); 
-                    const recommendedSensitivity = Math.max(15, Math.ceil(noise * 1.5));
+                    const recommendedSensitivity = Math.max(15, Math.ceil(noise * 2.0));
                     roisState[roiIdx].sensitivity = recommendedSensitivity;
                     box.querySelector('.val-indicator').innerHTML = `Val: ${avg.toFixed(0)} | Sens: ${recommendedSensitivity}`;
                     isCalibrating = false; renderSensitivitiesUI();
@@ -1561,19 +1586,25 @@
         async function runCalibration() {
             if (!isProcessing) return;
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
-            let samples = 0; const frames = 60; const data = Array(activeRoisCount).fill(null).map(()=>({sum:0, min:255, max:0}));
+            let samples = 0; const frames = 60; const data = Array(activeRoisCount).fill(null).map(()=>({sumR:0, sumG:0, sumB:0, sumBri:0, min:255, max:0}));
             function sample() {
-                for (let i = 0; i < activeRoisCount; i++) { const b = getROIBrightness(roisState[i].el); data[i].sum += b; if(b < data[i].min) data[i].min = b; if(b > data[i].max) data[i].max = b; }
+                for (let i = 0; i < activeRoisCount; i++) { 
+                    const avgs = getROIAverages(roisState[i].el); 
+                    data[i].sumR += avgs.r; data[i].sumG += avgs.g; data[i].sumB += avgs.b; data[i].sumBri += avgs.bri;
+                    if(avgs.bri < data[i].min) data[i].min = avgs.bri; if(avgs.bri > data[i].max) data[i].max = avgs.bri; 
+                }
                 samples++;
                 if (samples < frames) requestAnimationFrame(sample);
                 else {
                     for (let i = 0; i < activeRoisCount; i++) {
-                        const avg = data[i].sum / frames; roisState[i].baseBri = avg;
-                        const noise = Math.max(data[i].max - avg, avg - data[i].min); 
-                        roisState[i].sensitivity = Math.max(15, Math.ceil(noise * 1.5));
+                        const avgBri = data[i].sumBri / frames; 
+                        roisState[i].baseBri = avgBri;
+                        roisState[i].baseColor = {r: data[i].sumR/frames, g: data[i].sumG/frames, b: data[i].sumB/frames};
+                        const noise = Math.max(data[i].max - avgBri, avgBri - data[i].min); 
+                        roisState[i].sensitivity = Math.max(15, Math.ceil(noise * 2.0));
                         const box = document.getElementById(`roi-${i}`);
                         const valInd = box.querySelector('.val-indicator');
-                        if (valInd) valInd.innerHTML = `Val: ${avg.toFixed(0)} | Sens: ${roisState[i].sensitivity}`;
+                        if (valInd) valInd.innerHTML = `Val: ${avgBri.toFixed(0)} | Sens: ${roisState[i].sensitivity}`;
                     }
                     renderSensitivitiesUI();
                     isCalibrating = false; calibOverlay.classList.remove('active'); document.getElementById('calibrate-btn').disabled = false; speak(translations[currentLang].voiceCalibrated);
