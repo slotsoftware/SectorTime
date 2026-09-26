@@ -259,9 +259,10 @@
         }
         .modal-overlay.open { opacity: 1; visibility: visible; }
         
-        .modal-content.garage-modal-custom {
-            width: 96% !important; max-width: 1400px !important; height: 82vh !important; max-height: 82vh !important;
-            display: flex; flex-direction: column;
+        /* Modales Anchos, Ligeramente Achatados y Centrados */
+        .modal-content.garage-modal-custom, .modal-content.circuit-modal-custom {
+            width: 96% !important; max-width: 1350px !important; height: 80vh !important; max-height: 80vh !important;
+            display: flex; flex-direction: column; margin: auto;
         }
 
         .modal-content {
@@ -618,6 +619,7 @@
         </div>
     </div>
 
+    <!-- RANKING MODAL -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-5xl">
             <div class="flex justify-between items-center border-b border-cyan-500/50 pb-3 mb-6">
@@ -670,6 +672,7 @@
         </div>
     </div>
 
+    <!-- RESULTS MODAL -->
     <div id="resultsModal" class="modal-overlay hidden">
         <div class="modal-content p-8 w-full max-w-4xl border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
             <div class="text-center mb-6">
@@ -722,6 +725,7 @@
         </div>
     </div>
 
+    <!-- HISTORY, CONFIRM, VIDEOS, GUIDE -->
     <div id="historyModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-2xl">
             <div class="flex justify-between items-center border-b border-cyan-800 pb-3 mb-4">
@@ -798,7 +802,7 @@
         </div>
     </div>
 
-    <!-- GARAGE MODAL -->
+    <!-- GARAGE MODAL (8 CHARTS) -->
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content garage-modal-custom p-5">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-3 mb-4 shrink-0">
@@ -944,9 +948,9 @@
         </div>
     </div>
 
-    <!-- CIRCUIT MODAL (4 Charts now) -->
+    <!-- CIRCUIT MODAL (Achatado & 4 Charts) -->
     <div id="circuitModal" class="modal-overlay hidden" style="z-index: 150;">
-        <div class="modal-content p-5 w-full max-w-6xl flex flex-col h-[90vh]">
+        <div class="modal-content circuit-modal-custom p-5">
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-3 mb-4 shrink-0">
                 <h3 class="text-2xl font-orbitron font-black text-emerald-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(52,211,153,0.6)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
@@ -1021,7 +1025,7 @@
                 </div>
 
                 <div class="w-full lg:w-[65%] flex flex-col gap-4 overflow-y-auto pr-1">
-                    <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-4 shadow-inner relative flex flex-col shrink-0">
+                    <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-3 shadow-inner relative flex flex-col shrink-0">
                         <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-2.5 border-b border-emerald-800/50 pb-1">Mapa del Circuito (Satélite)</h4>
                         <div class="flex flex-col lg:flex-row gap-4 items-stretch">
                             <div class="w-full lg:w-2/3 aspect-video bg-black rounded-xl border border-emerald-600/50 overflow-hidden relative shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
@@ -2049,11 +2053,9 @@
         function drawCircuitCharts(laps, bestLapForChart) {
             laps = laps || []; const recentLaps = laps.slice(-50);
 
-            // 1. Ritmo de carrera
             const ctxEvol = document.getElementById('circuitChartEvolution').getContext('2d'); if(circuitChartEvol) circuitChartEvol.destroy();
             circuitChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentLaps.map(h => h.lapTime/1000), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
-            // 2. Tiempos Medios por Sector
             const ctxSect = document.getElementById('circuitChartSectors').getContext('2d'); if(circuitChartSect) circuitChartSect.destroy();
             let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0];
             laps.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; } }); } });
@@ -2061,12 +2063,10 @@
             const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
             if(activeSecs.length > 0) { circuitChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(34, 211, 238, 0.4)', borderColor: '#22d3ee', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#0ea5e9', font: {size: 9}}, grid: {color: 'rgba(34,211,238,0.1)'} }, x: { display: true, ticks: {color: '#67e8f9', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
-            // 3. Consistencia (Gap con el récord de la pista)
             const ctxCons = document.getElementById('circuitChartConsistency').getContext('2d'); if(circuitChartCons) circuitChartCons.destroy();
             const devData = recentLaps.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
             circuitChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentLaps.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desviación Récord (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
-            // 4. Tendencia general de ritmo (Media Móvil 5V)
             const ctxTrend = document.getElementById('circuitChartTrend').getContext('2d'); if(circuitChartTrend) circuitChartTrend.destroy();
             let movingAvg = [];
             for(let i=0; i<recentLaps.length; i++) { let sum = 0; let count = 0; for(let j=Math.max(0, i-4); j<=i; j++) { sum += recentLaps[j].lapTime; count++; } movingAvg.push((sum/count)/1000); }
