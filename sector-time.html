@@ -220,9 +220,23 @@
         .telemetry-data.green { color: #34d399; text-shadow: 0 0 8px rgba(52, 211, 153, 0.6); }
         .telemetry-data.yellow { color: #fbbf24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
         
-        .sectors-display { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; background: rgba(2, 6, 23, 0.5); padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.2); }
-        .sector-tag { padding: 1px 3px; border-radius: 4px; font-size: 0.6rem; color: #020617; margin-right: 4px; font-weight: 800; }
-        .sector-tag.meta { background: #f8fafc; } .sector-tag.s1 { background: #60a5fa; } .sector-tag.s2 { background: #fbbf24; } .sector-tag.s3 { background: #c084fc; } .sector-tag.s4 { background: #22d3ee; }
+        /* Sectors Display Cards Grid */
+        .sectors-grid-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; width: 100%; }
+        .sector-telemetry-card { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 6px 8px; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: inset 0 0 8px rgba(0,0,0,0.4); }
+        .sector-telemetry-card .card-bar { position: absolute; top: 0; left: 0; height: 2px; width: 100%; }
+        .sector-telemetry-card.meta .card-bar { background-color: #ffffff; box-shadow: 0 0 6px #ffffff; }
+        .sector-telemetry-card.s1 .card-bar { background-color: #60a5fa; box-shadow: 0 0 6px #60a5fa; }
+        .sector-telemetry-card.s2 .card-bar { background-color: #fbbf24; box-shadow: 0 0 6px #fbbf24; }
+        .sector-telemetry-card.s3 .card-bar { background-color: #c084fc; box-shadow: 0 0 6px #c084fc; }
+        .sector-telemetry-card.s4 .card-bar { background-color: #22d3ee; box-shadow: 0 0 6px #22d3ee; }
+        .sector-card-title { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; font-family: 'Orbitron', sans-serif; }
+        .sector-telemetry-card.meta .sector-card-title { color: #ffffff; }
+        .sector-telemetry-card.s1 .sector-card-title { color: #60a5fa; }
+        .sector-telemetry-card.s2 .sector-card-title { color: #fbbf24; }
+        .sector-telemetry-card.s3 .sector-card-title { color: #c084fc; }
+        .sector-telemetry-card.s4 .sector-card-title { color: #22d3ee; }
+        .sector-card-value { font-size: 0.95rem; font-weight: 700; font-family: 'Orbitron', sans-serif; color: #fff; line-height: 1.1; }
+        .sector-card-delta { font-size: 0.7rem; font-weight: 700; margin-top: 1px; }
 
         .race-control-btn {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -292,9 +306,6 @@
         .sector-card.s2 .bar { background-color: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
         .sector-card.s3 .bar { background-color: #c084fc; box-shadow: 0 0 8px #c084fc; }
         .sector-card.s4 .bar { background-color: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
-
-        .f1-gap { color: #f87171; font-weight: bold; }
-        .f1-leader { color: #34d399; font-weight: bold; }
     </style>
 </head>
 <body class="flex flex-col h-screen overflow-hidden">
@@ -307,18 +318,15 @@
         <button onclick="document.getElementById('orientation-lock').style.display='none'" class="px-6 py-3 bg-cyan-900/50 border border-cyan-400 hover:bg-cyan-800 rounded-lg font-bold text-white text-sm tracking-wider shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-colors">Continuar de todos modos</button>
     </div>
 
-    <!-- Contenedor Principal. Layout Horizontal -->
     <div class="w-full h-full flex flex-row p-2 gap-2 overflow-hidden box-border">
         
         <div class="flex-1 flex flex-col h-full min-w-[55%] gap-2 overflow-hidden">
             
-            <!-- HEADER -->
             <div class="neon-panel flex justify-between items-center w-full py-1.5 px-4 shrink-0">
                 <div class="flex items-center space-x-2 lg:space-x-4 w-full">
                     <div class="flex flex-col">
                         <div class="flex items-center">
                             <h1 class="text-lg neon-title font-orbitron tracking-wider leading-tight mr-3">SECTOR TIME V.1.0</h1>
-                            <!-- IDIOMA en Header -->
                             <select id="lang-select" class="bg-transparent border border-cyan-800 text-cyan-400 text-[9px] font-bold py-0.5 px-1 rounded hover:bg-cyan-900/50 outline-none uppercase tracking-widest transition-colors cursor-pointer">
                                 <option value="es">ES</option><option value="en">EN</option><option value="fr">FR</option>
                             </select>
@@ -326,7 +334,7 @@
                         <span class="text-[9px] font-bold text-cyan-300 tracking-widest uppercase">By Albert Closa</span>
                     </div>
                     
-                    <div class="flex-1"></div> <!-- Separador Flexible -->
+                    <div class="flex-1"></div>
 
                     <button id="history-btn" class="flex items-center text-cyan-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-cyan-900/50 border border-transparent hover:border-cyan-400" title="Ver Historial">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/><path d="M12 7v5l4 2"/></svg>
@@ -366,7 +374,6 @@
                 </div>
             </div>
 
-            <!-- CAMERA BOX -->
             <div id="video-feed-box" class="neon-panel p-2 w-full flex-1 flex flex-col relative overflow-hidden">
                 <div class="flex justify-between items-center border-b border-cyan-800/50 pb-1.5 mb-1.5 shrink-0">
                     <h2 class="text-xs font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
@@ -390,7 +397,6 @@
                 
                 <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
 
-                <!-- VIDEO / IMAGE CONTAINER -->
                 <div id="video-container">
                     <img id="static-bg-img" class="absolute inset-0 w-full h-full object-cover hidden z-0 pointer-events-none" />
                     <video id="webcam-feed" autoplay playsinline></video>
@@ -503,10 +509,9 @@
                 </button>
             </div>
 
-            <!-- TELEMETRY PANEL (Compacto y sin "Evolución de Tiempos") -->
             <div class="neon-panel w-full p-2 shrink-0">
                 <h2 class="text-[9px] font-bold text-cyan-400 mb-1 border-b border-cyan-800/50 pb-1 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
-                <div class="telemetry-grid gap-1">
+                <div class="telemetry-grid gap-1 mb-1.5">
                     <div class="telemetry-item p-1.5">
                         <p class="telemetry-label text-[7px]" data-i18n="pilotCar">PILOTO / COCHE</p>
                         <p id="telemetry-pilot-car" class="telemetry-data text-xs font-light truncate">N/A / N/A</p>
@@ -515,12 +520,6 @@
                         <p class="telemetry-label text-[7px]" data-i18n="lastLap">ÚLTIMA VUELTA</p>
                         <p id="telemetry-last-lap-time" class="telemetry-data yellow text-sm font-orbitron">--.---</p>
                     </div>
-                    
-                    <div class="telemetry-item col-span-2 hidden p-1.5" id="sectors-telemetry-container">
-                        <p class="telemetry-label text-[7px]" data-i18n="lastLapSectors">TIEMPOS DE SECTOR</p>
-                        <div id="telemetry-sectors" class="sectors-display py-0.5"></div>
-                    </div>
-
                     <div class="telemetry-item p-1.5">
                         <p class="telemetry-label text-[7px]" data-i18n="bestLap">MEJOR VUELTA</p>
                         <p id="telemetry-best-time" class="telemetry-data green text-sm font-orbitron">--.---</p>
@@ -530,9 +529,14 @@
                         <p id="telemetry-average-time" class="telemetry-data text-sm font-orbitron text-cyan-200">--.---</p>
                     </div>
                 </div>
+
+                <!-- SECTORS CARDS CONTAINER -->
+                <div class="hidden flex flex-col pt-1 border-t border-cyan-800/40" id="sectors-telemetry-container">
+                    <p class="text-[7px] text-cyan-400 font-bold uppercase tracking-widest mb-1" data-i18n="lastLapSectors">TIEMPOS DE SECTOR</p>
+                    <div id="telemetry-sectors" class="sectors-grid-cards"></div>
+                </div>
             </div>
 
-            <!-- CONFIG PANEL (Expansivo, con más espacio) -->
             <div id="config-panel" class="neon-panel w-full p-3 flex-1 flex flex-col min-h-[150px]">
                 <div class="flex items-center justify-between mb-2 border-b border-cyan-800/50 pb-2">
                     <h2 class="text-[10px] font-orbitron font-bold text-cyan-300 uppercase tracking-widest flex items-center">
@@ -607,15 +611,12 @@
                     <h2 class="text-[10px] font-orbitron font-bold text-cyan-300 mb-2 flex items-center justify-start uppercase tracking-widest">
                         <span data-i18n="aiSens">Sensibilidad IA Individual</span>
                     </h2>
-                    <div id="individual-sensitivity-container" class="grid grid-cols-2 gap-2 flex-1 content-start">
-                        <!-- Generado por JS -->
-                    </div>
+                    <div id="individual-sensitivity-container" class="grid grid-cols-2 gap-2 flex-1 content-start"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- RANKING MODAL -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-5xl">
             <div class="flex justify-between items-center border-b border-cyan-500/50 pb-3 mb-6">
@@ -640,7 +641,6 @@
                 <p class="text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] font-orbitron">Recuperando Telemetría...</p>
             </div>
 
-            <!-- TAB 1: PÓDIUM Y PARRILLA -->
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
                 <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 min-h-[200px] pt-10"></div>
                 <table id="f1-grid-table" class="w-full text-left text-sm bg-slate-900/60 rounded-xl border border-cyan-900/60 overflow-hidden shadow-lg hidden">
@@ -657,7 +657,6 @@
                 <p id="ranking-top25-empty" class="text-center text-cyan-600/60 mt-8 hidden font-bold tracking-widest text-xs uppercase">No hay registros de telemetría para este circuito.</p>
             </div>
 
-            <!-- TAB 2: VUELTA PERFECTA -->
             <div id="ranking-view-sectors" class="hidden overflow-y-auto max-h-[60vh] pr-2">
                 <div class="bg-slate-900/60 p-6 rounded-xl border border-cyan-800/60 mb-4 shadow-lg flex flex-col items-center">
                     <h4 class="text-xs text-cyan-500 mb-2 font-bold uppercase tracking-widest text-center">Límite Físico Teórico del Circuito</h4>
@@ -670,7 +669,6 @@
         </div>
     </div>
 
-    <!-- RESULTS MODAL -->
     <div id="resultsModal" class="modal-overlay hidden">
         <div class="modal-content p-8 w-full max-w-4xl border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
             <div class="text-center mb-6">
@@ -723,7 +721,6 @@
         </div>
     </div>
 
-    <!-- HISTORY & CONFIRM MODALS -->
     <div id="historyModal" class="modal-overlay hidden">
         <div class="modal-content p-6 w-full max-w-2xl">
             <div class="flex justify-between items-center border-b border-cyan-800 pb-3 mb-4">
@@ -754,7 +751,6 @@
         </div>
     </div>
 
-    <!-- VIDEOS MODAL -->
     <div id="videosModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-4xl border-fuchsia-500/50 shadow-[0_0_50px_rgba(232,121,249,0.3)]">
              <div class="flex justify-between items-center border-b border-fuchsia-500/50 pb-3 mb-4">
@@ -785,7 +781,6 @@
         </div>
     </div>
 
-    <!-- GUIDE MODAL -->
     <div id="guideModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-6 w-full max-w-4xl border-teal-500/50 shadow-[0_0_50px_rgba(45,212,191,0.3)]">
              <div class="flex justify-between items-center border-b border-teal-500/50 pb-3 mb-4">
@@ -802,7 +797,6 @@
         </div>
     </div>
 
-    <!-- GARAGE MODAL (8 CHARTS) -->
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-5 w-full max-w-6xl flex flex-col h-[90vh]">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-3 mb-4 shrink-0">
@@ -824,9 +818,7 @@
             </div>
             
             <div class="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
-                <!-- COLUMNA IZQUIERDA -->
                 <div class="w-full lg:w-[35%] flex flex-col gap-4 bg-slate-900/40 p-5 rounded-xl border border-blue-800/50 overflow-y-auto">
-                    
                     <div class="flex flex-col gap-3">
                         <div class="relative w-full aspect-video bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
                             <img id="garage-car-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-90 hover:opacity-100 transition-opacity">
@@ -882,7 +874,6 @@
                     </div>
                 </div>
                 
-                <!-- COLUMNA DERECHA (DASHBOARD) -->
                 <div class="w-full lg:w-[65%] flex flex-col gap-5 overflow-y-auto pr-1">
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 shrink-0">
                         <div class="bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
@@ -912,7 +903,6 @@
                         </div>
                     </div>
 
-                    <!-- 8 CHARTS -->
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 shrink-0 mb-4">
                         <div class="bg-slate-900/40 border border-blue-800/50 p-4 rounded-xl flex flex-col shadow-inner h-56">
                             <span class="text-[10px] font-bold text-blue-400 mb-2 uppercase tracking-widest border-b border-blue-800/50 pb-1">Desempeño Histórico</span>
@@ -952,7 +942,6 @@
         </div>
     </div>
 
-    <!-- CIRCUIT MODAL -->
     <div id="circuitModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content p-5 w-full max-w-6xl flex flex-col h-[90vh]">
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-3 mb-4 shrink-0">
@@ -1081,7 +1070,7 @@
                 calibrating: "Calibrando...", clearTrack: "Despeja la pista",
                 falseStart: "¡SALIDA NULA!", camLoading: "Sensor Inactivo",
                 telemetry: "Telemetría", pilotCar: "PILOTO / COCHE", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
-                lastLapSectors: "TIEMPOS SECTOR", timeGraph: "Evolución de Tiempos", noData: "Sin datos",
+                lastLapSectors: "TIEMPOS DE SECTOR", timeGraph: "Evolución de Tiempos", noData: "Sin datos",
                 raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
                 restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "Vacío.",
                 clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
@@ -1384,12 +1373,22 @@
                 const prevLap = lapHistory[lapHistory.length - 1]; const sectorIdx = roiIndex - 1; 
                 if (prevLap.sectors && prevLap.sectors[sectorIdx]) {
                     const prevTime = prevLap.sectors[sectorIdx]; const diff = timeMs - prevTime; const diffSec = (Math.abs(diff) / 1000).toFixed(3);
-                    if (diff < 0) { deltaHtml = `<span class="text-emerald-400 font-bold ml-2 text-[10px] drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">(-${diffSec})</span>`; speechMsg = translations[currentLang].voiceFaster; } 
-                    else { deltaHtml = `<span class="text-red-400 font-bold ml-2 text-[10px] drop-shadow-[0_0_5px_rgba(248,113,113,0.8)]">(+${diffSec})</span>`; speechMsg = translations[currentLang].voiceSlower; }
+                    if (diff < 0) { deltaHtml = `<span class="text-emerald-400 font-bold sector-card-delta">(-${diffSec}s)</span>`; speechMsg = translations[currentLang].voiceFaster; } 
+                    else { deltaHtml = `<span class="text-red-400 font-bold sector-card-delta">(+${diffSec}s)</span>`; speechMsg = translations[currentLang].voiceSlower; }
                 }
             }
-            const badgeHtml = `<div class="flex items-center mr-4 mb-2"><span class="sector-tag ${tagClass}">${tagLabel}</span><span class="font-orbitron font-bold text-white text-sm drop-shadow-md">${formatTime(timeMs, false)}</span>${deltaHtml}</div>`;
-            if(roiIndex === 1) display.innerHTML = ''; display.innerHTML += badgeHtml;
+            
+            let cardEl = document.getElementById(`live-card-${roiIndex}`);
+            if (!cardEl) {
+                cardEl = document.createElement('div');
+                cardEl.id = `live-card-${roiIndex}`;
+                cardEl.className = `sector-telemetry-card ${tagClass}`;
+                cardEl.innerHTML = `<div class="card-bar"></div><span class="sector-card-title">${tagLabel}</span><span class="sector-card-value">--.---</span><span class="sector-card-delta">--</span>`;
+                display.appendChild(cardEl);
+            }
+            cardEl.querySelector('.sector-card-value').textContent = formatTime(timeMs, false);
+            cardEl.querySelector('.sector-card-delta').innerHTML = deltaHtml || '<span class="text-slate-500">-</span>';
+
             if (speechMsg && document.getElementById('voice-toggle').checked) speak(`${tagLabel}. ${speechMsg}`);
         }
 
@@ -1406,12 +1405,21 @@
                 let prevLapSectors = null; if (lapHistory.length > 1) prevLapSectors = lapHistory[lapHistory.length - 2].sectors;
 
                 lastCompletedSectors.forEach((secTime, idx) => {
-                    const rIdx = (idx + 1) % activeRoisCount; const tagClass = rIdx === 0 ? 'meta' : roisState[rIdx].tag; let deltaHtml = "";
+                    const rIdx = (idx + 1) % activeRoisCount; const tagClass = rIdx === 0 ? 'meta' : roisState[rIdx].tag; const tagLabel = tagClass.toUpperCase();
+                    let deltaHtml = "";
                     if (prevLapSectors && prevLapSectors[idx]) {
                         const diff = secTime - prevLapSectors[idx]; const diffSec = (Math.abs(diff) / 1000).toFixed(3);
-                        if (diff < 0) deltaHtml = `<span class="text-emerald-400 font-bold ml-1 text-[10px]">(-${diffSec})</span>`; else deltaHtml = `<span class="text-red-400 font-bold ml-1 text-[10px]">(+${diffSec})</span>`;
+                        if (diff < 0) deltaHtml = `<span class="text-emerald-400 font-bold sector-card-delta">(-${diffSec}s)</span>`; 
+                        else deltaHtml = `<span class="text-red-400 font-bold sector-card-delta">(+${diffSec}s)</span>`;
                     }
-                    display.innerHTML += `<div class="flex items-center mr-4 mb-2"><span class="sector-tag ${tagClass}">${tagClass.toUpperCase()}</span><span class="font-orbitron font-bold text-white">${formatTime(secTime, false)}</span>${deltaHtml}</div>`;
+                    display.innerHTML += `
+                        <div class="sector-telemetry-card ${tagClass}">
+                            <div class="card-bar"></div>
+                            <span class="sector-card-title">${tagLabel}</span>
+                            <span class="sector-card-value">${formatTime(secTime, false)}</span>
+                            <span class="sector-card-delta">${deltaHtml || '<span class="text-slate-500">-</span>'}</span>
+                        </div>
+                    `;
                 });
             }
         }
@@ -1926,16 +1934,13 @@
         function drawGarageCharts(hist, bestLapForChart) {
             hist = hist || []; const recentHist = hist.slice(-50);
             
-            // 1. Evolución
             const ctxEvol = document.getElementById('garageChartEvolution').getContext('2d'); if(garageChartEvol) garageChartEvol.destroy();
             garageChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentHist.map(h => h.lapTime/1000), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
-            // 2. Consistencia
             const ctxCons = document.getElementById('garageChartConsistency').getContext('2d'); if(garageChartCons) garageChartCons.destroy();
             const devData = recentHist.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
             garageChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desviación (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
-            // 3. Tiempos Medios Sectores
             const ctxSect = document.getElementById('garageChartSectors').getContext('2d'); if(garageChartSect) garageChartSect.destroy();
             let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0]; let bestSectorTimes = [Infinity, Infinity, Infinity, Infinity, Infinity];
             hist.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; if(secTime < bestSectorTimes[idx]) bestSectorTimes[idx] = secTime; } }); } });
@@ -1943,30 +1948,25 @@
             const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
             if(activeSecs.length > 0) { garageChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Tiempos Medios (s)', data: activeSecs, backgroundColor: 'rgba(192, 132, 252, 0.4)', borderColor: '#c084fc', borderWidth: 1, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#a855f7', font: {size: 9}}, grid: {color: 'rgba(192,132,252,0.1)'} }, x: { display: true, ticks: {color: '#d8b4fe', font: {size: 9, family: 'Orbitron', weight: 'bold'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
-            // 4. Tendencia (Media Móvil)
             const ctxTrend = document.getElementById('garageChartTrend').getContext('2d'); if(garageChartTrend) garageChartTrend.destroy();
             let movingAvg = [];
             for(let i=0; i<recentHist.length; i++) { let sum = 0; let count = 0; for(let j=Math.max(0, i-4); j<=i; j++) { sum += recentHist[j].lapTime; count++; } movingAvg.push((sum/count)/1000); }
             garageChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Media Móvil (5V)', data: movingAvg, borderColor: '#10b981', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
-            // 5. Evolución por Sectores
             const ctxSectorsEvol = document.getElementById('garageChartSectorsEvol').getContext('2d'); if(garageChartSectorsEvol) garageChartSectorsEvol.destroy();
             let datasetsSectors = []; const colors = ['#3b82f6', '#f59e0b', '#a855f7', '#06b6d4', '#10b981'];
             if(activeSecs.length > 0) { for(let i=0; i<activeSecs.length; i++) { const secData = recentHist.map(h => (h.sectors && h.sectors[i]) ? h.sectors[i]/1000 : null); datasetsSectors.push({ label: labels[i], data: secData, borderColor: colors[i%colors.length], tension: 0.3, pointRadius: 0, borderWidth: 1.5 }); } }
             garageChartSectorsEvol = new Chart(ctxSectorsEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: datasetsSectors }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: true, position: 'bottom', labels: {color: '#94a3b8', boxWidth: 10, font:{size:9}}} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
-            // 6. Histograma
             const ctxHist = document.getElementById('garageChartHistogram').getContext('2d'); if(garageChartHistogram) garageChartHistogram.destroy();
             let histogramBins = {}; recentHist.forEach(h => { const sec = Math.floor(h.lapTime / 1000); const bin = `${sec}s`; histogramBins[bin] = (histogramBins[bin] || 0) + 1; });
             const sortedBins = Object.keys(histogramBins).sort((a,b) => parseFloat(a) - parseFloat(b));
             garageChartHistogram = new Chart(ctxHist, { type: 'bar', data: { labels: sortedBins, datasets: [{ label: 'Frecuencia', data: sortedBins.map(b => histogramBins[b]), backgroundColor: 'rgba(99, 102, 241, 0.5)', borderColor: '#6366f1', borderWidth: 1, borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}, stepSize: 1}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: true, ticks: {color: '#818cf8', font: {size: 9}}, grid: {display: false} } } } });
 
-            // 7. Velocidad Media Evolución
             const ctxSpeedEvol = document.getElementById('garageChartSpeedEvol').getContext('2d'); if(garageChartSpeedEvol) garageChartSpeedEvol.destroy();
             let speedData = []; recentHist.forEach(h => { const tCirc = circuits.find(c => c.id === h.circuitId); const len = tCirc ? parseFloat(tCirc.length) : 0; if(len > 0 && h.lapTime > 0) { const speedMs = len / (h.lapTime / 1000); const scaleKmh = speedMs * 3.6 * 32; speedData.push(scaleKmh); } else { speedData.push(null); } });
             garageChartSpeedEvol = new Chart(ctxSpeedEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Vel. Media Escala (km/h)', data: speedData, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: true, tension: 0.3, pointRadius: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: {color: '#64748b', font: {size: 9}}, grid: {color: 'rgba(100,116,139,0.1)'} }, x: { display: false } } } });
 
-            // 8. Radar Comparativa
             const ctxRadar = document.getElementById('garageChartRadar').getContext('2d'); if(garageChartRadar) garageChartRadar.destroy();
             if(activeSecs.length > 0) { const bestSecs = activeSecs.map((_, i) => bestSectorTimes[i] !== Infinity ? bestSectorTimes[i]/1000 : 0); garageChartRadar = new Chart(ctxRadar, { type: 'radar', data: { labels: labels, datasets: [{ label: 'Tiempo Medio', data: activeSecs, backgroundColor: 'rgba(45, 212, 191, 0.2)', borderColor: '#2dd4bf', pointBackgroundColor: '#2dd4bf' }, { label: 'Mejor Tiempo', data: bestSecs, backgroundColor: 'rgba(244, 63, 94, 0.2)', borderColor: '#f43f5e', pointBackgroundColor: '#f43f5e' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color: 'rgba(255,255,255,0.1)'}, grid: {color: 'rgba(255,255,255,0.1)'}, pointLabels: {color: '#94a3b8', font: {size: 9}}, ticks: {display: false} } }, plugins: { legend: {position: 'bottom', labels:{color:'#94a3b8', font:{size:9}}} } } }); } else { ctxRadar.clearRect(0, 0, ctxRadar.canvas.width, ctxRadar.canvas.height); }
         }
