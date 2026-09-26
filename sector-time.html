@@ -261,7 +261,7 @@
         
         /* Modales Anchos, Ligeramente Achatados y Centrados */
         .modal-content.garage-modal-custom, .modal-content.circuit-modal-custom {
-            width: 96% !important; max-width: 1350px !important; height: 80vh !important; max-height: 80vh !important;
+            width: 96% !important; max-width: 1350px !important; height: 75vh !important; max-height: 75vh !important;
             display: flex; flex-direction: column; margin: auto;
         }
 
@@ -384,7 +384,7 @@
                 <div class="flex justify-between items-center border-b border-cyan-800/50 pb-1.5 mb-1.5 shrink-0">
                     <h2 class="text-xs font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
                     <div class="flex space-x-1.5">
-                        <button id="calibrate-btn" class="p-1 px-3 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-[10px] font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md">
+                        <button id="calibrate-btn" class="p-1 px-3 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-[10px] font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md" disabled>
                             Calibrar IA
                         </button>
                         <label for="bg-image-input" class="p-1 px-2.5 rounded bg-blue-600/20 border border-blue-500 text-blue-400 hover:bg-blue-600/40 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(59,130,246,0.2)] cursor-pointer" title="Cargar Imagen de Fondo">
@@ -404,8 +404,8 @@
                 <div id="record-notification" data-i18n="newRecord">¡NUEVO RÉCORD!</div>
 
                 <div id="video-container">
-                    <img id="static-bg-img" class="absolute inset-0 w-full h-full object-cover hidden z-0 pointer-events-none" />
-                    <video id="webcam-feed" autoplay playsinline></video>
+                    <img id="static-bg-img" src="background.jpg" onerror="this.src='https://placehold.co/1280x720/020617/38bdf8?text=SECTOR+TIME+TRACK'" class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" />
+                    <video id="webcam-feed" class="absolute inset-0 w-full h-full object-cover hidden z-10" autoplay playsinline></video>
                     
                     <video id="tutorial-player" class="absolute inset-0 w-full h-full object-contain hidden z-[70] bg-black" controls playsinline></video>
                     <button id="close-tutorial-btn" class="absolute top-4 right-4 z-[80] hidden bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(239,68,68,0.6)] border border-red-400 text-[10px] tracking-widest uppercase flex items-center transition-all">
@@ -426,7 +426,7 @@
                         <h3 class="text-2xl font-orbitron font-bold text-yellow-400 uppercase tracking-widest mt-2 drop-shadow-lg" data-i18n="yellowFlag">BANDERA AMARILLA</h3>
                     </div>
 
-                    <div id="roi-0" class="roi-box roi-meta" style="left:10%; top:25%; width:15%; height:50%;">
+                    <div id="roi-0" class="roi-box roi-meta z-20" style="left:10%; top:25%; width:15%; height:50%;">
                         <div class="roi-label-container">
                             <div class="roi-label-tag">META</div>
                             <button class="roi-auto-btn" onclick="calibrateSingleROI(0)" title="Calibrar este sector">AUTO</button>
@@ -434,7 +434,7 @@
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-1" class="roi-box roi-s1" style="left:30%; top:25%; width:15%; height:50%;">
+                    <div id="roi-1" class="roi-box roi-s1 z-20" style="left:30%; top:25%; width:15%; height:50%;">
                          <div class="roi-label-container">
                             <div class="roi-label-tag">SEC 1</div>
                             <button class="roi-auto-btn" onclick="calibrateSingleROI(1)" title="Calibrar este sector">AUTO</button>
@@ -442,7 +442,7 @@
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-2" class="roi-box roi-s2" style="left:50%; top:25%; width:15%; height:50%;">
+                    <div id="roi-2" class="roi-box roi-s2 z-20" style="left:50%; top:25%; width:15%; height:50%;">
                          <div class="roi-label-container">
                             <div class="roi-label-tag">SEC 2</div>
                             <button class="roi-auto-btn" onclick="calibrateSingleROI(2)" title="Calibrar este sector">AUTO</button>
@@ -450,7 +450,7 @@
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-3" class="roi-box roi-s3" style="left:70%; top:25%; width:15%; height:50%;">
+                    <div id="roi-3" class="roi-box roi-s3 z-20" style="left:70%; top:25%; width:15%; height:50%;">
                          <div class="roi-label-container">
                             <div class="roi-label-tag">SEC 3</div>
                             <button class="roi-auto-btn" onclick="calibrateSingleROI(3)" title="Calibrar este sector">AUTO</button>
@@ -458,7 +458,7 @@
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
-                    <div id="roi-4" class="roi-box roi-s4" style="left:40%; top:10%; width:20%; height:40%;">
+                    <div id="roi-4" class="roi-box roi-s4 z-20" style="left:40%; top:10%; width:20%; height:40%;">
                          <div class="roi-label-container">
                             <div class="roi-label-tag">SEC 4</div>
                             <button class="roi-auto-btn" onclick="calibrateSingleROI(4)" title="Calibrar este sector">AUTO</button>
@@ -468,7 +468,7 @@
                     </div>
                 </div>
                 <canvas id="video-canvas"></canvas>
-                <div id="video-status" class="text-center text-[9px] mt-1.5 text-cyan-700/70 font-bold tracking-widest uppercase" data-i18n="camLoading">Sensor Inactivo</div>
+                <div id="video-status" class="text-center text-[9px] mt-1.5 text-cyan-400 font-bold tracking-widest uppercase">Vista Previa Pista Activa</div>
             </div>
         </div>
 
@@ -645,7 +645,7 @@
             </div>
 
             <div id="ranking-view-top25" class="overflow-y-auto max-h-[60vh] pr-2">
-                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 min-h-[200px] pt-10"></div>
+                <div id="f1-podium-container" class="hidden flex justify-center items-end gap-2 mb-8 mt-4 px-10 min-h-[220px] pt-12"></div>
                 <table id="f1-grid-table" class="w-full text-left text-sm bg-slate-900/60 rounded-xl border border-cyan-900/60 overflow-hidden shadow-lg hidden">
                     <thead class="bg-slate-800/80 border-b border-cyan-800">
                         <tr>
@@ -948,7 +948,7 @@
         </div>
     </div>
 
-    <!-- CIRCUIT MODAL (Achatado & 4 Charts) -->
+    <!-- CIRCUIT MODAL -->
     <div id="circuitModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content circuit-modal-custom p-5">
             <div class="flex justify-between items-center border-b border-emerald-500/50 pb-3 mb-4 shrink-0">
@@ -1047,7 +1047,6 @@
                         </div>
                     </div>
 
-                    <!-- 4 CHARTS FOR CIRCUITS -->
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 shrink-0 mb-2">
                         <div class="bg-slate-900/40 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner h-48">
                             <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1">Ritmo de Carrera (50 Vueltas)</span>
@@ -1235,7 +1234,9 @@
         });
 
         function getROIBrightness(boxEl) {
-            const vw = videoElement.videoWidth; const vh = videoElement.videoHeight;
+            const activeSource = cameraStream ? videoElement : document.getElementById('static-bg-img');
+            const vw = activeSource.videoWidth || activeSource.naturalWidth; 
+            const vh = activeSource.videoHeight || activeSource.naturalHeight;
             if(!vw || !vh) return 0;
             const leftPct = getPct(boxEl,'left')/100; const topPct = getPct(boxEl,'top')/100;
             const widthPct = getPct(boxEl,'width')/100; const heightPct = getPct(boxEl,'height')/100;
@@ -1246,7 +1247,7 @@
             const canvas = document.getElementById('video-canvas'); canvas.width = w; canvas.height = h; 
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             try {
-                ctx.drawImage(videoElement, l, t, w, h, 0, 0, w, h); 
+                ctx.drawImage(activeSource, l, t, w, h, 0, 0, w, h); 
                 const data = ctx.getImageData(0, 0, w, h).data; let sum = 0;
                 for (let i = 0; i < data.length; i += 16) sum += (data[i] + data[i+1] + data[i+2]); 
                 return (sum / 3) / (data.length / 16);
@@ -1263,7 +1264,7 @@
                 const currentBri = getROIBrightness(box);
                 
                 let displayHtml = `Val: ${currentBri.toFixed(0)} | Sens: ${rState.sensitivity}`;
-                if(rState.isSilentCalibrating) displayHtml += ` <span class="text-emerald-400 font-bold ml-1 animate-pulse drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">⚡</span>`;
+                if(rState.isSilentCalibrating) displayHtml += ` <span class="text-emerald-400 font-bold ml-1 animate-pulse">⚡</span>`;
                 box.querySelector('.val-indicator').innerHTML = displayHtml;
                 
                 const isTarget = (!isCalibrating && isRaceActive && currentTargetRoi === i);
@@ -1661,7 +1662,7 @@
         }
 
         window.calibrateSingleROI = async (roiIdx) => {
-            if (!isProcessing || isCalibrating || isRaceActive) return;
+            if (!isProcessing && document.getElementById('static-bg-img').classList.contains('hidden')) return;
             isCalibrating = true; 
             const box = document.getElementById(`roi-${roiIdx}`);
             box.querySelector('.val-indicator').innerHTML = `<span class="animate-pulse text-white">CAL...</span>`;
@@ -1685,7 +1686,6 @@
         };
 
         async function runCalibration() {
-            if (!isProcessing) return;
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
             let samples = 0; const frames = 60; const data = Array(activeRoisCount).fill(null).map(()=>({sum:0, min:255, max:0}));
             function sample() {
@@ -1763,7 +1763,8 @@
                 imgEl.classList.remove('hidden'); videoElement.classList.add('hidden');
                 activeRoisCount = parseInt(document.getElementById('sectors-select').value) + 1;
                 for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
-                if(!cameraStream) { document.getElementById('video-status').textContent = "IMAGEN CARGADA"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase"; }
+                document.getElementById('video-status').textContent = "IMAGEN CARGADA"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase";
+                document.getElementById('calibrate-btn').disabled = false;
             }; reader.readAsDataURL(file);
         });
 
@@ -1785,11 +1786,9 @@
             cameraStream=null; isProcessing=false; videoElement.srcObject=null;
             for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active');
             const imgEl = document.getElementById('static-bg-img');
-            if (imgEl.src && imgEl.src !== window.location.href) {
-                imgEl.classList.remove('hidden'); videoElement.classList.add('hidden'); document.getElementById('video-status').textContent = "IMAGEN CARGADA"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase";
-                for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
-            } else { document.getElementById('video-status').textContent = "Sensor Inactivo"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-cyan-700/70 font-bold tracking-widest uppercase"; }
-            document.getElementById('camera-on-btn').disabled=false; document.getElementById('camera-off-btn').disabled=true; document.getElementById('calibrate-btn').disabled=true;
+            imgEl.classList.remove('hidden'); videoElement.classList.add('hidden'); document.getElementById('video-status').textContent = "Vista Previa Pista Activa"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-cyan-400 font-bold tracking-widest uppercase";
+            for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
+            document.getElementById('camera-on-btn').disabled=false; document.getElementById('camera-off-btn').disabled=true; document.getElementById('calibrate-btn').disabled=false;
         });
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
@@ -1806,8 +1805,8 @@
         document.getElementById('sectors-select').addEventListener('change', (e) => {
             const count = parseInt(e.target.value) + 1;
             if(!isRaceActive) {
-                activeRoisCount = count; const imgEl = document.getElementById('static-bg-img'); const hasImage = !imgEl.classList.contains('hidden') && imgEl.src && imgEl.src !== window.location.href;
-                if(isProcessing || hasImage) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); } }
+                activeRoisCount = count;
+                for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); }
                 autoSaveROIsToCircuit(); renderSensitivitiesUI();
             }
         });
@@ -1817,7 +1816,7 @@
         });
 
         document.getElementById('history-btn').addEventListener('click', () => { loadHistory(); document.getElementById('historyModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('historyModal').classList.add('open'),10); });
-        document.getElementById('close-history-btn').addEventListener('click', () => { document.getElementById('historyModal').classList.remove('open'); setTimeout(()=>document.getElementById('historyModal').classList.add('hidden'),300); });
+        document.getElementById('close-history-btn').addEventListener('click', () => { document.getElementById('historyModal').classList.open = false; document.getElementById('historyModal').classList.remove('open'); setTimeout(()=>document.getElementById('historyModal').classList.add('hidden'),300); });
         
         document.getElementById('open-confirm-btn').addEventListener('click', () => { document.getElementById('confirmModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('confirmModal').classList.add('open'),10); });
         document.getElementById('cancel-clear-btn').addEventListener('click', () => { document.getElementById('confirmModal').classList.remove('open'); setTimeout(()=>document.getElementById('confirmModal').classList.add('hidden'),300); });
@@ -1988,8 +1987,10 @@
         }
 
         document.getElementById('garage-capture-btn').addEventListener('click', () => {
-            if (!videoElement.videoWidth) { const btn = document.getElementById('garage-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400">¡Cámara!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); return; }
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = videoElement.videoWidth; canvas.height = videoElement.videoHeight; ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const activeSource = cameraStream ? videoElement : document.getElementById('static-bg-img');
+            const sWidth = activeSource.videoWidth || activeSource.naturalWidth;
+            if (!sWidth) { const btn = document.getElementById('garage-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400">¡Cámara!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); return; }
+            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = sWidth; canvas.height = activeSource.videoHeight || activeSource.naturalHeight; ctx.drawImage(activeSource, 0, 0, canvas.width, canvas.height);
             const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 350; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
             const car = garageCars.find(c => c.id === currentGarageCarId); if(car) { car.image = destCanvas.toDataURL('image/jpeg', 0.8); saveGarage(); renderGarage(currentGarageCarId); }
         });
@@ -2074,11 +2075,11 @@
         }
 
         document.getElementById('circuit-capture-btn').addEventListener('click', () => {
-            const imgEl = document.getElementById('static-bg-img'); const sourceEl = videoElement.videoWidth ? videoElement : (imgEl.src && imgEl.src !== window.location.href ? imgEl : null);
-            const sWidth = sourceEl ? (sourceEl.videoWidth || sourceEl.naturalWidth) : 0; const sHeight = sourceEl ? (sourceEl.videoHeight || sourceEl.naturalHeight) : 0;
+            const activeSource = cameraStream ? videoElement : document.getElementById('static-bg-img');
+            const sWidth = activeSource.videoWidth || activeSource.naturalWidth;
             if (!sWidth) { const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-red-400 font-bold uppercase z-10 text-center">¡Activa cámara!</span>`; setTimeout(()=>btn.innerHTML=orig, 2500); return; }
             
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = sWidth; canvas.height = sHeight; ctx.drawImage(sourceEl, 0, 0, canvas.width, canvas.height);
+            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = sWidth; canvas.height = activeSource.videoHeight || activeSource.naturalHeight; ctx.drawImage(activeSource, 0, 0, canvas.width, canvas.height);
             for (let i = 0; i < activeRoisCount; i++) {
                 const box = document.getElementById(`roi-${i}`);
                 const l = Math.floor(canvas.width * (getPct(box, 'left')/100)); const t = Math.floor(canvas.height * (getPct(box, 'top')/100)); const w = Math.ceil(canvas.width * (getPct(box, 'width')/100)); const h = Math.ceil(canvas.height * (getPct(box, 'height')/100));
@@ -2102,8 +2103,6 @@
             for (let i = 0; i < MAX_ROIS; i++) {
                 const box = document.getElementById(`roi-${i}`);
                 if (circ.rois[i]) { box.style.left = circ.rois[i].left || box.style.left; box.style.top = circ.rois[i].top || box.style.top; box.style.width = circ.rois[i].width || box.style.width; box.style.height = circ.rois[i].height || box.style.height; }
-                const imgEl = document.getElementById('static-bg-img'); const hasImage = !imgEl.classList.contains('hidden') && imgEl.src && imgEl.src !== window.location.href;
-                if (isProcessing || hasImage) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baseBri = null; } else { box.classList.remove('active'); } } else { box.classList.remove('active'); }
             }
             renderSensitivitiesUI();
         }
