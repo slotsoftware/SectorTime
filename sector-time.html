@@ -216,7 +216,7 @@
             box-shadow: 0 0 50px rgba(2, 132, 199, 0.4); transform: scale(0.95); transition: transform 0.3s ease;
             overflow-y: auto; max-width: 95%; max-height: 90%; 
         }
-        .modal-content.panoramic { width: 85vw !important; max-width: 1300px !important; height: 75vh !important; max-height: 800px !important; }
+        .modal-content.panoramic { width: 88vw !important; max-width: 1350px !important; height: 82vh !important; max-height: 850px !important; }
         .modal-overlay.open .modal-content { transform: scale(1); }
         
         table { width: 100%; text-align: left; border-collapse: collapse; margin-top: 10px; }
@@ -1186,10 +1186,14 @@
 
                 const canDetect = !isRaceActive || isTarget;
 
-                if (crossed && canDetect) box.classList.add('roi-detected');
-                else { 
+                if (crossed && canDetect) {
+                    box.classList.add('roi-detected');
+                } else { 
                     box.classList.remove('roi-detected'); 
-                    if (!isCalibrating && !rState.blocked && canDetect && !rState.isSilentCalibrating) { 
+                    // FIX: Eliminada la restriccion 'canDetect'. 
+                    // Ahora TODOS los sectores rastrean los cambios naturales de iluminacion de la sala
+                    // continuamente para evitar falsos positivos al llegar su turno (!crossed = no hay coche).
+                    if (!isCalibrating && !rState.blocked && !crossed && !rState.isSilentCalibrating) { 
                         rState.baseColor.r = (rState.baseColor.r * 0.95) + (avgs.r * 0.05);
                         rState.baseColor.g = (rState.baseColor.g * 0.95) + (avgs.g * 0.05);
                         rState.baseColor.b = (rState.baseColor.b * 0.95) + (avgs.b * 0.05);
