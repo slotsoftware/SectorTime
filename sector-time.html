@@ -91,7 +91,7 @@
             filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.6));
         }
         @keyframes rotateDevice { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
-        @media screen and (orientation: portrait) { #orientation-lock { display: flex; } }
+        @media screen and (orientation: portrait) { #orientation-lock { display: flex !important; } }
         
         input, select { user-select: text; -webkit-user-select: text; }
         
@@ -265,7 +265,6 @@
         </svg>
         <h2 class="text-2xl font-orbitron font-bold uppercase tracking-widest mb-2 text-white">Gira tu dispositivo</h2>
         <p class="text-base text-cyan-200 mb-6 font-light">Diseñado para formato horizontal (Landscape).</p>
-        <button onclick="document.getElementById('orientation-lock').style.display='none'" class="px-6 py-3 bg-cyan-900/50 border border-cyan-400 hover:bg-cyan-800 rounded-lg font-bold text-white text-sm tracking-wider shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-colors">Continuar de todos modos</button>
     </div>
 
     <!-- MAIN APP CONTAINER -->
@@ -1721,9 +1720,18 @@
         });
 
         document.getElementById('calibrate-btn').addEventListener('click', runCalibration); document.getElementById('pause-btn').addEventListener('click', togglePause);
-        document.getElementById('fullscreen-btn').addEventListener('click', () => {
-            if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(()=>{}); document.getElementById('fs-icon-enter').classList.add('hidden'); document.getElementById('fs-icon-exit').classList.remove('hidden'); }
-            else { document.exitFullscreen(); document.getElementById('fs-icon-enter').classList.remove('hidden'); document.getElementById('fs-icon-exit').classList.add('hidden'); }
+        document.getElementById('fullscreen-btn').addEventListener('click', async () => {
+            try {
+                if (!document.fullscreenElement) { 
+                    await document.documentElement.requestFullscreen(); 
+                    document.getElementById('fs-icon-enter').classList.add('hidden'); document.getElementById('fs-icon-exit').classList.remove('hidden'); 
+                    if(screen.orientation && screen.orientation.lock) { await screen.orientation.lock('landscape').catch(()=>{}); }
+                } else { 
+                    document.exitFullscreen(); 
+                    document.getElementById('fs-icon-enter').classList.remove('hidden'); document.getElementById('fs-icon-exit').classList.add('hidden'); 
+                    if(screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); }
+                }
+            } catch(e) {}
         });
 
         document.getElementById('race-mode-select').addEventListener('change', (e) => {
@@ -2114,6 +2122,7 @@
         });
 
         window.onload = () => {
+            if (screen.orientation && screen.orientation.lock) { screen.orientation.lock('landscape').catch(() => {}); }
             if (window.speechSynthesis) window.speechSynthesis.getVoices();
             renderSensitivitiesUI(); updateLapDisplay(); stopRace(false);
             setTimeout(() => { if (window.initFirebase) { window.initFirebase(); } else if (window.initLocalMode) { window.initLocalMode(); } setTimeout(() => { if (circuits.length === 0 && window.initLocalMode) window.initLocalMode(); }, 3000); }, 500);
