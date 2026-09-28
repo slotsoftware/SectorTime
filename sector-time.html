@@ -271,9 +271,12 @@
     <div id="requirements-banner" class="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-slate-900/85 backdrop-blur-md border border-cyan-800/80 px-6 py-2.5 rounded-xl shadow-[0_0_20px_rgba(8,145,178,0.2)] z-[90] pointer-events-none flex flex-col items-center text-center w-[95%] max-w-2xl">
         <div data-i18n="reqText" class="leading-relaxed text-[9px]">
             <span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span>
-            <span class='text-slate-300 tracking-wider'><b>ANDROID:</b> Tablet 11" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB+ RAM. <i class="text-cyan-500">(Móviles no soportados)</i><br>
-            <b>PC / WINDOWS:</b> Procesador Intel Core i5 / AMD Ryzen 5, 8GB RAM, Webcam FHD 1080p.<br>
-            <b>APPLE MAC:</b> Procesador Apple Silicon (M1/M2/M3) o Intel Core i5 (2018 en adelante).</span>
+            <span class='text-slate-300 tracking-wider'>
+                <b>🌐 NAVEGADOR:</b> Chrome / Edge v110+ o Safari v16+.<br>
+                <b>🤖 ANDROID (OS 12+):</b> Tablet 11" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB RAM. Cámara trasera 8MP+. <i class="text-cyan-500">(Móviles no soportados)</i><br>
+                <b>🪟 PC WINDOWS (10/11 64-bit):</b> Intel Core i5 / AMD Ryzen 5, 8GB RAM. Webcam FHD 1080p @ 60fps (Ej: Logitech C920).<br>
+                <b>🍏 APPLE MAC (macOS 11+):</b> Chip Apple Silicon (M1/M2/M3) o Intel i5 (2018+). Cámara integrada/externa 1080p.
+            </span>
         </div>
     </div>
 
@@ -1020,31 +1023,50 @@
         const translations = {
             es: {
                 langLabel: "Idioma", history: "Historial", circuits: "Circuitos", circuitName: "Pista / Circuito", ranking: "Ranking",
-                pilotDataTitle: "Configuración", pilotName: "Piloto", carModel: "Coche", raceMode: "Modo", modeLaps: "Por Vueltas", modeTime: "Por Tiempo",
-                lapLimit: "Límite", timeLimit: "Tiempo", limitLabel: "Límite", sectorsCount: "Sectores",
-                safetyTime: "Anti-Rebote", engineerVoice: "Voz Ing.", aiSens: "Sensibilidad IA", raceTime: "TIEMPO", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR",
-                videoTitle: "Cámara y Sectores", autoCalib: "Calibrar", newRecord: "¡RÉCORD!", calibrating: "Calibrando...", clearTrack: "Despeja la pista",
-                falseStart: "¡SALIDA NULA!", camLoading: "Sensor Inactivo", telemetry: "Telemetría", pilotCar: "PILOTO / COCHE", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
-                lastLapSectors: "TIEMPOS SECTOR", raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
+                pilotDataTitle: "Configuración", pilotName: "Piloto", carModel: "Coche",
+                raceMode: "Modo", modeLaps: "Por Vueltas", modeTime: "Por Tiempo",
+                lapLimit: "Límite", timeLimit: "Tiempo", limitLabel: "Límite",
+                sectorsCount: "Sectores", sec0: "0 (Solo Meta)", sec1: "1 (+ Meta)", sec2: "2 (+ Meta)", sec3: "3 (+ Meta)", sec4: "4 (+ Meta)",
+                safetyTime: "Anti-Rebote", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
+                engineerVoice: "Voz Ing.", aiSens: "Sensibilidad IA", verySens: "Sensible", lessSens: "Inmune",
+                raceTime: "TIEMPO", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR",
+                videoTitle: "Cámara y Sectores", autoCalib: "Calibrar", newRecord: "¡RÉCORD!",
+                calibrating: "Calibrando...", clearTrack: "Despeja la pista",
+                falseStart: "¡SALIDA NULA!", camLoading: "Sensor Inactivo",
+                telemetry: "Telemetría", pilotCar: "PILOTO / COCHE", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
+                lastLapSectors: "TIEMPOS SECTOR", timeGraph: "Evolución de Tiempos", noData: "Sin datos",
+                raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
                 restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "Vacío.",
-                clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí", pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
+                clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
+                pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
+                "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "Inf",
                 voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía",
-                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span><span class='text-slate-300 tracking-wider'><b>ANDROID:</b> Tablet 11\" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB+ RAM. <i class='text-cyan-500'>(Móviles no soportados)</i><br><b>PC / WINDOWS:</b> Procesador Intel Core i5 / AMD Ryzen 5, 8GB RAM, Webcam FHD 1080p.<br><b>APPLE MAC:</b> Procesador Apple Silicon (M1/M2/M3) o Intel Core i5 (2018 en adelante).</span>"
+                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span><span class='text-slate-300 tracking-wider'><b>🌐 NAVEGADOR:</b> Chrome / Edge v110+ o Safari v16+.<br><b>🤖 ANDROID (OS 12+):</b> Tablet 11\" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB RAM. Cámara trasera 8MP+. <i class=\"text-cyan-500\">(Móviles no soportados)</i><br><b>🪟 PC WINDOWS (10/11 64-bit):</b> Intel Core i5 / AMD Ryzen 5, 8GB RAM. Webcam FHD 1080p @ 60fps (Ej: Logitech C920).<br><b>🍏 APPLE MAC (macOS 11+):</b> Chip Apple Silicon (M1/M2/M3) o Intel i5 (2018+). Cámara integrada/externa 1080p.</span>"
             },
             en: {
                 langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit", ranking: "Ranking",
-                pilotDataTitle: "Config", pilotName: "Driver", carModel: "Car", raceMode: "Mode", modeLaps: "Laps", modeTime: "Time",
-                lapLimit: "Limit", timeLimit: "Time", limitLabel: "Limit", sectorsCount: "Sectors",
-                safetyTime: "Debounce", engineerVoice: "Voice:", aiSens: "AI Sensitivity", raceTime: "TIME", laps: "LAPS", start: "START", reset: "RESET",
-                videoTitle: "Cam & Sectors", autoCalib: "Calibrate", newRecord: "RECORD!", calibrating: "Calibrating...", clearTrack: "Clear track",
-                falseStart: "FALSE START!", camLoading: "Inactive", telemetry: "Telemetry", pilotCar: "DRIVER / CAR", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME",
-                lastLapSectors: "SECTOR TIMES", raceFinished: "Finished!", totalTime: "Total", avg: "Avg", lapDetail: "Details", time: "Total",
+                pilotDataTitle: "Config", pilotName: "Driver", carModel: "Car",
+                raceMode: "Mode", modeLaps: "Laps", modeTime: "Time",
+                lapLimit: "Limit", timeLimit: "Time", limitLabel: "Limit",
+                sectorsCount: "Sectors", sec0: "0 (Finish)", sec1: "1 (+ Finish)", sec2: "2 (+ Finish)", sec3: "3 (+ Finish)", sec4: "4 (+ Finish)",
+                safetyTime: "Debounce", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
+                engineerVoice: "Voice:", aiSens: "AI Sensitivity", verySens: "Sens", lessSens: "Immune",
+                raceTime: "TIME", laps: "LAPS", start: "START", reset: "RESET",
+                videoTitle: "Cam & Sectors", autoCalib: "Calibrate", newRecord: "RECORD!",
+                calibrating: "Calibrating...", clearTrack: "Clear track",
+                falseStart: "FALSE START!", camLoading: "Inactive",
+                telemetry: "Telemetry", pilotCar: "DRIVER / CAR", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME",
+                lastLapSectors: "SECTOR TIMES", timeGraph: "Lap Graph", noData: "No data",
+                raceFinished: "Finished!", totalTime: "Total", avg: "Avg", lapDetail: "Details", time: "Total",
                 restartFull: "RESTART", exportExcel: "Excel", historyTitle: "History", date: "DATE", noHistory: "Empty.",
-                clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes", pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
+                clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
+                pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
+                "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "Inf",
                 voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide",
-                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Recommended Technical Specifications (60fps AI Vision)</span><span class='text-slate-300 tracking-wider'><b>ANDROID:</b> 11\" Tablet (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB+ RAM. <i class='text-cyan-500'>(Phones not supported)</i><br><b>PC / WINDOWS:</b> Intel Core i5 / AMD Ryzen 5 Processor, 8GB RAM, FHD 1080p Webcam.<br><b>APPLE MAC:</b> Apple Silicon (M1/M2/M3) or Intel Core i5 (2018+) Processor.</span>"
+                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Recommended Technical Specifications (60fps AI Vision)</span><span class='text-slate-300 tracking-wider'><b>🌐 BROWSER:</b> Chrome / Edge v110+ or Safari v16+.<br><b>🤖 ANDROID (OS 12+):</b> 11\" Tablet (e.g. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB RAM. 8MP+ Rear Camera. <i class=\"text-cyan-500\">(Phones not supported)</i><br><b>🪟 PC WINDOWS (10/11 64-bit):</b> Intel Core i5 / AMD Ryzen 5, 8GB RAM. FHD 1080p @ 60fps Webcam (e.g. Logitech C920).<br><b>🍏 APPLE MAC (macOS 11+):</b> Apple Silicon (M1/M2/M3) or Intel i5 (2018+) Chip. 1080p built-in/external Camera.</span>"
             }
         };
+        translations.fr = translations.en; 
         let currentLang = 'es';
 
         let garageCars = []; let currentGarageCarId = null;
