@@ -267,19 +267,6 @@
         <p class="text-base text-cyan-200 mb-6 font-light">Diseñado para formato horizontal (Landscape).</p>
     </div>
 
-    <!-- REQUISITOS BANNER -->
-    <div id="requirements-banner" class="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-slate-900/85 backdrop-blur-md border border-cyan-800/80 px-6 py-2.5 rounded-xl shadow-[0_0_20px_rgba(8,145,178,0.2)] z-[90] pointer-events-none flex flex-col items-center text-center w-[95%] max-w-2xl">
-        <div data-i18n="reqText" class="leading-relaxed text-[9px]">
-            <span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span>
-            <span class='text-slate-300 tracking-wider'>
-                <b>🌐 NAVEGADOR:</b> Chrome / Edge v110+ o Safari v16+.<br>
-                <b>🤖 ANDROID (OS 12+):</b> Tablet 11" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB RAM. Cámara trasera 8MP+. <i class="text-cyan-500">(Móviles no soportados)</i><br>
-                <b>🪟 PC WINDOWS (10/11 64-bit):</b> Intel Core i5 / AMD Ryzen 5, 8GB RAM. Webcam FHD 1080p @ 60fps (Ej: Logitech C920).<br>
-                <b>🍏 APPLE MAC (macOS 11+):</b> Chip Apple Silicon (M1/M2/M3) o Intel i5 (2018+). Cámara integrada/externa 1080p.
-            </span>
-        </div>
-    </div>
-
     <!-- MAIN APP CONTAINER -->
     <div class="w-full h-full flex flex-row p-2 gap-2 overflow-hidden box-border">
         
@@ -368,6 +355,19 @@
                     <img id="static-bg-img" src="background.jpg" onerror="this.src='https://placehold.co/800x600/1e293b/38bdf8?text=PISTA+CARRERAS'" class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" />
                     <video id="webcam-feed" class="hidden" autoplay playsinline></video>
                     
+                    <!-- REQUISITOS BANNER -->
+                    <div id="requirements-banner" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-900/85 backdrop-blur-md border border-cyan-800/80 px-6 py-2.5 rounded-xl shadow-[0_0_20px_rgba(8,145,178,0.2)] z-[30] pointer-events-none flex flex-col items-center text-center w-[95%] max-w-2xl transition-opacity duration-300">
+                        <div data-i18n="reqText" class="leading-relaxed text-[9px]">
+                            <span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span>
+                            <span class='text-slate-300 tracking-wider'>
+                                <b>🌐 NAVEGADOR:</b> Chrome / Edge v110+ o Safari v16+.<br>
+                                <b>🤖 ANDROID (OS 12+):</b> Tablet 11" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB RAM. Cámara trasera 8MP+. <i class="text-cyan-500">(Móviles no soportados)</i><br>
+                                <b>🪟 PC WINDOWS (10/11 64-bit):</b> Intel Core i5 / AMD Ryzen 5, 8GB RAM. Webcam FHD 1080p @ 60fps (Ej: Logitech C920).<br>
+                                <b>🍏 APPLE MAC (macOS 11+):</b> Chip Apple Silicon (M1/M2/M3) o Intel i5 (2018+). Cámara integrada/externa 1080p.
+                            </span>
+                        </div>
+                    </div>
+
                     <video id="tutorial-player" class="absolute inset-0 w-full h-full object-contain hidden z-[70] bg-black" controls playsinline></video>
                     <button id="close-tutorial-btn" class="absolute top-4 right-4 z-[80] hidden bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(239,68,68,0.6)] border border-red-400 text-[10px] tracking-widest uppercase flex items-center transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -1722,6 +1722,7 @@
             reader.onload = (ev) => {
                 const imgEl = document.getElementById('static-bg-img'); imgEl.src = ev.target.result;
                 imgEl.classList.remove('hidden'); videoElement.classList.add('hidden');
+                document.getElementById('requirements-banner').classList.add('hidden');
                 activeRoisCount = parseInt(document.getElementById('sectors-select').value) + 1;
                 if(cameraStream) { for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active'); }
                 else { for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active'); }
@@ -1734,6 +1735,7 @@
                 const s = await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
                 cameraStream = s; videoElement.srcObject = s; videoElement.play(); 
                 document.getElementById('static-bg-img').classList.add('hidden'); videoElement.classList.remove('hidden');
+                document.getElementById('requirements-banner').classList.add('hidden');
                 activeRoisCount = parseInt(document.getElementById('sectors-select').value) + 1;
                 for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active');
                 isProcessing=true; processVideo(); document.getElementById('calibrate-btn').disabled=false;
@@ -1747,6 +1749,11 @@
             cameraStream=null; isProcessing=false; videoElement.srcObject=null;
             for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active');
             const imgEl = document.getElementById('static-bg-img');
+            if (imgEl.src && imgEl.src.startsWith('data:image')) {
+                document.getElementById('requirements-banner').classList.add('hidden');
+            } else {
+                document.getElementById('requirements-banner').classList.remove('hidden');
+            }
             if (imgEl.src && imgEl.src !== window.location.href) {
                 imgEl.classList.remove('hidden'); videoElement.classList.add('hidden'); document.getElementById('video-status').textContent = "IMAGEN CARGADA"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase";
             } else { document.getElementById('video-status').textContent = "Sensor Inactivo"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-cyan-700/70 font-bold tracking-widest uppercase"; }
