@@ -267,6 +267,16 @@
         <p class="text-base text-cyan-200 mb-6 font-light">Diseñado para formato horizontal (Landscape).</p>
     </div>
 
+    <!-- REQUISITOS BANNER -->
+    <div id="requirements-banner" class="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-slate-900/85 backdrop-blur-md border border-cyan-800/80 px-6 py-2.5 rounded-xl shadow-[0_0_20px_rgba(8,145,178,0.2)] z-[90] pointer-events-none flex flex-col items-center text-center w-[95%] max-w-2xl">
+        <div data-i18n="reqText" class="leading-relaxed text-[9px]">
+            <span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span>
+            <span class='text-slate-300 tracking-wider'><b>ANDROID:</b> Tablet 11" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB+ RAM. <i class="text-cyan-500">(Móviles no soportados)</i><br>
+            <b>PC / WINDOWS:</b> Procesador Intel Core i5 / AMD Ryzen 5, 8GB RAM, Webcam FHD 1080p.<br>
+            <b>APPLE MAC:</b> Procesador Apple Silicon (M1/M2/M3) o Intel Core i5 (2018 en adelante).</span>
+        </div>
+    </div>
+
     <!-- MAIN APP CONTAINER -->
     <div class="w-full h-full flex flex-row p-2 gap-2 overflow-hidden box-border">
         
@@ -1018,7 +1028,8 @@
                 lastLapSectors: "TIEMPOS SECTOR", raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
                 restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "Vacío.",
                 clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí", pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
-                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía"
+                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía",
+                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span><span class='text-slate-300 tracking-wider'><b>ANDROID:</b> Tablet 11\" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB+ RAM. <i class='text-cyan-500'>(Móviles no soportados)</i><br><b>PC / WINDOWS:</b> Procesador Intel Core i5 / AMD Ryzen 5, 8GB RAM, Webcam FHD 1080p.<br><b>APPLE MAC:</b> Procesador Apple Silicon (M1/M2/M3) o Intel Core i5 (2018 en adelante).</span>"
             },
             en: {
                 langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit", ranking: "Ranking",
@@ -1030,7 +1041,8 @@
                 lastLapSectors: "SECTOR TIMES", raceFinished: "Finished!", totalTime: "Total", avg: "Avg", lapDetail: "Details", time: "Total",
                 restartFull: "RESTART", exportExcel: "Excel", historyTitle: "History", date: "DATE", noHistory: "Empty.",
                 clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes", pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
-                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide"
+                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide",
+                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Recommended Technical Specifications (60fps AI Vision)</span><span class='text-slate-300 tracking-wider'><b>ANDROID:</b> 11\" Tablet (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB+ RAM. <i class='text-cyan-500'>(Phones not supported)</i><br><b>PC / WINDOWS:</b> Intel Core i5 / AMD Ryzen 5 Processor, 8GB RAM, FHD 1080p Webcam.<br><b>APPLE MAC:</b> Apple Silicon (M1/M2/M3) or Intel Core i5 (2018+) Processor.</span>"
             }
         };
         let currentLang = 'es';
@@ -1749,7 +1761,13 @@
         });
 
         document.getElementById('lang-select').addEventListener('change', (e) => {
-            currentLang = e.target.value; document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (translations[currentLang][key]) el.textContent = translations[currentLang][key]; });
+            currentLang = e.target.value; 
+            document.querySelectorAll('[data-i18n]').forEach(el => { 
+                const key = el.getAttribute('data-i18n'); 
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key]; 
+                }
+            });
         });
 
         document.getElementById('history-btn').addEventListener('click', () => { loadHistory(); document.getElementById('historyModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('historyModal').classList.add('open'),10); });
