@@ -68,7 +68,6 @@
     </script>
     
     <style>
-        /* Base Global */
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at 50% 0%, #0369a1 0%, #0f172a 70%, #020617 100%);
@@ -79,7 +78,6 @@
             overscroll-behavior: none; user-select: none; -webkit-user-select: none; touch-action: manipulation;
         }
         
-        /* Orientation Lock */
         #orientation-lock {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); z-index: 9999; 
@@ -95,7 +93,6 @@
         
         input, select { user-select: text; -webkit-user-select: text; }
         
-        /* Custom Scrollbars */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.3); border-radius: 4px; }
@@ -103,7 +100,6 @@
 
         .font-orbitron { font-family: 'Orbitron', sans-serif !important; letter-spacing: 0.05em; }
 
-        /* Panels and Inputs */
         .neon-panel {
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(30, 58, 138, 0.4));
             border: 1px solid rgba(56, 189, 248, 0.4);
@@ -122,7 +118,6 @@
         .neon-input option { background: #0f172a; color: #bae6fd; }
         .neon-title { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.8); text-align: left; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
 
-        /* Traffic Lights */
         .traffic-light-container.five-lights { display: flex; gap: 8px; }
         .light {
             width: 24px; height: 24px; border-radius: 50%; background-color: #020617; border: 2px solid #1e293b; 
@@ -131,7 +126,6 @@
         .light.red { background-color: #ef4444; border-color: #fca5a5; box-shadow: 0 0 20px #ef4444, inset 0 0 10px #fff; }
         .light.green { background-color: #10b981; border-color: #6ee7b7; box-shadow: 0 0 20px #10b981, inset 0 0 10px #fff; }
 
-        /* Video Container */
         #video-container {
             position: relative; width: 100%; height: 100%; flex: 1; min-height: 0;
             border: 2px solid rgba(56, 189, 248, 0.5); background-color: #000; border-radius: 0.5rem; overflow: hidden; 
@@ -139,7 +133,6 @@
         }
         #webcam-feed { height: 100%; width: 100%; object-fit: cover; display: block; filter: contrast(1.1) saturate(1.2); }
 
-        /* ROIs */
         .roi-box {
             position: absolute; cursor: move; border: 2px solid rgba(56, 189, 248, 0.6); background-color: rgba(56, 189, 248, 0.05);
             box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2); transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; border-radius: 8px;
@@ -168,10 +161,10 @@
         .roi-box.roi-s4 .roi-label-tag, .roi-box.roi-s4 .roi-auto-btn { border-color: #22d3ee; color: #22d3ee; }
 
         .roi-detected { background-color: rgba(255, 255, 255, 0.3) !important; box-shadow: 0 0 30px rgba(255,255,255, 0.6) !important; border-color: #fff !important; }
-        .roi-locked { border-color: #475569 !important; background-color: rgba(0, 0, 0, 0.5) !important; opacity: 0.5; box-shadow: none !important; border-style: dashed !important; }
+        .roi-locked { border-color: #475569 !important; background-color: rgba(0, 0, 0, 0.5) !important; border-style: dashed !important; }
         .roi-target { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), inset 0 0 15px rgba(16, 185, 129, 0.3) !important; border-color: #34d399 !important; opacity: 1 !important; z-index: 15 !important; }
         .roi-target .roi-label-tag { border-color: #34d399; color: #34d399; }
-        .roi-inactive { opacity: 0.15 !important; border-style: dashed !important; box-shadow: none !important; z-index: 5 !important; filter: grayscale(1); }
+        .roi-inactive { border-color: rgba(148, 163, 184, 0.35) !important; background-color: rgba(2, 6, 23, 0.15) !important; border-style: dashed !important; box-shadow: none !important; z-index: 5 !important; }
 
         .test-msg {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -187,7 +180,63 @@
         .val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(15, 23, 42, 0.8); color: #38bdf8; font-size: 10px; font-family: 'Orbitron', sans-serif; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4); white-space: nowrap; }
         .dragging { cursor: grabbing !important; } .resizing-nwse { cursor: nwse-resize !important; } #video-canvas { display: none; }
 
-        /* Timers and Displays */
+        /* Baliza Minimalista 3D (Cuadro 3D alargado con línea + WiFi, sin poste) */
+        .sector-beacon-3d {
+            position: absolute;
+            left: -68px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 58px;
+            height: 96px;
+            pointer-events: none;
+            z-index: 30;
+            transition: color 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+        }
+        .beacon-blue {
+            color: #38bdf8;
+            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.9));
+        }
+        .beacon-green {
+            color: #10b981;
+            filter: drop-shadow(0 0 14px rgba(16, 185, 129, 1)) drop-shadow(0 0 24px rgba(16, 185, 129, 0.8));
+            transform: translateY(-50%) scale(1.1);
+        }
+        .beacon-red {
+            color: #ef4444;
+            filter: drop-shadow(0 0 14px rgba(239, 68, 68, 1)) drop-shadow(0 0 24px rgba(239, 68, 68, 0.8));
+            transform: translateY(-50%) scale(1.1);
+        }
+        .sector-beacon-3d .wifi-wave {
+            animation: wifiPulse 1.4s infinite ease-in-out;
+        }
+        .sector-beacon-3d .wifi-wave-2 { animation-delay: 0.25s; }
+        @keyframes wifiPulse {
+            0%, 100% { opacity: 0.35; }
+            50% { opacity: 1; }
+        }
+
+        /* Estilos para las tarjetas de sectores en el Ranking F1 */
+        .sector-card {
+            border-radius: 0.75rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+        .sector-card:hover { transform: translateY(-2px); }
+        .sector-card .bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+        }
+        .sector-card.s1 .bar { background: #60a5fa; box-shadow: 0 0 10px #60a5fa; }
+        .sector-card.s2 .bar { background: #fbbf24; box-shadow: 0 0 10px #fbbf24; }
+        .sector-card.s3 .bar { background: #c084fc; box-shadow: 0 0 10px #c084fc; }
+        .sector-card.s4 .bar { background: #22d3ee; box-shadow: 0 0 10px #22d3ee; }
+        .sector-card.meta .bar { background: #ffffff; box-shadow: 0 0 10px #ffffff; }
+
         .timer-value { font-size: 1.5rem; line-height: 1.75rem; color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
         .telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
         .telemetry-item { display: flex; flex-direction: column; padding: 4px 8px; border-radius: 8px; background: rgba(2, 6, 23, 0.5); border: 1px solid rgba(56, 189, 248, 0.2); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
@@ -200,7 +249,6 @@
         .sector-tag { padding: 1px 3px; border-radius: 4px; font-size: 0.6rem; color: #020617; margin-right: 4px; font-weight: 800; }
         .sector-tag.meta { background: #f8fafc; } .sector-tag.s1 { background: #60a5fa; } .sector-tag.s2 { background: #fbbf24; } .sector-tag.s3 { background: #c084fc; } .sector-tag.s4 { background: #22d3ee; }
 
-        /* Race Buttons */
         .race-control-btn {
             display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px 0; border-radius: 8px; background: rgba(2, 6, 23, 0.4);
             border: 1px solid rgba(56, 189, 248, 0.4); transition: all 0.2s ease; font-size: 0.7rem; font-weight: 700; color: #bae6fd; font-family: 'Orbitron', sans-serif; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -209,7 +257,6 @@
         #start-race-btn.race-control-btn { color: #34d399; border-color: #34d399; } #start-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(52, 211, 153, 0.15); box-shadow: 0 0 20px rgba(52, 211, 153, 0.4); }
         #reset-race-btn.race-control-btn { color: #f87171; border-color: #f87171; } #reset-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(248, 113, 113, 0.15); box-shadow: 0 0 20px rgba(248, 113, 113, 0.4); }
         
-        /* Modals Master Classes */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(2, 6, 23, 0.85); backdrop-filter: blur(10px);
             z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -221,10 +268,8 @@
         }
         .modal-overlay.open .modal-content { transform: scale(1); }
         
-        /* Ultra-wide Modals for Garage & Circuits */
         .panoramic { width: 90vw !important; max-width: 1600px !important; height: 85vh !important; max-height: 900px !important; }
 
-        /* General tables & alerts */
         table { width: 100%; text-align: left; border-collapse: collapse; margin-top: 10px; }
         th, td { padding: 10px; border-bottom: 1px solid rgba(56, 189, 248, 0.2); font-size: 0.8rem; color: #bae6fd; }
         th { color: #38bdf8; text-transform: uppercase; font-weight: 700; border-bottom: 2px solid rgba(56, 189, 248, 0.5); font-family: 'Orbitron', sans-serif; }
@@ -355,7 +400,6 @@
                     <img id="static-bg-img" src="background.jpg" onerror="this.src='https://placehold.co/800x600/1e293b/38bdf8?text=PISTA+CARRERAS'" class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none" />
                     <video id="webcam-feed" class="hidden" autoplay playsinline></video>
                     
-                    <!-- REQUISITOS BANNER -->
                     <div id="requirements-banner" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-900/85 backdrop-blur-md border border-cyan-800/80 px-6 py-2.5 rounded-xl shadow-[0_0_20px_rgba(8,145,178,0.2)] z-[30] pointer-events-none flex flex-col items-center text-center w-[95%] max-w-2xl transition-opacity duration-300">
                         <div data-i18n="reqText" class="leading-relaxed text-[9px]">
                             <span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span>
@@ -394,22 +438,65 @@
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-1" class="roi-box roi-s1" style="left:30%; top:25%; width:15%; height:50%;">
-                         <div class="roi-label-container"><div class="roi-label-tag">SEC 1</div><button class="roi-auto-btn" onclick="calibrateSingleROI(1)" title="Calibrar este sector">AUTO</button></div>
+                        <div class="roi-label-container"><div class="roi-label-tag">SEC 1</div><button class="roi-auto-btn" onclick="calibrateSingleROI(1)" title="Calibrar este sector">AUTO</button></div>
+                        <div id="beacon-1" class="sector-beacon-3d beacon-blue">
+                            <svg viewBox="0 0 56 92" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Ondas WiFi -->
+                                <path class="wifi-wave" d="M18 16 C24 10 34 10 40 16" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <path class="wifi-wave wifi-wave-2" d="M12 9 C21 0 37 0 46 9" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <!-- Cuadro 3D más largo sin poste -->
+                                <polygon points="8,30 38,30 38,86 8,86" fill="#090d16" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/>
+                                <polygon points="8,30 18,21 48,21 38,30" fill="currentColor" fill-opacity="0.45" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <polygon points="38,30 48,21 48,77 38,86" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <!-- Línea central luminosa -->
+                                <line x1="23" y1="39" x2="23" y2="77" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-2" class="roi-box roi-s2" style="left:50%; top:25%; width:15%; height:50%;">
-                         <div class="roi-label-container"><div class="roi-label-tag">SEC 2</div><button class="roi-auto-btn" onclick="calibrateSingleROI(2)" title="Calibrar este sector">AUTO</button></div>
+                        <div class="roi-label-container"><div class="roi-label-tag">SEC 2</div><button class="roi-auto-btn" onclick="calibrateSingleROI(2)" title="Calibrar este sector">AUTO</button></div>
+                        <div id="beacon-2" class="sector-beacon-3d beacon-blue">
+                            <svg viewBox="0 0 56 92" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="wifi-wave" d="M18 16 C24 10 34 10 40 16" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <path class="wifi-wave wifi-wave-2" d="M12 9 C21 0 37 0 46 9" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <polygon points="8,30 38,30 38,86 8,86" fill="#090d16" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/>
+                                <polygon points="8,30 18,21 48,21 38,30" fill="currentColor" fill-opacity="0.45" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <polygon points="38,30 48,21 48,77 38,86" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <line x1="23" y1="39" x2="23" y2="77" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-3" class="roi-box roi-s3" style="left:70%; top:25%; width:15%; height:50%;">
-                         <div class="roi-label-container"><div class="roi-label-tag">SEC 3</div><button class="roi-auto-btn" onclick="calibrateSingleROI(3)" title="Calibrar este sector">AUTO</button></div>
+                        <div class="roi-label-container"><div class="roi-label-tag">SEC 3</div><button class="roi-auto-btn" onclick="calibrateSingleROI(3)" title="Calibrar este sector">AUTO</button></div>
+                        <div id="beacon-3" class="sector-beacon-3d beacon-blue">
+                            <svg viewBox="0 0 56 92" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="wifi-wave" d="M18 16 C24 10 34 10 40 16" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <path class="wifi-wave wifi-wave-2" d="M12 9 C21 0 37 0 46 9" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <polygon points="8,30 38,30 38,86 8,86" fill="#090d16" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/>
+                                <polygon points="8,30 18,21 48,21 38,30" fill="currentColor" fill-opacity="0.45" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <polygon points="38,30 48,21 48,77 38,86" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <line x1="23" y1="39" x2="23" y2="77" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
                     <div id="roi-4" class="roi-box roi-s4" style="left:40%; top:10%; width:20%; height:40%;">
-                         <div class="roi-label-container"><div class="roi-label-tag">SEC 4</div><button class="roi-auto-btn" onclick="calibrateSingleROI(4)" title="Calibrar este sector">AUTO</button></div>
+                        <div class="roi-label-container"><div class="roi-label-tag">SEC 4</div><button class="roi-auto-btn" onclick="calibrateSingleROI(4)" title="Calibrar este sector">AUTO</button></div>
+                        <div id="beacon-4" class="sector-beacon-3d beacon-blue">
+                            <svg viewBox="0 0 56 92" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="wifi-wave" d="M18 16 C24 10 34 10 40 16" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <path class="wifi-wave wifi-wave-2" d="M12 9 C21 0 37 0 46 9" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                                <polygon points="8,30 38,30 38,86 8,86" fill="#090d16" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/>
+                                <polygon points="8,30 18,21 48,21 38,30" fill="currentColor" fill-opacity="0.45" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <polygon points="38,30 48,21 48,77 38,86" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+                                <line x1="23" y1="39" x2="23" y2="77" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
                         <div class="val-indicator">Val: 0 | Sens: 20</div><div class="test-msg"></div>
                         <div class="resize-handle handle-tl"></div><div class="resize-handle handle-br"></div>
                     </div>
@@ -420,7 +507,7 @@
         </div>
 
         <!-- RIGHT COLUMN: Dashboard & Config -->
-        <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-1.5 h-full overflow-hidden pb-1">
+        <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-1.5 h-full overflow-y-auto pr-0.5 pb-1">
             
             <!-- TIMERS & LIGHTS -->
             <div class="neon-panel w-full p-2 text-center shrink-0">
@@ -475,9 +562,12 @@
                         <p id="telemetry-last-lap-time" class="telemetry-data yellow text-sm font-orbitron">--.---</p>
                     </div>
                     
-                    <div class="telemetry-item col-span-2 hidden p-1.5" id="sectors-telemetry-container">
-                        <p class="telemetry-label text-[7px]" data-i18n="lastLapSectors">TIEMPOS DE SECTOR</p>
-                        <div id="telemetry-sectors" class="sectors-display py-0.5"></div>
+                    <div class="telemetry-item col-span-2 hidden p-2 bg-slate-950/80 border-cyan-500/40" id="sectors-telemetry-container">
+                        <p class="telemetry-label text-[8px] flex items-center justify-between mb-1">
+                            <span data-i18n="lastLapSectors">TIEMPOS DE SECTOR</span>
+                            <span class="text-[7px] text-cyan-400 font-orbitron">LIVE TIMING</span>
+                        </p>
+                        <div id="telemetry-sectors" class="flex flex-col gap-1.5 w-full"></div>
                     </div>
 
                     <div class="telemetry-item p-1.5">
@@ -565,7 +655,6 @@
                     </div>
                 </div>
 
-                <!-- Sensitivities Slider -->
                 <div class="mt-auto border-t border-cyan-800/50 pt-2 flex-1 flex flex-col">
                     <h2 class="text-[10px] font-orbitron font-bold text-cyan-300 mb-2 flex items-center justify-start uppercase tracking-widest">
                         <span data-i18n="aiSens">Sensibilidad IA Individual</span>
@@ -576,8 +665,6 @@
             </div>
         </div>
     </div>
-
-    <!-- MODALS -->
 
     <!-- RANKING MODAL -->
     <div id="rankingModal" class="modal-overlay hidden" style="z-index: 150;">
@@ -772,9 +859,7 @@
                 </div>
             </div>
             
-            <!-- CONTENIDO PRINCIPAL GARAJE (Flex Row, Zero Scroll Right Column) -->
             <div class="flex-1 flex flex-row gap-4 overflow-hidden min-h-0 w-full">
-                <!-- COLUMNA IZQ: Coche Info -->
                 <div class="w-[320px] xl:w-[350px] h-full flex flex-col gap-3 bg-slate-900/40 p-4 rounded-xl border border-blue-800/50 overflow-y-auto shrink-0">
                     <div class="flex flex-col gap-2 shrink-0">
                         <div class="relative w-full aspect-video bg-black rounded-xl border border-blue-600/50 flex items-center justify-center overflow-hidden shadow-[inset_0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(59,130,246,0.2)]" id="garage-img-container">
@@ -828,7 +913,6 @@
                     </div>
                 </div>
                 
-                <!-- COLUMNA DER: Dashboard (Zero Scroll, Elastic 3x3 Grid) -->
                 <div class="flex-1 h-full flex flex-col gap-3 overflow-hidden min-h-0">
                     <div class="grid grid-cols-5 gap-2 shrink-0 h-[70px]">
                         <div class="bg-slate-900/60 p-2 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg flex flex-col justify-center">
@@ -858,7 +942,6 @@
                         </div>
                     </div>
 
-                    <!-- 9 CHARTS GRID (Strict 3x3 matrix, elastic min-h-0) -->
                     <div class="grid grid-cols-3 grid-rows-3 gap-2 flex-1 min-h-0 overflow-hidden pb-1">
                         <div class="bg-slate-900/40 border border-blue-800/50 p-2 rounded-xl flex flex-col shadow-inner min-h-0 overflow-hidden">
                             <span class="text-[8px] font-bold text-blue-400 mb-1 uppercase tracking-widest border-b border-blue-800/50 pb-0.5 shrink-0 truncate">Evolución (50V)</span>
@@ -904,121 +987,121 @@
 
     <!-- CIRCUIT MODAL -->
     <div id="circuitModal" class="modal-overlay hidden" style="z-index: 150;">
-        <div class="modal-content panoramic p-4 flex flex-col overflow-hidden border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
-            <div class="flex justify-between items-center border-b border-emerald-500/50 pb-2 mb-3 shrink-0">
-                <h3 class="text-2xl font-orbitron font-black text-emerald-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(52,211,153,0.6)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
-                    Centro de Circuitos
-                </h3>
+        <div class="modal-content w-[94vw] max-w-[1180px] h-[82vh] max-h-[720px] p-4 flex flex-col overflow-hidden border-emerald-500/50 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
+            <!-- HEADER -->
+            <div class="flex justify-between items-center border-b border-emerald-500/50 pb-2 mb-2.5 shrink-0">
                 <div class="flex items-center space-x-3">
-                    <select id="circuit-picker" class="neon-input border-emerald-600/50 text-emerald-200 text-xs font-bold px-3 py-1.5 rounded-lg w-56 shadow-md"></select>
-                    <button id="close-circuit-btn" class="text-slate-500 hover:text-white font-bold ml-4 text-3xl transition-colors">×</button>
+                    <h3 class="text-lg lg:text-xl font-orbitron font-black text-emerald-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(52,211,153,0.6)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                        Centro de Circuitos
+                    </h3>
+                    <span id="c-stat-rois" class="text-[9px] font-orbitron font-bold text-cyan-300 bg-cyan-950/80 px-2.5 py-1 rounded-full border border-cyan-500/40 tracking-widest uppercase shadow-inner">--</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="flex items-center bg-slate-900/80 rounded-lg border border-emerald-700/70 px-2.5 py-1 shadow-inner">
+                        <span class="text-[9px] text-emerald-400 font-bold tracking-widest mr-2 uppercase">Pista:</span>
+                        <select id="circuit-picker" class="bg-transparent text-xs font-bold outline-none cursor-pointer text-white w-40"></select>
+                    </div>
+                    <button id="circuit-add-btn" class="bg-cyan-950/60 border border-cyan-500/60 text-cyan-300 hover:bg-cyan-900/80 hover:text-white px-2.5 py-1.5 rounded-lg text-[9px] font-bold tracking-widest uppercase transition shadow-sm">+ Nueva</button>
+                    <button id="circuit-delete-btn" class="bg-red-950/40 text-red-400 hover:bg-red-900/60 hover:text-white border border-red-500/40 p-1.5 rounded-lg transition flex justify-center items-center" title="Eliminar Pista">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
+                    <button id="close-circuit-btn" class="text-slate-400 hover:text-white font-bold pl-2 text-2xl leading-none transition-colors">×</button>
                 </div>
             </div>
             
-            <div class="flex-1 flex flex-row gap-4 overflow-hidden min-h-0 w-full">
-                <!-- COLUMNA IZQ -->
-                <div class="w-[320px] xl:w-[350px] h-full flex flex-col gap-3 bg-slate-900/40 p-4 rounded-xl border border-emerald-800/50 overflow-y-auto shrink-0">
-                    <div class="flex gap-3">
+            <!-- TOP KPI BAR (5 TARJETAS COMPACTAS) -->
+            <div class="grid grid-cols-5 gap-2.5 mb-2.5 shrink-0">
+                <div class="bg-slate-900/70 p-2 rounded-xl border border-emerald-600/60 text-center relative overflow-hidden shadow-md flex flex-col justify-center">
+                    <div class="absolute top-0 left-0 w-full h-[2px] bg-emerald-400 shadow-[0_0_12px_#10b981]"></div>
+                    <p class="text-[8px] text-emerald-400 font-bold uppercase tracking-widest">Récord Absoluto</p>
+                    <p id="c-stat-best" class="text-white font-orbitron font-black text-lg drop-shadow-[0_0_10px_rgba(52,211,153,0.8)] leading-tight">--.---</p>
+                    <p id="c-stat-pilot" class="text-[8px] text-emerald-200/70 font-bold truncate tracking-wider uppercase">Sin registros</p>
+                </div>
+                <div class="bg-slate-900/70 p-2 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-md flex flex-col justify-center">
+                    <div class="absolute top-0 left-0 w-full h-[2px] bg-blue-500"></div>
+                    <p class="text-[8px] text-blue-400 font-bold uppercase tracking-widest mb-0.5">Vueltas Rodadas</p>
+                    <p id="c-stat-laps" class="text-white font-orbitron font-bold text-lg">0</p>
+                </div>
+                <div class="bg-slate-900/70 p-2 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-md flex flex-col justify-center">
+                    <div class="absolute top-0 left-0 w-full h-[2px] bg-purple-500"></div>
+                    <p class="text-[8px] text-purple-400 font-bold uppercase tracking-widest mb-0.5">Distancia Total</p>
+                    <p id="c-stat-distance" class="text-white font-orbitron font-bold text-sm">0.00 km</p>
+                </div>
+                <div class="bg-slate-900/70 p-2 rounded-xl border border-amber-700/60 text-center relative overflow-hidden shadow-md flex flex-col justify-center">
+                    <div class="absolute top-0 left-0 w-full h-[2px] bg-amber-500"></div>
+                    <p class="text-[8px] text-amber-400 font-bold uppercase tracking-widest mb-0.5">Tiempo en Pista</p>
+                    <p id="c-stat-time" class="text-white font-orbitron font-bold text-sm truncate">0h 0m</p>
+                </div>
+                <div class="bg-slate-900/70 p-2 rounded-xl border border-cyan-700/60 text-center relative overflow-hidden shadow-md flex flex-col justify-center">
+                    <div class="absolute top-0 left-0 w-full h-[2px] bg-cyan-400"></div>
+                    <p class="text-[8px] text-cyan-400 font-bold uppercase tracking-widest mb-0.5">Velocidad Media</p>
+                    <p id="c-stat-speed" class="text-white font-orbitron font-bold text-xs truncate">-- m/s</p>
+                </div>
+            </div>
+
+            <!-- CONTENIDO PRINCIPAL: 55% MAPA GIGANTE A LA IZQUIERDA / 45% GRÁFICAS A LA DERECHA -->
+            <div class="flex-1 grid grid-cols-12 gap-3 overflow-hidden min-h-0 w-full">
+                
+                <!-- COLUMNA IZQUIERDA (7 cols): FICHA EN LÍNEA + IMAGEN CAPTURADA GIGANTE -->
+                <div class="col-span-7 h-full flex flex-col gap-2.5 bg-slate-900/50 p-3 rounded-xl border border-emerald-800/50 overflow-hidden min-h-0">
+                    
+                    <!-- Ficha Técnica compacta en 1 sola fila -->
+                    <div class="flex items-end gap-2 bg-slate-950/70 p-2.5 rounded-lg border border-emerald-900/60 shrink-0">
                         <div class="flex-1">
-                            <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block">Nombre de la Pista</label>
-                            <input type="text" id="c-input-name" class="neon-input border-emerald-600/40 w-full p-2 text-xs rounded-lg">
+                            <label class="text-[8px] font-bold text-emerald-400 uppercase tracking-widest mb-0.5 block">Nombre del Circuito</label>
+                            <input type="text" id="c-input-name" class="neon-input border-emerald-600/40 w-full px-2.5 py-1.5 text-xs rounded-lg font-semibold" placeholder="Ej: Circuit de Catalunya">
                         </div>
                         <div class="w-24">
-                            <label class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5 block">Largo (m)</label>
-                            <input type="number" id="c-input-length" class="neon-input border-emerald-600/40 w-full p-2 text-xs rounded-lg text-center">
+                            <label class="text-[8px] font-bold text-emerald-400 uppercase tracking-widest mb-0.5 block">Cuerda (m)</label>
+                            <input type="number" step="0.1" id="c-input-length" class="neon-input border-emerald-600/40 w-full px-2 py-1.5 text-xs rounded-lg text-center font-orbitron font-bold">
                         </div>
-                    </div>
-                    
-                    <div class="bg-slate-900/60 border border-emerald-800/60 p-3 rounded-xl flex items-center justify-between shadow-lg">
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em]">Cámaras IA</span>
-                            <span class="text-[8px] text-slate-400 uppercase tracking-widest">Auto-guardado activo</span>
-                        </div>
-                        <span id="c-stat-rois" class="text-[10px] font-bold text-cyan-200 bg-slate-800 px-3 py-1.5 rounded-lg border border-cyan-700/50 tracking-widest uppercase shadow-inner">--</span>
+                        <button id="circuit-save-btn" class="bg-emerald-700/50 border border-emerald-400 hover:bg-emerald-600/80 text-white text-[10px] font-bold tracking-widest uppercase px-4 py-1.5 h-[30px] rounded-lg transition shadow-md shrink-0">
+                            Guardar
+                        </button>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2 mt-1 pt-3 border-t border-emerald-800/50">
-                        <div class="col-span-2 bg-slate-900/60 p-4 rounded-xl border border-emerald-700/60 text-center relative overflow-hidden shadow-lg">
-                            <div class="absolute top-0 left-0 w-full h-[3px] bg-emerald-500 shadow-[0_0_15px_#10b981]"></div>
-                            <p class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest mb-1.5">Récord Absoluto</p>
-                            <p id="c-stat-best" class="text-white font-orbitron font-black text-2xl drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">--.---</p>
-                            <p id="c-stat-pilot" class="text-[8px] text-slate-400 font-bold truncate mt-1 tracking-widest uppercase">Piloto/Coche</p>
+                    <!-- Visor grande del Mapa Capturado -->
+                    <div class="flex-1 bg-black rounded-xl border-2 border-emerald-500/50 overflow-hidden relative shadow-[0_0_25px_rgba(16,185,129,0.2)] min-h-0 flex items-center justify-center group">
+                        <img id="circuit-captured-img" src="" class="w-full h-full object-contain hidden">
+                        <div id="circuit-img-placeholder" class="inset-0 flex flex-col items-center justify-center text-emerald-600/60 p-6 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mb-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            <p class="text-xs font-orbitron font-bold uppercase tracking-widest text-emerald-400/80">Vista de Pista y Sectores IA</p>
+                            <p class="text-[10px] text-slate-400 mt-1">Activa la cámara o carga una imagen (IMG) y pulsa el botón inferior para fotografiar el circuito con sus sectores.</p>
                         </div>
-                        <div class="bg-slate-900/60 p-2 rounded-xl border border-blue-700/60 text-center relative overflow-hidden shadow-lg">
-                            <div class="absolute top-0 left-0 w-full h-[2px] bg-blue-500"></div>
-                            <p class="text-[8px] text-blue-400 font-bold uppercase tracking-widest mb-1">Vueltas Tot.</p>
-                            <p id="c-stat-laps" class="text-white font-orbitron font-bold text-sm">0</p>
-                        </div>
-                        <div class="bg-slate-900/60 p-2 rounded-xl border border-purple-700/60 text-center relative overflow-hidden shadow-lg">
-                            <div class="absolute top-0 left-0 w-full h-[2px] bg-purple-500"></div>
-                            <p class="text-[8px] text-purple-400 font-bold uppercase tracking-widest mb-1">Distancia</p>
-                            <p id="c-stat-distance" class="text-white font-orbitron font-bold text-sm">0.00 km</p>
-                        </div>
-                        <div class="col-span-2 bg-slate-900/60 p-2 rounded-xl border border-amber-700/60 text-center flex justify-around relative overflow-hidden shadow-lg">
-                            <div class="absolute top-0 left-0 w-full h-[2px] bg-amber-500"></div>
-                            <div>
-                                <p class="text-[8px] text-amber-400 font-bold uppercase tracking-widest mb-1">Tiempo</p>
-                                <p id="c-stat-time" class="text-white font-orbitron font-bold text-sm truncate">0h 0m</p>
-                            </div>
-                            <div>
-                                <p class="text-[8px] text-cyan-400 font-bold uppercase tracking-widest mb-1">Vel Media</p>
-                                <p id="c-stat-speed" class="text-white font-orbitron font-bold text-sm">-- m/s</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4 pt-3 border-t border-emerald-800/50 flex flex-col gap-2 shrink-0">
-                        <button id="circuit-save-btn" class="w-full bg-slate-800 border border-emerald-500 hover:bg-emerald-900/60 hover:text-white text-emerald-300 text-xs font-bold tracking-[0.2em] uppercase py-2.5 rounded-xl transition shadow-md">Guardar Cambios</button>
-                        <div class="flex gap-2">
-                            <button id="circuit-add-btn" class="flex-1 bg-transparent border border-cyan-500 text-cyan-400 hover:bg-cyan-900/50 py-2 rounded-xl text-[10px] font-bold tracking-widest uppercase transition">+ Pista Nueva</button>
-                            <button id="circuit-delete-btn" class="bg-transparent text-red-500 hover:bg-red-900/50 border border-red-500/50 px-4 py-2 rounded-xl transition flex justify-center items-center" title="Eliminar Pista">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                            </button>
-                        </div>
+
+                        <!-- Botón flotante integrado en la esquina inferior para dar aún más espacio a la foto -->
+                        <button id="circuit-capture-btn" class="absolute bottom-3 right-3 bg-slate-900/90 hover:bg-emerald-700 border-2 border-emerald-400 text-white font-bold text-[10px] uppercase tracking-widest py-2 px-4 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.8)] flex items-center gap-2 transition z-20 backdrop-blur-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-emerald-300"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                            <span>Capturar Mapa + ROIs</span>
+                        </button>
                     </div>
                 </div>
 
-                <!-- COLUMNA DER -->
-                <div class="flex-1 h-full flex flex-col gap-4 overflow-hidden min-h-0">
-                    <div class="bg-slate-900/40 rounded-xl border border-emerald-800/50 p-4 shadow-inner relative flex flex-col shrink-0">
-                        <h4 class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] w-full text-left mb-2 border-b border-emerald-800/50 pb-1.5">Mapa del Circuito (Satélite)</h4>
-                        <div class="flex flex-col lg:flex-row gap-4 items-stretch">
-                            <div class="w-full lg:w-2/3 aspect-video bg-black rounded-xl border border-emerald-600/50 overflow-hidden relative shadow-[0_0_20px_rgba(16,185,129,0.15)] group">
-                                <img id="circuit-captured-img" src="" class="absolute inset-0 w-full h-full object-cover hidden opacity-80 filter contrast-125 hover:opacity-100 transition-opacity">
-                                <div id="circuit-img-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-emerald-800/50 bg-slate-900/60">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="mb-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                    <p class="text-[10px] font-bold uppercase tracking-[0.2em]">Sin vista aérea</p>
-                                </div>
-                            </div>
-                            <div class="w-full lg:w-1/3 flex flex-col items-center justify-center gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 shadow-inner">
-                                <button id="circuit-capture-btn" class="w-full bg-slate-800 border-2 border-emerald-500 hover:bg-emerald-900/60 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-widest py-4 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] flex flex-col items-center justify-center transition group relative overflow-hidden">
-                                    <div class="absolute inset-0 bg-emerald-500/10 group-hover:bg-emerald-500/20 transition"></div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-2 text-emerald-400 group-hover:scale-110 transition-transform z-10"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                                    <span class="z-10">Capturar ROIs</span>
-                                    <span class="text-[8px] text-emerald-500 mt-1 z-10 font-bold">(IMAGEN + POSICIONES)</span>
-                                </button>
-                                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase text-center leading-relaxed">Coloca las cámaras IA en pista antes de capturar el mapa.</p>
-                            </div>
+                <!-- COLUMNA DERECHA (5 cols): TELEMETRÍA DEL CIRCUITO -->
+                <div class="col-span-5 h-full flex flex-col gap-2.5 overflow-hidden min-h-0">
+                    <!-- Gráfica Superior: Evolución de Ritmo en Pista -->
+                    <div class="flex-1 bg-slate-900/50 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner min-h-0 overflow-hidden">
+                        <div class="flex justify-between items-center border-b border-emerald-800/50 pb-1 mb-1.5 shrink-0">
+                            <span class="text-[9px] font-orbitron font-bold text-emerald-400 uppercase tracking-widest">Ritmo de Pista (50 Vueltas)</span>
+                            <span class="text-[8px] text-slate-400 font-bold uppercase">Global</span>
                         </div>
+                        <div class="flex-1 relative w-full min-h-0"><canvas id="circuitChartEvolution"></canvas></div>
                     </div>
 
-                    <div class="flex flex-row gap-4 flex-1 min-h-0 overflow-hidden">
-                        <div class="flex-1 bg-slate-900/40 border border-emerald-800/50 p-3 rounded-xl flex flex-col shadow-inner h-full overflow-hidden">
-                            <span class="text-[10px] font-bold text-emerald-400 mb-2 uppercase tracking-widest border-b border-emerald-800/50 pb-1">Ritmo de Carrera (50 V)</span>
-                            <div class="flex-1 relative w-full min-h-0"><canvas id="circuitChartEvolution"></canvas></div>
+                    <!-- Gráfica Inferior: Tiempos Medios por Sector -->
+                    <div class="flex-1 bg-slate-900/50 border border-cyan-800/50 p-3 rounded-xl flex flex-col shadow-inner min-h-0 overflow-hidden">
+                        <div class="flex justify-between items-center border-b border-cyan-800/50 pb-1 mb-1.5 shrink-0">
+                            <span class="text-[9px] font-orbitron font-bold text-cyan-400 uppercase tracking-widest">Tiempos Medios por Sector (s)</span>
+                            <span class="text-[8px] text-cyan-500/80 font-bold uppercase">Por Tramo</span>
                         </div>
-                        <div class="flex-1 bg-slate-900/40 border border-cyan-800/50 p-3 rounded-xl flex flex-col shadow-inner h-full overflow-hidden">
-                            <span class="text-[10px] font-bold text-cyan-400 mb-2 uppercase tracking-widest border-b border-cyan-800/50 pb-1">Tiempos Medios</span>
-                            <div class="flex-1 relative w-full min-h-0"><canvas id="circuitChartSectors"></canvas></div>
-                        </div>
+                        <div class="flex-1 relative w-full min-h-0"><canvas id="circuitChartSectors"></canvas></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT -->
     <script>
         const translations = {
             es: {
@@ -1184,7 +1267,6 @@
             box.querySelector('.handle-br').addEventListener('pointerdown', e => startAction(e, 'resize', 'br'));
         });
 
-        // Advanced AI Color Tracking
         function getROIAverages(boxEl) {
             const vw = videoElement.videoWidth; const vh = videoElement.videoHeight;
             if(!vw || !vh) return {r:0, g:0, b:0, bri:0};
@@ -1201,7 +1283,7 @@
                 const data = ctx.getImageData(0, 0, w, h).data; 
                 let sumR = 0, sumG = 0, sumB = 0;
                 let count = 0;
-                for (let i = 0; i < data.length; i += 4) { // Read every pixel for max precision
+                for (let i = 0; i < data.length; i += 4) {
                     sumR += data[i]; sumG += data[i+1]; sumB += data[i+2]; count++;
                 }
                 return { r: sumR/count, g: sumG/count, b: sumB/count, bri: (sumR+sumG+sumB)/(3*count) };
@@ -1220,7 +1302,6 @@
                 
                 if (!rState.baseColor) { rState.baseColor = {r: avgs.r, g: avgs.g, b: avgs.b}; rState.baseBri = currentBri; }
                 
-                // Color difference check
                 const diffR = Math.abs(avgs.r - rState.baseColor.r);
                 const diffG = Math.abs(avgs.g - rState.baseColor.g);
                 const diffB = Math.abs(avgs.b - rState.baseColor.b);
@@ -1246,7 +1327,6 @@
                     box.classList.add('roi-detected');
                 } else { 
                     box.classList.remove('roi-detected'); 
-                    // Continuous Light Adaptation (Fix for Sector 1 frozen background)
                     if (!isCalibrating && !rState.blocked && !crossed && !rState.isSilentCalibrating) { 
                         rState.baseColor.r = (rState.baseColor.r * 0.95) + (avgs.r * 0.05);
                         rState.baseColor.g = (rState.baseColor.g * 0.95) + (avgs.g * 0.05);
@@ -1355,30 +1435,44 @@
             const container = document.getElementById('sectors-telemetry-container'); const display = document.getElementById('telemetry-sectors');
             container.classList.remove('hidden'); const tagClass = roisState[roiIndex].tag; const tagLabel = tagClass === 'meta' ? 'META' : tagClass.toUpperCase();
             let deltaHtml = ""; let speechMsg = ""; let diffColorClass = "text-slate-400";
+            let beaconColor = "beacon-blue";
             
             if (lapHistory.length > 0) {
                 const prevLap = lapHistory[lapHistory.length - 1]; const sectorIdx = roiIndex - 1; 
                 if (prevLap.sectors && prevLap.sectors[sectorIdx]) {
                     const prevTime = prevLap.sectors[sectorIdx]; const diff = timeMs - prevTime; const diffSec = (Math.abs(diff) / 1000).toFixed(3);
-                    if (diff < 0) { deltaHtml = `-${diffSec}`; diffColorClass = "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"; speechMsg = translations[currentLang].voiceFaster; } 
-                    else { deltaHtml = `+${diffSec}`; diffColorClass = "text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]"; speechMsg = translations[currentLang].voiceSlower; }
+                    if (Math.abs(diff) <= 5) {
+                        deltaHtml = `0.000`; diffColorClass = "text-sky-400 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]"; beaconColor = "beacon-blue";
+                    } else if (diff < 0) { 
+                        deltaHtml = `-${diffSec}`; diffColorClass = "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"; speechMsg = translations[currentLang].voiceFaster; beaconColor = "beacon-green"; 
+                    } else { 
+                        deltaHtml = `+${diffSec}`; diffColorClass = "text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]"; speechMsg = translations[currentLang].voiceSlower; beaconColor = "beacon-red"; 
+                    }
                 }
             }
 
+            const beaconEl = document.getElementById(`beacon-${roiIndex}`);
+            if (beaconEl) {
+                beaconEl.className = `sector-beacon-3d ${beaconColor}`;
+            }
+
             let bgTag = 'bg-slate-700 text-slate-200 border-slate-500';
-            if (tagClass === 's1') bgTag = 'bg-blue-900/60 text-blue-300 border-blue-500';
-            else if (tagClass === 's2') bgTag = 'bg-amber-900/60 text-amber-300 border-amber-500';
-            else if (tagClass === 's3') bgTag = 'bg-purple-900/60 text-purple-300 border-purple-500';
-            else if (tagClass === 's4') bgTag = 'bg-cyan-900/60 text-cyan-300 border-cyan-500';
-            else if (tagClass === 'meta') bgTag = 'bg-slate-200 text-slate-900 border-white shadow-[0_0_10px_rgba(255,255,255,0.8)]';
+            let borderLeftColor = 'border-l-slate-400';
+            if (tagClass === 's1') { bgTag = 'bg-blue-900/80 text-blue-200 border-blue-400'; borderLeftColor = 'border-l-blue-400'; }
+            else if (tagClass === 's2') { bgTag = 'bg-amber-900/80 text-amber-200 border-amber-400'; borderLeftColor = 'border-l-amber-400'; }
+            else if (tagClass === 's3') { bgTag = 'bg-purple-900/80 text-purple-200 border-purple-400'; borderLeftColor = 'border-l-purple-400'; }
+            else if (tagClass === 's4') { bgTag = 'bg-cyan-900/80 text-cyan-200 border-cyan-400'; borderLeftColor = 'border-l-cyan-400'; }
+            else if (tagClass === 'meta') { bgTag = 'bg-white text-slate-950 border-white shadow-[0_0_12px_rgba(255,255,255,0.9)]'; borderLeftColor = 'border-l-white'; }
 
             const badgeHtml = `
-                <div class="flex items-center justify-between bg-slate-900/80 border border-slate-700 rounded-xl p-3 w-full shadow-lg">
-                    <div class="flex items-center gap-4">
-                        <span class="w-14 text-center px-2 py-1.5 rounded text-xs font-black uppercase tracking-widest border ${bgTag}">${tagLabel}</span>
-                        <span class="font-orbitron text-3xl font-bold text-white tracking-tight">${formatTime(timeMs, false)}</span>
+                <div class="flex items-center justify-between bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 border border-slate-700/80 border-l-4 ${borderLeftColor} rounded-xl px-3 py-2 w-full shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
+                    <div class="flex items-center gap-3">
+                        <span class="w-14 text-center py-1 rounded-md text-[11px] font-orbitron font-black uppercase tracking-widest border ${bgTag}">${tagLabel}</span>
+                        <span class="font-orbitron text-2xl xl:text-3xl font-black text-white tracking-wider drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]">${formatTime(timeMs, false)}</span>
                     </div>
-                    <span class="font-orbitron text-lg font-bold ${diffColorClass}">${deltaHtml || '-.---'}</span>
+                    <div class="bg-slate-950/90 px-2.5 py-1 rounded-lg border border-slate-800">
+                        <span class="font-orbitron text-base xl:text-lg font-extrabold ${diffColorClass}">${deltaHtml || '-.---'}</span>
+                    </div>
                 </div>
             `;
             
@@ -1412,19 +1506,22 @@
                     }
 
                     let bgTag = 'bg-slate-700 text-slate-200 border-slate-500';
-                    if (tagClass === 's1') bgTag = 'bg-blue-900/60 text-blue-300 border-blue-500';
-                    else if (tagClass === 's2') bgTag = 'bg-amber-900/60 text-amber-300 border-amber-500';
-                    else if (tagClass === 's3') bgTag = 'bg-purple-900/60 text-purple-300 border-purple-500';
-                    else if (tagClass === 's4') bgTag = 'bg-cyan-900/60 text-cyan-300 border-cyan-500';
-                    else if (tagClass === 'meta') bgTag = 'bg-slate-200 text-slate-900 border-white shadow-[0_0_10px_rgba(255,255,255,0.8)]';
+                    let borderLeftColor = 'border-l-slate-400';
+                    if (tagClass === 's1') { bgTag = 'bg-blue-900/80 text-blue-200 border-blue-400'; borderLeftColor = 'border-l-blue-400'; }
+                    else if (tagClass === 's2') { bgTag = 'bg-amber-900/80 text-amber-200 border-amber-400'; borderLeftColor = 'border-l-amber-400'; }
+                    else if (tagClass === 's3') { bgTag = 'bg-purple-900/80 text-purple-200 border-purple-400'; borderLeftColor = 'border-l-purple-400'; }
+                    else if (tagClass === 's4') { bgTag = 'bg-cyan-900/80 text-cyan-200 border-cyan-400'; borderLeftColor = 'border-l-cyan-400'; }
+                    else if (tagClass === 'meta') { bgTag = 'bg-white text-slate-950 border-white shadow-[0_0_12px_rgba(255,255,255,0.9)]'; borderLeftColor = 'border-l-white'; }
 
                     display.innerHTML += `
-                        <div class="flex items-center justify-between bg-slate-900/80 border border-slate-700 rounded-xl p-3 w-full shadow-lg">
-                            <div class="flex items-center gap-4">
-                                <span class="w-14 text-center px-2 py-1.5 rounded text-xs font-black uppercase tracking-widest border ${bgTag}">${tagLabel}</span>
-                                <span class="font-orbitron text-3xl font-bold text-white tracking-tight">${formatTime(secTime, false)}</span>
+                        <div class="flex items-center justify-between bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 border border-slate-700/80 border-l-4 ${borderLeftColor} rounded-xl px-3 py-2 w-full shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
+                            <div class="flex items-center gap-3">
+                                <span class="w-14 text-center py-1 rounded-md text-[11px] font-orbitron font-black uppercase tracking-widest border ${bgTag}">${tagLabel}</span>
+                                <span class="font-orbitron text-2xl xl:text-3xl font-black text-white tracking-wider drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]">${formatTime(secTime, false)}</span>
                             </div>
-                            <span class="font-orbitron text-lg font-bold ${diffColorClass}">${deltaHtml}</span>
+                            <div class="bg-slate-950/90 px-2.5 py-1 rounded-lg border border-slate-800">
+                                <span class="font-orbitron text-base xl:text-lg font-extrabold ${diffColorClass}">${deltaHtml}</span>
+                            </div>
                         </div>
                     `;
                 });
@@ -1463,6 +1560,8 @@
             for(let i=0; i<MAX_ROIS; i++) { 
                 if(i < activeRoisCount) { roisState[i].el.classList.add('active'); roisState[i].baseColor = null; roisState[i].baseBri = null; roisState[i].blocked = false; roisState[i].isSilentCalibrating = false; } 
                 else { roisState[i].el.classList.remove('active'); } 
+                const bEl = document.getElementById(`beacon-${i}`);
+                if (bEl) bEl.className = 'sector-beacon-3d beacon-blue';
             }
             const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
 
@@ -1514,7 +1613,11 @@
                 document.getElementById('race-time').textContent = "00:00.000"; document.getElementById('lap-time').textContent = "00.000";
                 updateLapDisplay(); updateTelemetryDisplay();
                 const lights = [1,2,3,4,5].map(i => document.getElementById(`light-${i}`)); lights.forEach(l => l.className = "light");
-                for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('roi-target');
+                for(let i=0; i<MAX_ROIS; i++) {
+                    roisState[i].el.classList.remove('roi-target');
+                    const bEl = document.getElementById(`beacon-${i}`);
+                    if (bEl) bEl.className = 'sector-beacon-3d beacon-blue';
+                }
             }
             document.getElementById('start-race-btn').disabled = false; document.getElementById('reset-race-btn').disabled = true;
         }
@@ -1577,14 +1680,19 @@
             
             const thead = document.getElementById('lap-history-head');
             let thHtml = `<tr><th class="py-2 px-3 font-bold">#</th>`;
-            if (activeRoisCount > 1) { for(let i=1; i<activeRoisCount; i++) thHtml += `<th class="py-2 px-3 font-bold">S${i}</th>`; }
+            if (activeRoisCount > 1) { 
+                for(let i=1; i<activeRoisCount; i++) thHtml += `<th class="py-2 px-3 font-bold">S${i}</th>`; 
+                thHtml += `<th class="py-2 px-3 font-bold">META</th>`;
+            }
             thHtml += `<th class="py-2 px-3 font-bold text-right">Total</th></tr>`; thead.innerHTML = thHtml;
 
             const tbody = document.getElementById('lap-history-body'); tbody.innerHTML = '';
             lapHistory.forEach(l => {
                 const row = document.createElement('tr'); if(l.time === bestLapTime) row.className = "bg-emerald-900/40 text-emerald-200 border-l-4 border-emerald-400";
                 let tdHtml = `<td class="py-2 px-3 font-orbitron">${l.lap}</td>`;
-                if(activeRoisCount > 1 && l.sectors) { for(let i=0; i<activeRoisCount-1; i++) tdHtml += `<td class="py-2 px-3 text-cyan-400/70 font-orbitron">${l.sectors[i] ? (l.sectors[i]/1000).toFixed(3) : '-'}</td>`; }
+                if(activeRoisCount > 1 && l.sectors) { 
+                    for(let i=0; i<activeRoisCount; i++) tdHtml += `<td class="py-2 px-3 text-cyan-400/70 font-orbitron">${l.sectors[i] ? (l.sectors[i]/1000).toFixed(3) : '-'}</td>`; 
+                }
                 tdHtml += `<td class="py-2 px-3 font-bold font-orbitron text-right">${(l.time/1000).toFixed(3)}</td>`; row.innerHTML = tdHtml; tbody.appendChild(row);
             });
         }
@@ -1594,10 +1702,16 @@
             const carSelect = document.getElementById('car-model-select'); const carName = carSelect.options[carSelect.selectedIndex]?.text || "N/A";
             let csv = `\uFEFFSECTOR TIME REPORTE\nFECHA;PILOTO;COCHE;TIEMPO TOTAL;MEJOR VUELTA\n`;
             csv += `${new Date().toLocaleString()};${document.getElementById('pilot-name-input').value};${carName};${formatTime(finalRaceTimeMs,true)};${formatTime(bestLapTime,false)}\n\nVUELTA;`;
-            for(let i=1; i<activeRoisCount; i++) csv += `S${i};`; csv += `TOTAL\n`;
+            if (activeRoisCount > 1) {
+                for(let i=1; i<activeRoisCount; i++) csv += `S${i};`;
+                csv += `META;`;
+            }
+            csv += `TOTAL\n`;
             lapHistory.forEach(l => {
                 csv += `${l.lap};`;
-                if(activeRoisCount > 1 && l.sectors) { for(let i=0; i<activeRoisCount-1; i++) csv += `${l.sectors[i] ? (l.sectors[i]/1000).toFixed(3).replace('.',',') : ''};`; }
+                if(activeRoisCount > 1 && l.sectors) { 
+                    for(let i=0; i<activeRoisCount; i++) csv += `${l.sectors[i] ? (l.sectors[i]/1000).toFixed(3).replace('.',',') : ''};`; 
+                }
                 csv += `${(l.time/1000).toFixed(3).replace('.',',')}\n`;
             });
             const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'}); const url = URL.createObjectURL(blob);
@@ -1763,9 +1877,11 @@
                 imgEl.classList.remove('hidden'); videoElement.classList.add('hidden');
                 document.getElementById('requirements-banner').classList.add('hidden');
                 activeRoisCount = parseInt(document.getElementById('sectors-select').value) + 1;
-                if(cameraStream) { for(let i=0; i<activeRoisCount; i++) roisState[i].el.classList.add('active'); }
-                else { for(let i=0; i<MAX_ROIS; i++) roisState[i].el.classList.remove('active'); }
-                if(!cameraStream) { document.getElementById('video-status').textContent = "IMAGEN CARGADA"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase"; }
+                for(let i=0; i<MAX_ROIS; i++) {
+                    if (i < activeRoisCount) roisState[i].el.classList.add('active');
+                    else roisState[i].el.classList.remove('active');
+                }
+                if(!cameraStream) { document.getElementById('video-status').textContent = "IMAGEN CARGADA (MODO DISEÑO)"; document.getElementById('video-status').className = "text-center text-[9px] mt-1.5 text-blue-400 font-bold tracking-widest uppercase"; }
             }; reader.readAsDataURL(file);
         });
 
@@ -1823,9 +1939,33 @@
             const count = parseInt(e.target.value) + 1;
             if(!isRaceActive) {
                 activeRoisCount = count; 
-                if(isProcessing) { for(let i=0; i<MAX_ROIS; i++) { if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseColor = null; roisState[i].baseBri = null; } else roisState[i].el.classList.remove('active'); } }
+                const imgEl = document.getElementById('static-bg-img');
+                const hasCustomImg = imgEl.src && imgEl.src.startsWith('data:image');
+                if(isProcessing || hasCustomImg) { 
+                    for(let i=0; i<MAX_ROIS; i++) { 
+                        if(i < count) { roisState[i].el.classList.add('active'); roisState[i].baseColor = null; roisState[i].baseBri = null; } 
+                        else roisState[i].el.classList.remove('active'); 
+                    } 
+                }
                 autoSaveROIsToCircuit(); renderSensitivitiesUI();
             }
+        });
+
+        document.getElementById('lap-limit-select').addEventListener('change', (e) => {
+            if (!isRaceActive && raceMode === 'laps') {
+                totalLaps = e.target.value === 'Infinity' ? Infinity : parseInt(e.target.value);
+                updateLapDisplay();
+            }
+        });
+
+        document.getElementById('time-limit-select').addEventListener('change', () => {
+            if (!isRaceActive && raceMode === 'time') {
+                updateLapDisplay();
+            }
+        });
+
+        document.getElementById('pilot-name-input').addEventListener('input', () => {
+            if (!isRaceActive) updateTelemetryDisplay();
         });
 
         document.getElementById('lang-select').addEventListener('change', (e) => {
@@ -1995,16 +2135,13 @@
             hist = hist || []; const recentHist = hist.slice(-50);
             const tOpts = {color: '#64748b', font: {size: 8}}; const gOpts = {color: 'rgba(100,116,139,0.1)'};
             
-            // 1. Evolución
             const ctxEvol = document.getElementById('garageChartEvolution').getContext('2d'); if(garageChartEvol) garageChartEvol.destroy();
             garageChartEvol = new Chart(ctxEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Tiempo (s)', data: recentHist.map(h => h.lapTime/1000), borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 1.5 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: tOpts, grid: gOpts }, x: { display: false } } } });
 
-            // 2. Consistencia
             const ctxCons = document.getElementById('garageChartConsistency').getContext('2d'); if(garageChartCons) garageChartCons.destroy();
             const devData = recentHist.map(h => bestLapForChart !== Infinity ? (h.lapTime - bestLapForChart)/1000 : 0);
             garageChartCons = new Chart(ctxCons, { type: 'bar', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Desv (s)', data: devData, backgroundColor: '#f59e0b', borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: tOpts, grid: gOpts }, x: { display: false } } } });
 
-            // 3. Tiempos Medios Sectores
             const ctxSect = document.getElementById('garageChartSectors').getContext('2d'); if(garageChartSect) garageChartSect.destroy();
             let sectorAverages = [0,0,0,0,0]; let sectorCounts = [0,0,0,0,0]; let bestSectorTimes = [Infinity, Infinity, Infinity, Infinity, Infinity];
             hist.forEach(h => { if(h.sectors && h.sectors.length > 0) { h.sectors.forEach((secTime, idx) => { if(secTime > 0) { sectorAverages[idx] += secTime; sectorCounts[idx]++; if(secTime < bestSectorTimes[idx]) bestSectorTimes[idx] = secTime; } }); } });
@@ -2012,33 +2149,27 @@
             const activeSecs = sectorAverages.filter(v => v > 0); const labels = activeSecs.map((_, i) => i === activeSecs.length-1 ? 'Meta' : `S${i+1}`);
             if(activeSecs.length > 0) { garageChartSect = new Chart(ctxSect, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Medias (s)', data: activeSecs, backgroundColor: 'rgba(192, 132, 252, 0.4)', borderColor: '#c084fc', borderWidth: 1, borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: tOpts, grid: {color:'rgba(192,132,252,0.1)'} }, x: { display: true, ticks: {color: '#d8b4fe', font: {size: 8, family: 'Orbitron'}}, grid: {display: false} } } } }); } else { ctxSect.clearRect(0, 0, ctxSect.canvas.width, ctxSect.canvas.height); }
 
-            // 4. Tendencia (Media Móvil)
             const ctxTrend = document.getElementById('garageChartTrend').getContext('2d'); if(garageChartTrend) garageChartTrend.destroy();
             let movingAvg = []; for(let i=0; i<recentHist.length; i++) { let sum = 0; let count = 0; for(let j=Math.max(0, i-4); j<=i; j++) { sum += recentHist[j].lapTime; count++; } movingAvg.push((sum/count)/1000); }
             garageChartTrend = new Chart(ctxTrend, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'Media (5V)', data: movingAvg, borderColor: '#10b981', borderDash: [4, 4], tension: 0.4, pointRadius: 0, borderWidth: 1.5 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: tOpts, grid: gOpts }, x: { display: false } } } });
 
-            // 5. Evolución por Sectores
             const ctxSectorsEvol = document.getElementById('garageChartSectorsEvol').getContext('2d'); if(garageChartSectorsEvol) garageChartSectorsEvol.destroy();
             let datasetsSectors = []; const colors = ['#3b82f6', '#f59e0b', '#a855f7', '#06b6d4', '#10b981'];
             if(activeSecs.length > 0) { for(let i=0; i<activeSecs.length; i++) { datasetsSectors.push({ label: labels[i], data: recentHist.map(h => (h.sectors && h.sectors[i]) ? h.sectors[i]/1000 : null), borderColor: colors[i%colors.length], tension: 0.3, pointRadius: 0, borderWidth: 1.5 }); } }
             garageChartSectorsEvol = new Chart(ctxSectorsEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: datasetsSectors }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: true, position: 'right', labels: {color: '#94a3b8', boxWidth: 6, font:{size:7}}} }, scales: { y: { display: true, ticks: tOpts, grid: gOpts }, x: { display: false } } } });
 
-            // 6. Histograma
             const ctxHist = document.getElementById('garageChartHistogram').getContext('2d'); if(garageChartHistogram) garageChartHistogram.destroy();
             let histogramBins = {}; recentHist.forEach(h => { const sec = Math.floor(h.lapTime / 1000); const bin = `${sec}s`; histogramBins[bin] = (histogramBins[bin] || 0) + 1; });
             const sortedBins = Object.keys(histogramBins).sort((a,b) => parseFloat(a) - parseFloat(b));
             garageChartHistogram = new Chart(ctxHist, { type: 'bar', data: { labels: sortedBins, datasets: [{ label: 'Frec.', data: sortedBins.map(b => histogramBins[b]), backgroundColor: 'rgba(99, 102, 241, 0.5)', borderColor: '#6366f1', borderWidth: 1, borderRadius: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: tOpts, grid: gOpts }, x: { display: true, ticks: {color: '#818cf8', font: {size: 8}}, grid: {display: false} } } } });
 
-            // 7. Velocidad Media Evolución
             const ctxSpeedEvol = document.getElementById('garageChartSpeedEvol').getContext('2d'); if(garageChartSpeedEvol) garageChartSpeedEvol.destroy();
             let speedData = []; recentHist.forEach(h => { const tCirc = circuits.find(c => c.id === h.circuitId); const len = tCirc ? parseFloat(tCirc.length) : 0; if(len > 0 && h.lapTime > 0) { speedData.push((len / (h.lapTime / 1000)) * 3.6 * 32); } else { speedData.push(null); } });
             garageChartSpeedEvol = new Chart(ctxSpeedEvol, { type: 'line', data: { labels: recentHist.map((_, i) => `V${i+1}`), datasets: [{ label: 'km/h', data: speedData, borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 1.5 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} }, scales: { y: { display: true, ticks: tOpts, grid: gOpts }, x: { display: false } } } });
 
-            // 8. Radar Comparativa
             const ctxRadar = document.getElementById('garageChartRadar').getContext('2d'); if(garageChartRadar) garageChartRadar.destroy();
             if(activeSecs.length > 0) { const bestSecs = activeSecs.map((_, i) => bestSectorTimes[i] !== Infinity ? bestSectorTimes[i]/1000 : 0); garageChartRadar = new Chart(ctxRadar, { type: 'radar', data: { labels: labels, datasets: [{ label: 'Media', data: activeSecs, backgroundColor: 'rgba(45, 212, 191, 0.2)', borderColor: '#2dd4bf', borderWidth: 1, pointRadius:1 }, { label: 'Mejor', data: bestSecs, backgroundColor: 'rgba(244, 63, 94, 0.2)', borderColor: '#f43f5e', borderWidth: 1, pointRadius:1 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color: 'rgba(255,255,255,0.05)'}, grid: {color: 'rgba(255,255,255,0.05)'}, pointLabels: {color: '#94a3b8', font: {size: 8}}, ticks: {display: false} } }, plugins: { legend: {position: 'right', labels:{color:'#94a3b8', boxWidth: 6, font:{size:7}}} } } }); } else { ctxRadar.clearRect(0, 0, ctxRadar.canvas.width, ctxRadar.canvas.height); }
 
-            // 9. Donut (% Tiempo en Sectores)
             const ctxPie = document.getElementById('garageChartPie').getContext('2d'); if(garageChartPie) garageChartPie.destroy();
             if(activeSecs.length > 0) { garageChartPie = new Chart(ctxPie, { type: 'doughnut', data: { labels: labels, datasets: [{ data: activeSecs, backgroundColor: ['#3b82f6', '#f59e0b', '#a855f7', '#06b6d4', '#10b981'], borderColor: '#020617', borderWidth: 1 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: {position: 'right', labels:{color:'#94a3b8', boxWidth: 6, font:{size:7}}} } } }); } else { ctxPie.clearRect(0, 0, ctxPie.canvas.width, ctxPie.canvas.height); }
         }
@@ -2176,8 +2307,8 @@
                 let strokeColor = '#ffffff'; let labelText = 'META'; if(i===1) { strokeColor='#3b82f6'; labelText='S1'; } if(i===2) { strokeColor='#f59e0b'; labelText='S2'; } if(i===3) { strokeColor='#a855f7'; labelText='S3'; } if(i===4) { strokeColor='#06b6d4'; labelText='S4'; }
                 ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.strokeRect(l, t, w, h); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(l, t, w, h); ctx.fillStyle = strokeColor; ctx.fillRect(l, t - 25, 60, 25); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 5, t - 6);
             }
-            const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 500; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
-            const circ = circuits.find(c => c.id === currentCircuitId); if(circ) { circ.image = destCanvas.toDataURL('image/jpeg', 0.6); autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡Capturado!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); }
+            const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 900; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
+            const circ = circuits.find(c => c.id === currentCircuitId); if(circ) { circ.image = destCanvas.toDataURL('image/jpeg', 0.8); autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡Capturado!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); }
         });
 
         function autoSaveROIsToCircuit() {
@@ -2223,11 +2354,6 @@
             });
         });
         document.getElementById('close-tutorial-btn').addEventListener('click', () => { const player = document.getElementById('tutorial-player'); player.pause(); player.src = ""; player.classList.add('hidden'); document.getElementById('close-tutorial-btn').classList.add('hidden'); });
-
-        document.getElementById('guide-open-btn').addEventListener('click', () => {
-            // Already an anchor tag that downloads, but we can prevent default if we want a modal.
-            // Leaving as download link since it's cleaner.
-        });
 
         window.onload = () => {
             if (screen.orientation && screen.orientation.lock) { screen.orientation.lock('landscape').catch(() => {}); }
