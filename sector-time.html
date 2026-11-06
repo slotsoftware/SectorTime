@@ -62,125 +62,146 @@
             }
         };
 
-        Chart.defaults.color = '#94a3b8'; 
-        Chart.defaults.borderColor = 'rgba(51, 65, 85, 0.3)'; 
-        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#86868b'; 
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)'; 
+        Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif";
     </script>
     
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #0369a1 0%, #0f172a 70%, #020617 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background: radial-gradient(ellipse at 50% -20%, #1d263b 0%, #0b0c10 55%, #000000 100%);
             margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
             height: 100vh; overflow: hidden; 
-            color: #f0f9ff; 
+            color: #f5f5f7; 
+            text-transform: uppercase !important;
+            -webkit-font-smoothing: antialiased;
             overscroll-behavior: none; user-select: none; -webkit-user-select: none; touch-action: manipulation;
+        }
+        *, *::before, *::after, input, select, button, textarea, option, label, span, p, h1, h2, h3, h4, th, td, a {
+            text-transform: uppercase !important;
         }
         
         #orientation-lock {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); z-index: 9999; 
+            background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 9999; 
             flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;
         }
         #orientation-lock svg { 
-            width: 80px; height: 80px; margin-bottom: 20px; 
-            animation: rotateDevice 2s infinite ease-in-out; color: #38bdf8; 
-            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.6));
+            width: 72px; height: 72px; margin-bottom: 20px; 
+            animation: rotateDevice 2s infinite ease-in-out; color: #0A84FF; 
         }
         @keyframes rotateDevice { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
         @media screen and (orientation: portrait) { #orientation-lock { display: flex !important; } }
         
         input, select { user-select: text; -webkit-user-select: text; }
         
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.3); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.6); }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.18); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.35); }
 
-        .font-orbitron { font-family: 'Orbitron', sans-serif !important; letter-spacing: 0.05em; }
-
-        .neon-panel {
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(30, 58, 138, 0.4));
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            box-shadow: 0 8px 32px rgba(2, 132, 199, 0.3), inset 0 0 15px rgba(56, 189, 248, 0.15);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-radius: 12px;
+        /* Tipografía Apple SF Pro con dígitos tabulares para cronometraje */
+        .font-orbitron { 
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif !important; 
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em; 
         }
 
+        /* Paneles Apple Frosted Glass (visionOS / macOS Dark) */
+        .neon-panel {
+            background: rgba(28, 28, 30, 0.68);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border-radius: 18px;
+        }
+
+        /* Controles e Inputs estilo iOS / macOS */
         .neon-input {
-            background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.4); 
-            color: #bae6fd; transition: all 0.2s ease;
+            background: rgba(118, 118, 128, 0.24);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            color: #f5f5f7;
+            border-radius: 10px;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .neon-input:focus {
-            background: rgba(15, 23, 42, 0.9); border-color: #38bdf8; outline: none; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            background: rgba(118, 118, 128, 0.36);
+            border-color: #0A84FF;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.28);
         }
-        .neon-input option { background: #0f172a; color: #bae6fd; }
-        .neon-title { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.8); text-align: left; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+        .neon-input option { background: #1c1c1e; color: #f5f5f7; }
+        .neon-title { color: #f5f5f7; text-align: left; font-weight: 800; letter-spacing: -0.03em; }
 
-        .traffic-light-container.five-lights { display: flex; gap: 8px; }
+        /* Semáforo minimalista estilo Apple Hardware */
+        .traffic-light-container.five-lights { display: flex; gap: 10px; }
         .light {
-            width: 24px; height: 24px; border-radius: 50%; background-color: #020617; border: 2px solid #1e293b; 
-            box-shadow: inset 0 0 8px #000; transition: background-color 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+            width: 22px; height: 22px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); 
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6); transition: all 0.15s ease;
         }
-        .light.red { background-color: #ef4444; border-color: #fca5a5; box-shadow: 0 0 20px #ef4444, inset 0 0 10px #fff; }
-        .light.green { background-color: #10b981; border-color: #6ee7b7; box-shadow: 0 0 20px #10b981, inset 0 0 10px #fff; }
+        .light.red { background-color: #FF453A; border-color: #ff6961; box-shadow: 0 0 18px rgba(255, 69, 58, 0.85), inset 0 1px 2px rgba(255,255,255,0.6); }
+        .light.green { background-color: #30D158; border-color: #63e682; box-shadow: 0 0 18px rgba(48, 209, 88, 0.85), inset 0 1px 2px rgba(255,255,255,0.6); }
 
         #video-container {
             position: relative; width: 100%; height: 100%; flex: 1; min-height: 0;
-            border: 2px solid rgba(56, 189, 248, 0.5); background-color: #000; border-radius: 0.5rem; overflow: hidden; 
-            box-shadow: 0 0 25px rgba(2, 132, 199, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.12); background-color: #000; border-radius: 14px; overflow: hidden; 
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
-        #webcam-feed { height: 100%; width: 100%; object-fit: cover; display: block; filter: contrast(1.1) saturate(1.2); }
+        #webcam-feed { height: 100%; width: 100%; object-fit: cover; display: block; }
 
+        /* ROIs estilo iOS Camera Focus */
         .roi-box {
-            position: absolute; cursor: move; border: 2px solid rgba(56, 189, 248, 0.6); background-color: rgba(56, 189, 248, 0.05);
-            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2); transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; border-radius: 8px;
+            position: absolute; cursor: move; border: 2px solid rgba(255, 255, 255, 0.7); background-color: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(2px); transition: all 0.2s ease; z-index: 10; box-sizing: border-box; touch-action: none; display: none; border-radius: 14px;
         }
         .roi-box.active { display: block; }
-        .roi-box.roi-meta { border-color: #ffffff; } .roi-box.roi-s1 { border-color: #60a5fa; } .roi-box.roi-s2 { border-color: #fbbf24; } .roi-box.roi-s3 { border-color: #c084fc; } .roi-box.roi-s4 { border-color: #22d3ee; } 
+        .roi-box.roi-meta { border-color: #ffffff; } .roi-box.roi-s1 { border-color: #0A84FF; } .roi-box.roi-s2 { border-color: #FF9F0A; } .roi-box.roi-s3 { border-color: #BF5AF2; } .roi-box.roi-s4 { border-color: #64D2FF; } 
 
-        .roi-label-container { position: absolute; top: -24px; left: -2px; display: flex; align-items: stretch; height: 22px; }
+        .roi-label-container { position: absolute; top: -28px; left: 0px; display: flex; align-items: stretch; height: 22px; border-radius: 9999px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
         .roi-label-tag {
-            color: #fff; font-size: 11px; padding: 0 8px; display: flex; align-items: center; justify-content: center;
-            border-radius: 6px 0 0 0; font-weight: 800; font-family: 'Orbitron', sans-serif; pointer-events: none;
-            background: rgba(15, 23, 42, 0.9); border-top: 2px solid; border-left: 2px solid; border-bottom: 2px solid; text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            color: #fff; font-size: 10px; padding: 0 9px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; pointer-events: none;
+            background: rgba(28, 28, 30, 0.88); backdrop-filter: blur(10px);
         }
         .roi-auto-btn {
-             background: rgba(8, 145, 178, 0.8); border-top: 2px solid; border-right: 2px solid; border-bottom: 2px solid; 
-             color: #fff; font-size: 9px; font-weight: 800; padding: 0 6px; border-radius: 0 6px 0 0; 
-             cursor: pointer; font-family: 'Orbitron', sans-serif; transition: background 0.2s; pointer-events: auto; display: flex; align-items: center; justify-content: center;
+             background: #0A84FF; 
+             color: #fff; font-size: 9px; font-weight: 700; padding: 0 8px; 
+             cursor: pointer; transition: opacity 0.2s; pointer-events: auto; display: flex; align-items: center; justify-content: center;
         }
-        .roi-auto-btn:hover { background: rgba(14, 165, 233, 0.9); }
-        .roi-auto-btn:active { background: #bae6fd; color: #0f172a; }
+        .roi-auto-btn:hover { opacity: 0.9; }
+        .roi-auto-btn:active { transform: scale(0.96); }
         
-        .roi-box.roi-meta .roi-label-tag, .roi-box.roi-meta .roi-auto-btn { border-color: #ffffff; color: #ffffff; }
-        .roi-box.roi-s1 .roi-label-tag, .roi-box.roi-s1 .roi-auto-btn { border-color: #60a5fa; color: #60a5fa; }
-        .roi-box.roi-s2 .roi-label-tag, .roi-box.roi-s2 .roi-auto-btn { border-color: #fbbf24; color: #fbbf24; }
-        .roi-box.roi-s3 .roi-label-tag, .roi-box.roi-s3 .roi-auto-btn { border-color: #c084fc; color: #c084fc; }
-        .roi-box.roi-s4 .roi-label-tag, .roi-box.roi-s4 .roi-auto-btn { border-color: #22d3ee; color: #22d3ee; }
+        .roi-box.roi-meta .roi-label-tag { color: #ffffff; }
+        .roi-box.roi-s1 .roi-label-tag { color: #0A84FF; }
+        .roi-box.roi-s2 .roi-label-tag { color: #FF9F0A; }
+        .roi-box.roi-s3 .roi-label-tag { color: #BF5AF2; }
+        .roi-box.roi-s4 .roi-label-tag { color: #64D2FF; }
 
-        .roi-detected { background-color: rgba(255, 255, 255, 0.3) !important; box-shadow: 0 0 30px rgba(255,255,255, 0.6) !important; border-color: #fff !important; }
-        .roi-locked { border-color: #475569 !important; background-color: rgba(0, 0, 0, 0.5) !important; border-style: dashed !important; }
-        .roi-target { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6), inset 0 0 15px rgba(16, 185, 129, 0.3) !important; border-color: #34d399 !important; opacity: 1 !important; z-index: 15 !important; }
-        .roi-target .roi-label-tag { border-color: #34d399; color: #34d399; }
-        .roi-inactive { border-color: rgba(148, 163, 184, 0.35) !important; background-color: rgba(2, 6, 23, 0.15) !important; border-style: dashed !important; box-shadow: none !important; z-index: 5 !important; }
+        .roi-detected { background-color: rgba(255, 255, 255, 0.25) !important; box-shadow: 0 0 25px rgba(255,255,255, 0.5) !important; border-color: #fff !important; }
+        .roi-locked { border-color: rgba(255, 255, 255, 0.25) !important; background-color: rgba(0, 0, 0, 0.45) !important; border-style: dashed !important; }
+        .roi-target { box-shadow: 0 0 0 3px rgba(48, 209, 88, 0.35), 0 8px 25px rgba(48, 209, 88, 0.4) !important; border-color: #30D158 !important; opacity: 1 !important; z-index: 15 !important; }
+        .roi-target .roi-label-tag { color: #30D158; }
+        .roi-inactive { border-color: rgba(255, 255, 255, 0.22) !important; background-color: rgba(0, 0, 0, 0.15) !important; border-style: dashed !important; box-shadow: none !important; z-index: 5 !important; }
 
         .test-msg {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #34d399; font-weight: 900; font-size: 16px; font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 10px #34d399; pointer-events: none; display: none;
+            color: #30D158; font-weight: 800; font-size: 14px;
+            background: rgba(28, 28, 30, 0.85); padding: 3px 10px; border-radius: 9999px;
+            pointer-events: none; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
-        .roi-locked .test-msg { display: block; content: "WAIT..."; color: #94a3b8; text-shadow: none; font-size: 12px;}
+        .roi-locked .test-msg { display: block; content: "WAIT..."; color: #86868b; font-size: 11px;}
 
         .resize-handle { position: absolute; width: 44px; height: 44px; background: transparent; z-index: 20; display: flex; align-items: center; justify-content: center; }
-        .resize-handle::after { content: ''; width: 12px; height: 12px; background-color: #020617; border: 2px solid #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.8); border-radius: 4px; }
+        .resize-handle::after { content: ''; width: 12px; height: 12px; background-color: #ffffff; border: 2px solid #0A84FF; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); border-radius: 50%; }
         .handle-tl { top: -22px; left: -22px; cursor: nwse-resize; } .handle-br { bottom: -22px; right: -22px; cursor: nwse-resize; } 
         
-        .val-indicator { position: absolute; bottom: 4px; right: 4px; background-color: rgba(15, 23, 42, 0.8); color: #38bdf8; font-size: 10px; font-family: 'Orbitron', sans-serif; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4); white-space: nowrap; }
+        .val-indicator { position: absolute; bottom: 6px; right: 6px; background-color: rgba(28, 28, 30, 0.82); backdrop-filter: blur(8px); color: #ebebf5; font-size: 9px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(255, 255, 255, 0.12); white-space: nowrap; }
         .dragging { cursor: grabbing !important; } .resizing-nwse { cursor: nwse-resize !important; } #video-canvas { display: none; }
 
-        /* Baliza Minimalista 3D (Cuadro 3D alargado con línea + WiFi, sin poste) */
+        /* Baliza Minimalista 3D con colores Apple System */
         .sector-beacon-3d {
             position: absolute;
             left: -68px;
@@ -190,20 +211,20 @@
             height: 96px;
             pointer-events: none;
             z-index: 30;
-            transition: color 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+            transition: color 0.25s ease, filter 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .beacon-blue {
-            color: #38bdf8;
-            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.9));
+            color: #0A84FF;
+            filter: drop-shadow(0 4px 12px rgba(10, 132, 255, 0.75));
         }
         .beacon-green {
-            color: #10b981;
-            filter: drop-shadow(0 0 14px rgba(16, 185, 129, 1)) drop-shadow(0 0 24px rgba(16, 185, 129, 0.8));
+            color: #30D158;
+            filter: drop-shadow(0 4px 16px rgba(48, 209, 88, 0.95));
             transform: translateY(-50%) scale(1.1);
         }
         .beacon-red {
-            color: #ef4444;
-            filter: drop-shadow(0 0 14px rgba(239, 68, 68, 1)) drop-shadow(0 0 24px rgba(239, 68, 68, 0.8));
+            color: #FF453A;
+            filter: drop-shadow(0 4px 16px rgba(255, 69, 58, 0.95));
             transform: translateY(-50%) scale(1.1);
         }
         .sector-beacon-3d .wifi-wave {
@@ -217,10 +238,11 @@
 
         /* Estilos para las tarjetas de sectores en el Ranking F1 */
         .sector-card {
-            border-radius: 0.75rem;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(44, 44, 46, 0.55);
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
             transition: transform 0.2s ease;
         }
         .sector-card:hover { transform: translateY(-2px); }
@@ -228,77 +250,82 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 6px;
+            width: 5px;
             height: 100%;
         }
-        .sector-card.s1 .bar { background: #60a5fa; box-shadow: 0 0 10px #60a5fa; }
-        .sector-card.s2 .bar { background: #fbbf24; box-shadow: 0 0 10px #fbbf24; }
-        .sector-card.s3 .bar { background: #c084fc; box-shadow: 0 0 10px #c084fc; }
-        .sector-card.s4 .bar { background: #22d3ee; box-shadow: 0 0 10px #22d3ee; }
-        .sector-card.meta .bar { background: #ffffff; box-shadow: 0 0 10px #ffffff; }
+        .sector-card.s1 .bar { background: #0A84FF; }
+        .sector-card.s2 .bar { background: #FF9F0A; }
+        .sector-card.s3 .bar { background: #BF5AF2; }
+        .sector-card.s4 .bar { background: #64D2FF; }
+        .sector-card.meta .bar { background: #ffffff; }
 
-        .timer-value { font-size: 1.5rem; line-height: 1.75rem; color: #fff; font-weight: 700; text-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
-        .telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
-        .telemetry-item { display: flex; flex-direction: column; padding: 4px 8px; border-radius: 8px; background: rgba(2, 6, 23, 0.5); border: 1px solid rgba(56, 189, 248, 0.2); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-        .telemetry-label { font-size: 0.6rem; font-weight: 600; color: #7dd3fc; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.1em; }
-        .telemetry-data { font-size: 0.85rem; font-weight: 700; color: #fff; }
-        .telemetry-data.green { color: #34d399; text-shadow: 0 0 8px rgba(52, 211, 153, 0.6); }
-        .telemetry-data.yellow { color: #fbbf24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
+        .timer-value { font-size: 1.55rem; line-height: 1.75rem; color: #ffffff; font-weight: 700; letter-spacing: -0.03em; }
+        .telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+        .telemetry-item { display: flex; flex-direction: column; padding: 6px 10px; border-radius: 12px; background: rgba(44, 44, 46, 0.55); border: 1px solid rgba(255, 255, 255, 0.07); }
+        .telemetry-label { font-size: 0.6rem; font-weight: 600; color: #86868b; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .telemetry-data { font-size: 0.9rem; font-weight: 700; color: #f5f5f7; }
+        .telemetry-data.green { color: #30D158; }
+        .telemetry-data.yellow { color: #FF9F0A; }
         
-        .sectors-display { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; background: rgba(2, 6, 23, 0.5); padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(56, 189, 248, 0.2); }
-        .sector-tag { padding: 1px 3px; border-radius: 4px; font-size: 0.6rem; color: #020617; margin-right: 4px; font-weight: 800; }
-        .sector-tag.meta { background: #f8fafc; } .sector-tag.s1 { background: #60a5fa; } .sector-tag.s2 { background: #fbbf24; } .sector-tag.s3 { background: #c084fc; } .sector-tag.s4 { background: #22d3ee; }
+        .sectors-display { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; background: rgba(44, 44, 46, 0.5); padding: 2px 6px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .sector-tag { padding: 1px 4px; border-radius: 5px; font-size: 0.6rem; color: #000; margin-right: 4px; font-weight: 700; }
+        .sector-tag.meta { background: #ffffff; } .sector-tag.s1 { background: #0A84FF; color:#fff; } .sector-tag.s2 { background: #FF9F0A; } .sector-tag.s3 { background: #BF5AF2; color:#fff; } .sector-tag.s4 { background: #64D2FF; }
 
+        /* Botones estilo iOS Action Pill */
         .race-control-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px 0; border-radius: 8px; background: rgba(2, 6, 23, 0.4);
-            border: 1px solid rgba(56, 189, 248, 0.4); transition: all 0.2s ease; font-size: 0.7rem; font-weight: 700; color: #bae6fd; font-family: 'Orbitron', sans-serif; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 7px 0; border-radius: 12px; background: rgba(44, 44, 46, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); font-size: 0.7rem; font-weight: 600; color: #f5f5f7; box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
-        .race-control-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
-        #start-race-btn.race-control-btn { color: #34d399; border-color: #34d399; } #start-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(52, 211, 153, 0.15); box-shadow: 0 0 20px rgba(52, 211, 153, 0.4); }
-        #reset-race-btn.race-control-btn { color: #f87171; border-color: #f87171; } #reset-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(248, 113, 113, 0.15); box-shadow: 0 0 20px rgba(248, 113, 113, 0.4); }
+        .race-control-btn:active:not(:disabled) { transform: scale(0.96); }
+        #start-race-btn.race-control-btn { background: rgba(48, 209, 88, 0.18); color: #30D158; border-color: rgba(48, 209, 88, 0.4); } 
+        #start-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(48, 209, 88, 0.28); }
+        #reset-race-btn.race-control-btn { background: rgba(255, 69, 58, 0.16); color: #FF453A; border-color: rgba(255, 69, 58, 0.35); } 
+        #reset-race-btn.race-control-btn:hover:not(:disabled) { background: rgba(255, 69, 58, 0.26); }
         
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(2, 6, 23, 0.85); backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.65); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         .modal-overlay.open { opacity: 1; visibility: visible; }
         .modal-content {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.98)); color: #f0f9ff; border-radius: 1rem; border: 1px solid rgba(56, 189, 248, 0.5);
-            box-shadow: 0 0 50px rgba(2, 132, 199, 0.4); max-width: 95%; max-height: 90%; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s ease;
+            background: rgba(28, 28, 30, 0.88); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+            color: #f5f5f7; border-radius: 22px; border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.15); max-width: 95%; max-height: 90%; overflow-y: auto; transform: scale(0.96); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .modal-overlay.open .modal-content { transform: scale(1); }
         
         .panoramic { width: 90vw !important; max-width: 1600px !important; height: 85vh !important; max-height: 900px !important; }
 
         table { width: 100%; text-align: left; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 10px; border-bottom: 1px solid rgba(56, 189, 248, 0.2); font-size: 0.8rem; color: #bae6fd; }
-        th { color: #38bdf8; text-transform: uppercase; font-weight: 700; border-bottom: 2px solid rgba(56, 189, 248, 0.5); font-family: 'Orbitron', sans-serif; }
+        th, td { padding: 10px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 0.8rem; color: #ebebf5; }
+        th { color: #86868b; text-transform: uppercase; font-size: 0.7rem; font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.12); letter-spacing: 0.05em; }
         
         #record-notification {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.9); color: #22d3ee;
-            padding: 1.5rem 3rem; border-radius: 12px; font-size: 2rem; font-weight: 900; font-family: 'Orbitron', sans-serif; border: 2px solid #22d3ee; box-shadow: 0 0 50px rgba(34, 211, 238, 0.8);
-            z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(28, 28, 30, 0.92); backdrop-filter: blur(20px); color: #30D158;
+            padding: 1.25rem 2.5rem; border-radius: 20px; font-size: 1.75rem; font-weight: 800; border: 1px solid rgba(48, 209, 88, 0.5); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        #record-notification.show { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        #record-notification.show { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
         
-        .toggle-checkbox:checked { right: 0; border-color: #38bdf8; } .toggle-checkbox:checked + .toggle-label { background-color: rgba(56, 189, 248, 0.3); }
+        .toggle-checkbox:checked { right: 0; border-color: #30D158; } .toggle-checkbox:checked + .toggle-label { background-color: #30D158; }
         
-        .calib-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(2, 6, 23, 0.85); color: #38bdf8; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; display: none; backdrop-filter: blur(4px); }
+        .calib-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0, 0, 0, 0.75); color: #f5f5f7; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; display: none; backdrop-filter: blur(16px); }
         .calib-overlay.active { display: flex; }
-        .spinner { border: 4px solid rgba(56, 189, 248, 0.2); border-top: 4px solid #38bdf8; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin-bottom: 20px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
+        .spinner { border: 3px solid rgba(255, 255, 255, 0.15); border-top: 3px solid #0A84FF; border-radius: 50%; width: 48px; height: 48px; animation: spin 0.9s linear infinite; margin-bottom: 16px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        #false-start-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: rgba(153, 27, 27, 0.95); border: 2px solid #ef4444; box-shadow: 0 0 40px rgba(239, 68, 68, 0.8); color: #fff; text-align: center; padding: 2rem; border-radius: 12px; z-index: 60; display: none; }
+        #false-start-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 420px; background: rgba(44, 14, 14, 0.92); backdrop-filter: blur(20px); border: 1px solid rgba(255, 69, 58, 0.6); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65); color: #fff; text-align: center; padding: 1.75rem; border-radius: 20px; z-index: 60; display: none; }
         #false-start-alert.show { display: block; animation: pulse 0.5s infinite alternate; }
-        @keyframes pulse { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-50%, -50%) scale(1.05); } }
+        @keyframes pulse { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-50%, -50%) scale(1.03); } }
 
-        #yellow-flag-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(2, 6, 23, 0.8); z-index: 40; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        #yellow-flag-overlay.active { display: flex; } .yellow-flag-icon { width: 80px; height: 80px; color: #fbbf24; animation: wave 1s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(251,191,36,0.8)); }
+        #yellow-flag-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.72); z-index: 40; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
+        #yellow-flag-overlay.active { display: flex; } .yellow-flag-icon { width: 72px; height: 72px; color: #FF9F0A; animation: wave 1s infinite ease-in-out; }
         @keyframes wave { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
         
-        .tab-btn { flex: 1; padding: 0.75rem; font-weight: 700; border-radius: 0.5rem; text-align: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.2s ease; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.3); background: transparent; color: #7dd3fc; font-family: 'Orbitron', sans-serif; }
-        .tab-btn.active { background-color: rgba(56, 189, 248, 0.2); color: #fff; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-        .tab-btn.inactive:hover { background-color: rgba(56, 189, 248, 0.1); }
+        /* Segmented Control estilo macOS / iOS */
+        .tab-btn { flex: 1; padding: 0.65rem; font-weight: 600; border-radius: 10px; text-align: center; font-size: 0.8rem; transition: all 0.2s ease; cursor: pointer; border: 1px solid transparent; background: rgba(118, 118, 128, 0.16); color: #86868b; }
+        .tab-btn.active { background-color: rgba(255, 255, 255, 0.14); color: #ffffff; border-color: rgba(255, 255, 255, 0.12); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); }
+        .tab-btn.inactive:hover { color: #f5f5f7; background-color: rgba(118, 118, 128, 0.24); }
     </style>
 </head>
 
@@ -318,77 +345,79 @@
         <!-- LEFT COLUMN: Top Bar & Camera -->
         <div class="flex-1 flex flex-col h-full min-w-[55%] gap-2 overflow-hidden">
             
-            <!-- TOP NAVBAR -->
-            <div class="neon-panel flex justify-between items-center w-full py-1.5 px-4 shrink-0">
-                <div class="flex items-center space-x-2 lg:space-x-4 w-full">
-                    <div class="flex flex-col">
-                        <div class="flex items-center">
-                            <h1 class="text-lg neon-title font-orbitron tracking-wider leading-tight mr-3">SECTOR TIME V.1.0</h1>
-                            <select id="lang-select" class="bg-transparent border border-cyan-800 text-cyan-400 text-[9px] font-bold py-0.5 px-1 rounded hover:bg-cyan-900/50 outline-none uppercase tracking-widest transition-colors cursor-pointer">
-                                <option value="es">ES</option><option value="en">EN</option>
-                            </select>
+            <!-- TOP NAVBAR (Apple macOS Toolbar Style) -->
+            <div class="neon-panel flex justify-between items-center w-full py-2 px-4 shrink-0">
+                <div class="flex items-center space-x-2 lg:space-x-3 w-full">
+                    <div class="flex items-center">
+                        <div class="flex flex-col">
+                            <div class="flex items-center">
+                                <h1 class="text-base font-bold tracking-tight text-white leading-tight mr-2.5 uppercase">SECTOR TIME <span class="text-xs font-medium text-[#86868b]">PRO</span></h1>
+                                <select id="lang-select" class="bg-white/10 border border-white/10 text-white text-[9px] font-semibold py-0.5 px-1.5 rounded-md hover:bg-white/15 outline-none uppercase transition-colors cursor-pointer">
+                                    <option value="es">ES</option><option value="en">EN</option>
+                                </select>
+                            </div>
+                            <span class="text-[9px] font-medium text-[#86868b] tracking-normal uppercase">DESIGNED BY ALBERT CLOSA</span>
                         </div>
-                        <span class="text-[9px] font-bold text-cyan-300 tracking-widest uppercase">By Albert Closa</span>
                     </div>
                     
                     <div class="flex-1"></div>
 
-                    <button id="history-btn" class="flex items-center text-cyan-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-cyan-900/50 border border-transparent hover:border-cyan-400" title="Ver Historial">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/><path d="M12 7v5l4 2"/></svg>
-                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="history">Historial</span>
+                    <button id="history-btn" class="flex items-center text-[#ebebf5] hover:text-white transition-all px-2.5 py-1.5 rounded-lg hover:bg-white/10 uppercase" title="VER HISTORIAL">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="2" class="lg:mr-1.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/><path d="M12 7v5l4 2"/></svg>
+                        <span class="text-[11px] font-semibold hidden lg:inline uppercase" data-i18n="history">HISTORIAL</span>
                     </button>
                     
-                    <button id="circuit-open-btn" class="flex items-center text-emerald-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-emerald-900/50 border border-transparent hover:border-emerald-400" title="Circuitos">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
-                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="circuits">Circuitos</span>
+                    <button id="circuit-open-btn" class="flex items-center text-[#ebebf5] hover:text-white transition-all px-2.5 py-1.5 rounded-lg hover:bg-white/10 uppercase" title="CIRCUITOS">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#30D158" stroke-width="2" class="lg:mr-1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                        <span class="text-[11px] font-semibold hidden lg:inline uppercase" data-i18n="circuits">CIRCUITOS</span>
                     </button>
 
-                    <button id="garage-open-btn" class="flex items-center text-blue-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-blue-900/50 border border-transparent hover:border-blue-400" title="Mi Garaje">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
-                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="garage">Garaje</span>
+                    <button id="garage-open-btn" class="flex items-center text-[#ebebf5] hover:text-white transition-all px-2.5 py-1.5 rounded-lg hover:bg-white/10 uppercase" title="MI GARAJE">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64D2FF" stroke-width="2" class="lg:mr-1.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                        <span class="text-[11px] font-semibold hidden lg:inline uppercase" data-i18n="garage">GARAJE</span>
                     </button>
                     
-                    <button id="videos-open-btn" class="flex items-center text-fuchsia-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-fuchsia-900/50 border border-transparent hover:border-fuchsia-400" title="Videos">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="videos">Videos</span>
+                    <button id="videos-open-btn" class="flex items-center text-[#ebebf5] hover:text-white transition-all px-2.5 py-1.5 rounded-lg hover:bg-white/10 uppercase" title="VIDEOS">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BF5AF2" stroke-width="2" class="lg:mr-1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        <span class="text-[11px] font-semibold hidden lg:inline uppercase" data-i18n="videos">VIDEOS</span>
                     </button>
                     
-                    <a href="sector.pdf" download id="guide-open-btn" class="flex items-center text-teal-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-teal-900/50 border border-transparent hover:border-teal-400 cursor-pointer" title="Guía">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="guide">Guía</span>
+                    <a href="sector.pdf" download id="guide-open-btn" class="flex items-center text-[#ebebf5] hover:text-white transition-all px-2.5 py-1.5 rounded-lg hover:bg-white/10 cursor-pointer uppercase" title="GUÍA">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5E5CE6" stroke-width="2" class="lg:mr-1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        <span class="text-[11px] font-semibold hidden lg:inline uppercase" data-i18n="guide">GUÍA</span>
                     </a>
                     
-                    <button id="ranking-open-btn" class="flex items-center text-amber-400 hover:text-white transition-colors px-2 py-1 rounded hover:bg-amber-900/50 border border-transparent hover:border-amber-400" title="Ranking F1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
-                        <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline" data-i18n="ranking">Ranking</span>
+                    <button id="ranking-open-btn" class="flex items-center text-[#ebebf5] hover:text-white transition-all px-2.5 py-1.5 rounded-lg hover:bg-white/10 uppercase" title="RANKING F1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="2" class="lg:mr-1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14h4"/><path d="M12 17v5"/><path d="M21 17.02l.7-4.14a2 2 0 0 0-1.92-2.14H4.22a2 2 0 0 0-1.92 2.14l.7 4.14"/><path d="M15 17H9"/></svg>
+                        <span class="text-[11px] font-semibold hidden lg:inline uppercase" data-i18n="ranking">RANKING</span>
                     </button>
                     
-                    <button id="fullscreen-btn" class="flex items-center text-slate-300 hover:text-white transition-colors px-2 py-1 rounded hover:bg-slate-700/50 border border-transparent hover:border-slate-400" title="Pantalla Completa">
+                    <button id="fullscreen-btn" class="flex items-center text-[#ebebf5] hover:text-white transition-all px-2.5 py-1.5 rounded-lg hover:bg-white/10 uppercase" title="PANTALLA COMPLETA">
                          <svg id="fs-icon-enter" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:mr-1.5"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
                          <svg id="fs-icon-exit" class="hidden lg:mr-1.5" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
-                         <span class="text-[10px] font-bold uppercase tracking-widest hidden lg:inline">Pantalla</span>
+                         <span class="text-[11px] font-semibold hidden lg:inline uppercase">PANTALLA</span>
                     </button>
                 </div>
             </div>
 
             <!-- CAMERA VIEWPORT -->
-            <div id="video-feed-box" class="neon-panel p-2 w-full flex-1 flex flex-col relative overflow-hidden">
-                <div class="flex justify-between items-center border-b border-cyan-800/50 pb-1.5 mb-1.5 shrink-0">
-                    <h2 class="text-xs font-orbitron font-bold text-cyan-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(56,189,248,0.5)]" data-i18n="videoTitle">Cámara y Sectores</h2>
-                    <div class="flex space-x-1.5">
-                        <button id="calibrate-btn" class="p-1 px-3 rounded bg-slate-800/80 border border-slate-500 text-slate-300 hover:border-cyan-400 hover:text-cyan-300 text-[10px] font-bold uppercase transition disabled:opacity-50 flex items-center tracking-widest shadow-md">
-                            Calibrar IA
+            <div id="video-feed-box" class="neon-panel p-3 w-full flex-1 flex flex-col relative overflow-hidden">
+                <div class="flex justify-between items-center pb-2 mb-2 shrink-0">
+                    <h2 class="text-xs font-semibold text-[#f5f5f7] tracking-tight uppercase" data-i18n="videoTitle">CÁMARA Y SECTORES</h2>
+                    <div class="flex space-x-2">
+                        <button id="calibrate-btn" class="py-1 px-3 rounded-full bg-white/10 hover:bg-white/20 text-white text-[10px] font-semibold transition disabled:opacity-40 flex items-center uppercase">
+                            CALIBRAR IA
                         </button>
-                        <label for="bg-image-input" class="p-1 px-2.5 rounded bg-blue-600/20 border border-blue-500 text-blue-400 hover:bg-blue-600/40 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(59,130,246,0.2)] cursor-pointer" title="Cargar Imagen de Fondo">
-                            IMG
+                        <label for="bg-image-input" class="py-1 px-3 rounded-full bg-[#0A84FF]/20 border border-[#0A84FF]/40 text-[#0A84FF] hover:bg-[#0A84FF]/30 transition text-[10px] font-semibold flex items-center cursor-pointer uppercase" title="CARGAR IMAGEN DE FONDO">
+                            FOTO
                             <input type="file" id="bg-image-input" accept="image/jpeg, image/png, image/webp" class="hidden">
                         </label>
-                        <button id="camera-on-btn" class="p-1 px-3 rounded bg-emerald-600/20 border border-emerald-500 text-emerald-400 hover:bg-emerald-600/40 disabled:opacity-50 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                            CAM ON
+                        <button id="camera-on-btn" class="py-1 px-3 rounded-full bg-[#30D158] text-black hover:opacity-90 disabled:opacity-40 transition text-[10px] font-semibold flex items-center shadow-sm uppercase">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mr-1"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                            ACTIVAR
                         </button>
-                        <button id="camera-off-btn" class="p-1 px-3 rounded bg-red-600/20 border border-red-500 text-red-400 hover:bg-red-600/40 disabled:opacity-50 transition text-[10px] font-bold tracking-widest flex items-center shadow-[0_0_10px_rgba(239,68,68,0.2)]" disabled>
-                            OFF
+                        <button id="camera-off-btn" class="py-1 px-3 rounded-full bg-[#FF453A]/20 border border-[#FF453A]/40 text-[#FF453A] hover:bg-[#FF453A]/30 disabled:opacity-40 transition text-[10px] font-semibold flex items-center uppercase" disabled>
+                            APAGAR
                         </button>
                     </div>
                 </div>
@@ -507,12 +536,12 @@
         </div>
 
         <!-- RIGHT COLUMN: Dashboard & Config -->
-        <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-1.5 h-full overflow-y-auto pr-0.5 pb-1">
+        <div class="w-[320px] lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-2 h-full overflow-y-auto pr-0.5 pb-1">
             
-            <!-- TIMERS & LIGHTS -->
-            <div class="neon-panel w-full p-2 text-center shrink-0">
-                <div class="flex justify-center w-full mb-1.5 pb-1.5 border-b border-cyan-800/50">
-                    <div id="traffic-light-module" class="traffic-light-container five-lights bg-slate-900/80 px-3 py-1.5 rounded-xl border border-cyan-900/50 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            <!-- TIMERS & LIGHTS (Apple Watch Ultra / Fitness+ Style) -->
+            <div class="neon-panel w-full p-3 text-center shrink-0">
+                <div class="flex justify-center w-full mb-2 pb-2 border-b border-white/10">
+                    <div id="traffic-light-module" class="traffic-light-container five-lights bg-black/50 px-4 py-2 rounded-full border border-white/10">
                         <div id="light-1" class="light"></div><div id="light-2" class="light"></div><div id="light-3" class="light"></div>
                         <div id="light-4" class="light"></div><div id="light-5" class="light"></div>
                     </div>
@@ -520,78 +549,78 @@
 
                 <div class="flex justify-around items-end space-x-2 mb-1">
                     <div class="flex-1">
-                        <p class="text-[8px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="raceTime">TIEMPO CARRERA</p>
+                        <p class="text-[9px] text-[#86868b] font-semibold uppercase tracking-wider" data-i18n="raceTime">TIEMPO CARRERA</p>
                         <p id="race-time" class="timer-value font-orbitron text-xl">00:00.000</p>
                     </div>
-                    <div class="flex-1 border-l border-cyan-800/50 pl-2 flex flex-col justify-end">
-                        <p class="text-[8px] text-cyan-400 font-bold tracking-[0.2em]" data-i18n="laps">VUELTAS</p>
-                        <p id="lap-count" class="timer-value font-orbitron text-cyan-100 !text-shadow-none text-xl">0 / 10</p> 
-                        <p id="mode-target-display" class="text-[8px] text-blue-400 font-bold mt-0 font-orbitron hidden">--</p>
+                    <div class="flex-1 border-l border-white/10 pl-2 flex flex-col justify-end">
+                        <p class="text-[9px] text-[#86868b] font-semibold uppercase tracking-wider" data-i18n="laps">VUELTAS</p>
+                        <p id="lap-count" class="timer-value font-orbitron text-white text-xl">0 / 10</p> 
+                        <p id="mode-target-display" class="text-[8px] text-[#0A84FF] font-semibold mt-0 font-orbitron hidden">--</p>
                     </div>
                 </div>
-                <p id="lap-time" class="text-3xl text-cyan-300 mt-1 font-orbitron font-bold tracking-widest drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]">00.000</p>
+                <p id="lap-time" class="text-4xl text-white mt-1 font-orbitron font-bold tracking-tight">00.000</p>
             </div>
 
             <!-- BUTTONS -->
             <div class="w-full flex space-x-2 shrink-0">
-                <button id="start-race-btn" class="flex-1 race-control-btn disabled:opacity-50 disabled:cursor-not-allowed border-b-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <button id="start-race-btn" class="flex-1 race-control-btn disabled:opacity-40 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="mb-0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     <span data-i18n="start">INICIAR</span>
                 </button>
-                <button id="pause-btn" class="flex-1 race-control-btn disabled:opacity-50 disabled:cursor-not-allowed border-amber-500/50 text-amber-400 border-b-2">
-                    <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                    <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5 hidden"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <button id="pause-btn" class="flex-1 race-control-btn disabled:opacity-40 disabled:cursor-not-allowed text-[#FF9F0A] border-[#FF9F0A]/30 bg-[#FF9F0A]/15">
+                    <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="mb-0.5"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                    <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="mb-0.5 hidden"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     <span id="pause-text" data-i18n="pause">PAUSA</span>
                 </button>
-                <button id="reset-race-btn" class="flex-1 race-control-btn disabled:opacity-50 disabled:cursor-not-allowed border-b-2" disabled>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-0.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                <button id="reset-race-btn" class="flex-1 race-control-btn disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="mb-0.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
                     <span data-i18n="reset">REINICIAR</span>
                 </button>
             </div>
 
             <!-- COMPACT TELEMETRY PANEL -->
-            <div class="neon-panel w-full p-2 shrink-0">
-                <h2 class="text-[9px] font-bold text-cyan-400 mb-1 border-b border-cyan-800/50 pb-1 uppercase tracking-widest text-left" data-i18n="telemetry">Telemetría</h2>
-                <div class="telemetry-grid gap-1">
-                    <div class="telemetry-item p-1.5">
-                        <p class="telemetry-label text-[7px]" data-i18n="pilotCar">PILOTO / COCHE</p>
-                        <p id="telemetry-pilot-car" class="telemetry-data text-xs font-light truncate">N/A / N/A</p>
+            <div class="neon-panel w-full p-3 shrink-0">
+                <h2 class="text-[10px] font-semibold text-[#86868b] mb-2 uppercase tracking-wider text-left" data-i18n="telemetry">Telemetría</h2>
+                <div class="telemetry-grid gap-1.5">
+                    <div class="telemetry-item p-2">
+                        <p class="telemetry-label text-[8px]" data-i18n="pilotCar">PILOTO / COCHE</p>
+                        <p id="telemetry-pilot-car" class="telemetry-data text-xs font-medium truncate">N/A / N/A</p>
                     </div>
-                    <div class="telemetry-item p-1.5">
-                        <p class="telemetry-label text-[7px]" data-i18n="lastLap">ÚLTIMA VUELTA</p>
+                    <div class="telemetry-item p-2">
+                        <p class="telemetry-label text-[8px]" data-i18n="lastLap">ÚLTIMA VUELTA</p>
                         <p id="telemetry-last-lap-time" class="telemetry-data yellow text-sm font-orbitron">--.---</p>
                     </div>
                     
-                    <div class="telemetry-item col-span-2 hidden p-2 bg-slate-950/80 border-cyan-500/40" id="sectors-telemetry-container">
-                        <p class="telemetry-label text-[8px] flex items-center justify-between mb-1">
+                    <div class="telemetry-item col-span-2 hidden p-2.5 bg-black/40 border-white/10" id="sectors-telemetry-container">
+                        <p class="telemetry-label text-[8px] flex items-center justify-between mb-1.5">
                             <span data-i18n="lastLapSectors">TIEMPOS DE SECTOR</span>
-                            <span class="text-[7px] text-cyan-400 font-orbitron">LIVE TIMING</span>
+                            <span class="text-[8px] text-[#0A84FF] font-semibold">EN VIVO</span>
                         </p>
                         <div id="telemetry-sectors" class="flex flex-col gap-1.5 w-full"></div>
                     </div>
 
-                    <div class="telemetry-item p-1.5">
-                        <p class="telemetry-label text-[7px]" data-i18n="bestLap">MEJOR VUELTA</p>
+                    <div class="telemetry-item p-2">
+                        <p class="telemetry-label text-[8px]" data-i18n="bestLap">MEJOR VUELTA</p>
                         <p id="telemetry-best-time" class="telemetry-data green text-sm font-orbitron">--.---</p>
                     </div>
-                    <div class="telemetry-item p-1.5">
-                        <p class="telemetry-label text-[7px]" data-i18n="avgTime">TIEMPO MEDIO</p>
-                        <p id="telemetry-average-time" class="telemetry-data text-sm font-orbitron text-cyan-200">--.---</p>
+                    <div class="telemetry-item p-2">
+                        <p class="telemetry-label text-[8px]" data-i18n="avgTime">TIEMPO MEDIO</p>
+                        <p id="telemetry-average-time" class="telemetry-data text-sm font-orbitron text-white">--.---</p>
                     </div>
                 </div>
             </div>
 
             <!-- EXPANSIVE CONFIG PANEL -->
             <div id="config-panel" class="neon-panel w-full p-3 flex-1 flex flex-col min-h-[150px]">
-                <div class="flex items-center justify-between mb-2 border-b border-cyan-800/50 pb-2">
-                    <h2 class="text-[10px] font-orbitron font-bold text-cyan-300 uppercase tracking-widest flex items-center">
-                        <span data-i18n="pilotDataTitle">Datos Piloto & Pista</span>
+                <div class="flex items-center justify-between mb-2.5 border-b border-white/10 pb-2">
+                    <h2 class="text-[11px] font-semibold text-white flex items-center uppercase">
+                        <span data-i18n="pilotDataTitle">DATOS PILOTO & PISTA</span>
                     </h2>
                     <div class="flex items-center space-x-2">
-                        <label for="voice-toggle" class="text-[9px] font-bold text-cyan-400 uppercase tracking-widest cursor-pointer" data-i18n="engineerVoice">Voz Ing.</label>
+                        <label for="voice-toggle" class="text-[10px] font-medium text-[#86868b] cursor-pointer uppercase" data-i18n="engineerVoice">VOZ ING.</label>
                         <div class="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
-                            <input type="checkbox" name="voice-toggle" id="voice-toggle" class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-slate-900 border border-cyan-500 appearance-none cursor-pointer" checked/>
-                            <label for="voice-toggle" class="toggle-label block overflow-hidden h-4 rounded-full bg-slate-800 cursor-pointer border border-cyan-900/80"></label>
+                            <input type="checkbox" name="voice-toggle" id="voice-toggle" class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white appearance-none cursor-pointer shadow-md" checked/>
+                            <label for="voice-toggle" class="toggle-label block overflow-hidden h-4 rounded-full bg-white/20 cursor-pointer"></label>
                         </div>
                     </div>
                 </div>
@@ -599,65 +628,65 @@
                 <div class="space-y-2.5">
                      <div class="grid grid-cols-3 gap-2">
                         <div class="col-span-1">
-                            <label for="pilot-name-input" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest" data-i18n="pilotName">Piloto</label>
-                            <input type="text" id="pilot-name-input" value="Racer 1" class="neon-input w-full px-2 py-1 text-[10px] rounded" />
+                            <label for="pilot-name-input" class="block text-[9px] font-medium text-[#86868b] mb-1 uppercase" data-i18n="pilotName">PILOTO</label>
+                            <input type="text" id="pilot-name-input" value="RACER 1" class="neon-input w-full px-2.5 py-1 text-[11px] uppercase" />
                         </div>
                         <div class="col-span-1">
-                            <label for="circuit-model-select" class="block text-[9px] font-bold text-emerald-400 mb-1 uppercase tracking-widest" data-i18n="circuitName">Circuito</label>
-                            <select id="circuit-model-select" class="neon-input w-full px-2 py-1 text-[10px] rounded font-bold border-emerald-500/50 focus:border-emerald-400"></select>
+                            <label for="circuit-model-select" class="block text-[9px] font-medium text-[#86868b] mb-1 uppercase" data-i18n="circuitName">CIRCUITO</label>
+                            <select id="circuit-model-select" class="neon-input w-full px-2 py-1 text-[11px] font-medium uppercase"></select>
                         </div>
                         <div class="col-span-1">
-                            <label for="car-model-select" class="block text-[9px] font-bold text-blue-400 mb-1 uppercase tracking-widest" data-i18n="carModel">Coche</label>
-                            <select id="car-model-select" class="neon-input w-full px-2 py-1 text-[10px] rounded font-bold border-blue-500/50 focus:border-blue-400"></select>
+                            <label for="car-model-select" class="block text-[9px] font-medium text-[#86868b] mb-1 uppercase" data-i18n="carModel">COCHE</label>
+                            <select id="car-model-select" class="neon-input w-full px-2 py-1 text-[11px] font-medium uppercase"></select>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-4 gap-2 bg-slate-900/40 p-2 rounded-lg border border-cyan-900/50 shadow-inner">
+                    <div class="grid grid-cols-4 gap-2 bg-black/30 p-2 rounded-xl border border-white/5">
                         <div class="col-span-1">
-                            <label for="race-mode-select" class="block text-[9px] font-bold text-purple-400 mb-1 uppercase tracking-widest truncate" data-i18n="raceMode">Modo</label>
-                            <select id="race-mode-select" class="neon-input w-full px-1 py-1 text-[10px] rounded font-bold">
-                                <option value="laps" selected data-i18n="modeLaps">Vueltas</option>
-                                <option value="time" data-i18n="modeTime">Tiempo</option>
+                            <label for="race-mode-select" class="block text-[9px] font-medium text-[#86868b] mb-1 truncate uppercase" data-i18n="raceMode">MODO</label>
+                            <select id="race-mode-select" class="neon-input w-full px-1.5 py-1 text-[10px] font-medium uppercase">
+                                <option value="laps" selected data-i18n="modeLaps">VUELTAS</option>
+                                <option value="time" data-i18n="modeTime">TIEMPO</option>
                             </select>
                         </div>
                         <div class="col-span-1">
                             <div id="laps-config-container">
-                                <label for="lap-limit-select" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest truncate" data-i18n="lapLimit">Límite</label>
-                                <select id="lap-limit-select" class="neon-input w-full px-1 py-1 text-[10px] rounded font-bold">
+                                <label for="lap-limit-select" class="block text-[9px] font-medium text-[#86868b] mb-1 truncate uppercase" data-i18n="lapLimit">LÍMITE</label>
+                                <select id="lap-limit-select" class="neon-input w-full px-1.5 py-1 text-[10px] font-medium uppercase">
                                     <option value="5">5 V</option><option value="10" selected>10 V</option>
-                                    <option value="25">25 V</option><option value="50">50 V</option><option value="Infinity">Inf</option>
+                                    <option value="25">25 V</option><option value="50">50 V</option><option value="Infinity">INF</option>
                                 </select>
                             </div>
                             <div id="time-config-container" class="hidden">
-                                <label for="time-limit-select" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest truncate" data-i18n="timeLimit">Tiempo</label>
-                                <select id="time-limit-select" class="neon-input w-full px-1 py-1 text-[10px] rounded font-bold">
+                                <label for="time-limit-select" class="block text-[9px] font-medium text-[#86868b] mb-1 truncate uppercase" data-i18n="timeLimit">TIEMPO</label>
+                                <select id="time-limit-select" class="neon-input w-full px-1.5 py-1 text-[10px] font-medium uppercase">
                                     <option value="5">5 M</option><option value="10" selected>10 M</option><option value="15">15 M</option><option value="30">30 M</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-span-1">
-                            <label for="sectors-select" class="block text-[9px] font-bold text-cyan-500 mb-1 uppercase tracking-widest truncate" data-i18n="sectorsCount">Sectores</label>
-                            <select id="sectors-select" class="neon-input w-full px-1 py-1 rounded font-bold text-[10px]">
+                            <label for="sectors-select" class="block text-[9px] font-medium text-[#86868b] mb-1 truncate uppercase" data-i18n="sectorsCount">SECTORES</label>
+                            <select id="sectors-select" class="neon-input w-full px-1.5 py-1 font-medium text-[10px] uppercase">
                                 <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option>
                                 <option value="3">3</option><option value="4">4</option>
                             </select>
                         </div>
                         <div class="col-span-1">
-                            <label for="safety-time-select" class="block text-[9px] font-bold text-red-400 mb-1 uppercase tracking-widest truncate" data-i18n="safetyTime">Anti-Reb.</label>
-                            <select id="safety-time-select" class="neon-input w-full px-1 py-1 rounded text-[10px] font-bold border-red-500/30">
-                                <option value="500">0.5s</option><option value="1000">1s</option>
-                                <option value="2000">2s</option><option value="3000" selected>3s</option>
-                                <option value="4000">4s</option><option value="5000">5s</option>
-                                <option value="6000">6s</option><option value="7000">7s</option>
-                                <option value="8000">8s</option><option value="9000">9s</option><option value="10000">10s</option>
+                            <label for="safety-time-select" class="block text-[9px] font-medium text-[#86868b] mb-1 truncate uppercase" data-i18n="safetyTime">ANTI-REB.</label>
+                            <select id="safety-time-select" class="neon-input w-full px-1.5 py-1 text-[10px] font-medium uppercase">
+                                <option value="500">0.5S</option><option value="1000">1S</option>
+                                <option value="2000">2S</option><option value="3000" selected>3S</option>
+                                <option value="4000">4S</option><option value="5000">5S</option>
+                                <option value="6000">6S</option><option value="7000">7S</option>
+                                <option value="8000">8S</option><option value="9000">9S</option><option value="10000">10S</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-auto border-t border-cyan-800/50 pt-2 flex-1 flex flex-col">
-                    <h2 class="text-[10px] font-orbitron font-bold text-cyan-300 mb-2 flex items-center justify-start uppercase tracking-widest">
-                        <span data-i18n="aiSens">Sensibilidad IA Individual</span>
+                <div class="mt-auto border-t border-white/10 pt-2 flex-1 flex flex-col">
+                    <h2 class="text-[10px] font-semibold text-[#86868b] mb-2 flex items-center justify-start uppercase">
+                        <span data-i18n="aiSens">SENSIBILIDAD IA INDIVIDUAL</span>
                     </h2>
                     <div id="individual-sensitivity-container" class="grid grid-cols-2 gap-2 flex-1 content-start">
                     </div>
@@ -1085,48 +1114,48 @@
     <script>
         const translations = {
             es: {
-                langLabel: "Idioma", history: "Historial", circuits: "Circuitos", circuitName: "Pista / Circuito", ranking: "Ranking",
-                pilotDataTitle: "Configuración", pilotName: "Piloto", carModel: "Coche",
-                raceMode: "Modo", modeLaps: "Por Vueltas", modeTime: "Por Tiempo",
-                lapLimit: "Límite", timeLimit: "Tiempo", limitLabel: "Límite",
-                sectorsCount: "Sectores", sec0: "0 (Solo Meta)", sec1: "1 (+ Meta)", sec2: "2 (+ Meta)", sec3: "3 (+ Meta)", sec4: "4 (+ Meta)",
-                safetyTime: "Anti-Rebote", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
-                engineerVoice: "Voz Ing.", aiSens: "Sensibilidad IA", verySens: "Sensible", lessSens: "Inmune",
+                langLabel: "IDIOMA", history: "HISTORIAL", circuits: "CIRCUITOS", circuitName: "PISTA / CIRCUITO", ranking: "RANKING",
+                pilotDataTitle: "CONFIGURACIÓN", pilotName: "PILOTO", carModel: "COCHE",
+                raceMode: "MODO", modeLaps: "POR VUELTAS", modeTime: "POR TIEMPO",
+                lapLimit: "LÍMITE", timeLimit: "TIEMPO", limitLabel: "LÍMITE",
+                sectorsCount: "SECTORES", sec0: "0 (SOLO META)", sec1: "1 (+ META)", sec2: "2 (+ META)", sec3: "3 (+ META)", sec4: "4 (+ META)",
+                safetyTime: "ANTI-REBOTE", "05sec": "0.5S", "1sec": "1S", "3sec": "3S (STD)", "5sec": "5S",
+                engineerVoice: "VOZ ING.", aiSens: "SENSIBILIDAD IA", verySens: "SENSIBLE", lessSens: "INMUNE",
                 raceTime: "TIEMPO", laps: "VUELTAS", start: "INICIAR", reset: "REINICIAR",
-                videoTitle: "Cámara y Sectores", autoCalib: "Calibrar", newRecord: "¡RÉCORD!",
-                calibrating: "Calibrando...", clearTrack: "Despeja la pista",
-                falseStart: "¡SALIDA NULA!", camLoading: "Sensor Inactivo",
-                telemetry: "Telemetría", pilotCar: "PILOTO / COCHE", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
-                lastLapSectors: "TIEMPOS SECTOR", timeGraph: "Evolución de Tiempos", noData: "Sin datos",
-                raceFinished: "¡Carrera Finalizada!", totalTime: "Total", avg: "Media", lapDetail: "Detalles", time: "Total",
-                restartFull: "REINICIAR", exportExcel: "Excel", historyTitle: "Historial", date: "FECHA", noHistory: "Vacío.",
-                clearHistory: "Borrar", clearHistoryQ: "¿Borrar?", cannotUndo: "Irreversible.", cancel: "Cancelar", yesClear: "Sí",
+                videoTitle: "CÁMARA Y SECTORES", autoCalib: "CALIBRAR", newRecord: "¡RÉCORD!",
+                calibrating: "CALIBRANDO...", clearTrack: "DESPEJA LA PISTA",
+                falseStart: "¡SALIDA NULA!", camLoading: "SENSOR INACTIVO",
+                telemetry: "TELEMETRÍA", pilotCar: "PILOTO / COCHE", lastLap: "ÚLTIMA VUELTA", bestLap: "MEJOR VUELTA", avgTime: "T. MEDIO",
+                lastLapSectors: "TIEMPOS SECTOR", timeGraph: "EVOLUCIÓN DE TIEMPOS", noData: "SIN DATOS",
+                raceFinished: "¡CARRERA FINALIZADA!", totalTime: "TOTAL", avg: "MEDIA", lapDetail: "DETALLES", time: "TOTAL",
+                restartFull: "REINICIAR", exportExcel: "EXCEL", historyTitle: "HISTORIAL", date: "FECHA", noHistory: "VACÍO.",
+                clearHistory: "BORRAR", clearHistoryQ: "¿BORRAR?", cannotUndo: "IRREVERSIBLE.", cancel: "CANCELAR", yesClear: "SÍ",
                 pause: "PAUSA", resume: "REANUDAR", yellowFlag: "BANDERA AMARILLA",
-                "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "Inf",
-                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "Garaje", videos: "Videos", guide: "Guía",
-                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Especificaciones Técnicas Recomendadas (IA Vision a 60fps)</span><span class='text-slate-300 tracking-wider'><b>🌐 NAVEGADOR:</b> Chrome / Edge v110+ o Safari v16+.<br><b>🤖 ANDROID (OS 12+):</b> Tablet 11\" (Ref. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB RAM. Cámara trasera 8MP+. <i class=\"text-cyan-500\">(Móviles no soportados)</i><br><b>🪟 PC WINDOWS (10/11 64-bit):</b> Intel Core i5 / AMD Ryzen 5, 8GB RAM. Webcam FHD 1080p @ 60fps (Ej: Logitech C920).<br><b>🍏 APPLE MAC (macOS 11+):</b> Chip Apple Silicon (M1/M2/M3) o Intel i5 (2018+). Cámara integrada/externa 1080p.</span>"
+                "5laps": "5 V", "10laps": "10 V", "25laps": "25 V", "50laps": "50 V", "infinite": "INF",
+                voiceCalibrated: "Cámaras listas.", voiceFalseStart: "¡Salida Nula!", voiceFinished: "Carrera terminada.", voiceLap: "Vuelta", voicePoint: "punto", voiceFastest: "¡Vuelta rápida!", voiceRemaining: "Quedan", voiceLaps: "vueltas", voiceLastLap: "¡Última vuelta!", testWait: "ESPERA", testGo: "¡PASA!", testOk: "OK", voiceFaster: "Mejora", voiceSlower: "Empeora", garage: "GARAJE", videos: "VIDEOS", guide: "GUÍA",
+                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ ESPECIFICACIONES TÉCNICAS RECOMENDADAS (IA VISION A 60FPS)</span><span class='text-slate-300 tracking-wider'><b>🌐 NAVEGADOR:</b> CHROME / EDGE V110+ O SAFARI V16+.<br><b>🤖 ANDROID (OS 12+):</b> TABLET 11\" (REF. SAMSUNG TAB A9+), CPU OCTA-CORE 2.2GHZ+, 4GB RAM. CÁMARA TRASERA 8MP+. <i class=\"text-cyan-500\">(MÓVILES NO SOPORTADOS)</i><br><b>🪟 PC WINDOWS (10/11 64-BIT):</b> INTEL CORE I5 / AMD RYZEN 5, 8GB RAM. WEBCAM FHD 1080P @ 60FPS (EJ: LOGITECH C920).<br><b>🍏 APPLE MAC (MACOS 11+):</b> CHIP APPLE SILICON (M1/M2/M3) O INTEL I5 (2018+). CÁMARA INTEGRADA/EXTERNA 1080P.</span>"
             },
             en: {
-                langLabel: "Language", history: "History", circuits: "Tracks", circuitName: "Track / Circuit", ranking: "Ranking",
-                pilotDataTitle: "Config", pilotName: "Driver", carModel: "Car",
-                raceMode: "Mode", modeLaps: "Laps", modeTime: "Time",
-                lapLimit: "Limit", timeLimit: "Time", limitLabel: "Limit",
-                sectorsCount: "Sectors", sec0: "0 (Finish)", sec1: "1 (+ Finish)", sec2: "2 (+ Finish)", sec3: "3 (+ Finish)", sec4: "4 (+ Finish)",
-                safetyTime: "Debounce", "05sec": "0.5s", "1sec": "1s", "3sec": "3s (Std)", "5sec": "5s",
-                engineerVoice: "Voice:", aiSens: "AI Sensitivity", verySens: "Sens", lessSens: "Immune",
+                langLabel: "LANGUAGE", history: "HISTORY", circuits: "TRACKS", circuitName: "TRACK / CIRCUIT", ranking: "RANKING",
+                pilotDataTitle: "CONFIG", pilotName: "DRIVER", carModel: "CAR",
+                raceMode: "MODE", modeLaps: "LAPS", modeTime: "TIME",
+                lapLimit: "LIMIT", timeLimit: "TIME", limitLabel: "LIMIT",
+                sectorsCount: "SECTORES", sec0: "0 (FINISH)", sec1: "1 (+ FINISH)", sec2: "2 (+ FINISH)", sec3: "3 (+ FINISH)", sec4: "4 (+ FINISH)",
+                safetyTime: "DEBOUNCE", "05sec": "0.5S", "1sec": "1S", "3sec": "3S (STD)", "5sec": "5S",
+                engineerVoice: "VOICE:", aiSens: "AI SENSITIVITY", verySens: "SENS", lessSens: "IMMUNE",
                 raceTime: "TIME", laps: "LAPS", start: "START", reset: "RESET",
-                videoTitle: "Cam & Sectors", autoCalib: "Calibrate", newRecord: "RECORD!",
-                calibrating: "Calibrating...", clearTrack: "Clear track",
-                falseStart: "FALSE START!", camLoading: "Inactive",
-                telemetry: "Telemetry", pilotCar: "DRIVER / CAR", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME",
-                lastLapSectors: "SECTOR TIMES", timeGraph: "Lap Graph", noData: "No data",
-                raceFinished: "Finished!", totalTime: "Total", avg: "Avg", lapDetail: "Details", time: "Total",
-                restartFull: "RESTART", exportExcel: "Excel", historyTitle: "History", date: "DATE", noHistory: "Empty.",
-                clearHistory: "Clear", clearHistoryQ: "Clear?", cannotUndo: "Irreversible.", cancel: "Cancel", yesClear: "Yes",
+                videoTitle: "CAM & SECTORS", autoCalib: "CALIBRATE", newRecord: "RECORD!",
+                calibrating: "CALIBRATING...", clearTrack: "CLEAR TRACK",
+                falseStart: "FALSE START!", camLoading: "INACTIVE",
+                telemetry: "TELEMETRY", pilotCar: "DRIVER / CAR", lastLap: "LAST LAP", bestLap: "BEST LAP", avgTime: "AVG TIME",
+                lastLapSectors: "SECTOR TIMES", timeGraph: "LAP GRAPH", noData: "NO DATA",
+                raceFinished: "FINISHED!", totalTime: "TOTAL", avg: "AVG", lapDetail: "DETAILS", time: "TOTAL",
+                restartFull: "RESTART", exportExcel: "EXCEL", historyTitle: "HISTORY", date: "DATE", noHistory: "EMPTY.",
+                clearHistory: "CLEAR", clearHistoryQ: "CLEAR?", cannotUndo: "IRREVERSIBLE.", cancel: "CANCEL", yesClear: "YES",
                 pause: "PAUSE", resume: "RESUME", yellowFlag: "YELLOW FLAG",
-                "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "Inf",
-                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "Garage", videos: "Videos", guide: "Guide",
-                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ Recommended Technical Specifications (60fps AI Vision)</span><span class='text-slate-300 tracking-wider'><b>🌐 BROWSER:</b> Chrome / Edge v110+ or Safari v16+.<br><b>🤖 ANDROID (OS 12+):</b> 11\" Tablet (e.g. Samsung Tab A9+), CPU Octa-Core 2.2GHz+, 4GB RAM. 8MP+ Rear Camera. <i class=\"text-cyan-500\">(Phones not supported)</i><br><b>🪟 PC WINDOWS (10/11 64-bit):</b> Intel Core i5 / AMD Ryzen 5, 8GB RAM. FHD 1080p @ 60fps Webcam (e.g. Logitech C920).<br><b>🍏 APPLE MAC (macOS 11+):</b> Apple Silicon (M1/M2/M3) or Intel i5 (2018+) Chip. 1080p built-in/external Camera.</span>"
+                "5laps": "5 L", "10laps": "10 L", "25laps": "25 L", "50laps": "50 L", "infinite": "INF",
+                voiceCalibrated: "Ready.", voiceFalseStart: "False Start!", voiceFinished: "Finished.", voiceLap: "Lap", voicePoint: "point", voiceFastest: "Fastest lap!", voiceRemaining: "Remaining", voiceLaps: "laps", voiceLastLap: "Final lap!", testWait: "WAIT", testGo: "GO!", testOk: "OK", voiceFaster: "Faster", voiceSlower: "Slower", garage: "GARAGE", videos: "VIDEOS", guide: "GUIDE",
+                reqText: "<span class='text-cyan-400 font-black uppercase tracking-widest text-[10px] mb-1 block'>⚙️ RECOMMENDED TECHNICAL SPECIFICATIONS (60FPS AI VISION)</span><span class='text-slate-300 tracking-wider'><b>🌐 BROWSER:</b> CHROME / EDGE V110+ OR SAFARI V16+.<br><b>🤖 ANDROID (OS 12+):</b> 11\" TABLET (E.G. SAMSUNG TAB A9+), CPU OCTA-CORE 2.2GHZ+, 4GB RAM. 8MP+ REAR CAMERA. <i class=\"text-cyan-500\">(PHONES NOT SUPPORTED)</i><br><b>🪟 PC WINDOWS (10/11 64-BIT):</b> INTEL CORE I5 / AMD RYZEN 5, 8GB RAM. FHD 1080P @ 60FPS WEBCAM (E.G. LOGITECH C920).<br><b>🍏 APPLE MAC (MACOS 11+):</b> APPLE SILICON (M1/M2/M3) OR INTEL I5 (2018+) CHIP. 1080P BUILT-IN/EXTERNAL CAMERA.</span>"
             }
         };
         translations.fr = translations.en; 
@@ -1436,22 +1465,22 @@
                 beaconEl.className = `sector-beacon-3d ${beaconColor}`;
             }
 
-            let bgTag = 'bg-slate-700 text-slate-200 border-slate-500';
-            let borderLeftColor = 'border-l-slate-400';
-            if (tagClass === 's1') { bgTag = 'bg-blue-900/80 text-blue-200 border-blue-400'; borderLeftColor = 'border-l-blue-400'; }
-            else if (tagClass === 's2') { bgTag = 'bg-amber-900/80 text-amber-200 border-amber-400'; borderLeftColor = 'border-l-amber-400'; }
-            else if (tagClass === 's3') { bgTag = 'bg-purple-900/80 text-purple-200 border-purple-400'; borderLeftColor = 'border-l-purple-400'; }
-            else if (tagClass === 's4') { bgTag = 'bg-cyan-900/80 text-cyan-200 border-cyan-400'; borderLeftColor = 'border-l-cyan-400'; }
-            else if (tagClass === 'meta') { bgTag = 'bg-white text-slate-950 border-white shadow-[0_0_12px_rgba(255,255,255,0.9)]'; borderLeftColor = 'border-l-white'; }
+            let bgTag = 'bg-white/15 text-white border-white/20';
+            let borderLeftColor = 'border-l-white/40';
+            if (tagClass === 's1') { bgTag = 'bg-[#0A84FF]/25 text-[#64D2FF] border-[#0A84FF]/50'; borderLeftColor = 'border-l-[#0A84FF]'; }
+            else if (tagClass === 's2') { bgTag = 'bg-[#FF9F0A]/25 text-[#FFD60A] border-[#FF9F0A]/50'; borderLeftColor = 'border-l-[#FF9F0A]'; }
+            else if (tagClass === 's3') { bgTag = 'bg-[#BF5AF2]/25 text-[#DA8FFF] border-[#BF5AF2]/50'; borderLeftColor = 'border-l-[#BF5AF2]'; }
+            else if (tagClass === 's4') { bgTag = 'bg-[#64D2FF]/25 text-[#64D2FF] border-[#64D2FF]/50'; borderLeftColor = 'border-l-[#64D2FF]'; }
+            else if (tagClass === 'meta') { bgTag = 'bg-white text-black border-white'; borderLeftColor = 'border-l-white'; }
 
             const badgeHtml = `
-                <div class="flex items-center justify-between bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 border border-slate-700/80 border-l-4 ${borderLeftColor} rounded-xl px-3 py-2 w-full shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
+                <div class="flex items-center justify-between bg-[#1c1c1e]/90 border border-white/10 border-l-4 ${borderLeftColor} rounded-xl px-3 py-2 w-full shadow-sm">
                     <div class="flex items-center gap-3">
-                        <span class="w-14 text-center py-1 rounded-md text-[11px] font-orbitron font-black uppercase tracking-widest border ${bgTag}">${tagLabel}</span>
-                        <span class="font-orbitron text-2xl xl:text-3xl font-black text-white tracking-wider drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]">${formatTime(timeMs, false)}</span>
+                        <span class="w-14 text-center py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${bgTag}">${tagLabel}</span>
+                        <span class="font-orbitron text-2xl xl:text-3xl font-bold text-white tracking-tight">${formatTime(timeMs, false)}</span>
                     </div>
-                    <div class="bg-slate-950/90 px-2.5 py-1 rounded-lg border border-slate-800">
-                        <span class="font-orbitron text-base xl:text-lg font-extrabold ${diffColorClass}">${deltaHtml || '-.---'}</span>
+                    <div class="bg-black/40 px-2.5 py-1 rounded-lg border border-white/5">
+                        <span class="font-orbitron text-base xl:text-lg font-bold ${diffColorClass}">${deltaHtml || '-.---'}</span>
                     </div>
                 </div>
             `;
@@ -1478,29 +1507,29 @@
                     const rIdx = (idx + 1) % activeRoisCount; const tagClass = rIdx === 0 ? 'meta' : roisState[rIdx].tag;
                     const tagLabel = tagClass === 'meta' ? 'META' : tagClass.toUpperCase();
                     
-                    let deltaHtml = "-.---"; let diffColorClass = "text-slate-500";
+                    let deltaHtml = "-.---"; let diffColorClass = "text-[#86868b]";
                     if (prevLapSectors && prevLapSectors[idx]) {
                         const diff = secTime - prevLapSectors[idx]; const diffSec = (Math.abs(diff) / 1000).toFixed(3);
-                        if (diff < 0) { deltaHtml = `-${diffSec}`; diffColorClass = "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"; } 
-                        else { deltaHtml = `+${diffSec}`; diffColorClass = "text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]"; }
+                        if (diff < 0) { deltaHtml = `-${diffSec}`; diffColorClass = "text-[#30D158]"; } 
+                        else { deltaHtml = `+${diffSec}`; diffColorClass = "text-[#FF453A]"; }
                     }
 
-                    let bgTag = 'bg-slate-700 text-slate-200 border-slate-500';
-                    let borderLeftColor = 'border-l-slate-400';
-                    if (tagClass === 's1') { bgTag = 'bg-blue-900/80 text-blue-200 border-blue-400'; borderLeftColor = 'border-l-blue-400'; }
-                    else if (tagClass === 's2') { bgTag = 'bg-amber-900/80 text-amber-200 border-amber-400'; borderLeftColor = 'border-l-amber-400'; }
-                    else if (tagClass === 's3') { bgTag = 'bg-purple-900/80 text-purple-200 border-purple-400'; borderLeftColor = 'border-l-purple-400'; }
-                    else if (tagClass === 's4') { bgTag = 'bg-cyan-900/80 text-cyan-200 border-cyan-400'; borderLeftColor = 'border-l-cyan-400'; }
-                    else if (tagClass === 'meta') { bgTag = 'bg-white text-slate-950 border-white shadow-[0_0_12px_rgba(255,255,255,0.9)]'; borderLeftColor = 'border-l-white'; }
+                    let bgTag = 'bg-white/15 text-white border-white/20';
+                    let borderLeftColor = 'border-l-white/40';
+                    if (tagClass === 's1') { bgTag = 'bg-[#0A84FF]/25 text-[#64D2FF] border-[#0A84FF]/50'; borderLeftColor = 'border-l-[#0A84FF]'; }
+                    else if (tagClass === 's2') { bgTag = 'bg-[#FF9F0A]/25 text-[#FFD60A] border-[#FF9F0A]/50'; borderLeftColor = 'border-l-[#FF9F0A]'; }
+                    else if (tagClass === 's3') { bgTag = 'bg-[#BF5AF2]/25 text-[#DA8FFF] border-[#BF5AF2]/50'; borderLeftColor = 'border-l-[#BF5AF2]'; }
+                    else if (tagClass === 's4') { bgTag = 'bg-[#64D2FF]/25 text-[#64D2FF] border-[#64D2FF]/50'; borderLeftColor = 'border-l-[#64D2FF]'; }
+                    else if (tagClass === 'meta') { bgTag = 'bg-white text-black border-white'; borderLeftColor = 'border-l-white'; }
 
                     display.innerHTML += `
-                        <div class="flex items-center justify-between bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 border border-slate-700/80 border-l-4 ${borderLeftColor} rounded-xl px-3 py-2 w-full shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
+                        <div class="flex items-center justify-between bg-[#1c1c1e]/90 border border-white/10 border-l-4 ${borderLeftColor} rounded-xl px-3 py-2 w-full shadow-sm">
                             <div class="flex items-center gap-3">
-                                <span class="w-14 text-center py-1 rounded-md text-[11px] font-orbitron font-black uppercase tracking-widest border ${bgTag}">${tagLabel}</span>
-                                <span class="font-orbitron text-2xl xl:text-3xl font-black text-white tracking-wider drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]">${formatTime(secTime, false)}</span>
+                                <span class="w-14 text-center py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${bgTag}">${tagLabel}</span>
+                                <span class="font-orbitron text-2xl xl:text-3xl font-bold text-white tracking-tight">${formatTime(secTime, false)}</span>
                             </div>
-                            <div class="bg-slate-950/90 px-2.5 py-1 rounded-lg border border-slate-800">
-                                <span class="font-orbitron text-base xl:text-lg font-extrabold ${diffColorClass}">${deltaHtml}</span>
+                            <div class="bg-black/40 px-2.5 py-1 rounded-lg border border-white/5">
+                                <span class="font-orbitron text-base xl:text-lg font-bold ${diffColorClass}">${deltaHtml}</span>
                             </div>
                         </div>
                     `;
@@ -1830,15 +1859,15 @@
                 const tag = roisState[i].tag; const tagLabel = tag === 'meta' ? 'META' : 'S' + i;
                 const val = roisState[i].sensitivity || 20;
                 container.innerHTML += `
-                    <div class="bg-slate-900/60 p-1.5 rounded border border-cyan-900/50 shadow-inner flex flex-col justify-center">
+                    <div class="bg-black/30 p-2 rounded-xl border border-white/5 flex flex-col justify-center">
                         <div class="flex justify-between items-center mb-1">
-                            <span class="text-[8px] font-bold text-cyan-400 uppercase tracking-widest">${tagLabel}</span>
-                            <span id="sens-val-${i}" class="text-[9px] font-black text-cyan-300 bg-slate-800 px-1 py-0.5 rounded border border-cyan-700/50">${val}</span>
+                            <span class="text-[9px] font-semibold text-[#86868b] uppercase">${tagLabel}</span>
+                            <span id="sens-val-${i}" class="text-[10px] font-bold text-white bg-white/10 px-1.5 py-0.5 rounded-md">${val}</span>
                         </div>
                         <div class="flex items-center space-x-1.5">
-                            <button onclick="adjustRoiSens(${i}, -1)" class="w-4 h-4 rounded bg-slate-800 hover:bg-slate-700 text-cyan-500 font-bold border border-cyan-800 flex items-center justify-center shadow-sm text-[10px] leading-none pb-0.5">-</button>
-                            <input type="range" id="sens-slider-${i}" min="5" max="100" value="${val}" oninput="updateRoiSens(${i}, this.value)" class="flex-1 h-1 bg-slate-700 rounded-full appearance-none cursor-pointer accent-cyan-400">
-                            <button onclick="adjustRoiSens(${i}, 1)" class="w-4 h-4 rounded bg-slate-800 hover:bg-slate-700 text-cyan-500 font-bold border border-cyan-800 flex items-center justify-center shadow-sm text-[10px] leading-none pb-0.5">+</button>
+                            <button onclick="adjustRoiSens(${i}, -1)" class="w-5 h-5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold flex items-center justify-center text-xs leading-none pb-0.5">-</button>
+                            <input type="range" id="sens-slider-${i}" min="5" max="100" value="${val}" oninput="updateRoiSens(${i}, this.value)" class="flex-1 h-1 bg-white/20 rounded-full appearance-none cursor-pointer accent-[#0A84FF]">
+                            <button onclick="adjustRoiSens(${i}, 1)" class="w-5 h-5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold flex items-center justify-center text-xs leading-none pb-0.5">+</button>
                         </div>
                     </div>
                 `;
@@ -2074,7 +2103,7 @@
         document.getElementById('tab-btn-top25').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-sectors').classList.replace('active', 'inactive'); document.getElementById('ranking-view-top25').classList.remove('hidden'); document.getElementById('ranking-view-sectors').classList.add('hidden'); });
         document.getElementById('tab-btn-sectors').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-top25').classList.replace('active', 'inactive'); document.getElementById('ranking-view-sectors').classList.remove('hidden'); document.getElementById('ranking-view-top25').classList.add('hidden'); });
 
-        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
+        function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "COCHE BASE", brand: "SLOT", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
         async function saveGarage() { 
             try { localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -2083,7 +2112,7 @@
         function updateCarSelects() {
             const mainSelect = document.getElementById('car-model-select'); const garageSelect = document.getElementById('garage-car-picker');
             const currentMainVal = mainSelect.value; mainSelect.innerHTML = ''; garageSelect.innerHTML = '';
-            garageCars.forEach(c => { const optMain = document.createElement('option'); optMain.value = c.id; optMain.textContent = c.name; const optGar = document.createElement('option'); optGar.value = c.id; optGar.textContent = c.name; mainSelect.appendChild(optMain); garageSelect.appendChild(optGar); });
+            garageCars.forEach(c => { const optMain = document.createElement('option'); optMain.value = c.id; optMain.textContent = (c.name || '').toUpperCase(); const optGar = document.createElement('option'); optGar.value = c.id; optGar.textContent = (c.name || '').toUpperCase(); mainSelect.appendChild(optMain); garageSelect.appendChild(optGar); });
             if(currentMainVal && Array.from(mainSelect.options).some(o => o.value === currentMainVal)) { mainSelect.value = currentMainVal; } else if (currentGarageCarId) { mainSelect.value = currentGarageCarId; }
         }
         function renderGarage(carId) {
@@ -2207,12 +2236,12 @@
         });
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
             const car = garageCars.find(c => c.id === currentGarageCarId);
-            if(car) { car.name = document.getElementById('g-input-name').value || "Sin Nombre"; car.brand = document.getElementById('g-input-brand').value; car.cat = document.getElementById('g-input-cat').value; car.motor = document.getElementById('g-input-motor').value; car.tires = document.getElementById('g-input-tires').value; car.weight = document.getElementById('g-input-weight').value; car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500); }
+            if(car) { car.name = (document.getElementById('g-input-name').value || "SIN NOMBRE").toUpperCase(); car.brand = document.getElementById('g-input-brand').value.toUpperCase(); car.cat = document.getElementById('g-input-cat').value.toUpperCase(); car.motor = document.getElementById('g-input-motor').value.toUpperCase(); car.tires = document.getElementById('g-input-tires').value.toUpperCase(); car.weight = document.getElementById('g-input-weight').value.toUpperCase(); car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = "¡GUARDADO!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500); }
         });
-        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "Nuevo Coche", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "NUEVO COCHE", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
             if(window.userId && window.fs && window.db) { try{await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));}catch(e){} } 
-            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "Coche Base", brand: "Slot", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
+            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "COCHE BASE", brand: "SLOT", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
         });
         document.getElementById('garage-open-btn').addEventListener('click', () => { const circSelect = document.getElementById('garage-circuit-picker'); if (circSelect && currentCircuitId) { circSelect.value = currentCircuitId; } document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10); renderGarage(document.getElementById('car-model-select').value); });
         document.getElementById('garage-drive-btn').addEventListener('click', () => { stopGarageCamera(); document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); });
@@ -2221,7 +2250,7 @@
         document.getElementById('garage-circuit-picker').addEventListener('change', (e) => { const val = e.target.value; if(val !== 'ALL') { document.getElementById('circuit-model-select').value = val; currentCircuitId = val; loadCircuitROIs(val); } renderGarage(currentGarageCarId); });
         document.getElementById('car-model-select').addEventListener('change', (e) => { currentGarageCarId = e.target.value; updateTelemetryDisplay(); });
 
-        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Pista Principal", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
+        function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "PISTA PRINCIPAL", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
         async function saveCircuits() { 
             try { localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
@@ -2230,8 +2259,8 @@
         function updateCircuitSelects() {
             const mainSelect = document.getElementById('circuit-model-select'); const modalSelect = document.getElementById('circuit-picker'); const garageCircSelect = document.getElementById('garage-circuit-picker');
             const currentMainVal = mainSelect.value; const currentGarageCircVal = garageCircSelect ? garageCircSelect.value : 'ALL';
-            mainSelect.innerHTML = ''; modalSelect.innerHTML = ''; if (garageCircSelect) garageCircSelect.innerHTML = '<option value="ALL">Todas las pistas</option>';
-            circuits.forEach(c => { const optMain = document.createElement('option'); optMain.value = c.id; optMain.textContent = c.name; const optMod = document.createElement('option'); optMod.value = c.id; optMod.textContent = c.name; mainSelect.appendChild(optMain); modalSelect.appendChild(optMod); if (garageCircSelect) { const optGar = document.createElement('option'); optGar.value = c.id; optGar.textContent = c.name; garageCircSelect.appendChild(optGar); } });
+            mainSelect.innerHTML = ''; modalSelect.innerHTML = ''; if (garageCircSelect) garageCircSelect.innerHTML = '<option value="ALL">TODAS LAS PISTAS</option>';
+            circuits.forEach(c => { const optMain = document.createElement('option'); optMain.value = c.id; optMain.textContent = (c.name || '').toUpperCase(); const optMod = document.createElement('option'); optMod.value = c.id; optMod.textContent = (c.name || '').toUpperCase(); mainSelect.appendChild(optMain); modalSelect.appendChild(optMod); if (garageCircSelect) { const optGar = document.createElement('option'); optGar.value = c.id; optGar.textContent = (c.name || '').toUpperCase(); garageCircSelect.appendChild(optGar); } });
             if(currentMainVal && Array.from(mainSelect.options).some(o => o.value === currentMainVal)) { mainSelect.value = currentMainVal; } else if (currentCircuitId) { mainSelect.value = currentCircuitId; }
             if (garageCircSelect) { if(currentGarageCircVal && Array.from(garageCircSelect.options).some(o => o.value === currentGarageCircVal)) { garageCircSelect.value = currentGarageCircVal; } else { garageCircSelect.value = 'ALL'; } }
         }
@@ -2311,7 +2340,13 @@
 
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
             const circ = circuits.find(c => c.id === currentCircuitId);
-            if(circ) { circ.name = document.getElementById('c-input-name').value || "Sin Nombre"; circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = "¡Guardado!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = "Guardar Cambios"; btn.classList.remove('text-green-400'); }, 1500); }
+            if(circ) { circ.name = (document.getElementById('c-input-name').value || "SIN NOMBRE").toUpperCase(); circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = "¡GUARDADO!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500); }
+        });
+        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "NUEVA PISTA", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
+        document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
+            garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => h.circuitId !== currentCircuitId); } }); saveGarage();
+            if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
+            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "CIRCUITO 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
         });
         document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
