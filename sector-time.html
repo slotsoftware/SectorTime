@@ -21,10 +21,10 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, setLogLevel, collection, addDoc, getDocs, doc, setDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = {
+        const fallbackConfig = {
           apiKey: "AIzaSyDW-2Yc4kvZJYbNOVeesPZWdRThYe0noUI",
           authDomain: "correo-95e58.firebaseapp.com",
           projectId: "correo-95e58",
@@ -34,11 +34,34 @@
           measurementId: "G-6DMG51VQ92"
         };
 
-        let app; let db; let auth; let userId = null;
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : fallbackConfig;
+        window.appId = typeof __app_id !== 'undefined' ? __app_id : 'app_sector_time';
+
+        let app; let db; let auth;
         
+        window.setCloudStatus = (state, label) => {
+            const dot = document.getElementById('cloud-status-dot');
+            const txt = document.getElementById('cloud-status-text');
+            if (!dot || !txt) return;
+            if (state === 'online') {
+                dot.className = "w-2 h-2 rounded-full bg-[#30D158] shadow-[0_0_8px_#30D158]";
+                txt.textContent = label || "FIREBASE OK";
+                txt.className = "text-[9px] font-bold text-[#30D158]";
+            } else if (state === 'syncing') {
+                dot.className = "w-2 h-2 rounded-full bg-[#0A84FF] animate-ping";
+                txt.textContent = label || "GUARDANDO...";
+                txt.className = "text-[9px] font-bold text-[#0A84FF]";
+            } else {
+                dot.className = "w-2 h-2 rounded-full bg-[#FF9F0A]";
+                txt.textContent = label || "MODO LOCAL";
+                txt.className = "text-[9px] font-bold text-[#FF9F0A]";
+            }
+        };
+
         window.initFirebase = async () => {
             try {
-                if (Object.keys(firebaseConfig).length === 0) { 
+                if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) { 
+                    window.setCloudStatus('offline', 'MODO LOCAL');
                     if (window.initLocalMode) window.initLocalMode();
                     return; 
                 }
@@ -50,14 +73,23 @@
                 window.db = db;
                 window.fs = { collection, addDoc, getDocs, doc, setDoc, deleteDoc, query, where };
 
-                auth.onAuthStateChanged(async (user) => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         window.userId = user.uid;
+                        window.setCloudStatus('online', 'FIREBASE OK');
                         if (window.loadCloudData) await window.loadCloudData();
+                    } else {
+                        window.setCloudStatus('offline', 'SIN SESIÓN');
                     }
                 });
-                await signInAnonymously(auth);
             } catch (error) { 
+                window.setCloudStatus('offline', 'MODO LOCAL');
                 if (window.initLocalMode) window.initLocalMode();
             }
         };
@@ -352,9 +384,13 @@
                         <div class="flex flex-col">
                             <div class="flex items-center">
                                 <h1 class="text-base font-bold tracking-tight text-white leading-tight mr-2.5 uppercase">SECTOR TIME <span class="text-xs font-medium text-[#86868b]">PRO</span></h1>
-                                <select id="lang-select" class="bg-white/10 border border-white/10 text-white text-[9px] font-semibold py-0.5 px-1.5 rounded-md hover:bg-white/15 outline-none uppercase transition-colors cursor-pointer">
+                                <select id="lang-select" class="bg-white/10 border border-white/10 text-white text-[9px] font-semibold py-0.5 px-1.5 rounded-md hover:bg-white/15 outline-none uppercase transition-colors cursor-pointer mr-2">
                                     <option value="es">ES</option><option value="en">EN</option>
                                 </select>
+                                <div class="flex items-center space-x-1.5 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" title="ESTADO DE CONEXIÓN A FIREBASE">
+                                    <span id="cloud-status-dot" class="w-2 h-2 rounded-full bg-[#FF9F0A]"></span>
+                                    <span id="cloud-status-text" class="text-[9px] font-bold text-[#86868b]">CONECTANDO...</span>
+                                </div>
                             </div>
                             <span class="text-[9px] font-medium text-[#86868b] tracking-normal uppercase">DESIGNED BY ALBERT CLOSA</span>
                         </div>
@@ -1179,38 +1215,117 @@
         
         let lapHistory = [], bestLapTime = Infinity, bestLapSectors = [], totalLapTime = 0, currentAverageTime = 0, lastCompletedLapTime = 0, lastCompletedSectors = [];
 
+        function normalizeCar(c) {
+            if (!c) return c;
+            c.id = String(c.id);
+            if (!c.bestLap || c.bestLap === null || c.bestLap <= 0) c.bestLap = Infinity;
+            c.totalLaps = Number(c.totalLaps) || 0;
+            c.history = Array.isArray(c.history) ? c.history : [];
+            return c;
+        }
+
+        function normalizeCircuit(c) {
+            if (!c) return c;
+            c.id = String(c.id);
+            if (!c.bestLap || c.bestLap === null || c.bestLap <= 0) c.bestLap = Infinity;
+            c.totalLaps = Number(c.totalLaps) || 0;
+            c.length = parseFloat(c.length) || 15;
+            c.rois = Array.isArray(c.rois) ? c.rois : [];
+            return c;
+        }
+
+        // Serializadores limpios para Firebase (Firestore rechaza Infinity y undefined)
+        function sanitizeCarForFirestore(c) {
+            return {
+                id: String(c.id),
+                name: String(c.name || "COCHE").toUpperCase(),
+                brand: String(c.brand || "").toUpperCase(),
+                cat: String(c.cat || "").toUpperCase(),
+                motor: String(c.motor || "").toUpperCase(),
+                tires: String(c.tires || "").toUpperCase(),
+                weight: String(c.weight || "").toUpperCase(),
+                magnet: Boolean(c.magnet),
+                image: String(c.image || ""),
+                bestLap: (c.bestLap && c.bestLap !== Infinity && isFinite(c.bestLap)) ? Number(c.bestLap) : null,
+                totalLaps: Number(c.totalLaps) || 0,
+                history: Array.isArray(c.history) ? c.history.slice(-200).map(h => ({
+                    lapTime: Number(h.lapTime) || 0,
+                    sectors: Array.isArray(h.sectors) ? h.sectors.map(s => Number(s) || 0) : [],
+                    circuitId: String(h.circuitId || ""),
+                    timestamp: Number(h.timestamp) || Date.now()
+                })) : [],
+                updatedAt: Date.now()
+            };
+        }
+
+        function sanitizeCircuitForFirestore(c) {
+            return {
+                id: String(c.id),
+                name: String(c.name || "PISTA").toUpperCase(),
+                length: Number(parseFloat(c.length)) || 15,
+                bestLap: (c.bestLap && c.bestLap !== Infinity && isFinite(c.bestLap)) ? Number(c.bestLap) : null,
+                bestPilot: String(c.bestPilot || "").toUpperCase(),
+                bestCar: String(c.bestCar || "").toUpperCase(),
+                totalLaps: Number(c.totalLaps) || 0,
+                activeSectorsSelectValue: String(c.activeSectorsSelectValue || "0"),
+                rois: Array.isArray(c.rois) ? c.rois.map(r => ({
+                    left: String(r.left || "10%"),
+                    top: String(r.top || "25%"),
+                    width: String(r.width || "15%"),
+                    height: String(r.height || "50%")
+                })) : [],
+                image: String(c.image || ""),
+                updatedAt: Date.now()
+            };
+        }
+
         window.initLocalMode = () => {
             try {
                 const storedCircuits = localStorage.getItem('krono_circuits_v4');
-                if (storedCircuits) circuits = JSON.parse(storedCircuits);
+                if (storedCircuits) circuits = JSON.parse(storedCircuits).map(normalizeCircuit);
                 if (circuits.length === 0) initCircuitsLocal();
 
                 const storedGarage = localStorage.getItem('krono_garage_cars_v4');
-                if (storedGarage) garageCars = JSON.parse(storedGarage);
+                if (storedGarage) garageCars = JSON.parse(storedGarage).map(normalizeCar);
                 if (garageCars.length === 0) initGarageLocal();
             } catch (e) {
                 if (circuits.length === 0) initCircuitsLocal();
                 if (garageCars.length === 0) initGarageLocal();
             }
             updateCarSelects(); updateCircuitSelects();
-            if (circuits.length > 0) { currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
-            if (garageCars.length > 0) currentGarageCarId = garageCars[0].id;
+            if (circuits.length > 0 && !currentCircuitId) { currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
+            if (garageCars.length > 0 && !currentGarageCarId) currentGarageCarId = garageCars[0].id;
+            updateTelemetryDisplay();
         };
 
         window.loadCloudData = async () => {
-            if (!window.userId || !window.fs) { window.initLocalMode(); return; }
+            if (!window.userId || !window.fs || !window.db) { window.initLocalMode(); return; }
             try {
-                const circSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits'));
-                const cloudCircuits = []; circSnap.forEach(d => cloudCircuits.push(d.data()));
-                if (cloudCircuits.length > 0) { circuits = cloudCircuits; localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); }
+                if (window.setCloudStatus) window.setCloudStatus('syncing', 'CARGANDO...');
+                const appId = window.appId || 'app_sector_time';
+                const circSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'circuits'));
+                const cloudCircuits = []; circSnap.forEach(d => cloudCircuits.push(normalizeCircuit(d.data())));
+                if (cloudCircuits.length > 0) {
+                    circuits = cloudCircuits;
+                    localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits));
+                }
                 
-                const garSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage'));
+                const garSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'garage'));
                 const cloudCars = [];
-                garSnap.forEach(d => { let c = d.data(); c.history = c.history || []; cloudCars.push(c); });
-                if (cloudCars.length > 0) { garageCars = cloudCars; localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); }
+                garSnap.forEach(d => { cloudCars.push(normalizeCar(d.data())); });
+                if (cloudCars.length > 0) {
+                    garageCars = cloudCars;
+                    localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars));
+                }
                 
                 window.initLocalMode();
-            } catch(e) { window.initLocalMode(); }
+                if (cloudCircuits.length === 0 && circuits.length > 0) await saveCircuits();
+                if (cloudCars.length === 0 && garageCars.length > 0) await saveGarage();
+                if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
+            } catch(e) {
+                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+                window.initLocalMode();
+            }
         };
 
         const videoElement = document.getElementById('webcam-feed'); const videoContainer = document.getElementById('video-container');
@@ -1427,6 +1542,34 @@
             totalLapTime += lapTime; currentAverageTime = totalLapTime / (lapHistory.length + 1);
             const lapData = { lap: currentLap + 1, time: lapTime, sectors: sectorsArray };
             lapHistory.push(lapData); currentLap++;
+
+            // Guardado en tiempo real en Garaje y Circuito en cada vuelta completada
+            const selectedCarId = String(document.getElementById('car-model-select').value || currentGarageCarId);
+            const selectedCircId = String(document.getElementById('circuit-model-select').value || currentCircuitId);
+            currentCircuitId = selectedCircId;
+            currentGarageCarId = selectedCarId;
+
+            const car = garageCars.find(c => String(c.id) === selectedCarId);
+            if (car) {
+                normalizeCar(car);
+                car.history.push({ lapTime: lapTime, sectors: [...sectorsArray], circuitId: selectedCircId, timestamp: Date.now() });
+                car.totalLaps = (car.totalLaps || 0) + 1;
+                if (lapTime < car.bestLap) car.bestLap = lapTime;
+                if (car.history.length > 200) car.history = car.history.slice(-200);
+                saveGarage();
+            }
+
+            const circ = circuits.find(c => String(c.id) === selectedCircId);
+            if (circ) {
+                normalizeCircuit(circ);
+                circ.totalLaps = (circ.totalLaps || 0) + 1;
+                if (lapTime < circ.bestLap) {
+                    circ.bestLap = lapTime;
+                    circ.bestPilot = (document.getElementById('pilot-name-input').value || "PILOTO").toUpperCase();
+                    circ.bestCar = car ? car.name : "N/A";
+                }
+                saveCircuits();
+            }
             
             let extraMsg = ""; let remaining = totalLaps !== Infinity ? totalLaps - currentLap : Infinity;
             if (remaining === 1) { extraMsg = translations[currentLang].voiceLastLap; if(Tone.context.state === 'running') polySynth.triggerAttackRelease(["G5", "C6"], "0.2"); }
@@ -1599,25 +1742,14 @@
             if (raceIntervalId) clearInterval(raceIntervalId); if (lapIntervalId) clearInterval(lapIntervalId);
             
             if (finished) {
-                const car = garageCars.find(c => c.id === document.getElementById('car-model-select').value);
-                if(car) {
-                    car.history = car.history || []; car.totalLaps = car.totalLaps || 0; car.bestLap = car.bestLap || Infinity;
-                    lapHistory.forEach(l => { car.history.push({ lapTime: l.time, sectors: l.sectors || [], circuitId: currentCircuitId }); car.totalLaps++; });
-                    if(bestLapTime < car.bestLap) car.bestLap = bestLapTime;
-                    if(car.history.length > 50) car.history = car.history.slice(-50); saveGarage();
-                }
-
-                const circ = circuits.find(c => c.id === document.getElementById('circuit-model-select').value);
-                if(circ) {
-                    circ.totalLaps = (circ.totalLaps || 0) + lapHistory.length; circ.bestLap = circ.bestLap || Infinity;
-                    if(bestLapTime < circ.bestLap) { circ.bestLap = bestLapTime; circ.bestPilot = document.getElementById('pilot-name-input').value; circ.bestCar = car ? car.name : "N/A"; }
-                    saveCircuits();
-                }
-
                 saveHistory(); saveToLeaderboard(); 
                 speak(`${translations[currentLang].voiceFinished}`); populateModal();
                 document.getElementById('resultsModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('resultsModal').classList.add('open'),10);
             } else {
+                if (lapHistory.length > 0 && bestLapTime !== Infinity) {
+                    saveHistory();
+                    saveToLeaderboard();
+                }
                 currentLap = 0; lapHistory = []; bestLapTime = Infinity; bestLapSectors = []; totalLapTime = 0; currentAverageTime = 0; lastCompletedLapTime = 0;
                 document.getElementById('race-time').textContent = "00:00.000"; document.getElementById('lap-time').textContent = "00.000";
                 updateLapDisplay(); updateTelemetryDisplay();
@@ -1729,34 +1861,55 @@
         }
 
         async function saveToLeaderboard() {
-            if (bestLapTime === Infinity) return;
-            const carSelect = document.getElementById('car-model-select'); const carName = carSelect.options[carSelect.selectedIndex]?.text || "N/A";
-            const pilotName = document.getElementById('pilot-name-input').value || "Piloto";
+            if (bestLapTime === Infinity || !isFinite(bestLapTime)) return;
+            const carSelect = document.getElementById('car-model-select'); const carName = (carSelect.options[carSelect.selectedIndex]?.text || "N/A").toUpperCase();
+            const pilotName = (document.getElementById('pilot-name-input').value || "PILOTO").toUpperCase();
 
-            const activeCar = garageCars.find(c => c.id === carSelect.value);
+            const activeCar = garageCars.find(c => String(c.id) === String(carSelect.value));
             const carImg = (activeCar && activeCar.image) ? activeCar.image : "";
 
-            const record = { circuitId: currentCircuitId, pilot: pilotName, car: carName, carImage: carImg, time: bestLapTime, sectors: bestLapSectors, date: new Date().toLocaleDateString(), timestamp: Date.now(), userId: window.userId || 'local' };
+            const record = {
+                circuitId: String(currentCircuitId),
+                pilot: pilotName,
+                car: carName,
+                carImage: carImg,
+                time: Number(bestLapTime),
+                sectors: Array.isArray(bestLapSectors) ? bestLapSectors.map(s => Number(s) || 0) : [],
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now(),
+                userId: window.userId || 'local'
+            };
             try { let localLB = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]'); localLB.push(record); localStorage.setItem('krono_leaderboards_v4', JSON.stringify(localLB)); } catch(e) {}
             if(!window.userId || !window.fs || !window.db) return;
-            try { await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'leaderboards'), record); } catch (e) { }
+            try {
+                if (window.setCloudStatus) window.setCloudStatus('syncing', 'GUARDANDO...');
+                const appId = window.appId || 'app_sector_time';
+                await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', appId, 'public', 'data', 'leaderboards'), record);
+                if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
+            } catch (e) {
+                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+            }
         }
 
         async function saveHistory() {
-            const carSelect = document.getElementById('car-model-select'); const carName = carSelect.options[carSelect.selectedIndex]?.text || "N/A";
-            const rec = { date: new Date().toLocaleString(), pilot: document.getElementById('pilot-name-input').value, car: carName, bestLap: formatTime(bestLapTime,false), timestamp: Date.now() };
+            const carSelect = document.getElementById('car-model-select'); const carName = (carSelect.options[carSelect.selectedIndex]?.text || "N/A").toUpperCase();
+            const rec = { date: new Date().toLocaleString(), pilot: (document.getElementById('pilot-name-input').value || "PILOTO").toUpperCase(), car: carName, bestLap: formatTime(bestLapTime,false), timestamp: Date.now() };
             try { let h = JSON.parse(localStorage.getItem('krono_history_v4')||'[]'); h.unshift(rec); if(h.length>50) h.pop(); localStorage.setItem('krono_history_v4', JSON.stringify(h)); } catch(e) {}
-            if(!window.userId || !window.fs) return;
-            try { await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history'), rec); } catch (e) { }
+            if(!window.userId || !window.fs || !window.db) return;
+            try {
+                const appId = window.appId || 'app_sector_time';
+                await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'history'), rec);
+            } catch (e) { }
         }
 
         async function loadHistory() {
             const tbody = document.getElementById('full-history-body'); const noMsg = document.getElementById('no-history-msg');
-            tbody.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-cyan-500 font-bold uppercase tracking-widest text-[10px]">Cargando datos...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-cyan-500 font-bold uppercase tracking-widest text-[10px]">CARGANDO DATOS...</td></tr>';
             let h = []; try { h = JSON.parse(localStorage.getItem('krono_history_v4')||'[]'); } catch(e) {}
-            if(window.userId && window.fs) {
+            if(window.userId && window.fs && window.db) {
                 try {
-                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history'));
+                    const appId = window.appId || 'app_sector_time';
+                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'history'));
                     let cloudH = []; hSnap.forEach(d => cloudH.push(d.data()));
                     if (cloudH.length > 0) { cloudH.sort((a,b) => b.timestamp - a.timestamp); h = cloudH; localStorage.setItem('krono_history_v4', JSON.stringify(h.slice(0, 50))); }
                 } catch(e) {}
@@ -1995,7 +2148,13 @@
         
         document.getElementById('confirm-clear-btn').addEventListener('click', async () => { 
             localStorage.removeItem('krono_history_v4');
-            if(window.userId && window.fs && window.db) { try { const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'history')); for(const d of hSnap.docs) { await window.fs.deleteDoc(d.ref); } } catch(e) {} }
+            if(window.userId && window.fs && window.db) {
+                try {
+                    const appId = window.appId || 'app_sector_time';
+                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'history'));
+                    for(const d of hSnap.docs) { await window.fs.deleteDoc(d.ref); }
+                } catch(e) {}
+            }
             circuits.forEach(c => { c.bestLap=Infinity; c.totalLaps=0; c.bestPilot=""; c.bestCar=""; }); saveCircuits();
             garageCars.forEach(c => { c.bestLap=Infinity; c.totalLaps=0; c.history=[]; }); saveGarage();
             loadHistory(); updateCircuitSelects(); updateCarSelects();
@@ -2038,9 +2197,16 @@
             let records = [];
 
             if (window.userId && window.fs && window.db) {
-                try { const q = window.fs.query(window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'leaderboards'), window.fs.where('circuitId', '==', circuitId)); const snap = await window.fs.getDocs(q); snap.forEach(d => records.push(d.data())); } catch(e) { }
+                try {
+                    const appId = window.appId || 'app_sector_time';
+                    const snap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'public', 'data', 'leaderboards'));
+                    snap.forEach(d => {
+                        const data = d.data();
+                        if (String(data.circuitId) === String(circuitId)) records.push(data);
+                    });
+                } catch(e) { }
             } 
-            if (records.length === 0) { try { records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => r.circuitId === circuitId); } catch(e) {} }
+            if (records.length === 0) { try { records = JSON.parse(localStorage.getItem('krono_leaderboards_v4')||'[]').filter(r => String(r.circuitId) === String(circuitId)); } catch(e) {} }
 
             records.sort((a, b) => a.time - b.time); let uniqueEntries = new Set(); let top25 = [];
             for (let r of records) { let key = r.pilot + "_" + r.car; if(!uniqueEntries.has(key)) { uniqueEntries.add(key); top25.push(r); if(top25.length >= 25) break; } }
@@ -2107,30 +2273,57 @@
         async function saveGarage() { 
             try { localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
-            try { for (const car of garageCars) { await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', car.id), car); } } catch(e) {}
+            try {
+                if (window.setCloudStatus) window.setCloudStatus('syncing', 'GUARDANDO...');
+                const appId = window.appId || 'app_sector_time';
+                for (const car of garageCars) {
+                    const cleanCar = sanitizeCarForFirestore(car);
+                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'garage', String(car.id)), cleanCar);
+                }
+                if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
+            } catch(e) {
+                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+            }
         }
         function updateCarSelects() {
             const mainSelect = document.getElementById('car-model-select'); const garageSelect = document.getElementById('garage-car-picker');
-            const currentMainVal = mainSelect.value; mainSelect.innerHTML = ''; garageSelect.innerHTML = '';
-            garageCars.forEach(c => { const optMain = document.createElement('option'); optMain.value = c.id; optMain.textContent = (c.name || '').toUpperCase(); const optGar = document.createElement('option'); optGar.value = c.id; optGar.textContent = (c.name || '').toUpperCase(); mainSelect.appendChild(optMain); garageSelect.appendChild(optGar); });
-            if(currentMainVal && Array.from(mainSelect.options).some(o => o.value === currentMainVal)) { mainSelect.value = currentMainVal; } else if (currentGarageCarId) { mainSelect.value = currentGarageCarId; }
+            const targetVal = String(currentGarageCarId || mainSelect.value || (garageCars[0] ? garageCars[0].id : ''));
+            mainSelect.innerHTML = ''; garageSelect.innerHTML = '';
+            garageCars.forEach(c => {
+                const optMain = document.createElement('option'); optMain.value = String(c.id); optMain.textContent = (c.name || '').toUpperCase();
+                const optGar = document.createElement('option'); optGar.value = String(c.id); optGar.textContent = (c.name || '').toUpperCase();
+                mainSelect.appendChild(optMain); garageSelect.appendChild(optGar);
+            });
+            if (targetVal && Array.from(mainSelect.options).some(o => o.value === targetVal)) {
+                mainSelect.value = targetVal;
+                garageSelect.value = targetVal;
+            }
         }
         function renderGarage(carId) {
-            currentGarageCarId = carId; const car = garageCars.find(c => c.id === carId); if(!car) return;
-            document.getElementById('garage-car-picker').value = carId; const circSelect = document.getElementById('garage-circuit-picker');
-            const circId = circSelect ? circSelect.value : 'ALL'; const hist = circId === 'ALL' ? (car.history || []) : (car.history || []).filter(h => h.circuitId === circId || !h.circuitId);
+            currentGarageCarId = String(carId);
+            const car = garageCars.find(c => String(c.id) === currentGarageCarId) || garageCars[0];
+            if(!car) return;
+            normalizeCar(car);
+            currentGarageCarId = String(car.id);
+            document.getElementById('garage-car-picker').value = currentGarageCarId;
+            const circSelect = document.getElementById('garage-circuit-picker');
+            const circId = circSelect ? String(circSelect.value) : 'ALL';
+            const hist = circId === 'ALL' ? (car.history || []) : (car.history || []).filter(h => String(h.circuitId) === circId || !h.circuitId);
             
             let filteredBest = Infinity; let totalTimeMs = 0; let totalDistance = 0;
             hist.forEach(h => { 
-                if(h.lapTime < filteredBest) filteredBest = h.lapTime; totalTimeMs += h.lapTime;
-                const tCirc = circuits.find(c => c.id === h.circuitId); if (tCirc && tCirc.length) totalDistance += parseFloat(tCirc.length);
+                if(h.lapTime > 0 && h.lapTime < filteredBest) filteredBest = h.lapTime;
+                totalTimeMs += (h.lapTime || 0);
+                const tCirc = circuits.find(c => String(c.id) === String(h.circuitId));
+                const len = tCirc && tCirc.length ? parseFloat(tCirc.length) : 15;
+                totalDistance += len;
             });
 
             document.getElementById('g-input-name').value = car.name || ""; document.getElementById('g-input-brand').value = car.brand || ""; document.getElementById('g-input-cat').value = car.cat || "";
             document.getElementById('g-input-motor').value = car.motor || ""; document.getElementById('g-input-tires').value = car.tires || ""; document.getElementById('g-input-weight').value = car.weight || ""; document.getElementById('g-input-magnet').checked = !!car.magnet;
             
             let timeStr = "--h --m --s"; if (totalTimeMs > 0) { const hrs = Math.floor(totalTimeMs/3600000); const mins = Math.floor((totalTimeMs%3600000)/60000); const secs = Math.floor((totalTimeMs%60000)/1000); timeStr = `${hrs}h ${mins}m ${secs}s`; }
-            let avgSpeedStr = "-- m/s"; if (hist.length > 0 && totalDistance > 0) { const speedMs = totalDistance / (totalTimeMs / 1000); const scaleSpeedKmh = speedMs * 3.6 * 32; avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h Escala)`; }
+            let avgSpeedStr = "-- m/s"; if (hist.length > 0 && totalDistance > 0 && totalTimeMs > 0) { const speedMs = totalDistance / (totalTimeMs / 1000); const scaleSpeedKmh = speedMs * 3.6 * 32; avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h)`; }
 
             document.getElementById('g-stat-laps').textContent = hist.length; document.getElementById('g-stat-best').textContent = filteredBest !== Infinity ? formatTime(filteredBest, false) : "--.---";
             document.getElementById('g-stat-distance').textContent = `${(totalDistance/1000).toFixed(2)} km`; document.getElementById('g-stat-time').textContent = timeStr; document.getElementById('g-stat-speed').textContent = avgSpeedStr;
@@ -2188,7 +2381,7 @@
             const vid = document.getElementById('garage-video-feed'); if(vid) { vid.srcObject = null; vid.classList.add('hidden'); }
             const btnText = document.getElementById('garage-capture-text'); if(btnText) btnText.textContent = "CÁMARA";
             const imgEl = document.getElementById('garage-car-img'); const placeholder = document.getElementById('garage-img-placeholder');
-            const car = garageCars.find(c => c.id === currentGarageCarId);
+            const car = garageCars.find(c => String(c.id) === String(currentGarageCarId));
             if(car && car.image) { imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); }
             else if (placeholder) { imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
         }
@@ -2209,7 +2402,7 @@
                     btnText.textContent = 'CAPTURAR';
                 } catch(e) {
                     const orig = btnText.innerHTML; 
-                    btnText.innerHTML = `<span class="text-red-400">Error Cam</span>`; 
+                    btnText.innerHTML = `<span class="text-red-400">ERROR CAM</span>`; 
                     setTimeout(()=>btnText.innerHTML=orig, 2000);
                 }
             } else {
@@ -2221,7 +2414,7 @@
                 const maxW = 350; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; 
                 destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
                 
-                const car = garageCars.find(c => c.id === currentGarageCarId); 
+                const car = garageCars.find(c => String(c.id) === String(currentGarageCarId)); 
                 if(car) { 
                     car.image = destCanvas.toDataURL('image/jpeg', 0.8); 
                     saveGarage(); 
@@ -2230,23 +2423,62 @@
                 }
             }
         });
+
         document.getElementById('garage-img-input').addEventListener('change', (e) => {
             const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
-            reader.onload = (ev) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); const maxW = 350; const scale = maxW / img.width; canvas.width = maxW; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); const car = garageCars.find(c => c.id === currentGarageCarId); if(car) { car.image = canvas.toDataURL('image/jpeg', 0.8); saveGarage(); renderGarage(currentGarageCarId); } }; img.src = ev.target.result; }; reader.readAsDataURL(file);
+            reader.onload = (ev) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); const maxW = 350; const scale = maxW / img.width; canvas.width = maxW; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); const car = garageCars.find(c => String(c.id) === String(currentGarageCarId)); if(car) { car.image = canvas.toDataURL('image/jpeg', 0.8); saveGarage(); renderGarage(currentGarageCarId); } }; img.src = ev.target.result; }; reader.readAsDataURL(file);
         });
+
+        function persistCurrentGarageCarInputs() {
+            const car = garageCars.find(c => String(c.id) === String(currentGarageCarId));
+            if (car) {
+                car.name = (document.getElementById('g-input-name').value || "SIN NOMBRE").toUpperCase();
+                car.brand = document.getElementById('g-input-brand').value.toUpperCase();
+                car.cat = document.getElementById('g-input-cat').value.toUpperCase();
+                car.motor = document.getElementById('g-input-motor').value.toUpperCase();
+                car.tires = document.getElementById('g-input-tires').value.toUpperCase();
+                car.weight = document.getElementById('g-input-weight').value.toUpperCase();
+                car.magnet = document.getElementById('g-input-magnet').checked;
+                saveGarage();
+                updateCarSelects();
+                updateTelemetryDisplay();
+            }
+        }
+
+        ['g-input-name', 'g-input-brand', 'g-input-cat', 'g-input-motor', 'g-input-tires', 'g-input-weight', 'g-input-magnet'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', persistCurrentGarageCarInputs);
+        });
+
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
-            const car = garageCars.find(c => c.id === currentGarageCarId);
-            if(car) { car.name = (document.getElementById('g-input-name').value || "SIN NOMBRE").toUpperCase(); car.brand = document.getElementById('g-input-brand').value.toUpperCase(); car.cat = document.getElementById('g-input-cat').value.toUpperCase(); car.motor = document.getElementById('g-input-motor').value.toUpperCase(); car.tires = document.getElementById('g-input-tires').value.toUpperCase(); car.weight = document.getElementById('g-input-weight').value.toUpperCase(); car.magnet = document.getElementById('g-input-magnet').checked; saveGarage(); updateCarSelects(); const btn = document.getElementById('garage-save-car-btn'); btn.innerHTML = "¡GUARDADO!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.innerHTML = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500); }
+            persistCurrentGarageCarInputs();
+            const btn = document.getElementById('garage-save-car-btn');
+            btn.innerHTML = "¡GUARDADO!";
+            btn.classList.add('text-green-400');
+            setTimeout(() => { btn.innerHTML = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500);
         });
-        document.getElementById('garage-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); garageCars.push({ id: newId, name: "NUEVO COCHE", brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); updateCarSelects(); renderGarage(newId); });
+        document.getElementById('garage-add-btn').addEventListener('click', () => {
+            persistCurrentGarageCarInputs();
+            const newId = Date.now().toString();
+            garageCars.push({ id: newId, name: `COCHE ${garageCars.length + 1}`, brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] });
+            currentGarageCarId = newId;
+            saveGarage(); updateCarSelects(); renderGarage(newId);
+        });
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
-            if(window.userId && window.fs && window.db) { try{await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'garage', currentGarageCarId));}catch(e){} } 
-            garageCars = garageCars.filter(c => c.id !== currentGarageCarId); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "COCHE BASE", brand: "SLOT", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); } saveGarage(); updateCarSelects(); renderGarage(garageCars[0].id); 
+            if(window.userId && window.fs && window.db) {
+                try {
+                    const appId = window.appId || 'app_sector_time';
+                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'garage', String(currentGarageCarId)));
+                } catch(e){}
+            } 
+            garageCars = garageCars.filter(c => String(c.id) !== String(currentGarageCarId)); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "COCHE BASE", brand: "SLOT", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); }
+            currentGarageCarId = String(garageCars[0].id);
+            saveGarage(); updateCarSelects(); renderGarage(currentGarageCarId); 
         });
-        document.getElementById('garage-open-btn').addEventListener('click', () => { const circSelect = document.getElementById('garage-circuit-picker'); if (circSelect && currentCircuitId) { circSelect.value = currentCircuitId; } document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10); renderGarage(document.getElementById('car-model-select').value); });
-        document.getElementById('garage-drive-btn').addEventListener('click', () => { stopGarageCamera(); document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); });
-        document.getElementById('close-garage-btn').addEventListener('click', () => { stopGarageCamera(); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
-        document.getElementById('garage-car-picker').addEventListener('change', (e) => { stopGarageCamera(); renderGarage(e.target.value); });
+        document.getElementById('garage-open-btn').addEventListener('click', () => { const circSelect = document.getElementById('garage-circuit-picker'); if (circSelect) { circSelect.value = 'ALL'; } document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10); renderGarage(document.getElementById('car-model-select').value); });
+        document.getElementById('garage-drive-btn').addEventListener('click', () => { persistCurrentGarageCarInputs(); stopGarageCamera(); document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); updateTelemetryDisplay(); });
+        document.getElementById('close-garage-btn').addEventListener('click', () => { persistCurrentGarageCarInputs(); stopGarageCamera(); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
+        document.getElementById('garage-car-picker').addEventListener('change', (e) => { persistCurrentGarageCarInputs(); stopGarageCamera(); renderGarage(e.target.value); });
         document.getElementById('garage-circuit-picker').addEventListener('change', (e) => { const val = e.target.value; if(val !== 'ALL') { document.getElementById('circuit-model-select').value = val; currentCircuitId = val; loadCircuitROIs(val); } renderGarage(currentGarageCarId); });
         document.getElementById('car-model-select').addEventListener('change', (e) => { currentGarageCarId = e.target.value; updateTelemetryDisplay(); });
 
@@ -2254,33 +2486,67 @@
         async function saveCircuits() { 
             try { localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); } catch(e){}
             if (!window.userId || !window.fs || !window.db) return;
-            try { for (const circ of circuits) { await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', circ.id), circ); } } catch(e) {}
+            try {
+                if (window.setCloudStatus) window.setCloudStatus('syncing', 'GUARDANDO...');
+                const appId = window.appId || 'app_sector_time';
+                for (const circ of circuits) {
+                    const cleanCirc = sanitizeCircuitForFirestore(circ);
+                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'circuits', String(circ.id)), cleanCirc);
+                }
+                if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
+            } catch(e) {
+                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+            }
         }
         function updateCircuitSelects() {
             const mainSelect = document.getElementById('circuit-model-select'); const modalSelect = document.getElementById('circuit-picker'); const garageCircSelect = document.getElementById('garage-circuit-picker');
-            const currentMainVal = mainSelect.value; const currentGarageCircVal = garageCircSelect ? garageCircSelect.value : 'ALL';
+            const targetMainVal = String(currentCircuitId || mainSelect.value || (circuits[0] ? circuits[0].id : ''));
+            const currentGarageCircVal = garageCircSelect ? garageCircSelect.value : 'ALL';
             mainSelect.innerHTML = ''; modalSelect.innerHTML = ''; if (garageCircSelect) garageCircSelect.innerHTML = '<option value="ALL">TODAS LAS PISTAS</option>';
-            circuits.forEach(c => { const optMain = document.createElement('option'); optMain.value = c.id; optMain.textContent = (c.name || '').toUpperCase(); const optMod = document.createElement('option'); optMod.value = c.id; optMod.textContent = (c.name || '').toUpperCase(); mainSelect.appendChild(optMain); modalSelect.appendChild(optMod); if (garageCircSelect) { const optGar = document.createElement('option'); optGar.value = c.id; optGar.textContent = (c.name || '').toUpperCase(); garageCircSelect.appendChild(optGar); } });
-            if(currentMainVal && Array.from(mainSelect.options).some(o => o.value === currentMainVal)) { mainSelect.value = currentMainVal; } else if (currentCircuitId) { mainSelect.value = currentCircuitId; }
+            circuits.forEach(c => { const optMain = document.createElement('option'); optMain.value = String(c.id); optMain.textContent = (c.name || '').toUpperCase(); const optMod = document.createElement('option'); optMod.value = String(c.id); optMod.textContent = (c.name || '').toUpperCase(); mainSelect.appendChild(optMain); modalSelect.appendChild(optMod); if (garageCircSelect) { const optGar = document.createElement('option'); optGar.value = String(c.id); optGar.textContent = (c.name || '').toUpperCase(); garageCircSelect.appendChild(optGar); } });
+            if(targetMainVal && Array.from(mainSelect.options).some(o => o.value === targetMainVal)) { mainSelect.value = targetMainVal; modalSelect.value = targetMainVal; }
             if (garageCircSelect) { if(currentGarageCircVal && Array.from(garageCircSelect.options).some(o => o.value === currentGarageCircVal)) { garageCircSelect.value = currentGarageCircVal; } else { garageCircSelect.value = 'ALL'; } }
         }
 
         function renderCircuit(id) {
-            currentCircuitId = id; const circ = circuits.find(c => c.id === id); if(!circ) return;
-            let allCircuitLaps = []; garageCars.forEach(car => { if(car.history) { allCircuitLaps = allCircuitLaps.concat(car.history.filter(h => h.circuitId === id)); } });
+            currentCircuitId = String(id);
+            const circ = circuits.find(c => String(c.id) === currentCircuitId) || circuits[0];
+            if(!circ) return;
+            normalizeCircuit(circ);
+            currentCircuitId = String(circ.id);
+            let allCircuitLaps = [];
+            garageCars.forEach(car => {
+                if(car.history) {
+                    allCircuitLaps = allCircuitLaps.concat(car.history.filter(h => String(h.circuitId) === currentCircuitId));
+                }
+            });
             
-            document.getElementById('circuit-picker').value = id; document.getElementById('c-input-name').value = circ.name || ""; document.getElementById('c-input-length').value = circ.length || ""; 
+            document.getElementById('circuit-picker').value = currentCircuitId;
+            document.getElementById('c-input-name').value = circ.name || "";
+            document.getElementById('c-input-length').value = circ.length || 15; 
             
-            const length = parseFloat(circ.length) || 0; const totalLaps = allCircuitLaps.length; const totalMeters = totalLaps * length;
-            let totalTimeMs = 0; allCircuitLaps.forEach(l => totalTimeMs += l.lapTime);
+            const length = parseFloat(circ.length) || 15;
+            const totalLaps = Math.max(allCircuitLaps.length, circ.totalLaps || 0);
+            const totalMeters = totalLaps * length;
+            let totalTimeMs = 0;
+            let bestFromHistory = Infinity;
+            allCircuitLaps.forEach(l => {
+                totalTimeMs += (l.lapTime || 0);
+                if (l.lapTime > 0 && l.lapTime < bestFromHistory) bestFromHistory = l.lapTime;
+            });
+            if (bestFromHistory < circ.bestLap) circ.bestLap = bestFromHistory;
             
-            let timeStr = "--h --m --s"; if (totalTimeMs > 0) { const hrs = Math.floor(totalTimeMs/3600000); const mins = Math.floor((totalTimeMs%3600000)/60000); timeStr = `${hrs}h ${mins}m`; }
-            let avgSpeedStr = "-- m/s"; if (totalLaps > 0 && length > 0) { const avgTimeS = (totalTimeMs / totalLaps) / 1000; const speedMs = length / avgTimeS; const scaleSpeedKmh = (speedMs * 3.6) * 32; avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h)`; }
+            let timeStr = "--h --m --s"; if (totalTimeMs > 0) { const hrs = Math.floor(totalTimeMs/3600000); const mins = Math.floor((totalTimeMs%3600000)/60000); const secs = Math.floor((totalTimeMs%60000)/1000); timeStr = `${hrs}h ${mins}m ${secs}s`; }
+            let avgSpeedStr = "-- m/s"; if (allCircuitLaps.length > 0 && length > 0 && totalTimeMs > 0) { const avgTimeS = (totalTimeMs / allCircuitLaps.length) / 1000; const speedMs = length / avgTimeS; const scaleSpeedKmh = (speedMs * 3.6) * 32; avgSpeedStr = `${speedMs.toFixed(2)} m/s (${scaleSpeedKmh.toFixed(0)} km/h)`; }
 
-            document.getElementById('c-stat-laps').textContent = totalLaps; document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
-            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : "Sin registros"; document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
-            document.getElementById('c-stat-time').textContent = timeStr; document.getElementById('c-stat-speed').textContent = avgSpeedStr;
-            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1; document.getElementById('c-stat-rois').textContent = `${sectorCount} Sector(es)`;
+            document.getElementById('c-stat-laps').textContent = totalLaps;
+            document.getElementById('c-stat-best').textContent = circ.bestLap !== Infinity ? formatTime(circ.bestLap, false) : "--.---"; 
+            document.getElementById('c-stat-pilot').textContent = (circ.bestPilot || circ.bestCar) ? `${circ.bestPilot} / ${circ.bestCar}` : "SIN REGISTROS";
+            document.getElementById('c-stat-distance').textContent = `${(totalMeters/1000).toFixed(2)} km`;
+            document.getElementById('c-stat-time').textContent = timeStr;
+            document.getElementById('c-stat-speed').textContent = avgSpeedStr;
+            const sectorCount = parseInt(circ.activeSectorsSelectValue || "0") + 1;
+            document.getElementById('c-stat-rois').textContent = `${sectorCount} SECTOR(ES)`;
 
             const imgEl = document.getElementById('circuit-captured-img'); const placeholder = document.getElementById('circuit-img-placeholder');
             if(circ.image) { imgEl.src = circ.image; imgEl.classList.remove('hidden'); placeholder.classList.add('hidden'); } else { imgEl.src = ""; imgEl.classList.add('hidden'); placeholder.classList.remove('hidden'); }
@@ -2317,46 +2583,103 @@
                 ctx.lineWidth = 4; ctx.strokeStyle = strokeColor; ctx.strokeRect(l, t, w, h); ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(l, t, w, h); ctx.fillStyle = strokeColor; ctx.fillRect(l, t - 25, 60, 25); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 16px Orbitron'; ctx.fillText(labelText, l + 5, t - 6);
             }
             const destCanvas = document.createElement('canvas'); const destCtx = destCanvas.getContext('2d'); const maxW = 900; const scale = maxW / canvas.width; destCanvas.width = maxW; destCanvas.height = canvas.height * scale; destCtx.drawImage(canvas, 0, 0, destCanvas.width, destCanvas.height);
-            const circ = circuits.find(c => c.id === currentCircuitId); if(circ) { circ.image = destCanvas.toDataURL('image/jpeg', 0.8); autoSaveROIsToCircuit(); renderCircuit(currentCircuitId); const btn = document.getElementById('circuit-capture-btn'); const orig = btn.innerHTML; btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡Capturado!</span>`; setTimeout(()=>btn.innerHTML=orig, 2000); }
+            const circ = circuits.find(c => String(c.id) === String(currentCircuitId));
+            if(circ) {
+                circ.image = destCanvas.toDataURL('image/jpeg', 0.75);
+                autoSaveROIsToCircuit();
+                renderCircuit(currentCircuitId);
+                const btn = document.getElementById('circuit-capture-btn');
+                const orig = btn.innerHTML;
+                btn.innerHTML = `<span class="text-green-400 font-bold uppercase z-10 tracking-[0.2em]">¡CAPTURADO!</span>`;
+                setTimeout(()=>btn.innerHTML=orig, 2000);
+            }
         });
 
         function autoSaveROIsToCircuit() {
-            if (!currentCircuitId || isRaceActive) return; const circ = circuits.find(c => c.id === currentCircuitId); if (!circ) return;
-            circ.activeSectorsSelectValue = document.getElementById('sectors-select').value; circ.rois = [];
-            for (let i = 0; i < MAX_ROIS; i++) { const box = document.getElementById(`roi-${i}`); circ.rois.push({ left: box.style.left, top: box.style.top, width: box.style.width, height: box.style.height }); }
+            if (!currentCircuitId || isRaceActive) return;
+            const circ = circuits.find(c => String(c.id) === String(currentCircuitId));
+            if (!circ) return;
+            circ.activeSectorsSelectValue = document.getElementById('sectors-select').value;
+            circ.rois = [];
+            for (let i = 0; i < MAX_ROIS; i++) {
+                const box = document.getElementById(`roi-${i}`);
+                circ.rois.push({ left: box.style.left, top: box.style.top, width: box.style.width, height: box.style.height });
+            }
             saveCircuits();
         }
 
         function loadCircuitROIs(circuitId) {
-            if (isRaceActive) return; const circ = circuits.find(c => c.id === circuitId); if (!circ || !circ.rois || circ.rois.length === 0) return;
-            const sel = document.getElementById('sectors-select'); if (circ.activeSectorsSelectValue !== undefined) { sel.value = circ.activeSectorsSelectValue; } activeRoisCount = parseInt(sel.value) + 1;
+            if (isRaceActive) return;
+            const circ = circuits.find(c => String(c.id) === String(circuitId));
+            if (!circ || !circ.rois || circ.rois.length === 0) return;
+            const sel = document.getElementById('sectors-select');
+            if (circ.activeSectorsSelectValue !== undefined) { sel.value = circ.activeSectorsSelectValue; }
+            activeRoisCount = parseInt(sel.value) + 1;
+            const imgEl = document.getElementById('static-bg-img');
+            const hasCustomImg = imgEl && imgEl.src && imgEl.src.startsWith('data:image');
             for (let i = 0; i < MAX_ROIS; i++) {
                 const box = document.getElementById(`roi-${i}`);
-                if (circ.rois[i]) { box.style.left = circ.rois[i].left || box.style.left; box.style.top = circ.rois[i].top || box.style.top; box.style.width = circ.rois[i].width || box.style.width; box.style.height = circ.rois[i].height || box.style.height; }
-                if (isProcessing) { if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baseColor = null; roisState[i].baseBri = null; } else { box.classList.remove('active'); } } else { box.classList.remove('active'); }
+                if (circ.rois[i]) {
+                    box.style.left = circ.rois[i].left || box.style.left;
+                    box.style.top = circ.rois[i].top || box.style.top;
+                    box.style.width = circ.rois[i].width || box.style.width;
+                    box.style.height = circ.rois[i].height || box.style.height;
+                }
+                if (isProcessing || hasCustomImg) {
+                    if (i < activeRoisCount) { box.classList.add('active'); roisState[i].baseColor = null; roisState[i].baseBri = null; }
+                    else { box.classList.remove('active'); }
+                } else {
+                    box.classList.remove('active');
+                }
             }
             renderSensitivitiesUI();
         }
 
+        function persistCurrentCircuitInputs() {
+            const circ = circuits.find(c => String(c.id) === String(currentCircuitId));
+            if (circ) {
+                circ.name = (document.getElementById('c-input-name').value || "SIN NOMBRE").toUpperCase();
+                circ.length = parseFloat(document.getElementById('c-input-length').value) || 15;
+                saveCircuits();
+                updateCircuitSelects();
+            }
+        }
+
+        ['c-input-name', 'c-input-length'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', () => { persistCurrentCircuitInputs(); renderCircuit(currentCircuitId); });
+        });
+
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
-            const circ = circuits.find(c => c.id === currentCircuitId);
-            if(circ) { circ.name = (document.getElementById('c-input-name').value || "SIN NOMBRE").toUpperCase(); circ.length = parseFloat(document.getElementById('c-input-length').value) || 0; saveCircuits(); updateCircuitSelects(); const btn = document.getElementById('circuit-save-btn'); btn.textContent = "¡GUARDADO!"; btn.classList.add('text-green-400'); setTimeout(() => { btn.textContent = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500); }
+            persistCurrentCircuitInputs();
+            renderCircuit(currentCircuitId);
+            const btn = document.getElementById('circuit-save-btn');
+            btn.textContent = "¡GUARDADO!";
+            btn.classList.add('text-green-400');
+            setTimeout(() => { btn.textContent = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500);
         });
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "NUEVA PISTA", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
-        document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
-            garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => h.circuitId !== currentCircuitId); } }); saveGarage();
-            if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
-            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "CIRCUITO 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
+        document.getElementById('circuit-add-btn').addEventListener('click', () => {
+            persistCurrentCircuitInputs();
+            const newId = Date.now().toString();
+            circuits.push({ id: newId, name: `PISTA ${circuits.length + 1}`, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" });
+            currentCircuitId = newId;
+            saveCircuits(); updateCircuitSelects(); renderCircuit(newId); autoSaveROIsToCircuit();
         });
-        document.getElementById('circuit-add-btn').addEventListener('click', () => { const newId = Date.now().toString(); circuits.push({ id: newId, name: "Nueva Pista", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" }); saveCircuits(); updateCircuitSelects(); currentCircuitId = newId; renderCircuit(newId); autoSaveROIsToCircuit(); });
         document.getElementById('circuit-delete-btn').addEventListener('click', async () => { 
-            garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => h.circuitId !== currentCircuitId); } }); saveGarage();
-            if(window.userId && window.fs && window.db) { try { await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', window.userId, 'circuits', currentCircuitId)); } catch(e){} } 
-            circuits = circuits.filter(c => c.id !== currentCircuitId); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "Circuito 1", length: 0, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); } saveCircuits(); updateCircuitSelects(); currentCircuitId = circuits[0].id; renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
+            garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => String(h.circuitId) !== String(currentCircuitId)); } }); saveGarage();
+            if(window.userId && window.fs && window.db) {
+                try {
+                    const appId = window.appId || 'app_sector_time';
+                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'circuits', String(currentCircuitId)));
+                } catch(e){}
+            } 
+            circuits = circuits.filter(c => String(c.id) !== String(currentCircuitId)); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "CIRCUITO 1", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); }
+            currentCircuitId = String(circuits[0].id);
+            saveCircuits(); updateCircuitSelects(); renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
         });
         document.getElementById('circuit-open-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('hidden'); setTimeout(() => document.getElementById('circuitModal').classList.add('open'), 10); renderCircuit(document.getElementById('circuit-model-select').value); });
-        document.getElementById('close-circuit-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
-        document.getElementById('circuit-picker').addEventListener('change', (e) => { renderCircuit(e.target.value); document.getElementById('circuit-model-select').value = e.target.value; loadCircuitROIs(e.target.value); });
+        document.getElementById('close-circuit-btn').addEventListener('click', () => { persistCurrentCircuitInputs(); document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
+        document.getElementById('circuit-picker').addEventListener('change', (e) => { persistCurrentCircuitInputs(); renderCircuit(e.target.value); document.getElementById('circuit-model-select').value = e.target.value; loadCircuitROIs(e.target.value); });
         document.getElementById('circuit-model-select').addEventListener('change', (e) => { currentCircuitId = e.target.value; loadCircuitROIs(e.target.value); });
 
         document.getElementById('videos-open-btn').addEventListener('click', () => { document.getElementById('videosModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('videosModal').classList.add('open'),10); });
