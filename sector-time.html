@@ -907,14 +907,21 @@
     <div id="garageModal" class="modal-overlay hidden" style="z-index: 150;">
         <div class="modal-content panoramic p-4 flex flex-col overflow-hidden border-blue-500/50 shadow-[0_0_50px_rgba(59,130,246,0.3)]">
             <div class="flex justify-between items-center border-b border-blue-500/50 pb-2 mb-3 shrink-0">
-                <h3 class="text-2xl font-orbitron font-black text-blue-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
-                    Mi Garaje Premium
-                </h3>
+                <div class="flex items-center space-x-3">
+                    <h3 class="text-2xl font-orbitron font-black text-blue-300 flex items-center tracking-widest uppercase drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-3"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                        Mi Garaje Premium
+                    </h3>
+                    <!-- LED DE ESTADO DE GUARDADO EN GARAJE -->
+                    <div id="garage-save-led-badge" class="flex items-center space-x-1.5 bg-black/50 border border-[#30D158]/40 px-2.5 py-1 rounded-full shadow-inner">
+                        <span id="garage-save-led-dot" class="w-2.5 h-2.5 rounded-full bg-[#30D158] shadow-[0_0_10px_#30D158]"></span>
+                        <span id="garage-save-led-text" class="text-[9px] font-bold text-[#30D158] tracking-wider">GUARDADO OK</span>
+                    </div>
+                </div>
                 <div class="flex items-center space-x-3">
                     <div class="flex items-center bg-slate-900/60 rounded-lg border border-blue-800 px-3 py-1.5">
                         <span class="text-[9px] text-blue-400 font-bold tracking-widest mr-2 uppercase">Coche:</span>
-                        <select id="garage-car-picker" class="bg-transparent text-xs font-bold outline-none cursor-pointer text-white w-32"></select>
+                        <select id="garage-car-picker" class="bg-transparent text-xs font-bold outline-none cursor-pointer text-white w-40"></select>
                     </div>
                     <div class="flex items-center bg-slate-900/60 rounded-lg border border-emerald-800 px-3 py-1.5">
                         <span class="text-[9px] text-emerald-400 font-bold tracking-widest mr-2 uppercase">Pista:</span>
@@ -1061,6 +1068,11 @@
                         Centro de Circuitos
                     </h3>
                     <span id="c-stat-rois" class="text-[9px] font-orbitron font-bold text-cyan-300 bg-cyan-950/80 px-2.5 py-0.5 rounded-full border border-cyan-500/40 tracking-widest uppercase shadow-inner">--</span>
+                    <!-- LED DE ESTADO DE GUARDADO EN CIRCUITOS -->
+                    <div id="circuit-save-led-badge" class="flex items-center space-x-1.5 bg-black/50 border border-[#30D158]/40 px-2.5 py-1 rounded-full shadow-inner">
+                        <span id="circuit-save-led-dot" class="w-2.5 h-2.5 rounded-full bg-[#30D158] shadow-[0_0_10px_#30D158]"></span>
+                        <span id="circuit-save-led-text" class="text-[9px] font-bold text-[#30D158] tracking-wider">GUARDADO OK</span>
+                    </div>
                 </div>
                 <div class="flex items-center space-x-2">
                     <div class="flex items-center bg-slate-900/80 rounded-lg border border-emerald-700/70 px-2.5 py-1 shadow-inner">
@@ -2269,10 +2281,37 @@
         document.getElementById('tab-btn-top25').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-sectors').classList.replace('active', 'inactive'); document.getElementById('ranking-view-top25').classList.remove('hidden'); document.getElementById('ranking-view-sectors').classList.add('hidden'); });
         document.getElementById('tab-btn-sectors').addEventListener('click', (e) => { e.target.classList.replace('inactive', 'active'); document.getElementById('tab-btn-top25').classList.replace('active', 'inactive'); document.getElementById('ranking-view-sectors').classList.remove('hidden'); document.getElementById('ranking-view-top25').classList.add('hidden'); });
 
+        function setMenuSaveLed(menu, state, customText) {
+            const dot = document.getElementById(`${menu}-save-led-dot`);
+            const txt = document.getElementById(`${menu}-save-led-text`);
+            const badge = document.getElementById(`${menu}-save-led-badge`);
+            if (!dot || !txt || !badge) return;
+            if (state === 'saving') {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-[#0A84FF] animate-ping";
+                txt.textContent = customText || "GUARDANDO...";
+                txt.className = "text-[9px] font-bold text-[#0A84FF] tracking-wider";
+                badge.className = "flex items-center space-x-1.5 bg-black/50 border border-[#0A84FF]/50 px-2.5 py-1 rounded-full shadow-inner";
+            } else if (state === 'saved') {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-[#30D158] shadow-[0_0_12px_#30D158]";
+                txt.textContent = customText || "GUARDADO OK";
+                txt.className = "text-[9px] font-bold text-[#30D158] tracking-wider";
+                badge.className = "flex items-center space-x-1.5 bg-black/50 border border-[#30D158]/50 px-2.5 py-1 rounded-full shadow-inner transition-all";
+            } else {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-[#FF9F0A] shadow-[0_0_10px_#FF9F0A]";
+                txt.textContent = customText || "GUARDADO LOCAL";
+                txt.className = "text-[9px] font-bold text-[#FF9F0A] tracking-wider";
+                badge.className = "flex items-center space-x-1.5 bg-black/50 border border-[#FF9F0A]/50 px-2.5 py-1 rounded-full shadow-inner";
+            }
+        }
+
         function initGarageLocal() { if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "COCHE BASE", brand: "SLOT", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); saveGarage(); } updateCarSelects(); currentGarageCarId = garageCars[0].id; }
         async function saveGarage() { 
+            setMenuSaveLed('garage', 'saving', 'GUARDANDO...');
             try { localStorage.setItem('krono_garage_cars_v4', JSON.stringify(garageCars)); } catch(e){}
-            if (!window.userId || !window.fs || !window.db) return;
+            if (!window.userId || !window.fs || !window.db) {
+                setTimeout(() => setMenuSaveLed('garage', 'saved', 'GUARDADO OK'), 250);
+                return;
+            }
             try {
                 if (window.setCloudStatus) window.setCloudStatus('syncing', 'GUARDANDO...');
                 const appId = window.appId || 'app_sector_time';
@@ -2281,8 +2320,10 @@
                     await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'garage', String(car.id)), cleanCar);
                 }
                 if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
+                setMenuSaveLed('garage', 'saved', 'GUARDADO OK');
             } catch(e) {
                 if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+                setMenuSaveLed('garage', 'saved', 'GUARDADO OK');
             }
         }
         function updateCarSelects() {
@@ -2305,7 +2346,9 @@
             if(!car) return;
             normalizeCar(car);
             currentGarageCarId = String(car.id);
+            updateCarSelects();
             document.getElementById('garage-car-picker').value = currentGarageCarId;
+            document.getElementById('car-model-select').value = currentGarageCarId;
             const circSelect = document.getElementById('garage-circuit-picker');
             const circId = circSelect ? String(circSelect.value) : 'ALL';
             const hist = circId === 'ALL' ? (car.history || []) : (car.history || []).filter(h => String(h.circuitId) === circId || !h.circuitId);
@@ -2429,7 +2472,7 @@
             reader.onload = (ev) => { const img = new Image(); img.onload = () => { const canvas = document.createElement('canvas'); const maxW = 350; const scale = maxW / img.width; canvas.width = maxW; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); const car = garageCars.find(c => String(c.id) === String(currentGarageCarId)); if(car) { car.image = canvas.toDataURL('image/jpeg', 0.8); saveGarage(); renderGarage(currentGarageCarId); } }; img.src = ev.target.result; }; reader.readAsDataURL(file);
         });
 
-        function persistCurrentGarageCarInputs() {
+        function persistCurrentGarageCarInputs(skipSelectRebuild = false) {
             const car = garageCars.find(c => String(c.id) === String(currentGarageCarId));
             if (car) {
                 car.name = (document.getElementById('g-input-name').value || "SIN NOMBRE").toUpperCase();
@@ -2440,25 +2483,25 @@
                 car.weight = document.getElementById('g-input-weight').value.toUpperCase();
                 car.magnet = document.getElementById('g-input-magnet').checked;
                 saveGarage();
-                updateCarSelects();
+                if (!skipSelectRebuild) updateCarSelects();
                 updateTelemetryDisplay();
             }
         }
 
         ['g-input-name', 'g-input-brand', 'g-input-cat', 'g-input-motor', 'g-input-tires', 'g-input-weight', 'g-input-magnet'].forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.addEventListener('change', persistCurrentGarageCarInputs);
+            if (el) el.addEventListener('change', () => persistCurrentGarageCarInputs(false));
         });
 
         document.getElementById('garage-save-car-btn').addEventListener('click', () => {
-            persistCurrentGarageCarInputs();
+            persistCurrentGarageCarInputs(false);
             const btn = document.getElementById('garage-save-car-btn');
             btn.innerHTML = "¡GUARDADO!";
             btn.classList.add('text-green-400');
             setTimeout(() => { btn.innerHTML = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500);
         });
         document.getElementById('garage-add-btn').addEventListener('click', () => {
-            persistCurrentGarageCarInputs();
+            persistCurrentGarageCarInputs(true);
             const newId = Date.now().toString();
             garageCars.push({ id: newId, name: `COCHE ${garageCars.length + 1}`, brand: "", cat: "", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] });
             currentGarageCarId = newId;
@@ -2476,16 +2519,25 @@
             saveGarage(); updateCarSelects(); renderGarage(currentGarageCarId); 
         });
         document.getElementById('garage-open-btn').addEventListener('click', () => { const circSelect = document.getElementById('garage-circuit-picker'); if (circSelect) { circSelect.value = 'ALL'; } document.getElementById('garageModal').classList.remove('hidden'); setTimeout(() => document.getElementById('garageModal').classList.add('open'), 10); renderGarage(document.getElementById('car-model-select').value); });
-        document.getElementById('garage-drive-btn').addEventListener('click', () => { persistCurrentGarageCarInputs(); stopGarageCamera(); document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); updateTelemetryDisplay(); });
-        document.getElementById('close-garage-btn').addEventListener('click', () => { persistCurrentGarageCarInputs(); stopGarageCamera(); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
-        document.getElementById('garage-car-picker').addEventListener('change', (e) => { persistCurrentGarageCarInputs(); stopGarageCamera(); renderGarage(e.target.value); });
+        document.getElementById('garage-drive-btn').addEventListener('click', () => { persistCurrentGarageCarInputs(false); stopGarageCamera(); document.getElementById('car-model-select').value = currentGarageCarId; document.getElementById('circuit-model-select').value = document.getElementById('garage-circuit-picker').value !== 'ALL' ? document.getElementById('garage-circuit-picker').value : currentCircuitId; document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); loadCircuitROIs(document.getElementById('circuit-model-select').value); updateTelemetryDisplay(); });
+        document.getElementById('close-garage-btn').addEventListener('click', () => { persistCurrentGarageCarInputs(false); stopGarageCamera(); document.getElementById('garageModal').classList.remove('open'); setTimeout(() => document.getElementById('garageModal').classList.add('hidden'), 300); });
+        document.getElementById('garage-car-picker').addEventListener('change', (e) => {
+            const nextCarId = String(e.target.value);
+            persistCurrentGarageCarInputs(true);
+            stopGarageCamera();
+            renderGarage(nextCarId);
+        });
         document.getElementById('garage-circuit-picker').addEventListener('change', (e) => { const val = e.target.value; if(val !== 'ALL') { document.getElementById('circuit-model-select').value = val; currentCircuitId = val; loadCircuitROIs(val); } renderGarage(currentGarageCarId); });
         document.getElementById('car-model-select').addEventListener('change', (e) => { currentGarageCarId = e.target.value; updateTelemetryDisplay(); });
 
         function initCircuitsLocal() { if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "PISTA PRINCIPAL", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); saveCircuits(); } updateCircuitSelects(); currentCircuitId = circuits[0].id; loadCircuitROIs(currentCircuitId); }
         async function saveCircuits() { 
+            setMenuSaveLed('circuit', 'saving', 'GUARDANDO...');
             try { localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits)); } catch(e){}
-            if (!window.userId || !window.fs || !window.db) return;
+            if (!window.userId || !window.fs || !window.db) {
+                setTimeout(() => setMenuSaveLed('circuit', 'saved', 'GUARDADO OK'), 250);
+                return;
+            }
             try {
                 if (window.setCloudStatus) window.setCloudStatus('syncing', 'GUARDANDO...');
                 const appId = window.appId || 'app_sector_time';
@@ -2494,8 +2546,10 @@
                     await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'circuits', String(circ.id)), cleanCirc);
                 }
                 if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
+                setMenuSaveLed('circuit', 'saved', 'GUARDADO OK');
             } catch(e) {
                 if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+                setMenuSaveLed('circuit', 'saved', 'GUARDADO OK');
             }
         }
         function updateCircuitSelects() {
@@ -2514,6 +2568,7 @@
             if(!circ) return;
             normalizeCircuit(circ);
             currentCircuitId = String(circ.id);
+            updateCircuitSelects();
             let allCircuitLaps = [];
             garageCars.forEach(car => {
                 if(car.history) {
@@ -2522,6 +2577,7 @@
             });
             
             document.getElementById('circuit-picker').value = currentCircuitId;
+            document.getElementById('circuit-model-select').value = currentCircuitId;
             document.getElementById('c-input-name').value = circ.name || "";
             document.getElementById('c-input-length').value = circ.length || 15; 
             
@@ -2635,23 +2691,23 @@
             renderSensitivitiesUI();
         }
 
-        function persistCurrentCircuitInputs() {
+        function persistCurrentCircuitInputs(skipSelectRebuild = false) {
             const circ = circuits.find(c => String(c.id) === String(currentCircuitId));
             if (circ) {
                 circ.name = (document.getElementById('c-input-name').value || "SIN NOMBRE").toUpperCase();
                 circ.length = parseFloat(document.getElementById('c-input-length').value) || 15;
                 saveCircuits();
-                updateCircuitSelects();
+                if (!skipSelectRebuild) updateCircuitSelects();
             }
         }
 
         ['c-input-name', 'c-input-length'].forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.addEventListener('change', () => { persistCurrentCircuitInputs(); renderCircuit(currentCircuitId); });
+            if (el) el.addEventListener('change', () => { persistCurrentCircuitInputs(false); renderCircuit(currentCircuitId); });
         });
 
         document.getElementById('circuit-save-btn').addEventListener('click', () => {
-            persistCurrentCircuitInputs();
+            persistCurrentCircuitInputs(false);
             renderCircuit(currentCircuitId);
             const btn = document.getElementById('circuit-save-btn');
             btn.textContent = "¡GUARDADO!";
@@ -2659,7 +2715,7 @@
             setTimeout(() => { btn.textContent = "GUARDAR"; btn.classList.remove('text-green-400'); }, 1500);
         });
         document.getElementById('circuit-add-btn').addEventListener('click', () => {
-            persistCurrentCircuitInputs();
+            persistCurrentCircuitInputs(true);
             const newId = Date.now().toString();
             circuits.push({ id: newId, name: `PISTA ${circuits.length + 1}`, length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: document.getElementById('sectors-select').value, rois: [], image: "" });
             currentCircuitId = newId;
@@ -2678,8 +2734,14 @@
             saveCircuits(); updateCircuitSelects(); renderCircuit(currentCircuitId); loadCircuitROIs(currentCircuitId); 
         });
         document.getElementById('circuit-open-btn').addEventListener('click', () => { document.getElementById('circuitModal').classList.remove('hidden'); setTimeout(() => document.getElementById('circuitModal').classList.add('open'), 10); renderCircuit(document.getElementById('circuit-model-select').value); });
-        document.getElementById('close-circuit-btn').addEventListener('click', () => { persistCurrentCircuitInputs(); document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
-        document.getElementById('circuit-picker').addEventListener('change', (e) => { persistCurrentCircuitInputs(); renderCircuit(e.target.value); document.getElementById('circuit-model-select').value = e.target.value; loadCircuitROIs(e.target.value); });
+        document.getElementById('close-circuit-btn').addEventListener('click', () => { persistCurrentCircuitInputs(false); document.getElementById('circuitModal').classList.remove('open'); setTimeout(() => document.getElementById('circuitModal').classList.add('hidden'), 300); });
+        document.getElementById('circuit-picker').addEventListener('change', (e) => {
+            const nextCircId = String(e.target.value);
+            persistCurrentCircuitInputs(true);
+            renderCircuit(nextCircId);
+            document.getElementById('circuit-model-select').value = nextCircId;
+            loadCircuitROIs(nextCircId);
+        });
         document.getElementById('circuit-model-select').addEventListener('change', (e) => { currentCircuitId = e.target.value; loadCircuitROIs(e.target.value); });
 
         document.getElementById('videos-open-btn').addEventListener('click', () => { document.getElementById('videosModal').classList.remove('hidden'); setTimeout(()=>document.getElementById('videosModal').classList.add('open'),10); });
