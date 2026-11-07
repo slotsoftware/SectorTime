@@ -36,13 +36,39 @@
 
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : fallbackConfig;
         window.appId = typeof __app_id !== 'undefined' ? __app_id : 'app_sector_time';
+        window.isHostedEnv = typeof __firebase_config !== 'undefined';
+
+        // Clave de perfil compartido para que todos los navegadores y dispositivos lean/escriban los mismos datos en Firebase
+        window.getSyncProfileId = () => {
+            if (window.isHostedEnv) return window.userId;
+            return localStorage.getItem('krono_sync_profile_id') || 'shared_pro_workspace';
+        };
+
+        // Helper para construir la ruta exacta compatible tanto con tu servidor (correo-95e58) como con el visor
+        window.getUserColRef = (subcollectionName) => {
+            const profileId = window.getSyncProfileId();
+            if (window.isHostedEnv) {
+                return window.fs.collection(window.db, 'artifacts', window.appId, 'users', profileId, subcollectionName);
+            }
+            return window.fs.collection(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', profileId, subcollectionName);
+        };
+
+        window.getUserDocRef = (subcollectionName, docId) => {
+            const profileId = window.getSyncProfileId();
+            if (window.isHostedEnv) {
+                return window.fs.doc(window.db, 'artifacts', window.appId, 'users', profileId, subcollectionName, String(docId));
+            }
+            return window.fs.doc(window.db, 'artifacts', 'app_sector_time', 'public', 'data', 'users', profileId, subcollectionName, String(docId));
+        };
 
         let app; let db; let auth;
         
-        window.setCloudStatus = (state, label) => {
+        window.setCloudStatus = (state, label, errorDetail = '') => {
             const dot = document.getElementById('cloud-status-dot');
             const txt = document.getElementById('cloud-status-text');
+            const badge = dot ? dot.parentElement : null;
             if (!dot || !txt) return;
+            if (badge && errorDetail) badge.title = errorDetail;
             if (state === 'online') {
                 dot.className = "w-2 h-2 rounded-full bg-[#30D158] shadow-[0_0_8px_#30D158]";
                 txt.textContent = label || "FIREBASE OK";
@@ -73,23 +99,22 @@
                 window.db = db;
                 window.fs = { collection, addDoc, getDocs, doc, setDoc, deleteDoc, query, where };
 
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         window.userId = user.uid;
                         window.setCloudStatus('online', 'FIREBASE OK');
                         if (window.loadCloudData) await window.loadCloudData();
-                    } else {
-                        window.setCloudStatus('offline', 'SIN SESIÓN');
                     }
                 });
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
             } catch (error) { 
-                window.setCloudStatus('offline', 'MODO LOCAL');
+                console.warn("Firebase Auth/Init Fallback:", error);
+                window.setCloudStatus('offline', 'LOCAL CACHE', error.message || 'Error de conexión Auth');
                 if (window.initLocalMode) window.initLocalMode();
             }
         };
@@ -1314,15 +1339,14 @@
             if (!window.userId || !window.fs || !window.db) { window.initLocalMode(); return; }
             try {
                 if (window.setCloudStatus) window.setCloudStatus('syncing', 'CARGANDO...');
-                const appId = window.appId || 'app_sector_time';
-                const circSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'circuits'));
+                const circSnap = await window.fs.getDocs(window.getUserColRef('circuits'));
                 const cloudCircuits = []; circSnap.forEach(d => cloudCircuits.push(normalizeCircuit(d.data())));
                 if (cloudCircuits.length > 0) {
                     circuits = cloudCircuits;
                     localStorage.setItem('krono_circuits_v4', JSON.stringify(circuits));
                 }
                 
-                const garSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'garage'));
+                const garSnap = await window.fs.getDocs(window.getUserColRef('garage'));
                 const cloudCars = [];
                 garSnap.forEach(d => { cloudCars.push(normalizeCar(d.data())); });
                 if (cloudCars.length > 0) {
@@ -1335,7 +1359,8 @@
                 if (cloudCars.length === 0 && garageCars.length > 0) await saveGarage();
                 if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
             } catch(e) {
-                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+                console.warn("Firestore Read Error:", e);
+                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE', e.message || 'Permisos de Firestore');
                 window.initLocalMode();
             }
         };
@@ -1909,8 +1934,7 @@
             try { let h = JSON.parse(localStorage.getItem('krono_history_v4')||'[]'); h.unshift(rec); if(h.length>50) h.pop(); localStorage.setItem('krono_history_v4', JSON.stringify(h)); } catch(e) {}
             if(!window.userId || !window.fs || !window.db) return;
             try {
-                const appId = window.appId || 'app_sector_time';
-                await window.fs.addDoc(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'history'), rec);
+                await window.fs.addDoc(window.getUserColRef('history'), rec);
             } catch (e) { }
         }
 
@@ -1920,8 +1944,7 @@
             let h = []; try { h = JSON.parse(localStorage.getItem('krono_history_v4')||'[]'); } catch(e) {}
             if(window.userId && window.fs && window.db) {
                 try {
-                    const appId = window.appId || 'app_sector_time';
-                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'history'));
+                    const hSnap = await window.fs.getDocs(window.getUserColRef('history'));
                     let cloudH = []; hSnap.forEach(d => cloudH.push(d.data()));
                     if (cloudH.length > 0) { cloudH.sort((a,b) => b.timestamp - a.timestamp); h = cloudH; localStorage.setItem('krono_history_v4', JSON.stringify(h.slice(0, 50))); }
                 } catch(e) {}
@@ -2162,8 +2185,7 @@
             localStorage.removeItem('krono_history_v4');
             if(window.userId && window.fs && window.db) {
                 try {
-                    const appId = window.appId || 'app_sector_time';
-                    const hSnap = await window.fs.getDocs(window.fs.collection(window.db, 'artifacts', appId, 'users', window.userId, 'history'));
+                    const hSnap = await window.fs.getDocs(window.getUserColRef('history'));
                     for(const d of hSnap.docs) { await window.fs.deleteDoc(d.ref); }
                 } catch(e) {}
             }
@@ -2314,15 +2336,15 @@
             }
             try {
                 if (window.setCloudStatus) window.setCloudStatus('syncing', 'GUARDANDO...');
-                const appId = window.appId || 'app_sector_time';
                 for (const car of garageCars) {
                     const cleanCar = sanitizeCarForFirestore(car);
-                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'garage', String(car.id)), cleanCar);
+                    await window.fs.setDoc(window.getUserDocRef('garage', car.id), cleanCar);
                 }
                 if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
                 setMenuSaveLed('garage', 'saved', 'GUARDADO OK');
             } catch(e) {
-                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+                console.warn("Firestore Garage Save Error:", e);
+                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE', e.message || 'Error guardando garaje');
                 setMenuSaveLed('garage', 'saved', 'GUARDADO OK');
             }
         }
@@ -2510,8 +2532,7 @@
         document.getElementById('garage-delete-car-btn').addEventListener('click', async () => { 
             if(window.userId && window.fs && window.db) {
                 try {
-                    const appId = window.appId || 'app_sector_time';
-                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'garage', String(currentGarageCarId)));
+                    await window.fs.deleteDoc(window.getUserDocRef('garage', currentGarageCarId));
                 } catch(e){}
             } 
             garageCars = garageCars.filter(c => String(c.id) !== String(currentGarageCarId)); if(garageCars.length === 0) { garageCars.push({ id: Date.now().toString(), name: "COCHE BASE", brand: "SLOT", cat: "GT", motor: "", tires: "", weight: "", magnet: false, image: "", bestLap: Infinity, totalLaps: 0, history: [] }); }
@@ -2540,15 +2561,15 @@
             }
             try {
                 if (window.setCloudStatus) window.setCloudStatus('syncing', 'GUARDANDO...');
-                const appId = window.appId || 'app_sector_time';
                 for (const circ of circuits) {
                     const cleanCirc = sanitizeCircuitForFirestore(circ);
-                    await window.fs.setDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'circuits', String(circ.id)), cleanCirc);
+                    await window.fs.setDoc(window.getUserDocRef('circuits', circ.id), cleanCirc);
                 }
                 if (window.setCloudStatus) window.setCloudStatus('online', 'FIREBASE OK');
                 setMenuSaveLed('circuit', 'saved', 'GUARDADO OK');
             } catch(e) {
-                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE');
+                console.warn("Firestore Circuits Save Error:", e);
+                if (window.setCloudStatus) window.setCloudStatus('offline', 'LOCAL CACHE', e.message || 'Error guardando circuito');
                 setMenuSaveLed('circuit', 'saved', 'GUARDADO OK');
             }
         }
@@ -2725,8 +2746,7 @@
             garageCars.forEach(car => { if(car.history) { car.history = car.history.filter(h => String(h.circuitId) !== String(currentCircuitId)); } }); saveGarage();
             if(window.userId && window.fs && window.db) {
                 try {
-                    const appId = window.appId || 'app_sector_time';
-                    await window.fs.deleteDoc(window.fs.doc(window.db, 'artifacts', appId, 'users', window.userId, 'circuits', String(currentCircuitId)));
+                    await window.fs.deleteDoc(window.getUserDocRef('circuits', currentCircuitId));
                 } catch(e){}
             } 
             circuits = circuits.filter(c => String(c.id) !== String(currentCircuitId)); if(circuits.length === 0) { circuits.push({ id: Date.now().toString(), name: "CIRCUITO 1", length: 15, bestLap: Infinity, bestPilot: "", bestCar: "", totalLaps: 0, activeSectorsSelectValue: "0", rois: [], image: "" }); }
