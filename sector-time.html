@@ -464,7 +464,14 @@
             <!-- CAMERA VIEWPORT -->
             <div id="video-feed-box" class="neon-panel p-3 w-full flex-1 flex flex-col relative overflow-hidden">
                 <div class="flex justify-between items-center pb-2 mb-2 shrink-0">
-                    <h2 class="text-xs font-semibold text-[#f5f5f7] tracking-tight uppercase" data-i18n="videoTitle">CÁMARA Y SECTORES</h2>
+                    <div class="flex items-center space-x-2">
+                        <h2 class="text-xs font-semibold text-[#f5f5f7] tracking-tight uppercase" data-i18n="videoTitle">CÁMARA Y SECTORES</h2>
+                        <select id="lighting-mode-select" class="bg-white/10 border border-white/15 text-[#64D2FF] text-[9px] font-bold py-0.5 px-2 rounded-full outline-none cursor-pointer uppercase" title="MODO ÓPTICO DÍA / NOCHE">
+                            <option value="day" selected>☀️ MODO DÍA (ALTA SENS.)</option>
+                            <option value="night">🌙 MODO NOCHE (FAROS LED)</option>
+                            <option value="auto">⚡ MODO AUTO HÍBRIDO</option>
+                        </select>
+                    </div>
                     <div class="flex space-x-2">
                         <button id="calibrate-btn" class="py-1 px-3 rounded-full bg-white/10 hover:bg-white/20 text-white text-[10px] font-semibold transition disabled:opacity-40 flex items-center uppercase">
                             CALIBRAR IA
@@ -1373,7 +1380,7 @@
         for (let i = 0; i < MAX_ROIS; i++) {
             const el = document.getElementById(`roi-${i}`);
             let tag = 'meta'; if(i===1) tag='s1'; else if(i===2) tag='s2'; else if(i===3) tag='s3'; else if(i===4) tag='s4';
-            roisState.push({ id: i, el: el, baseColor: null, baseBri: null, blocked: false, lastRec: 0, tag: tag, sensitivity: 20, isSilentCalibrating: false, silentFrames: 0, silentSum: 0, silentMin: 255, silentMax: 0 });
+            roisState.push({ id: i, el: el, baseColor: null, baseBri: null, baseGrid: null, blocked: false, lastRec: 0, tag: tag, sensitivity: 14, isSilentCalibrating: false, silentFrames: 0, silentSum: 0, silentMin: 255, silentMax: 0 });
         }
 
         let dragState = { active: false, type: '', dir: '', roiIdx: -1, startX: 0, startY: 0, sL: 0, sT: 0, sW: 0, sH: 0 };
@@ -1430,13 +1437,13 @@
 
         function getROIAverages(boxEl) {
             const vw = videoElement.videoWidth; const vh = videoElement.videoHeight;
-            if(!vw || !vh) return {r:0, g:0, b:0, bri:0};
+            if(!vw || !vh) return {r:0, g:0, b:0, bri:0, grid: []};
             const leftPct = getPct(boxEl,'left')/100; const topPct = getPct(boxEl,'top')/100;
             const widthPct = getPct(boxEl,'width')/100; const heightPct = getPct(boxEl,'height')/100;
             const l = Math.max(0, Math.min(vw - 1, Math.floor(vw * leftPct))); 
             const t = Math.max(0, Math.min(vh - 1, Math.floor(vh * topPct)));
-            const w = Math.max(1, Math.min(vw - l, Math.ceil(vw * widthPct))); 
-            const h = Math.max(1, Math.min(vh - t, Math.ceil(vh * heightPct)));
+            const w = Math.max(4, Math.min(vw - l, Math.ceil(vw * widthPct))); 
+            const h = Math.max(4, Math.min(vh - t, Math.ceil(vh * heightPct)));
             const canvas = document.getElementById('video-canvas'); canvas.width = w; canvas.height = h; 
             const ctx = canvas.getContext('2d', { willReadFrequently: true });
             try {
@@ -1444,33 +1451,89 @@
                 const data = ctx.getImageData(0, 0, w, h).data; 
                 let sumR = 0, sumG = 0, sumB = 0;
                 let count = 0;
-                for (let i = 0; i < data.length; i += 4) {
-                    sumR += data[i]; sumG += data[i+1]; sumB += data[i+2]; count++;
+
+                // Sub-rejilla 4x4 para detectar el coche de día aunque ocupe solo una fracción del ROI
+                const cols = 4, rows = 4;
+                const cellSums = Array.from({length: cols * rows}, () => ({r:0, g:0, b:0, c:0}));
+
+                for (let y = 0; y < h; y++) {
+                    const rIdx = Math.min(rows - 1, Math.floor((y / h) * rows));
+                    for (let x = 0; x < w; x++) {
+                        const cIdx = Math.min(cols - 1, Math.floor((x / w) * cols));
+                        const i = (y * w + x) * 4;
+                        const pr = data[i], pg = data[i+1], pb = data[i+2];
+                        sumR += pr; sumG += pg; sumB += pb; count++;
+                        const cell = cellSums[rIdx * cols + cIdx];
+                        cell.r += pr; cell.g += pg; cell.b += pb; cell.c++;
+                    }
                 }
-                return { r: sumR/count, g: sumG/count, b: sumB/count, bri: (sumR+sumG+sumB)/(3*count) };
-            } catch(e) { return {r:0, g:0, b:0, bri:0}; }
+
+                const grid = cellSums.map(cell => cell.c > 0 ? {
+                    r: cell.r / cell.c,
+                    g: cell.g / cell.c,
+                    b: cell.b / cell.c
+                } : {r:0, g:0, b:0});
+
+                return { r: sumR/count, g: sumG/count, b: sumB/count, bri: (sumR+sumG+sumB)/(3*count), grid };
+            } catch(e) { return {r:0, g:0, b:0, bri:0, grid: []}; }
         }
 
         function processVideo() {
             if (!isProcessing) return;
             if (isPaused) { requestAnimationFrame(processVideo); return; }
             const now = Date.now();
+            const lightMode = document.getElementById('lighting-mode-select')?.value || 'day';
 
             for (let i = 0; i < activeRoisCount; i++) {
                 const rState = roisState[i]; const box = rState.el;
                 const avgs = getROIAverages(box);
                 const currentBri = avgs.bri;
                 
-                if (!rState.baseColor) { rState.baseColor = {r: avgs.r, g: avgs.g, b: avgs.b}; rState.baseBri = currentBri; }
+                if (!rState.baseColor || !rState.baseGrid || rState.baseGrid.length !== avgs.grid.length) {
+                    rState.baseColor = {r: avgs.r, g: avgs.g, b: avgs.b};
+                    rState.baseBri = currentBri;
+                    rState.baseGrid = avgs.grid.map(c => ({...c}));
+                }
                 
+                // Diferencia global clásica (ideal para modo noche con faros LED)
                 const diffR = Math.abs(avgs.r - rState.baseColor.r);
                 const diffG = Math.abs(avgs.g - rState.baseColor.g);
                 const diffB = Math.abs(avgs.b - rState.baseColor.b);
-                const maxDiff = Math.max(diffR, diffG, diffB); 
+                const globalDiff = Math.max(diffR, diffG, diffB);
+
+                // Diferencia localizada por sub-zonas + crominancia (ideal de día donde el coche no emite luz y ocupa solo parte del ROI)
+                let peakCellDiff = 0;
+                let secondPeakCellDiff = 0;
+                if (avgs.grid.length > 0 && rState.baseGrid.length === avgs.grid.length) {
+                    for (let c = 0; c < avgs.grid.length; c++) {
+                        const cur = avgs.grid[c];
+                        const bas = rState.baseGrid[c];
+                        const dr = Math.abs(cur.r - bas.r);
+                        const dg = Math.abs(cur.g - bas.g);
+                        const db = Math.abs(cur.b - bas.b);
+                        // Combinamos cambio de canal máximo + contraste de color puro (coche de color sobre pista gris)
+                        const cellDelta = Math.max(dr, dg, db) + (Math.abs((cur.r - cur.g) - (bas.r - bas.g)) + Math.abs((cur.b - cur.g) - (bas.b - bas.g))) * 0.35;
+                        if (cellDelta > peakCellDiff) {
+                            secondPeakCellDiff = peakCellDiff;
+                            peakCellDiff = cellDelta;
+                        } else if (cellDelta > secondPeakCellDiff) {
+                            secondPeakCellDiff = cellDelta;
+                        }
+                    }
+                }
+                const localSpotDiff = (peakCellDiff * 0.65) + (secondPeakCellDiff * 0.35);
+
+                let maxDiff = globalDiff;
+                if (lightMode === 'day') {
+                    // En modo día amplificamos la detección localizada en sub-celdas para cazar coches sin luces
+                    maxDiff = Math.max(globalDiff * 1.4, localSpotDiff * 1.15);
+                } else if (lightMode === 'auto') {
+                    maxDiff = Math.max(globalDiff, localSpotDiff * 0.95);
+                }
                 
                 const crossed = maxDiff > rState.sensitivity;
                 
-                let displayHtml = `Val: ${currentBri.toFixed(0)} | Sens: ${rState.sensitivity}`;
+                let displayHtml = `Val: ${currentBri.toFixed(0)} | Δ:${maxDiff.toFixed(0)} | Sens: ${rState.sensitivity}`;
                 if (crossed && !isRaceActive) displayHtml = `<span class="text-emerald-400 font-black">Δ: ${maxDiff.toFixed(0)}</span> | Sens: ${rState.sensitivity}`;
                 if(rState.isSilentCalibrating) displayHtml += ` <span class="text-emerald-400 font-bold ml-1 animate-pulse drop-shadow-[0_0_5px_rgba(52,211,153,0.8)]">⚡</span>`;
                 box.querySelector('.val-indicator').innerHTML = displayHtml;
@@ -1489,10 +1552,17 @@
                 } else { 
                     box.classList.remove('roi-detected'); 
                     if (!isCalibrating && !rState.blocked && !crossed && !rState.isSilentCalibrating) { 
-                        rState.baseColor.r = (rState.baseColor.r * 0.95) + (avgs.r * 0.05);
-                        rState.baseColor.g = (rState.baseColor.g * 0.95) + (avgs.g * 0.05);
-                        rState.baseColor.b = (rState.baseColor.b * 0.95) + (avgs.b * 0.05);
-                        rState.baseBri = (rState.baseBri * 0.95) + (currentBri * 0.05); 
+                        rState.baseColor.r = (rState.baseColor.r * 0.94) + (avgs.r * 0.06);
+                        rState.baseColor.g = (rState.baseColor.g * 0.94) + (avgs.g * 0.06);
+                        rState.baseColor.b = (rState.baseColor.b * 0.94) + (avgs.b * 0.06);
+                        rState.baseBri = (rState.baseBri * 0.94) + (currentBri * 0.06);
+                        if (rState.baseGrid && avgs.grid.length === rState.baseGrid.length) {
+                            for (let c = 0; c < avgs.grid.length; c++) {
+                                rState.baseGrid[c].r = (rState.baseGrid[c].r * 0.94) + (avgs.grid[c].r * 0.06);
+                                rState.baseGrid[c].g = (rState.baseGrid[c].g * 0.94) + (avgs.grid[c].g * 0.06);
+                                rState.baseGrid[c].b = (rState.baseGrid[c].b * 0.94) + (avgs.grid[c].b * 0.06);
+                            }
+                        }
                     } 
                 }
 
@@ -1512,6 +1582,13 @@
                                 rState.baseColor.r = (rState.baseColor.r * 0.9) + (avgs.r * 0.1);
                                 rState.baseColor.g = (rState.baseColor.g * 0.9) + (avgs.g * 0.1);
                                 rState.baseColor.b = (rState.baseColor.b * 0.9) + (avgs.b * 0.1);
+                                if (rState.baseGrid && avgs.grid.length === rState.baseGrid.length) {
+                                    for (let c = 0; c < avgs.grid.length; c++) {
+                                        rState.baseGrid[c].r = (rState.baseGrid[c].r * 0.9) + (avgs.grid[c].r * 0.1);
+                                        rState.baseGrid[c].g = (rState.baseGrid[c].g * 0.9) + (avgs.grid[c].g * 0.1);
+                                        rState.baseGrid[c].b = (rState.baseGrid[c].b * 0.9) + (avgs.grid[c].b * 0.1);
+                                    }
+                                }
                             } else { 
                                 rState.blocked = false; box.classList.remove('roi-locked'); msgEl.style.display = "none"; 
                                 rState.isSilentCalibrating = true; rState.silentFrames = 0; rState.silentSum = 0; rState.silentMin = currentBri; rState.silentMax = currentBri;
@@ -1526,7 +1603,8 @@
                             if (rState.silentFrames >= 30) {
                                 const avg = rState.silentSum / 30; rState.baseBri = avg; 
                                 const noise = Math.max(rState.silentMax - avg, avg - rState.silentMin);
-                                const recommendedSens = Math.max(12, Math.ceil(noise * 2.0));
+                                const minSens = lightMode === 'day' ? 8 : 12;
+                                const recommendedSens = Math.max(minSens, Math.ceil(noise * 2.0));
                                 let learnedSens = Math.round((rState.sensitivity * 0.7) + (recommendedSens * 0.3));
                                 rState.sensitivity = learnedSens;
                                 if (window.updateRoiSens) window.updateRoiSens(i, learnedSens);
@@ -1967,19 +2045,24 @@
             isCalibrating = true; 
             const box = document.getElementById(`roi-${roiIdx}`);
             box.querySelector('.val-indicator').innerHTML = `<span class="animate-pulse text-white">CAL...</span>`;
+            const lightMode = document.getElementById('lighting-mode-select')?.value || 'day';
             
-            let samples = 0; const frames = 60; let sumBri = 0; let min = 255; let max = 0; let sumR=0, sumG=0, sumB=0;
+            let samples = 0; const frames = 45; let sumBri = 0; let min = 255; let max = 0; let sumR=0, sumG=0, sumB=0;
+            let lastGrid = null;
             function sample() {
                 const avgs = getROIAverages(roisState[roiIdx].el); 
                 sumBri += avgs.bri; sumR+=avgs.r; sumG+=avgs.g; sumB+=avgs.b;
+                lastGrid = avgs.grid;
                 if(avgs.bri < min) min = avgs.bri; if(avgs.bri > max) max = avgs.bri;
                 samples++;
                 if (samples < frames) { requestAnimationFrame(sample); } else {
                     const avgBri = sumBri / frames; 
                     roisState[roiIdx].baseBri = avgBri;
                     roisState[roiIdx].baseColor = {r: sumR/frames, g: sumG/frames, b: sumB/frames};
+                    if (lastGrid) roisState[roiIdx].baseGrid = lastGrid.map(c => ({...c}));
                     const noise = Math.max(max - avgBri, avgBri - min); 
-                    const recommendedSensitivity = Math.max(15, Math.ceil(noise * 2.0));
+                    const minFloor = lightMode === 'day' ? 9 : 15;
+                    const recommendedSensitivity = Math.max(minFloor, Math.ceil(noise * 2.2));
                     roisState[roiIdx].sensitivity = recommendedSensitivity;
                     box.querySelector('.val-indicator').innerHTML = `Val: ${avgBri.toFixed(0)} | Sens: ${recommendedSensitivity}`;
                     isCalibrating = false; renderSensitivitiesUI();
@@ -1992,22 +2075,26 @@
         async function runCalibration() {
             if (!isProcessing) return;
             isCalibrating = true; calibOverlay.classList.add('active'); document.getElementById('calibrate-btn').disabled = true;
-            let samples = 0; const frames = 60; const data = Array(activeRoisCount).fill(null).map(()=>({sumR:0, sumG:0, sumB:0, sumBri:0, min:255, max:0}));
+            const lightMode = document.getElementById('lighting-mode-select')?.value || 'day';
+            let samples = 0; const frames = 45; const data = Array(activeRoisCount).fill(null).map(()=>({sumR:0, sumG:0, sumB:0, sumBri:0, min:255, max:0, lastGrid: null}));
             function sample() {
                 for (let i = 0; i < activeRoisCount; i++) { 
                     const avgs = getROIAverages(roisState[i].el); 
                     data[i].sumR += avgs.r; data[i].sumG += avgs.g; data[i].sumB += avgs.b; data[i].sumBri += avgs.bri;
+                    data[i].lastGrid = avgs.grid;
                     if(avgs.bri < data[i].min) data[i].min = avgs.bri; if(avgs.bri > data[i].max) data[i].max = avgs.bri; 
                 }
                 samples++;
                 if (samples < frames) requestAnimationFrame(sample);
                 else {
+                    const minFloor = lightMode === 'day' ? 9 : 15;
                     for (let i = 0; i < activeRoisCount; i++) {
                         const avgBri = data[i].sumBri / frames; 
                         roisState[i].baseBri = avgBri;
                         roisState[i].baseColor = {r: data[i].sumR/frames, g: data[i].sumG/frames, b: data[i].sumB/frames};
+                        if (data[i].lastGrid) roisState[i].baseGrid = data[i].lastGrid.map(c => ({...c}));
                         const noise = Math.max(data[i].max - avgBri, avgBri - data[i].min); 
-                        roisState[i].sensitivity = Math.max(15, Math.ceil(noise * 2.0));
+                        roisState[i].sensitivity = Math.max(minFloor, Math.ceil(noise * 2.2));
                         const box = document.getElementById(`roi-${i}`);
                         const valInd = box.querySelector('.val-indicator');
                         if (valInd) valInd.innerHTML = `Val: ${avgBri.toFixed(0)} | Sens: ${roisState[i].sensitivity}`;
@@ -2084,7 +2171,12 @@
 
         document.getElementById('camera-on-btn').addEventListener('click', async () => {
             try {
-                const s = await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+                const s = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: "environment",
+                        frameRate: { ideal: 60, min: 30 }
+                    }
+                });
                 cameraStream = s; videoElement.srcObject = s; videoElement.play(); 
                 document.getElementById('static-bg-img').classList.add('hidden'); videoElement.classList.remove('hidden');
                 document.getElementById('requirements-banner').classList.add('hidden');
