@@ -8,60 +8,64 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        html, body { 
-            /* Fondo azul neón profundo y oscuro aplicado directamente para evitar que quede detrás */
-            background-color: #010814 !important;
-            background-image: 
-                radial-gradient(circle at 50% 25%, rgba(0, 180, 216, 0.30) 0%, rgba(2, 24, 54, 0.90) 55%, rgba(1, 7, 18, 0.98) 100%),
-                url('fondo.jpeg') !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-attachment: fixed !important;
-            background-repeat: no-repeat !important;
+        body { 
+            /* Se ha reemplazado el gradiente por una imagen de fondo */
+            background-image: url('fondo.jpeg'); /* <-- Sube tu imagen con este nombre al servidor */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             font-family: sans-serif; 
-            color: #0f172a;
-            min-height: 100vh;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Capa superpuesta para oscurecer el fondo y mantener la legibilidad */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(5,10,21,0.85) 0%, rgba(10,17,40,0.7) 50%, rgba(3,8,20,0.85) 100%);
+            z-index: -1; /* Asegura que la capa esté detrás del contenido pero delante de la imagen */
         }
 
         .neon-panel {
-            background: rgba(255, 253, 247, 0.92);
+            background: rgba(10, 17, 40, 0.7);
             backdrop-filter: blur(12px);
-            border: 2px solid #00e5ff;
-            box-shadow: 0 12px 35px rgba(2, 24, 43, 0.45), 0 0 28px rgba(0, 229, 255, 0.55), inset 0 0 15px rgba(0, 212, 255, 0.12);
-            color: #0f172a;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0, 212, 255, 0.1);
+            color: #e0f2fe;
         }
 
         .chrome-panel {
-            background: rgba(252, 249, 242, 0.93); 
+            background: rgba(5, 10, 21, 0.8); 
             backdrop-filter: blur(12px); 
-            border: 2px solid #00d4ff;
-            box-shadow: 0 12px 35px rgba(2, 24, 43, 0.45), 0 0 25px rgba(0, 212, 255, 0.45);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
         }
 
         .neon-text {
-            color: #00e5ff;
-            text-shadow: 0 0 12px rgba(0, 229, 255, 0.9), 0 0 28px rgba(0, 180, 216, 0.85), 0 2px 4px rgba(2, 24, 43, 0.8);
-        }
-
-        .chrome-panel .neon-text {
-            color: #0284c7;
-            text-shadow: 0 0 12px rgba(0, 212, 255, 0.45);
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.7), 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
         .btn-neon {
-            background: linear-gradient(180deg, #00b4d8 0%, #0077b6 100%);
-            color: #fffdf7;
-            border: 1px solid #00e5ff;
-            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.35), 0 0 10px rgba(0, 229, 255, 0.3);
+            background: linear-gradient(180deg, #005f8f 0%, #003a5e 100%);
+            color: #fff;
+            border: 1px solid #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
             transition: all 0.3s ease;
         }
         .btn-neon:hover {
-            background: linear-gradient(180deg, #00d4ff 0%, #0096c7 100%);
+            background: linear-gradient(180deg, #008fcc 0%, #005f8f 100%);
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.65);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.8);
         }
 
-        #app-frame { width: 100vw; height: 100vh; border: none; display: none; background: #faf7f0; }
+        #app-frame { width: 100vw; height: 100vh; border: none; display: none; background: white; }
         
         .img-container {
             width: 100%;
@@ -75,9 +79,9 @@
             aspect-ratio: 9 / 16;
             object-fit: cover;
             border-radius: 1rem;
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15), 0 0 25px rgba(0, 212, 255, 0.3);
-            border: 3px solid #00b4d8;
-            background: #f5f2e8;
+            box-shadow: 0 0 35px rgba(0, 212, 255, 0.2);
+            border: 3px solid #00d4ff;
+            background: #020617;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,17 +89,14 @@
         }
 
         .input-metallic {
-            background: rgba(255, 255, 255, 0.92);
-            border: 1.5px solid #cbd5e1;
-            color: #0f172a;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #005f8f;
+            color: #00d4ff;
             transition: all 0.3s;
         }
-        .input-metallic::placeholder {
-            color: #94a3b8;
-        }
         .input-metallic:focus {
-            border-color: #00b4d8;
-            box-shadow: 0 0 18px rgba(0, 212, 255, 0.35);
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
             outline: none;
         }
 
@@ -104,7 +105,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(0,0,0,0.95);
             z-index: 200;
             align-items: center;
             justify-content: center;
@@ -116,10 +117,10 @@
 
     <!-- Modal de Sesión Duplicada -->
     <div id="session-alert">
-        <div class="chrome-panel p-8 rounded-2xl max-w-sm text-center border-red-400 shadow-2xl">
-            <i class="fas fa-user-shield text-4xl text-red-600 mb-4"></i>
-            <h3 class="text-xl font-bold text-slate-900 mb-2">Sesión Finalizada</h3>
-            <p class="text-sm text-slate-600 mb-6">Se ha detectado un inicio de sesión desde otro dispositivo.</p>
+        <div class="chrome-panel p-8 rounded-2xl max-w-sm text-center border-red-500/50 shadow-[0_0_30px_rgba(239,68,68,0.3)]">
+            <i class="fas fa-user-shield text-4xl text-red-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-white mb-2">Sesión Finalizada</h3>
+            <p class="text-sm text-slate-300 mb-6">Se ha detectado un inicio de sesión desde otro dispositivo.</p>
             <button onclick="location.reload()" class="btn-neon w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest">
                 Entendido
             </button>
@@ -129,21 +130,21 @@
     <div id="auth-container" class="min-h-screen flex flex-col items-center justify-center p-4 md:p-6">
         
         <div class="text-center mb-8 md:mb-10 mt-4">
-            <h1 class="text-3xl md:text-4xl font-black tracking-tighter neon-text uppercase">SECTOR TIME PRO</h1>
-            <div class="h-1 w-20 md:w-24 bg-gradient-to-r from-transparent via-cyan-300 to-transparent mx-auto mt-2 shadow-[0_0_12px_#00e5ff]"></div>
-            <p class="text-[#fffdf7] text-[9px] md:text-[10px] uppercase tracking-[0.3em] mt-3 font-bold drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Ivory & Neon Edition / Gestión de Tiempos</p>
+            <h1 class="text-3xl md:text-4xl font-black tracking-tighter neon-text uppercase drop-shadow-lg">SECTOR TIME PRO </h1>
+            <div class="h-1 w-20 md:w-24 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mt-2"></div>
+            <p class="text-cyan-300/80 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mt-3 font-bold">Neon Edition / Gestión de Tiempos</p>
         </div>
 
         <div class="img-container">
-            <div class="aspect-9-16" style="box-shadow: 0 15px 35px rgba(2, 24, 43, 0.5), 0 0 35px rgba(0, 229, 255, 0.65); border-color: #00e5ff;">
+            <div class="aspect-9-16">
                 <img id="user-image" src="sector.jpg" 
-                     alt="Imagen de Sector Time" 
+                     alt="[Imagen de Sector Time]" 
                      class="w-full h-full object-cover"
                      onerror="this.style.display='none'; document.getElementById('placeholder').style.display='flex';">
                 
-                <div id="placeholder" class="flex flex-col items-center justify-center p-5 text-center text-sky-700/60" style="display: none;">
-                    <i class="fas fa-stopwatch text-6xl mb-4 opacity-60 text-cyan-500 drop-shadow-[0_0_8px_rgba(0,212,255,0.4)]"></i>
-                    <p class="text-xs font-bold uppercase tracking-widest text-sky-800">sector.jpg</p>
+                <div id="placeholder" class="flex flex-col items-center justify-center p-5 text-center text-cyan-700/50" style="display: none;">
+                    <i class="fas fa-stopwatch text-6xl mb-4 opacity-40 text-cyan-500"></i>
+                    <p class="text-xs font-bold uppercase tracking-widest text-cyan-400">sector.jpg</p>
                 </div>
             </div>
         </div>
@@ -152,47 +153,47 @@
 
             <!-- Panel Izquierdo: Información Comercial -->
             <div class="neon-panel rounded-3xl p-6 md:p-8 relative flex flex-col justify-between">
-                <div class="absolute -top-3 -right-3 bg-[#0f172a] text-cyan-300 text-[9px] font-bold px-3 py-1 rounded-full border border-cyan-400 shadow-[0_0_12px_rgba(0,212,255,0.45)]">LICENCIA NEON</div>
+                <div class="absolute -top-3 -right-3 bg-black text-cyan-300 text-[9px] font-bold px-3 py-1 rounded-full border border-cyan-500 shadow-[0_0_15px_rgba(0,212,255,0.5)]">LICENCIA NEON</div>
                 
                 <div>
-                    <h2 class="text-lg md:text-xl font-black mb-4 flex items-center text-sky-800">
-                        <i class="fas fa-microchip mr-3 text-cyan-500"></i> ADQUISICIÓN
+                    <h2 class="text-lg md:text-xl font-black mb-4 flex items-center text-cyan-300">
+                        <i class="fas fa-microchip mr-3 opacity-90"></i> ADQUISICIÓN
                     </h2>
                     
-                    <p class="text-slate-700 text-sm mb-6 leading-relaxed font-bold">
+                    <p class="text-cyan-100/90 text-sm mb-6 leading-relaxed font-bold">
                         Tecnología de precisión para Slot. Un solo pago de 15 euros, control total de por vida.
                     </p>
 
-                    <div class="bg-[#f4f1e6]/90 rounded-2xl p-5 border border-cyan-500/25 mb-6">
-                        <ul class="text-xs space-y-3 text-slate-800 font-black">
-                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-500"></i> Solicita acceso vía Email</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-500"></i> Pago único de 15 euros</li>
-                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-500"></i> Activación Vitalicia</li>
+                    <div class="bg-black/30 rounded-2xl p-5 border border-cyan-900/50 mb-6">
+                        <ul class="text-xs space-y-3 text-cyan-50 font-black">
+                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-400"></i> Solicita acceso vía Email</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-400"></i> Pago único de 15 euros</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle mr-2 text-cyan-400"></i> Activación Vitalicia</li>
                         </ul>
                     </div>
                 </div>
 
-                <a id="mail-link" href="#" class="block w-full bg-[#0f172a] hover:bg-[#1e293b] text-cyan-300 font-black py-4 rounded-xl text-center shadow-[0_4px_15px_rgba(15,23,42,0.25)] transition duration-300 transform hover:scale-[1.02] text-sm tracking-widest uppercase border border-cyan-400/70">
+                <a id="mail-link" href="#" class="block w-full bg-black hover:bg-slate-900 text-cyan-400 font-black py-4 rounded-xl text-center shadow-[0_0_15px_rgba(0,0,0,0.8)] transition duration-300 transform hover:scale-[1.02] text-sm tracking-widest uppercase border border-cyan-700">
                     SOLICITAR AHORA (15 EUROS)
                 </a>
             </div>
 
             <!-- Panel Derecho: Formulario de Acceso -->
             <div class="chrome-panel rounded-3xl p-6 md:p-8 flex flex-col">
-                <h2 class="text-lg md:text-xl font-bold mb-6 flex items-center neon-text">
-                    <i class="fas fa-fingerprint mr-3 text-cyan-500"></i> AREA CLIENTE
+                <h2 class="text-lg md:text-xl font-bold text-white mb-6 flex items-center neon-text">
+                    <i class="fas fa-fingerprint mr-3"></i> AREA CLIENTE
                 </h2>
 
                 <form id="login-form" class="space-y-6 flex-grow">
                     <div>
-                        <label class="block text-[10px] font-black text-sky-800/80 uppercase mb-2 tracking-widest">Identificación</label>
+                        <label class="block text-[10px] font-black text-cyan-400/80 uppercase mb-2 tracking-widest">Identificación</label>
                         <input type="email" id="email" required 
                             class="w-full input-metallic rounded-xl p-4 text-sm"
                             placeholder="tu@email.com">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black text-sky-800/80 uppercase mb-2 tracking-widest">Código de Activación</label>
+                        <label class="block text-[10px] font-black text-cyan-400/80 uppercase mb-2 tracking-widest">Código de Activación</label>
                         <input type="text" id="code" required 
                             class="w-full input-metallic rounded-xl p-4 text-center tracking-[0.5em] uppercase font-mono text-sm"
                             placeholder="XXX-XXX">
@@ -200,21 +201,21 @@
                     
                     <div id="msg-box" class="hidden p-3 rounded-xl text-xs text-center font-bold break-words"></div>
 
-                    <button type="submit" id="btn-login" class="btn-neon w-full font-black py-4 rounded-xl shadow-lg transition flex justify-center items-center text-sm tracking-widest uppercase">
+                    <button type="submit" id="btn-login" class="btn-neon w-full font-black py-4 rounded-xl shadow-xl transition flex justify-center items-center text-sm tracking-widest uppercase">
                         ENTRAR <i class="fas fa-chevron-right ml-3 text-xs"></i>
                     </button>
                 </form>
             </div>
         </div>
         
-        <p class="mt-12 text-[9px] text-[#fffdf7]/90 text-center max-w-lg uppercase tracking-[0.2em] font-semibold drop-shadow-[0_0_8px_rgba(0,229,255,0.7)]">
-            SECTOR TIME PRO <span class="mx-2 text-cyan-300">|</span> slotcarhome@gmail.com
+        <p class="mt-12 text-[9px] text-cyan-700/60 text-center max-w-lg uppercase tracking-[0.2em] font-medium">
+            SECTOR TIME PRO <span class="mx-2">|</span> slotcarhome@gmail.com
         </p>
     </div>
 
     <iframe id="app-frame" src="about:blank"></iframe>
     
-    <button onclick="logoutApp()" id="logout-btn" class="hidden fixed bottom-8 right-8 btn-neon w-14 h-14 rounded-2xl shadow-xl z-[100] flex items-center justify-center text-xl border border-cyan-300">
+    <button onclick="logoutApp()" id="logout-btn" class="hidden fixed bottom-8 right-8 btn-neon w-14 h-14 rounded-2xl shadow-[0_0_20px_rgba(0,212,255,0.6)] z-[100] flex items-center justify-center text-xl border border-cyan-300">
         <i class="fas fa-power-off"></i>
     </button>
 
@@ -290,6 +291,7 @@
                     if(userData.active === false) {
                         showMessage("⛔ LICENCIA NO ACTIVA", "error");
                     } else { 
+                        // Lógica de Sesión simple
                         try {
                             const sessionId = generateUUID();
                             
@@ -332,12 +334,13 @@
         function showMessage(text, type) {
             const box = document.getElementById('msg-box');
             box.textContent = text;
-            box.className = `p-3 rounded-xl text-xs text-center font-bold border ${type === 'error' ? 'bg-red-100 text-red-800 border-red-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300'}`;
+            box.className = `p-3 rounded-xl text-xs text-center font-bold border ${type === 'error' ? 'bg-red-900/40 text-red-200 border-red-500/50' : 'bg-green-900/40 text-green-200 border-green-500/50'}`;
             box.classList.remove('hidden');
         }
 
         function showApp() {
             document.getElementById('auth-container').style.display = 'none';
+            // Carga la app directamente
             document.getElementById('app-frame').src = APP_FILENAME;
             document.getElementById('app-frame').style.display = 'block';
             document.getElementById('logout-btn').classList.remove('hidden');
