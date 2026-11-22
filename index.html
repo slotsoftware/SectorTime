@@ -8,30 +8,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        body { 
-            /* Fondo azul neón profundo y oscuro con respaldo por si no está la imagen local */
-            background-color: #010b17;
-            background-image: url('fondo.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
+        html, body { 
+            /* Fondo azul neón profundo y oscuro aplicado directamente para evitar que quede detrás */
+            background-color: #010814 !important;
+            background-image: 
+                radial-gradient(circle at 50% 25%, rgba(0, 180, 216, 0.30) 0%, rgba(2, 24, 54, 0.90) 55%, rgba(1, 7, 18, 0.98) 100%),
+                url('fondo.jpeg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
             font-family: sans-serif; 
             color: #0f172a;
-            position: relative;
-        }
-
-        /* Capa superpuesta azul neón oscuro profundo con halo eléctrico central */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 50% 25%, rgba(0, 180, 216, 0.32) 0%, rgba(2, 32, 68, 0.88) 55%, rgba(1, 9, 20, 0.96) 100%);
-            z-index: -1;
+            min-height: 100vh;
         }
 
         .neon-panel {
