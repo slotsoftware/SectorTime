@@ -9,8 +9,8 @@
     
     <style>
         body { 
-            /* Fondo azul neón profundo/eléctrico con respaldo por si no está la imagen local */
-            background-color: #02182b;
+            /* Fondo azul neón profundo y oscuro con respaldo por si no está la imagen local */
+            background-color: #010b17;
             background-image: url('fondo.jpeg');
             background-size: cover;
             background-position: center;
@@ -21,7 +21,7 @@
             position: relative;
         }
 
-        /* Capa superpuesta con fuerte presencia azul neón luminoso */
+        /* Capa superpuesta azul neón oscuro profundo con halo eléctrico central */
         body::before {
             content: '';
             position: fixed;
@@ -30,7 +30,7 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 50% 25%, rgba(0, 229, 255, 0.45) 0%, rgba(0, 119, 182, 0.78) 55%, rgba(2, 24, 43, 0.92) 100%);
+                radial-gradient(circle at 50% 25%, rgba(0, 180, 216, 0.32) 0%, rgba(2, 32, 68, 0.88) 55%, rgba(1, 9, 20, 0.96) 100%);
             z-index: -1;
         }
 
