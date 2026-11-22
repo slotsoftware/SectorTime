@@ -9,8 +9,8 @@
     
     <style>
         body { 
-            /* Fondo color marfil cálido con respaldo por si no está la imagen local */
-            background-color: #f7f4eb;
+            /* Fondo azul neón profundo/eléctrico con respaldo por si no está la imagen local */
+            background-color: #02182b;
             background-image: url('fondo.jpeg');
             background-size: cover;
             background-position: center;
@@ -21,7 +21,7 @@
             position: relative;
         }
 
-        /* Capa superpuesta en tono marfil translúcido con sutil matiz frío */
+        /* Capa superpuesta con fuerte presencia azul neón luminoso */
         body::before {
             content: '';
             position: fixed;
@@ -29,28 +29,34 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, rgba(250, 247, 240, 0.88) 0%, rgba(242, 244, 248, 0.82) 50%, rgba(235, 238, 242, 0.90) 100%);
+            background: 
+                radial-gradient(circle at 50% 25%, rgba(0, 229, 255, 0.45) 0%, rgba(0, 119, 182, 0.78) 55%, rgba(2, 24, 43, 0.92) 100%);
             z-index: -1;
         }
 
         .neon-panel {
-            background: rgba(255, 253, 247, 0.88);
+            background: rgba(255, 253, 247, 0.92);
             backdrop-filter: blur(12px);
-            border: 1.5px solid rgba(0, 184, 230, 0.55);
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1), 0 0 20px rgba(0, 212, 255, 0.18), inset 0 0 15px rgba(0, 212, 255, 0.08);
+            border: 2px solid #00e5ff;
+            box-shadow: 0 12px 35px rgba(2, 24, 43, 0.45), 0 0 28px rgba(0, 229, 255, 0.55), inset 0 0 15px rgba(0, 212, 255, 0.12);
             color: #0f172a;
         }
 
         .chrome-panel {
-            background: rgba(252, 249, 242, 0.9); 
+            background: rgba(252, 249, 242, 0.93); 
             backdrop-filter: blur(12px); 
-            border: 1.5px solid rgba(0, 184, 230, 0.45);
-            box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.12), 0 0 18px rgba(0, 212, 255, 0.14);
+            border: 2px solid #00d4ff;
+            box-shadow: 0 12px 35px rgba(2, 24, 43, 0.45), 0 0 25px rgba(0, 212, 255, 0.45);
         }
 
         .neon-text {
+            color: #00e5ff;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.9), 0 0 28px rgba(0, 180, 216, 0.85), 0 2px 4px rgba(2, 24, 43, 0.8);
+        }
+
+        .chrome-panel .neon-text {
             color: #0284c7;
-            text-shadow: 0 0 12px rgba(0, 212, 255, 0.45), 0 1px 2px rgba(15, 23, 42, 0.1);
+            text-shadow: 0 0 12px rgba(0, 212, 255, 0.45);
         }
 
         .btn-neon {
@@ -135,12 +141,12 @@
         
         <div class="text-center mb-8 md:mb-10 mt-4">
             <h1 class="text-3xl md:text-4xl font-black tracking-tighter neon-text uppercase">SECTOR TIME PRO</h1>
-            <div class="h-1 w-20 md:w-24 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mt-2"></div>
-            <p class="text-sky-800/80 text-[9px] md:text-[10px] uppercase tracking-[0.3em] mt-3 font-bold">Ivory & Neon Edition / Gestión de Tiempos</p>
+            <div class="h-1 w-20 md:w-24 bg-gradient-to-r from-transparent via-cyan-300 to-transparent mx-auto mt-2 shadow-[0_0_12px_#00e5ff]"></div>
+            <p class="text-[#fffdf7] text-[9px] md:text-[10px] uppercase tracking-[0.3em] mt-3 font-bold drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">Ivory & Neon Edition / Gestión de Tiempos</p>
         </div>
 
         <div class="img-container">
-            <div class="aspect-9-16">
+            <div class="aspect-9-16" style="box-shadow: 0 15px 35px rgba(2, 24, 43, 0.5), 0 0 35px rgba(0, 229, 255, 0.65); border-color: #00e5ff;">
                 <img id="user-image" src="sector.jpg" 
                      alt="Imagen de Sector Time" 
                      class="w-full h-full object-cover"
@@ -212,8 +218,8 @@
             </div>
         </div>
         
-        <p class="mt-12 text-[9px] text-sky-900/60 text-center max-w-lg uppercase tracking-[0.2em] font-medium">
-            SECTOR TIME PRO <span class="mx-2 text-cyan-600">|</span> slotcarhome@gmail.com
+        <p class="mt-12 text-[9px] text-[#fffdf7]/90 text-center max-w-lg uppercase tracking-[0.2em] font-semibold drop-shadow-[0_0_8px_rgba(0,229,255,0.7)]">
+            SECTOR TIME PRO <span class="mx-2 text-cyan-300">|</span> slotcarhome@gmail.com
         </p>
     </div>
 
